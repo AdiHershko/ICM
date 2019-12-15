@@ -1,17 +1,5 @@
 package Server;
 
-
-/*
- * Username: rPTfgnHCnB
-
-Database name: rPTfgnHCnB
-
-Password: atcFy4mIAf
-
-Server: remotemysql.com
-
-Port: 3306
- */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,9 +13,9 @@ import javafx.collections.ObservableList;
 
 public class DataBaseController {
 	private static Connection c;
-	private static String url = "jdbc:mysql://remotemysql.com:3306/jsyC4yp1qF?useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private static String username = "jsyC4yp1qF";
-	private static String password = "50MjwBICSL";
+	private static String url = "jdbc:mysql://remotemysql.com:3306/rPTfgnHCnB?useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private static String username = "rPTfgnHCnB";
+	private static String password = "atcFy4mIAf";
 
 	public static boolean Connect() {
 
