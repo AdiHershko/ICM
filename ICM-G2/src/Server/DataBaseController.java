@@ -1,5 +1,17 @@
 package Server;
 
+
+/*
+ * Username: rPTfgnHCnB
+
+Database name: rPTfgnHCnB
+
+Password: atcFy4mIAf
+
+Server: remotemysql.com
+
+Port: 3306
+ */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

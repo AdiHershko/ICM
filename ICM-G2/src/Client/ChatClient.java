@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogEvent;
 
+
 public class ChatClient extends AbstractClient {
 
 	final public static int DEFAULT_PORT = 5555;
