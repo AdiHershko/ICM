@@ -48,7 +48,7 @@ public class Enums {
 			}
 			return null;
 		}
-		
+
 		public static int getSystemByEnum(SystemENUM i) {
 			switch (i) {
 			case InfoStation:
@@ -68,7 +68,7 @@ public class Enums {
 		}
 	}
 
-	enum CollegeWorkerRole{
+	enum CollegeWorkerRole {
 		Student, Lecturer, Worker;
 		public static CollegeWorkerRole getRoleByInt(int i) {
 			switch (i) {
@@ -81,7 +81,7 @@ public class Enums {
 			}
 			return null;
 		}
-		
+
 		public static int getCollegeUserRoleByEnum(CollegeWorkerRole i) {
 			switch (i) {
 			case Student:
@@ -94,8 +94,8 @@ public class Enums {
 			return -1;
 		}
 	}
-	
-	enum RequestStageENUM{
+
+	enum RequestStageENUM {
 		Assesment, Examaning, Execution, Testing;
 		public static RequestStageENUM getRequestStageENUM(int i) {
 			switch (i) {
@@ -110,7 +110,7 @@ public class Enums {
 			}
 			return null;
 		}
-		
+
 		public static int getRequestStageENUMByEnum(RequestStageENUM i) {
 			switch (i) {
 			case Assesment:
@@ -125,8 +125,8 @@ public class Enums {
 			return -1;
 		}
 	}
-	
-	enum ISWorkerRole{
+
+	enum ISWorkerRole {
 		General, CommitteChairman, CommitteMember, Supervisor, Manager;
 		public static ISWorkerRole getISWorkerRoleENUM(int i) {
 			switch (i) {
@@ -143,7 +143,7 @@ public class Enums {
 			}
 			return null;
 		}
-		
+
 		public static int getISWorkerRoleByEnum(ISWorkerRole i) {
 			switch (i) {
 			case General:
@@ -156,6 +156,33 @@ public class Enums {
 				return 3;
 			case Manager:
 				return 4;
+			}
+			return -1;
+		}
+	}
+	
+	enum UserType {
+		CollegeStudent, CollegeWorker, ISUser;
+		public static UserType getUserTypeENUM(int i) {
+			switch (i) {
+			case 0:
+				return CollegeStudent;
+			case 1:
+				return CollegeWorker;
+			case 2:
+				return ISUser;
+			}
+			return null;
+		}
+
+		public static int getUserTypeByEnum(UserType i) {
+			switch (i) {
+			case CollegeStudent:
+				return 0;
+			case CollegeWorker:
+				return 1;
+			case ISUser:
+				return 2;
 			}
 			return -1;
 		}
