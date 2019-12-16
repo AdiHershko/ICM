@@ -11,9 +11,8 @@ public class CollegeUser extends User {
 
 	ArrayList<Request> openedRequests;
 
-	public CollegeUser(String username, String password, String firstName, String lastName, String mail,
-			UserType type) {
-		super(username, password, firstName, lastName, mail, type);
+	public CollegeUser(String username, String password, String firstName, String lastName, String mail) {
+		super(username, password, firstName, lastName, mail);
 	}
 
 

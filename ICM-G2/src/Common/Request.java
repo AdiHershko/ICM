@@ -8,7 +8,7 @@ public class Request implements Serializable {
 
 	private static final long serialVersionUID = -4393026080251453811L;
 
-	private int id; // SHOULD COME FROM DB!
+	private int id;
 	private User requestor;
 	private SystemENUM system;
 	private String description;
@@ -22,7 +22,6 @@ public class Request implements Serializable {
 	private Report report;
 
 	public Request(User requestor, SystemENUM system, String description, String changes, String date) {
-		//this.id = id; should come from db
 		this.requestor = requestor;
 		this.system = system;
 		this.description = description;
