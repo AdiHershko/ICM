@@ -2,23 +2,23 @@ package Common;
 
 public class Report {
 	private String location;
-	private String Description;
-	private String Result;
-	private String Constrains;
-	private String Risks;
-	private int DurationAssesment;
-	
-	
+	private String description;
+	private String result;
+	private String constrains;
+	private String risks;
+	private int durationAssesment;
+
+
 	public Report(String location, String Description, String Result,String Constrains,String Risks, int DurationAssesment) {
 		this.location=location;
-		this.Description=Description;
-		this.Result=Result;
-		this.Constrains=Constrains;
-		this.Risks=Risks;
-		this.DurationAssesment=DurationAssesment;
+		this.description=Description;
+		this.result=Result;
+		this.constrains=Constrains;
+		this.risks=Risks;
+		this.durationAssesment=DurationAssesment;
 	}
-	
-	
+
+
 	public String getLocation() {
 		return location;
 	}
@@ -26,33 +26,33 @@ public class Report {
 		this.location = location;
 	}
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 	public void setDescription(String description) {
-		Description = description;
+		this.description = description;
 	}
 	public String getResult() {
-		return Result;
+		return result;
 	}
 	public void setResult(String result) {
-		Result = result;
+		this.result = result;
 	}
 	public String getConstrains() {
-		return Constrains;
+		return constrains;
 	}
 	public void setConstrains(String constrains) {
-		Constrains = constrains;
+		this.constrains = constrains;
 	}
 	public String getRisks() {
-		return Risks;
+		return risks;
 	}
 	public void setRisks(String risks) {
-		Risks = risks;
+		this.risks = risks;
 	}
 	public int getDurationAssesment() {
-		return DurationAssesment;
+		return durationAssesment;
 	}
 	public void setDurationAssesment(int durationAssesment) {
-		DurationAssesment = durationAssesment;
+		this.durationAssesment = durationAssesment;
 	}
 }

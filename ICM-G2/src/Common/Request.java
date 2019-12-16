@@ -7,8 +7,8 @@ import Common.Enums.*;
 public class Request implements Serializable {
 
 	private static final long serialVersionUID = -4393026080251453811L;
-	
-	private int id;
+
+	private int id; // SHOULD COME FROM DB!
 	private User requestor;
 	private SystemENUM system;
 	private String description;
@@ -20,16 +20,16 @@ public class Request implements Serializable {
 	private RequestStageENUM currentStage;
 	private RequestStage stages[];
 	private Report report;
-	
-	public Request(int id, User requestor, SystemENUM system, String description, String changes, String date) {
-		this.id = id;
+
+	public Request(User requestor, SystemENUM system, String description, String changes, String date) {
+		//this.id = id; should come from db
 		this.requestor = requestor;
 		this.system = system;
 		this.description = description;
 		this.changes = changes;
 		this.date = changes;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -125,7 +125,7 @@ public class Request implements Serializable {
 	public void setReport(Report report) {
 		this.report = report;
 	}
-	
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

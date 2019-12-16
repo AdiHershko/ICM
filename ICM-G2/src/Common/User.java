@@ -13,7 +13,7 @@ public class User {
 	private String CollegeStudentDep;
 	private ISWorkerRole ISrole;
 	private UserType type;
-	
+
 	public User(String username, String password, String firstName, String lastName, String mail, UserType type) {
 		this.username = username;
 		this.password = password;
@@ -22,7 +22,7 @@ public class User {
 		this.mail = mail;
 		this.type = type;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}

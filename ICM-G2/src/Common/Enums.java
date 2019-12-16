@@ -160,7 +160,7 @@ public class Enums {
 			return -1;
 		}
 	}
-	
+
 	enum UserType {
 		CollegeStudent, CollegeWorker, ISUser;
 		public static UserType getUserTypeENUM(int i) {
@@ -183,6 +183,36 @@ public class Enums {
 				return 1;
 			case ISUser:
 				return 2;
+			}
+			return -1;
+		}
+	}
+
+	enum OrganizationEnum{
+		GeneralWorker,Lecturer,Administrative,Manager;
+		public static OrganizationEnum getOrganizationENUM(int i) {
+			switch (i) {
+			case 0:
+				return GeneralWorker;
+			case 1:
+				return Lecturer;
+			case 2:
+				return Administrative;
+			case 3:
+				return Manager;
+			}
+			return null;
+	}
+		public static int geOrganizationByEnum(OrganizationEnum i) {
+			switch (i) {
+			case GeneralWorker:
+				return 0;
+			case Lecturer:
+				return 1;
+			case Administrative:
+				return 2;
+			case Manager:
+				return 3;
 			}
 			return -1;
 		}

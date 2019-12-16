@@ -7,19 +7,19 @@ public class Message implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int type;
-	private String Title;
-	private String Details;
-	private ISUser Receiver;
+	private String title;
+	private String details;
+	private ISUser receiver;
 	private Request request;
-	
+
 	public Message(int type, String Title, String Details, ISUser Receiver, Request request) {
 		this.type=type;
-		this.Title=Title;
-		this.Details=Details;
-		this.Receiver=Receiver;
+		this.title=Title;
+		this.details=Details;
+		this.receiver=Receiver;
 		this.request=request;
 	}
-	
+
 	public int getType() {
 		return type;
 	}
@@ -29,27 +29,27 @@ public class Message implements Serializable {
 	}
 
 	public String getTitle() {
-		return Title;
+		return title;
 	}
 
 	public void setTitle(String title) {
-		Title = title;
+		this.title = title;
 	}
 
 	public String getDetails() {
-		return Details;
+		return details;
 	}
 
 	public void setDetails(String details) {
-		Details = details;
+		this.details = details;
 	}
 
 	public ISUser getReceiver() {
-		return Receiver;
+		return receiver;
 	}
 
 	public void setReceiver(ISUser receiver) {
-		Receiver = receiver;
+		this.receiver = receiver;
 	}
 
 	enum SystemEnum {
