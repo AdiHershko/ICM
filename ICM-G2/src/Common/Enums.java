@@ -4,7 +4,30 @@ public class Enums {
 
 	public final int serverPort= 5555;
 
-	enum RequestStatus {
+	public enum MessageEnum {
+		CONNECT, SQLCMD;
+		public static MessageEnum getMessageEnum(int i) {
+			switch (i) {
+			case 0:
+				return CONNECT;
+			case 1:
+				return SQLCMD;
+			}
+			return null;
+		}
+
+		public static int getMessageEnumByEnum(MessageEnum i) {
+			switch (i) {
+			case CONNECT:
+				return 0;
+			case SQLCMD:
+				return 1;
+			}
+			return -1;
+		}
+	}
+	
+	public enum RequestStatus {
 		Active, Closed, Frozen;
 		public static RequestStatus getStatusByInt(int i) {
 			switch (i) {
@@ -31,7 +54,7 @@ public class Enums {
 		}
 	}
 
-	enum SystemENUM {
+	public enum SystemENUM {
 		InfoStation, Moodle, Library, Computers, Labs, Site;
 		public static SystemENUM getSystemByInt(int i) {
 			switch (i) {
@@ -70,7 +93,7 @@ public class Enums {
 		}
 	}
 
-	enum CollegeWorkerRole {
+	public enum CollegeWorkerRole {
 		Student, Lecturer, Worker;
 		public static CollegeWorkerRole getRoleByInt(int i) {
 			switch (i) {
@@ -97,7 +120,7 @@ public class Enums {
 		}
 	}
 
-	enum RequestStageENUM {
+	public enum RequestStageENUM {
 		Assesment, Examaning, Execution, Testing;
 		public static RequestStageENUM getRequestStageENUM(int i) {
 			switch (i) {
@@ -128,7 +151,7 @@ public class Enums {
 		}
 	}
 
-	enum ISWorkerRole {
+	public enum ISWorkerRole {
 		General, CommitteChairman, CommitteMember, Supervisor, Manager;
 		public static ISWorkerRole getISWorkerRoleENUM(int i) {
 			switch (i) {
@@ -163,7 +186,7 @@ public class Enums {
 		}
 	}
 
-	enum UserType {
+	public enum UserType {
 		CollegeStudent, CollegeWorker, ISUser;
 		public static UserType getUserTypeENUM(int i) {
 			switch (i) {
@@ -190,7 +213,7 @@ public class Enums {
 		}
 	}
 
-	enum OrganizationEnum {
+	public enum OrganizationEnum {
 		GeneralWorker, Lecturer, Administrative, Manager;
 		public static OrganizationEnum getOrganizationENUM(int i) {
 			switch (i) {

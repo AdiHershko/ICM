@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Common.ClientServerMessage;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-
 
 public class EchoServer extends AbstractServer {
 	final private static int DEFAULT_PORT = 5555;
@@ -22,13 +22,14 @@ public class EchoServer extends AbstractServer {
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		if (msg == null)
 			return;
-		if (msg instanceof String)
-		{
-			switch ((String)msg)
-			{
-			case "CONNECT":
+		if (msg instanceof ClientServerMessage) {
+			ClientServerMessage CSMsg = (ClientServerMessage) msg;
+			switch (CSMsg.getType()) {
+			case CONNECT:
 				DataBaseController.Connect();
 				return;
+			default:
+				break;
 			}
 		}
 
@@ -41,8 +42,6 @@ public class EchoServer extends AbstractServer {
 	protected void serverStopped() {
 		System.out.println("Server has stopped listening for connections.");
 	}
-
-
 
 	public static int Start(int port) {
 		if (DataBaseController.Connect() == false) {
