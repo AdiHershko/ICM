@@ -38,11 +38,8 @@
                <children>
                   <Label layoutX="11.0" layoutY="14.0" text="Request ID:" />
                   <Label layoutX="11.0" layoutY="40.0" text="System:" />
-                  <TextField layoutX="78.0" layoutY="37.0" />
                   <Label layoutX="304.0" layoutY="14.0" text="Request stage:" />
                   <Label layoutX="304.0" layoutY="40.0" text="Request status:" />
-                  <TextField layoutX="395.0" layoutY="10.0" />
-                  <TextField layoutX="395.0" layoutY="36.0" />
                   <Pane fx:id="StageManagersPane1" layoutY="402.0" prefHeight="106.0" prefWidth="870.0">
                      <children>
                         <Button fx:id="StageManagers1" layoutX="263.0" layoutY="40.0" mnemonicParsing="false" text="Approve Stage" />
@@ -90,7 +87,10 @@
                         <Button layoutX="387.0" layoutY="74.0" mnemonicParsing="false" text="Save changes" />
                      </children>
                   </Pane>
-                  <Label layoutX="78.0" layoutY="14.0" text="ID_num" />
+                  <Label fx:id="requestIDLabel" layoutX="78.0" layoutY="14.0" text="ID_num" />
+                  <Label fx:id="systemLabel" layoutX="57.0" layoutY="40.0" />
+                  <Label fx:id="stageLabel" layoutX="395.0" layoutY="14.0" />
+                  <Label fx:id="statusLabel" layoutX="395.0" layoutY="40.0" />
                </children>
             </Pane>
             <Pane fx:id="CUserOpenRequest1" prefHeight="508.0" prefWidth="870.0" visible="false">

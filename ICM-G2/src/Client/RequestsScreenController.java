@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -33,6 +34,16 @@ public class RequestsScreenController {
 	private TextArea reasonArea;
 	@FXML
 	private TextArea commentsArea;
+	@FXML
+	private Pane UserViewsRequest1;
+	@FXML
+	private Label requestIDLabel;
+	@FXML
+	private Label systemLabel;
+	@FXML
+	private Label stageLabel;
+	@FXML
+	private Label statusLabel;
 
 
 	public void initialize()
@@ -81,11 +92,16 @@ public class RequestsScreenController {
 		try {
 		Request r;
 		GeneralViewRequest1.setVisible(true);
+		UserViewsRequest1.setVisible(true);
 		r = tableView.getSelectionModel().getSelectedItem();
 		descArea.setText(r.getDescription());
 		changeArea.setText(r.getChanges());
 		reasonArea.setText("Whats supposed to be here?");
 		commentsArea.setText(r.getComments());
+		requestIDLabel.setText(""+r.getId());
+		systemLabel.setText(r.getSystem().toString());
+		stageLabel.setText(r.getCurrentStage());
+		statusLabel.setText(r.getStatus());
 		} catch (Exception e) { }
 	}
 
