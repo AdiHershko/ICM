@@ -60,8 +60,16 @@ public class DataBaseController {
 		return o;
 	}
 
+	public static void setUrl(String url) {
+		DataBaseController.url = url;
+	}
 
+	public static void setUsername(String username) {
+		DataBaseController.username = username;
+	}
 
-
+	public static void setPassword(String password) {
+		DataBaseController.password = password;
+	}
 
 }

@@ -1,5 +1,7 @@
 package Client;
 
+import Common.ClientServerMessage;
+import Common.Enums;
 import Common.Request;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -51,7 +53,7 @@ public class RequestsScreenController {
 
 	public void RefreshTable()
 	{
-		Main.client.handleMessageFromClientUI("REFRESH");
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESH));
 	}
 
 

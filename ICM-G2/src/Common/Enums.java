@@ -4,6 +4,57 @@ public class Enums {
 
 	public final int serverPort= 5555;
 
+
+	public enum MessageEnum {
+		CONNECT, SQLCMD, REFRESH;
+		public static MessageEnum getMessageEnum(int i) {
+			switch (i) {
+			case 0:
+				return CONNECT;
+			case 1:
+				return SQLCMD;
+			}
+			return null;
+		}
+
+		public static int getMessageEnumByEnum(MessageEnum i) {
+			switch (i) {
+			case CONNECT:
+				return 0;
+			case SQLCMD:
+				return 1;
+			}
+			return -1;
+		}
+	}
+
+	public enum SQLCmds {
+		Search, Change,Refresh;
+		public static SQLCmds getSQLCmds(int i) {
+			switch (i) {
+			case 0:
+				return Search;
+			case 1:
+				return Change;
+			case 2:
+				return Refresh;
+			}
+			return null;
+		}
+
+		public static int getMessageEnumByEnum(SQLCmds i) {
+			switch (i) {
+			case Search:
+				return 0;
+			case Change:
+				return 1;
+			case Refresh:
+				return 2;
+			}
+			return -1;
+		}
+	}
+
 	public enum RequestStatus {
 		Active, Closed, Frozen;
 		public static RequestStatus getStatusByInt(int i) {
@@ -97,7 +148,7 @@ public class Enums {
 		}
 	}
 
-	enum RequestStageENUM {
+	public enum RequestStageENUM {
 		Assesment, Examaning, Execution, Testing;
 		public static RequestStageENUM getRequestStageENUM(int i) {
 			switch (i) {

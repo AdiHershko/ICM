@@ -7,6 +7,7 @@ import java.util.Arrays;
 import Common.Request;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import Common.ClientServerMessage;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -24,23 +25,26 @@ public class EchoServer extends AbstractServer {
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		if (msg == null)
 			return;
-		if (msg instanceof String)
-		{
-			switch ((String)msg)
-			{
-			case "CONNECT":
+		if (msg instanceof ClientServerMessage) {
+			ClientServerMessage CSMsg = (ClientServerMessage) msg;
+			switch (CSMsg.getType()) {
+			case CONNECT:
 				DataBaseController.Connect();
 				return;
-			case "REFRESH":
+
+			case REFRESH:
 				ObservableList<Request> ol = DataBaseController.getTable();
 				try {
 					client.sendToClient(ol.toArray());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				return;
+			default:
 				break;
 			}
 		}
+
 
 	}
 
@@ -51,8 +55,6 @@ public class EchoServer extends AbstractServer {
 	protected void serverStopped() {
 		System.out.println("Server has stopped listening for connections.");
 	}
-
-
 
 	public static int Start(int port) {
 		if (DataBaseController.Connect() == false) {

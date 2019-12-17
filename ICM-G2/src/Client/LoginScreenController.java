@@ -2,6 +2,7 @@ package Client;
 
 import java.io.IOException;
 
+import Common.ClientServerMessage;
 import Common.Enums.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,8 +27,7 @@ public class LoginScreenController {
 			return;
 		}
 		Main.client=client;
-		Main.client.handleMessageFromClientUI("CONNECT");
-	}
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.CONNECT));	}
 
 	@FXML
 	private Button loginButton;

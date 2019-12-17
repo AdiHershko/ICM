@@ -17,7 +17,7 @@ public class Message implements Serializable {
 		this.title=Title;
 		this.details=Details;
 		this.receiver=Receiver;
-		this.request=request;
+		this.setRequest(request);
 	}
 
 	public int getType() {
@@ -50,6 +50,14 @@ public class Message implements Serializable {
 
 	public void setReceiver(ISUser receiver) {
 		this.receiver = receiver;
+	}
+
+	public Request getRequest() {
+		return request;
+	}
+
+	public void setRequest(Request request) {
+		this.request = request;
 	}
 
 	enum SystemEnum {
