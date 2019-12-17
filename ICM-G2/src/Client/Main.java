@@ -28,9 +28,9 @@ public class Main extends Application {
 		stage.setScene(s);
 		stage.setTitle("ICM Prototype - Client");
 		stage.show();
-		
+
 	}
-	
+
 	public static void main(String[] args)
 	{
 		launch(args);

@@ -2,6 +2,8 @@ package Common;
 
 public class Enums {
 
+	public final int serverPort= 5555;
+
 	enum RequestStatus {
 		Active, Closed, Frozen;
 		public static RequestStatus getStatusByInt(int i) {

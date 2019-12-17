@@ -2,6 +2,7 @@ package Client;
 
 import java.io.IOException;
 
+import Common.Enums.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,16 +14,24 @@ import javafx.stage.Stage;
 
 public class LoginScreenController {
 	LoginScreenController _ins;
-	
+
 	public void initialize()
 	{
+		ChatClient client;
 		_ins=this;
+		try {
+		 client = new ChatClient("localhost",ChatClient.DEFAULT_PORT);
+		} catch (IOException e) {
+			System.out.println("Cannot connect to the server");
+			return;
+		}
+		client.handleMessageFromClientUI("CONNECT");
 	}
 
 	@FXML
 	private Button loginButton;
-	
-	
+
+
 	@FXML
 	public void MoveScreen(ActionEvent event) throws IOException
 	{
@@ -33,5 +42,5 @@ public class LoginScreenController {
 		window.show();
 
 	}
-	
+
 }

@@ -22,7 +22,16 @@ public class EchoServer extends AbstractServer {
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		if (msg == null)
 			return;
-		
+		if (msg instanceof String)
+		{
+			switch ((String)msg)
+			{
+			case "CONNECT":
+				DataBaseController.Connect();
+				return;
+			}
+		}
+
 	}
 
 	protected void serverStarted() {
