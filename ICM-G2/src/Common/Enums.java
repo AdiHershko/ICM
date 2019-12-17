@@ -188,8 +188,8 @@ public class Enums {
 		}
 	}
 
-	enum OrganizationEnum{
-		GeneralWorker,Lecturer,Administrative,Manager;
+	enum OrganizationEnum {
+		GeneralWorker, Lecturer, Administrative, Manager;
 		public static OrganizationEnum getOrganizationENUM(int i) {
 			switch (i) {
 			case 0:
@@ -202,7 +202,8 @@ public class Enums {
 				return Manager;
 			}
 			return null;
-	}
+		}
+
 		public static int geOrganizationByEnum(OrganizationEnum i) {
 			switch (i) {
 			case GeneralWorker:
@@ -217,4 +218,5 @@ public class Enums {
 			return -1;
 		}
 	}
+
 }
