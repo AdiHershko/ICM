@@ -12,8 +12,11 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogEvent;
 
@@ -36,9 +39,16 @@ public class ChatClient extends AbstractClient {
 							public void run() {
 								{
 									if (!noConnection.isShowing()) {
+										Button close = new Button("Exit program");
+										close.setOnAction(e-> {System.exit(1); });
 										noConnection.setTitle("ERROR!");
 										noConnection.setContentText("Server disconnected\nPlease re-open and connect the server");
-										noConnection.show();
+										noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE); //temporary, will throw exception after second d/c
+										Node closeButton = noConnection.getDialogPane().lookupButton(ButtonType.CLOSE);
+										closeButton.managedProperty().bind(closeButton.visibleProperty());
+							            closeButton.setVisible(false);
+										noConnection.showAndWait();
+
 									}
 								}
 							}

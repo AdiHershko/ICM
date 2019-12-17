@@ -3,20 +3,37 @@ package Client;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Request;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class RequestsScreenController {
+	public static RequestsScreenController _ins;
 
 
 	@FXML
 	private Button addFilesButton;
 	@FXML
 	private TableView<Request> tableView;
-	public static RequestsScreenController _ins;
+	@FXML
+	private Pane GeneralViewRequest1;
+	@FXML
+	private TextArea descArea;
+	@FXML
+	private TextArea changeArea;
+	@FXML
+	private TextArea reasonArea;
+	@FXML
+	private TextArea commentsArea;
+
 
 	public void initialize()
 	{
@@ -28,9 +45,11 @@ public class RequestsScreenController {
 
 
 	@FXML
-	public void addFiles()
+	public void addFiles(ActionEvent event)
 	{
-		System.out.println("button");
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Select a file to add");
+		fileChooser.showOpenDialog((Stage)((Node)event.getSource()).getScene().getWindow());
 	}
 
 	public TableView<Request> getTableView()
@@ -54,6 +73,20 @@ public class RequestsScreenController {
 	public void RefreshTable()
 	{
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESH));
+	}
+
+	@FXML
+	public void showRequest()
+	{
+		try {
+		Request r;
+		GeneralViewRequest1.setVisible(true);
+		r = tableView.getSelectionModel().getSelectedItem();
+		descArea.setText(r.getDescription());
+		changeArea.setText(r.getChanges());
+		reasonArea.setText("Whats supposed to be here?");
+		commentsArea.setText(r.getComments());
+		} catch (Exception e) { }
 	}
 
 

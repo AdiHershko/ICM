@@ -13,6 +13,8 @@ public class Enums {
 				return CONNECT;
 			case 1:
 				return SQLCMD;
+			case 2:
+				return REFRESH;
 			}
 			return null;
 		}
@@ -23,32 +25,7 @@ public class Enums {
 				return 0;
 			case SQLCMD:
 				return 1;
-			}
-			return -1;
-		}
-	}
-
-	public enum SQLCmds {
-		Search, Change,Refresh;
-		public static SQLCmds getSQLCmds(int i) {
-			switch (i) {
-			case 0:
-				return Search;
-			case 1:
-				return Change;
-			case 2:
-				return Refresh;
-			}
-			return null;
-		}
-
-		public static int getMessageEnumByEnum(SQLCmds i) {
-			switch (i) {
-			case Search:
-				return 0;
-			case Change:
-				return 1;
-			case Refresh:
+			case REFRESH:
 				return 2;
 			}
 			return -1;

@@ -27,7 +27,7 @@ public class Request implements Serializable {
 		this.system = system;
 		this.description = description;
 		this.changes = changes;
-		this.date = changes;
+		this.date = date;
 		this.currentStage=Enums.RequestStageENUM.Assesment;
 		this.status=Enums.RequestStatus.Active;
 		this.comments="";
