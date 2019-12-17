@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.RequestsScreenController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.RequestsScreenController" stylesheets="@application.css">
    
    <children>
       <Text fill="#007c9c" layoutX="114.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests:">
@@ -40,13 +40,13 @@
                   <Label layoutX="11.0" layoutY="40.0" text="System:" />
                   <Label layoutX="304.0" layoutY="14.0" text="Request stage:" />
                   <Label layoutX="304.0" layoutY="40.0" text="Request status:" />
-                  <Pane fx:id="StageManagersPane1" layoutY="402.0" prefHeight="106.0" prefWidth="870.0">
+                  <Pane fx:id="StageManagersPane1" layoutY="402.0" prefHeight="106.0" prefWidth="870.0" visible="false">
                      <children>
                         <Button fx:id="StageManagers1" layoutX="263.0" layoutY="40.0" mnemonicParsing="false" text="Approve Stage" />
                         <Label layoutX="14.0" layoutY="6.0" text="Stage due date:" />
                         <TextField layoutX="104.0" layoutY="3.0" />
                         <Button layoutX="257.0" layoutY="3.0" mnemonicParsing="false" text="Ask for extension" />
-                        <Pane fx:id="ExecutionerFailure" layoutX="363.0" prefHeight="106.0" prefWidth="507.0">
+                        <Pane fx:id="ExecutionerFailure" layoutX="363.0" prefHeight="106.0" prefWidth="507.0" visible="false">
                            <children>
                               <Button layoutX="14.0" layoutY="40.0" mnemonicParsing="false" text="View Failures Report" />
                            </children>
