@@ -28,6 +28,8 @@ public class EchoServer extends AbstractServer {
 			case CONNECT:
 				DataBaseController.Connect();
 				return;
+			case SQLCMD:
+				//add serach in db and return
 			default:
 				break;
 			}

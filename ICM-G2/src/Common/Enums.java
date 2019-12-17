@@ -27,6 +27,29 @@ public class Enums {
 		}
 	}
 	
+	public enum SQLCmds {
+		Search, Change;
+		public static SQLCmds getSQLCmds(int i) {
+			switch (i) {
+			case 0:
+				return Search;
+			case 1:
+				return Change;
+			}
+			return null;
+		}
+
+		public static int getMessageEnumByEnum(SQLCmds i) {
+			switch (i) {
+			case Search:
+				return 0;
+			case Change:
+				return 1;
+			}
+			return -1;
+		}
+	}
+	
 	public enum RequestStatus {
 		Active, Closed, Frozen;
 		public static RequestStatus getStatusByInt(int i) {
