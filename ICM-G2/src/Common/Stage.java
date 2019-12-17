@@ -6,17 +6,17 @@ import sun.util.calendar.LocalGregorianCalendar.Date;
 
 public class Stage {
 	private RequestStageENUM stageName;
-	private Date planedDueDate;
+	private Date plannedDueDate;
 	private Boolean isApproved;
 	private Boolean isExtended;
 	private ArrayList<ISUser> stageMembers;
 	private User stageLeader;
 
-	public Stage(RequestStageENUM stageName, Date planedDueDate, Boolean isApproved, Boolean isExtended,
+	public Stage(RequestStageENUM stageName, Date plannedDueDate, Boolean isApproved, Boolean isExtended,
 			ArrayList<ISUser> stageMembers, User stageLeader) {
 
 		this.stageName = stageName;
-		this.planedDueDate = planedDueDate;
+		this.plannedDueDate = plannedDueDate;
 		this.isApproved = isApproved;
 		this.isExtended = isExtended;
 		this.stageMembers = stageMembers;
@@ -32,12 +32,12 @@ public class Stage {
 		this.stageName = stageName;
 	}
 
-	public Date getPlanedDueDate() {
-		return planedDueDate;
+	public Date getPlannedDueDate() {
+		return plannedDueDate;
 	}
 
-	public void setPlanedDueDate(Date planedDueDate) {
-		this.planedDueDate = planedDueDate;
+	public void setPlannedDueDate(Date plannedDueDate) {
+		this.plannedDueDate = plannedDueDate;
 	}
 
 	public Boolean getIsApproved() {
