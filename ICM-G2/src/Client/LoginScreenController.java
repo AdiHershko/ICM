@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class LoginScreenController {
-	LoginScreenController _ins;
+	static LoginScreenController _ins;
 
 	public void initialize()
 	{
@@ -25,7 +25,8 @@ public class LoginScreenController {
 			System.out.println("Cannot connect to the server");
 			return;
 		}
-		client.handleMessageFromClientUI("CONNECT");
+		Main.client=client;
+		Main.client.handleMessageFromClientUI("CONNECT");
 	}
 
 	@FXML

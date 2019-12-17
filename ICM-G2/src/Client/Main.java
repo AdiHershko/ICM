@@ -12,6 +12,7 @@ public class Main extends Application {
 	Stage stage;
 	Pane root;
 	LoginScreenController c;
+	public static ChatClient client;
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
@@ -31,9 +32,12 @@ public class Main extends Application {
 
 	}
 
+
+
 	public static void main(String[] args)
 	{
 		launch(args);
 	}
+
 
 }

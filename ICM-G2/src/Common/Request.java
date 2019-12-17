@@ -9,7 +9,7 @@ public class Request implements Serializable {
 	private static final long serialVersionUID = -4393026080251453811L;
 
 	private int id;
-	private User requestor;
+	private int requestorID;
 	private SystemENUM system;
 	private String description;
 	private String changes;
@@ -21,12 +21,16 @@ public class Request implements Serializable {
 	private RequestStage stages[];
 	private Report report;
 
-	public Request(User requestor, SystemENUM system, String description, String changes, String date) {
-		this.requestor = requestor;
+	public Request(int id,int requestorID, SystemENUM system, String description, String changes, String date) {
+		this.id=id;
+		this.requestorID = requestorID;
 		this.system = system;
 		this.description = description;
 		this.changes = changes;
 		this.date = changes;
+		this.currentStage=Enums.RequestStageENUM.Assesment;
+		this.status=Enums.RequestStatus.Active;
+		this.comments="";
 	}
 
 	public int getId() {
@@ -37,12 +41,12 @@ public class Request implements Serializable {
 		this.id = id;
 	}
 
-	public User getRequestor() {
-		return requestor;
+	public int getRequestorID() {
+		return requestorID;
 	}
 
-	public void setRequestor(User requestor) {
-		this.requestor = requestor;
+	public void setRequestorID(int requestorID) {
+		this.requestorID = requestorID;
 	}
 
 	public SystemENUM getSystem() {
@@ -93,16 +97,23 @@ public class Request implements Serializable {
 		this.date = date;
 	}
 
-	public RequestStatus getStatus() {
+	public RequestStatus getStatusEnum() {
 		return status;
+	}
+	public String getStatus() {
+		return status.toString();
 	}
 
 	public void setStatus(RequestStatus status) {
 		this.status = status;
 	}
 
-	public RequestStageENUM getCurrentStage() {
+	public RequestStageENUM getCurrentStageEnum() {
 		return currentStage;
+	}
+
+	public String getCurrentStage() {
+		return currentStage.toString();
 	}
 
 	public void setCurrentStage(RequestStageENUM currentStage) {

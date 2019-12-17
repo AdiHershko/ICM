@@ -4,7 +4,7 @@ public class Enums {
 
 	public final int serverPort= 5555;
 
-	enum RequestStatus {
+	public enum RequestStatus {
 		Active, Closed, Frozen;
 		public static RequestStatus getStatusByInt(int i) {
 			switch (i) {
@@ -31,7 +31,7 @@ public class Enums {
 		}
 	}
 
-	enum SystemENUM {
+	public enum SystemENUM {
 		InfoStation, Moodle, Library, Computers, Labs, Site;
 		public static SystemENUM getSystemByInt(int i) {
 			switch (i) {
@@ -70,7 +70,7 @@ public class Enums {
 		}
 	}
 
-	enum CollegeWorkerRole {
+	public enum CollegeWorkerRole {
 		Student, Lecturer, Worker;
 		public static CollegeWorkerRole getRoleByInt(int i) {
 			switch (i) {
@@ -128,7 +128,7 @@ public class Enums {
 		}
 	}
 
-	enum ISWorkerRole {
+	public enum ISWorkerRole {
 		General, CommitteChairman, CommitteMember, Supervisor, Manager;
 		public static ISWorkerRole getISWorkerRoleENUM(int i) {
 			switch (i) {
@@ -163,7 +163,7 @@ public class Enums {
 		}
 	}
 
-	enum UserType {
+	public enum UserType {
 		CollegeStudent, CollegeWorker, ISUser;
 		public static UserType getUserTypeENUM(int i) {
 			switch (i) {
@@ -190,7 +190,7 @@ public class Enums {
 		}
 	}
 
-	enum OrganizationEnum {
+	public enum OrganizationEnum {
 		GeneralWorker, Lecturer, Administrative, Manager;
 		public static OrganizationEnum getOrganizationENUM(int i) {
 			switch (i) {

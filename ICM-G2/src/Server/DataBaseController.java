@@ -8,8 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Common.Request;
+import Common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import Common.Enums;
 
 public class DataBaseController {
 	private static Connection c;
@@ -31,16 +34,34 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static void setUrl(String url) {
-		DataBaseController.url = url;
+	public static ObservableList<Request> getTable() {
+		ObservableList<Request> o = FXCollections.observableArrayList();
+		String query = "select * from Requests";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					o.add(new Request(rs.getInt(1), rs.getInt(2), Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
+							rs.getDate(8).toString()));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return o;
 	}
 
-	public static void setUsername(String username) {
-		DataBaseController.username = username;
-	}
 
-	public static void setPassword(String password) {
-		DataBaseController.password = password;
-	}
+
+
 
 }

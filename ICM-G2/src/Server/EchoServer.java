@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Common.Request;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-
 
 public class EchoServer extends AbstractServer {
 	final private static int DEFAULT_PORT = 5555;
@@ -29,6 +31,14 @@ public class EchoServer extends AbstractServer {
 			case "CONNECT":
 				DataBaseController.Connect();
 				return;
+			case "REFRESH":
+				ObservableList<Request> ol = DataBaseController.getTable();
+				try {
+					client.sendToClient(ol.toArray());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
 			}
 		}
 

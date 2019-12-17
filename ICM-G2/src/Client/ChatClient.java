@@ -6,6 +6,8 @@ package Client;
 
 import java.io.IOException;
 
+
+import Common.Request;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +22,7 @@ public class ChatClient extends AbstractClient {
 
 	final public static int DEFAULT_PORT = 5555;
 	Dialog<Boolean> noConnection = new Dialog<>();
-	
+
 	public ChatClient(String host, int port) throws IOException {
 		super(host, port); // Call the superclass constructor
 		openConnection();
@@ -77,7 +79,21 @@ public class ChatClient extends AbstractClient {
 	public void handleMessageFromServer(Object msg) {
 		if (msg == null)
 			return;
+		if (msg instanceof Object[]) {
+			/*
+			 * Platform.runLater(new Runnable() { TODO
+			 *
+			 * @Override public void run() { ObservableList<Request> l =
+			 * FXCollections.observableArrayList(); for (Object o : (Object[]) msg) {
+			 * l.add((Request) o); } Controller._ins.table.setItems(l); } });
+			 */
+			ObservableList<Request> l = FXCollections.observableArrayList();
+			for (Object o : (Object[]) msg) {
+				l.add((Request) o);
+			}
+			RequestsScreenController._ins.getTableView().setItems(l);
 	}
+}
 
 	public void handleMessageFromClientUI(Object message) {
 		try {
