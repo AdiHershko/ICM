@@ -126,16 +126,18 @@ public class Enums {
 	}
 
 	public enum RequestStageENUM {
-		Assesment, Examaning, Execution, Testing;
+		Start, Assesment, Examaning, Execution, Testing;
 		public static RequestStageENUM getRequestStageENUM(int i) {
 			switch (i) {
 			case 0:
-				return Assesment;
+				return Start;
 			case 1:
-				return Examaning;
+				return Assesment;
 			case 2:
-				return Execution;
+				return Examaning;
 			case 3:
+				return Execution;
+			case 4:
 				return Testing;
 			}
 			return null;
@@ -143,14 +145,16 @@ public class Enums {
 
 		public static int getRequestStageENUMByEnum(RequestStageENUM i) {
 			switch (i) {
-			case Assesment:
+			case Start:
 				return 0;
-			case Examaning:
+			case Assesment:
 				return 1;
-			case Execution:
+			case Examaning:
 				return 2;
-			case Testing:
+			case Execution:
 				return 3;
+			case Testing:
+				return 4;
 			}
 			return -1;
 		}

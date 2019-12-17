@@ -90,13 +90,6 @@ public class ChatClient extends AbstractClient {
 		if (msg == null)
 			return;
 		if (msg instanceof Object[]) {
-			/*
-			 * Platform.runLater(new Runnable() { TODO
-			 *
-			 * @Override public void run() { ObservableList<Request> l =
-			 * FXCollections.observableArrayList(); for (Object o : (Object[]) msg) {
-			 * l.add((Request) o); } Controller._ins.table.setItems(l); } });
-			 */
 			ObservableList<Request> l = FXCollections.observableArrayList();
 			for (Object o : (Object[]) msg) {
 				l.add((Request) o);

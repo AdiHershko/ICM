@@ -34,9 +34,9 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static ObservableList<Request> getTable() {
+	public static ObservableList<Request> getTable(String UserName) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
-		String query = "select * from Requests";
+		String query = "select * from Requests where currenthandlers LIKE '%,"+UserName+",%'";
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -49,7 +49,7 @@ public class DataBaseController {
 			while (rs.next()) {
 				try {
 					o.add(new Request(rs.getInt(1), rs.getInt(2), Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
-							rs.getDate(8).toString()));
+							rs.getString(6), rs.getDate(9).toString()));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
