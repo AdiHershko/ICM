@@ -1,6 +1,7 @@
 package Common;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import Common.Enums.*;
 
@@ -13,6 +14,7 @@ public class Request implements Serializable {
 	private SystemENUM system;
 	private String description;
 	private String changes;
+	private String changeReason;
 	private String comments;
 	private String filePath[];
 	private String date;
@@ -20,17 +22,20 @@ public class Request implements Serializable {
 	private RequestStageENUM currentStage;
 	private RequestStage stages[];
 	private Report report;
+	private ArrayList<ISUser> currentHandlers;
 
-	public Request(int id,int requestorID, SystemENUM system, String description, String changes, String date) {
+	public Request(int id,int requestorID, SystemENUM system, String description, String changes, String changeReason, String date) {
 		this.id=id;
 		this.requestorID = requestorID;
 		this.system = system;
 		this.description = description;
 		this.changes = changes;
+		this.changeReason = changeReason;
 		this.date = date;
-		this.currentStage=Enums.RequestStageENUM.Assesment;
+		this.currentStage=Enums.RequestStageENUM.Start;
 		this.status=Enums.RequestStatus.Active;
 		this.comments="";
+		currentHandlers = new ArrayList<ISUser>();
 	}
 
 	public int getId() {
@@ -138,5 +143,21 @@ public class Request implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public ArrayList<ISUser> getCurrentHandlers() {
+		return currentHandlers;
+	}
+
+	public void setCurrentHandlers(ArrayList<ISUser> currentHandlers) {
+		this.currentHandlers = currentHandlers;
+	}
+
+	public String getChangeReason() {
+		return changeReason;
+	}
+
+	public void setChangeReason(String changeReason) {
+		this.changeReason = changeReason;
 	}
 }

@@ -38,7 +38,7 @@ public class EchoServer extends AbstractServer {
 				return;
 
 			case REFRESH:
-				ObservableList<Request> ol = DataBaseController.getTable();
+				ObservableList<Request> ol = DataBaseController.getTable(((ClientServerMessage) msg).getMsg());
 				try {
 					client.sendToClient(ol.toArray());
 				} catch (IOException e) {

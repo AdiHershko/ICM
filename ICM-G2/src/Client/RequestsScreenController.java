@@ -83,7 +83,8 @@ public class RequestsScreenController {
 
 	public void RefreshTable()
 	{
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESH));
+		String UserID = "";//Itay - put here
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESH,UserID));
 	}
 
 	@FXML
@@ -96,7 +97,7 @@ public class RequestsScreenController {
 		r = tableView.getSelectionModel().getSelectedItem();
 		descArea.setText(r.getDescription());
 		changeArea.setText(r.getChanges());
-		reasonArea.setText("Whats supposed to be here?");
+		reasonArea.setText(r.getChangeReason());
 		commentsArea.setText(r.getComments());
 		requestIDLabel.setText(""+r.getId());
 		systemLabel.setText(r.getSystem().toString());
@@ -104,11 +105,5 @@ public class RequestsScreenController {
 		statusLabel.setText(r.getStatus());
 		} catch (Exception e) { }
 	}
-
-
-
-
-
-
 
 }
