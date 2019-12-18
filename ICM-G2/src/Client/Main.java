@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Main extends Application { 
 	Stage stage;
 	Pane root;
 	LoginScreenController c;

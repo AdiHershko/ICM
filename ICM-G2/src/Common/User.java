@@ -12,25 +12,18 @@ public class User {
 	private CollegeWorkerRole Crole;
 	private String CollegeStudentDep;
 	private ISWorkerRole ISrole;
-	private int userID;
+	//private int userID;
 
-	public User(int userID,String username, String password, String firstName, String lastName, String mail) {
+	public User(String username, String password, String firstName, String lastName, String mail) {
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
-		this.userID=userID;
+		
 	}
 
-	public int getUserID() {
-		return userID;
-	}
-
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
-
+	
 	public String getUsername() {
 		return username;
 	}
@@ -94,5 +87,6 @@ public class User {
 	public void setISrole(ISWorkerRole iSrole) {
 		ISrole = iSrole;
 	}
+	
 
 }

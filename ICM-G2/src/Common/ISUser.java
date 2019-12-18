@@ -4,8 +4,8 @@ import Common.Enums.ISWorkerRole;
 
 public class ISUser extends User {
 	private ISWorkerRole role;
-	public ISUser(int id,String username, String password, String firstName, String lastName, String mail,ISWorkerRole role) {
-		super(id,username, password, firstName, lastName, mail);
+	public ISUser(String username, String password, String firstName, String lastName, String mail,ISWorkerRole role) {
+		super(username, password, firstName, lastName, mail);
 		this.role=role;
 	}
 

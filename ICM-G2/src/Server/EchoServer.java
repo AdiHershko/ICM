@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Client.LoginScreenController;
 import Common.Request;
+import Common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.ClientServerMessage;
+import Common.Enums;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+//import server.DataBaseController;
 
 public class EchoServer extends AbstractServer {
 	final private static int DEFAULT_PORT = 5555;
@@ -23,6 +27,7 @@ public class EchoServer extends AbstractServer {
 	}
 
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
+
 		if (msg == null)
 			return;
 		if (msg instanceof ClientServerMessage) {
@@ -40,11 +45,31 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
+			case SearchUser:
+				String[] temp = CSMsg.getMsg().split(" ");
+				ObservableList<User> ol1 = DataBaseController.getTableWithUserName(temp[0], temp[1]);
+
+				if (ol1.isEmpty()) {
+
+					try {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.LoginFail));
+					} catch (IOException e) {
+						System.out.println("Cant send login fail to client!");
+					}
+				}
+				else {
+					try {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.loginGood));
+					} catch (IOException e) {
+						System.out.println("Cant send login fail to client!");
+					}
+				}
+				return;
 			default:
+
 				break;
 			}
 		}
-
 
 	}
 

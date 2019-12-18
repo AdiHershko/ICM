@@ -59,6 +59,32 @@ public class DataBaseController {
 		}
 		return o;
 	}
+	
+	public static ObservableList<User> getTableWithUserName(String user,String pass) {
+		ObservableList<User> o = FXCollections.observableArrayList();
+		String query = "select * from Users where username LIKE '" + user+"' and Password LIKE '"+pass+"'";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if (rs.next()) {
+				try {
+					o.add(new User(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return o;
+	}
 
 	public static void setUrl(String url) {
 		DataBaseController.url = url;

@@ -6,7 +6,7 @@ package Client;
 
 import java.io.IOException;
 
-
+import Common.ClientServerMessage;
 import Common.Request;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -19,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogEvent;
-
 
 public class ChatClient extends AbstractClient {
 
@@ -40,13 +39,22 @@ public class ChatClient extends AbstractClient {
 								{
 									if (!noConnection.isShowing()) {
 										Button close = new Button("Exit program");
-										close.setOnAction(e-> {System.exit(1); });
+										close.setOnAction(e -> {
+											System.exit(1);
+										});
 										noConnection.setTitle("ERROR!");
-										noConnection.setContentText("Server disconnected\nPlease re-open and connect the server");
-										noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE); //temporary, will throw exception after second d/c
+										noConnection.setContentText(
+												"Server disconnected\nPlease re-open and connect the server");
+										noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE); // temporary,
+																												// will
+																												// throw
+																												// exception
+																												// after
+																												// second
+																												// d/c
 										Node closeButton = noConnection.getDialogPane().lookupButton(ButtonType.CLOSE);
 										closeButton.managedProperty().bind(closeButton.visibleProperty());
-							            closeButton.setVisible(false);
+										closeButton.setVisible(false);
 										noConnection.showAndWait();
 
 									}
@@ -102,8 +110,28 @@ public class ChatClient extends AbstractClient {
 				l.add((Request) o);
 			}
 			RequestsScreenController._ins.getTableView().setItems(l);
+		}
+		if (msg instanceof ClientServerMessage) {
+			switch (((ClientServerMessage) msg).getType()) {
+			case LoginFail:
+				Platform.runLater(new Runnable() {
+					public void run() {
+						LoginScreenController._ins.LoginFailError();
+					}
+				});
+				return;
+			case loginGood:
+				Platform.runLater(new Runnable() {
+					public void run() {
+						LoginScreenController._ins.LoginGood();
+					}
+				});
+				return;
+			default:
+				return;
+			}
+		}
 	}
-}
 
 	public void handleMessageFromClientUI(Object message) {
 		try {

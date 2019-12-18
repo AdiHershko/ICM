@@ -4,44 +4,71 @@ import java.io.IOException;
 
 import Common.ClientServerMessage;
 import Common.Enums.*;
+import Server.EchoServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class LoginScreenController {
 	static LoginScreenController _ins;
-
-	public void initialize()
-	{
+	public static boolean success=true;
+	private ActionEvent event;
+	public void initialize() {
 		ChatClient client;
-		_ins=this;
+		_ins = this;
 		try {
-		 client = new ChatClient("localhost",ChatClient.DEFAULT_PORT);
+			client = new ChatClient("localhost", ChatClient.DEFAULT_PORT);
 		} catch (IOException e) {
 			System.out.println("Cannot connect to the server");
 			return;
 		}
-		Main.client=client;
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.CONNECT));	}
+		Main.client = client;
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.CONNECT));
+	}
 
 	@FXML
 	private Button loginButton;
-
+	@FXML
+	private PasswordField passTXT;
+	@FXML
+	private TextField userTXT;
 
 	@FXML
-	public void MoveScreen(ActionEvent event) throws IOException
+	public void MoveScreen(ActionEvent event) throws IOException {
+		this.event=event;
+		String temp = userTXT.getText() + " " + passTXT.getText();
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.SearchUser, temp));
+		
+	}
+	
+	public void LoginFailError()
 	{
-		Parent root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("ERROR!");
+		alert.setContentText("BAD USERNAME/PASSOWRD");
+		alert.showAndWait();
+		
+	}
+	public void LoginGood() {
+		Parent root=null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
+		} catch (IOException e) {
+			
+		}
 		Scene requests = new Scene(root);
-		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
 		window.show();
-
 	}
 
 }
