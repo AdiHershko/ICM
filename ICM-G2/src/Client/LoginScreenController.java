@@ -48,47 +48,48 @@ public class LoginScreenController {
 		this.event=event;
 		String temp = userTXT.getText() + " " + passTXT.getText();
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.SearchUser, temp));
-		
+
 	}
-	
+
 	public void LoginFailError()
 	{
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("ERROR!");
 		alert.setContentText("BAD USERNAME/PASSOWRD");
 		alert.showAndWait();
-		
+
 	}
 	public void LoginGood(User user) {
 		Parent root=null;
-		
-		
+
+
 		switch (user.getRole())
 		{
 		case General:
 			try {
 			root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
 		} catch (IOException e) {
-			
+
 		}
 			break;
 		case Manager:
 			try {
 				root = FXMLLoader.load(getClass().getResource("3.0-ManagerScreen.fxml"));
 			} catch (IOException e) {
-				
+
 			}
 			break;
 		default:
 			break;
 		}
-		
+		Main.currentUser=user;
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
 		window.show();
-		
-		
+
+
+
 	}
 
 }

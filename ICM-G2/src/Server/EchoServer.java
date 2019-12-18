@@ -34,9 +34,11 @@ public class EchoServer extends AbstractServer {
 			ClientServerMessage CSMsg = (ClientServerMessage) msg;
 			switch (CSMsg.getType()) {
 			case CONNECT:
-				DataBaseController.Connect();
+				System.out.println("User "+client.toString()+" Connected");
 				return;
-
+			case DISCONNECT:
+				System.out.println("User "+client.toString()+" Disconnected");
+				return;
 			case REFRESH:
 				ObservableList<Request> ol = DataBaseController.getTable(((ClientServerMessage) msg).getMsg());
 				try {
@@ -47,7 +49,7 @@ public class EchoServer extends AbstractServer {
 				return;
 			case SearchUser:
 				String[] temp = CSMsg.getMsg().split(" ");
-				User us1 = DataBaseController.getTableWithUserName(temp[0], temp[1]);
+				User us1 = DataBaseController.SearchUser(temp[0], temp[1]);
 
 				if (us1==null) {
 

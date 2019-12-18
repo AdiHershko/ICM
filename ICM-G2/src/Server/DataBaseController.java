@@ -59,9 +59,9 @@ public class DataBaseController {
 		}
 		return o;
 	}
-	
-	public static User getTableWithUserName(String user,String pass) {
-		String query = "select * from Users where username LIKE '" + user+"' and Password LIKE '"+pass+"'";
+
+	public static User SearchUser(String user,String pass) {
+		String query = "select * from Users where binary username ='" + user+"' and binary Password ='"+pass+"'";
 		ResultSet rs = null;
 		User us=null;
 		PreparedStatement statement;
@@ -79,7 +79,7 @@ public class DataBaseController {
 					e.printStackTrace();
 				}
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

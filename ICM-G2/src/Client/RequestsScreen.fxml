@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.RequestsScreenController" stylesheets="@application.css">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.RequestsScreenController">
    
    <children>
       <Text fill="#007c9c" layoutX="114.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests:">
@@ -118,12 +118,12 @@
             <TextArea fx:id="commentsArea" editable="false" layoutX="9.0" layoutY="296.0" prefHeight="53.0" prefWidth="843.0" />
          </children>
       </Pane>
-      <Label layoutX="7.0" layoutY="7.0" text="Time&amp;Date |">
+      <Label fx:id="dateLabel" layoutX="7.0" layoutY="7.0" text="Time&amp;Date |">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="114.0" layoutY="7.0" text="UserName">
+      <Label fx:id="userNameLabel" layoutX="114.0" layoutY="7.0" text="UserName">
          <font>
             <Font size="18.0" />
          </font>

@@ -1,5 +1,10 @@
 package Client;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Request;
@@ -8,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -44,6 +50,10 @@ public class RequestsScreenController {
 	private Label stageLabel;
 	@FXML
 	private Label statusLabel;
+	@FXML
+	private Label dateLabel;
+	@FXML
+	private Label userNameLabel;
 
 
 	public void initialize()
@@ -51,6 +61,15 @@ public class RequestsScreenController {
 		_ins=this;
 		TableSetup();
 		RefreshTable();
+		new Thread(){
+			public void run()
+			{
+				 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				 LocalDateTime now = LocalDateTime.now();
+				 dateLabel.setText(dtf.format(now));
+				userNameLabel.setText(Main.currentUser.getFirstName()+" "+Main.currentUser.getLastName());
+			}
+		}.start();
 	}
 
 
@@ -79,6 +98,8 @@ public class RequestsScreenController {
 		TableColumn<Request,String> stageColumn = new TableColumn<>("Stage");
 		stageColumn.setCellValueFactory(new PropertyValueFactory("currentStage"));
 		tableView.getColumns().addAll(idColumn,statusColumn,stageColumn);
+		for (TableColumn<Request,?> col : tableView.getColumns())
+			col.setMinWidth(100);
 	}
 
 	public void RefreshTable()
