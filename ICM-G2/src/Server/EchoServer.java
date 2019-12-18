@@ -47,9 +47,9 @@ public class EchoServer extends AbstractServer {
 				return;
 			case SearchUser:
 				String[] temp = CSMsg.getMsg().split(" ");
-				ObservableList<User> ol1 = DataBaseController.getTableWithUserName(temp[0], temp[1]);
+				User us1 = DataBaseController.getTableWithUserName(temp[0], temp[1]);
 
-				if (ol1.isEmpty()) {
+				if (us1==null) {
 
 					try {
 						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.LoginFail));
@@ -59,9 +59,9 @@ public class EchoServer extends AbstractServer {
 				}
 				else {
 					try {
-						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.loginGood));
+						client.sendToClient(us1);
 					} catch (IOException e) {
-						System.out.println("Cant send login fail to client!");
+						System.out.println("Cant send user to client!");
 					}
 				}
 				return;

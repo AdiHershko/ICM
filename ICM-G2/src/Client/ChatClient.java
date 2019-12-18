@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import Common.ClientServerMessage;
 import Common.Request;
+import Common.User;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -113,16 +114,17 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				return;
-			case loginGood:
-				Platform.runLater(new Runnable() {
-					public void run() {
-						LoginScreenController._ins.LoginGood();
-					}
-				});
-				return;
 			default:
 				return;
 			}
+		}
+		if (msg instanceof User)
+		{
+			Platform.runLater(new Runnable() {
+				public void run() {
+					LoginScreenController._ins.LoginGood((User)msg);
+				}
+			});
 		}
 	}
 

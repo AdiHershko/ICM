@@ -29,6 +29,9 @@ public class Main extends Application {
 		stage.setScene(s);
 		stage.setTitle("ICM Prototype - Client");
 		stage.show();
+		stage.setOnCloseRequest(e->{
+			System.exit(0);
+		});
 
 	}
 

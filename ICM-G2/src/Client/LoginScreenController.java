@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import Common.ClientServerMessage;
 import Common.Enums.*;
+import Common.User;
 import Server.EchoServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,17 +59,36 @@ public class LoginScreenController {
 		alert.showAndWait();
 		
 	}
-	public void LoginGood() {
+	public void LoginGood(User user) {
 		Parent root=null;
-		try {
+		
+		
+		switch (user.getRole())
+		{
+		case General:
+			try {
 			root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
 		} catch (IOException e) {
 			
 		}
+			break;
+		case Manager:
+			try {
+				root = FXMLLoader.load(getClass().getResource("3.0-ManagerScreen.fxml"));
+			} catch (IOException e) {
+				
+			}
+			break;
+		default:
+			break;
+		}
+		
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
 		window.show();
+		
+		
 	}
 
 }

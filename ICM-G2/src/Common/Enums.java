@@ -168,9 +168,9 @@ public class Enums {
 		}
 	}
 
-	public enum ISWorkerRole {
-		General, CommitteChairman, CommitteMember, Supervisor, Manager;
-		public static ISWorkerRole getISWorkerRoleENUM(int i) {
+	public enum Role {
+		General, CommitteChairman, CommitteMember, Supervisor, Manager,College;
+		public static Role getRoleENUM(int i) {
 			switch (i) {
 			case 0:
 				return General;
@@ -182,11 +182,13 @@ public class Enums {
 				return Supervisor;
 			case 4:
 				return Manager;
+			case 5:
+				return College;
 			}
 			return null;
 		}
 
-		public static int getISWorkerRoleByEnum(ISWorkerRole i) {
+		public static int getRoleByEnum(Role i) {
 			switch (i) {
 			case General:
 				return 0;
@@ -198,6 +200,8 @@ public class Enums {
 				return 3;
 			case Manager:
 				return 4;
+			case College:
+				return 5;
 			}
 			return -1;
 		}

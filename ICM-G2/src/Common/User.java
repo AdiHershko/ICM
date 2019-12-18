@@ -1,9 +1,15 @@
 package Common;
 
+import java.io.Serializable;
+
 import Common.Enums.*;
 
-public class User {
+public class User implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2536685616674785116L;
 	private String username;
 	private String password;
 	private String firstName;
@@ -11,15 +17,17 @@ public class User {
 	private String mail;
 	private CollegeWorkerRole Crole;
 	private String CollegeStudentDep;
-	private ISWorkerRole ISrole;
+	private Role role;
+	private String permissions;
 	//private int userID;
 
-	public User(String username, String password, String firstName, String lastName, String mail) {
+	public User(String username, String password, String firstName, String lastName, String mail,Role role) {
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
+		this.role=role;
 		
 	}
 
@@ -80,12 +88,12 @@ public class User {
 		CollegeStudentDep = collegeStudentDep;
 	}
 
-	public ISWorkerRole getISrole() {
-		return ISrole;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setISrole(ISWorkerRole iSrole) {
-		ISrole = iSrole;
+	public void setRole(Role iSrole) {
+		role = iSrole;
 	}
 	
 

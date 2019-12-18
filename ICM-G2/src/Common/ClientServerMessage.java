@@ -10,11 +10,16 @@ public class ClientServerMessage implements Serializable {
 
 	private MessageEnum type;
 	private String msg;
+	private User user;
 
 	public ClientServerMessage(MessageEnum type) {
 		this.type = type;
 	}
 
+	public ClientServerMessage(User user) {
+		this.user = user;
+	}
+	
 	public ClientServerMessage(MessageEnum type, String msg) {
 		this.type = type;
 		this.msg = msg;
