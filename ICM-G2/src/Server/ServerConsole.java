@@ -16,11 +16,11 @@ public class ServerConsole extends Application {
 	static Stage stage;
 	ServerChooseController c;
 
-
-
+	//TODO: find common place for css and jpg
+	
 	@Override
 	public void start(Stage stage) throws Exception {
-		_init=this;
+		_init = this;
 		this.stage = stage;
 		try { // loading fxml file
 			FXMLLoader load = new FXMLLoader();
@@ -40,12 +40,11 @@ public class ServerConsole extends Application {
 
 		stage.show();
 
-
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-		    @Override
-		    public void handle(WindowEvent t) {
-		        System.exit(0);
-		    }
+			@Override
+			public void handle(WindowEvent t) {
+				System.exit(0);
+			}
 		});
 	}
 

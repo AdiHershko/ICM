@@ -36,7 +36,7 @@ public class DataBaseController {
 
 	public static ObservableList<Request> getTable(String UserName) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
-		String query = "select * from Requests where currenthandlers LIKE '%,"+UserName+",%'";
+		String query = "select * from Requests where currenthandlers LIKE '%,"+UserName+",%' and status=0";
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -48,8 +48,10 @@ public class DataBaseController {
 		try {
 			while (rs.next()) {
 				try {
-					o.add(new Request(rs.getInt(1), rs.getInt(2), Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
-							rs.getString(6), rs.getDate(9).toString()));
+					Request r = new Request(rs.getInt(1), rs.getInt(2), Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
+							rs.getString(6), rs.getDate(9).toString());
+					r.setCurrentStage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)));
+					o.add(r);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -60,10 +62,10 @@ public class DataBaseController {
 		return o;
 	}
 
-	public static User SearchUser(String user,String pass) {
-		String query = "select * from Users where binary username ='" + user+"' and binary Password ='"+pass+"'";
+	public static User SearchUser(String user, String pass) {
+		String query = "select * from Users where binary username ='" + user + "' and binary Password ='" + pass + "'";
 		ResultSet rs = null;
-		User us=null;
+		User us = null;
 		PreparedStatement statement;
 		try {
 			statement = c.prepareStatement(query);
@@ -74,7 +76,8 @@ public class DataBaseController {
 		try {
 			if (rs.next()) {
 				try {
-					us=new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),Enums.Role.getRoleENUM(rs.getInt(6)));
+					us = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+							Enums.Role.getRoleENUM(rs.getInt(6)));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

@@ -117,8 +117,8 @@ public class Request implements Serializable {
 		return currentStage;
 	}
 
-	public String getCurrentStage() {
-		return currentStage.toString();
+	public RequestStageENUM getCurrentStage() {
+		return currentStage;
 	}
 
 	public void setCurrentStage(RequestStageENUM currentStage) {

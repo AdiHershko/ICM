@@ -31,6 +31,7 @@ public class ChatClient extends AbstractClient {
 		openConnection();
 		System.out.println("Client connected");
 		// -----------Checking if server is connected every 5 seconds.
+		// TODO: why closing window after reconnect?
 		new Thread() {
 			public void run() {
 				while (true) {
@@ -46,13 +47,8 @@ public class ChatClient extends AbstractClient {
 										noConnection.setTitle("ERROR!");
 										noConnection.setContentText(
 												"Server disconnected\nPlease re-open and connect the server");
-										noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE); // temporary,
-																												// will
-																												// throw
-																												// exception
-																												// after
-																												// second
-																												// d/c
+										noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+										// TODO: temporary, will throw exception after second d/c
 										Node closeButton = noConnection.getDialogPane().lookupButton(ButtonType.CLOSE);
 										closeButton.managedProperty().bind(closeButton.visibleProperty());
 										closeButton.setVisible(false);

@@ -21,8 +21,9 @@ import javafx.stage.Stage;
 
 public class LoginScreenController {
 	static LoginScreenController _ins;
-	public static boolean success=true;
+	public static boolean success = true;
 	private ActionEvent event;
+
 	public void initialize() {
 		ChatClient client;
 		_ins = this;
@@ -45,33 +46,26 @@ public class LoginScreenController {
 
 	@FXML
 	public void MoveScreen(ActionEvent event) throws IOException {
-		this.event=event;
+		this.event = event;
 		String temp = userTXT.getText() + " " + passTXT.getText();
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.SearchUser, temp));
 
 	}
 
-	public void LoginFailError()
-	{
+	public void LoginFailError() {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("ERROR!");
 		alert.setContentText("BAD USERNAME/PASSOWRD");
 		alert.showAndWait();
 
 	}
+
 	public void LoginGood(User user) {
-		Parent root=null;
+		Parent root = null;
 
-
-		switch (user.getRole())
-		{
-		case General:
-			try {
-			root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
-		} catch (IOException e) {
-
-		}
-			break;
+		//TODO check why working only on second click
+		//TODO so are we using only user roles? no College/ISUser instance?
+		switch (user.getRole()) {
 		case Manager:
 			try {
 				root = FXMLLoader.load(getClass().getResource("3.0-ManagerScreen.fxml"));
@@ -80,15 +74,18 @@ public class LoginScreenController {
 			}
 			break;
 		default:
+			try {
+				root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
+			} catch (IOException e) {
+
+			}
 			break;
 		}
-		Main.currentUser=user;
+		Main.currentUser = user;
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
 		window.show();
-
-
 
 	}
 

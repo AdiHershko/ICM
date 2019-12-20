@@ -19,7 +19,6 @@ public class User implements Serializable {
 	private String CollegeStudentDep;
 	private Role role;
 	private String permissions;
-	//private int userID;
 
 	public User(String username, String password, String firstName, String lastName, String mail,Role role) {
 		this.username = username;
