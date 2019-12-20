@@ -77,6 +77,7 @@ public class RequestsScreenController {
 
 	public void initialize() {
 		_ins = this;
+		// TODO: add CollegeUserUnderTablePane1
 		TableSetup();
 		RefreshTable();
 		new Thread() {
@@ -87,11 +88,6 @@ public class RequestsScreenController {
 				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
 			}
 		}.start();
-	}
-
-	public void loadData() {
-		// TODO: add CollegeUserUnderTablePane1
-		
 	}
 
 	@FXML
