@@ -10,7 +10,7 @@ public class Request implements Serializable {
 	private static final long serialVersionUID = -4393026080251453811L;
 
 	private int id;
-	private int requestorID;
+	private String requestorID;
 	private SystemENUM system;
 	private String description;
 	private String changes;
@@ -24,7 +24,7 @@ public class Request implements Serializable {
 	private Report report;
 	private ArrayList<ISUser> currentHandlers;
 
-	public Request(int id,int requestorID, SystemENUM system, String description, String changes, String changeReason, String date) {
+	public Request(int id,String requestorID, SystemENUM system, String description, String changes, String changeReason, String date) {
 		this.id=id;
 		this.requestorID = requestorID;
 		this.system = system;
@@ -46,11 +46,11 @@ public class Request implements Serializable {
 		this.id = id;
 	}
 
-	public int getRequestorID() {
+	public String getRequestorID() {
 		return requestorID;
 	}
 
-	public void setRequestorID(int requestorID) {
+	public void setRequestorID(String requestorID) {
 		this.requestorID = requestorID;
 	}
 

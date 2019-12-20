@@ -115,8 +115,7 @@ public class RequestsScreenController {
 
 	public void RefreshTable() {
 		if (Main.currentUser.getRole() == Enums.Role.College) {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESH, ""));
-			// TODO: create different message to server, to search College user
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHUSERID,Main.currentUser.getUsername()));
 		} else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESH, ""));
@@ -184,5 +183,5 @@ public class RequestsScreenController {
 		TesterPane1.setVisible(false);
 		CUserOpenRequest1.setVisible(false);
 	}
-
+//Main.currentUser.getUserIdToString(Main.currentUser.getUserId()))
 }

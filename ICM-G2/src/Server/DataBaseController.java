@@ -48,7 +48,7 @@ public class DataBaseController {
 		try {
 			while (rs.next()) {
 				try {
-					Request r = new Request(rs.getInt(1), rs.getInt(2), Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
+					Request r = new Request(rs.getInt(1), rs.getString(2), Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
 							rs.getString(6), rs.getDate(9).toString());
 					r.setCurrentStage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)));
 					o.add(r);
@@ -87,6 +87,34 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		return us;
+	}
+	public static ObservableList<Request> SearchUserById(String userName) {
+		ObservableList<Request> o = FXCollections.observableArrayList();
+		String query = "select * from Requests where Requestor='"+userName+"'";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if (rs.next()) {
+				try {
+					Request r = new Request(rs.getInt(1), rs.getString(2), Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
+							rs.getString(6), rs.getDate(9).toString());
+					r.setCurrentStage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)));
+					o.add(r);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return o;
 	}
 
 	public static void setUrl(String url) {

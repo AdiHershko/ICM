@@ -27,7 +27,6 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.mail = mail;
 		this.role=role;
-		
 	}
 
 	
@@ -94,6 +93,7 @@ public class User implements Serializable {
 	public void setRole(Role iSrole) {
 		role = iSrole;
 	}
-	
 
-}
+	}
+
+
