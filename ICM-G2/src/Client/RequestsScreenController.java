@@ -1,25 +1,20 @@
 package Client;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
-
 import Common.ClientServerMessage;
-import Common.CollegeUser;
 import Common.Enums;
-import Common.Enums.RequestStageENUM;
-import Common.ISUser;
 import Common.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -74,6 +69,10 @@ public class RequestsScreenController {
 	private Pane SupervisorPane1;
 	@FXML
 	private Pane CUserOpenRequest1;
+	@FXML
+	private TextField filePathTextField;
+	@FXML
+	private Button uploadFileButton;
 
 	public void initialize() {
 		_ins = this;
@@ -93,14 +92,29 @@ public class RequestsScreenController {
 	@FXML
 	public void addFiles(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
+		File f;
 		fileChooser.setTitle("Select a file to add");
-		fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
+		f = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
+		if (f!=null)
+			filePathTextField.setText(f.getPath());
+	}
+
+	@FXML
+	public void uploadFileToServer()
+	{
+		if (filePathTextField.getText()=="")
+			return;
+		File f = new File(filePathTextField.getText());
+		try {
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD,f,tableView.getSelectionModel().getSelectedItem()));
+		} catch(Exception e ) {return; }
 	}
 
 	public TableView<Request> getTableView() {
 		return tableView;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void TableSetup() {
 		TableColumn<Request, Integer> idColumn = new TableColumn<>("Request ID");
 		idColumn.setCellValueFactory(new PropertyValueFactory("id"));

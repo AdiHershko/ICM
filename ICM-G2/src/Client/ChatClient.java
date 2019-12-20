@@ -46,7 +46,7 @@ public class ChatClient extends AbstractClient {
 										});
 										noConnection.setTitle("ERROR!");
 										noConnection.setContentText(
-												"Server disconnected\nPlease re-open and connect the server");
+												"Server disconnected\nTrying to reconnect...");
 										noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 										// TODO: temporary, will throw exception after second d/c
 										Node closeButton = noConnection.getDialogPane().lookupButton(ButtonType.CLOSE);
@@ -130,9 +130,8 @@ public class ChatClient extends AbstractClient {
 		} catch (IOException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
-			alert.setContentText("Server disconnected\nExiting application");
+			alert.setContentText("Action declined.\nNo connection to server.");
 			alert.showAndWait();
-			quit();
 		}
 	}
 
