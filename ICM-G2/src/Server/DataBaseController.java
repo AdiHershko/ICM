@@ -36,7 +36,7 @@ public class DataBaseController {
 
 	public static ObservableList<Request> getTable(String UserName) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
-		String query = "select * from Requests where currenthandlers LIKE '%,"+UserName+",%' and status=0";
+		String query = "select * from Requests where status=0 and currenthandlers LIKE '%,"+UserName+",%'";
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {

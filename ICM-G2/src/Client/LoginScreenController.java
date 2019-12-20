@@ -3,6 +3,7 @@ package Client;
 import java.io.IOException;
 
 import Common.ClientServerMessage;
+import Common.Enums;
 import Common.Enums.*;
 import Common.User;
 import Server.EchoServer;
@@ -61,32 +62,24 @@ public class LoginScreenController {
 	}
 
 	public void LoginGood(User user) {
+		Main.currentUser = user;
 		Parent root = null;
-
-		//TODO check why working only on second click
-		//TODO so are we using only user roles? no College/ISUser instance?
-		switch (user.getRole()) {
-		case Manager:
+		// TODO so are we using only user roles? no College/ISUser instance?
+		if (user.getRole() == Enums.Role.Manager) {
 			try {
 				root = FXMLLoader.load(getClass().getResource("3.0-ManagerScreen.fxml"));
 			} catch (IOException e) {
-
 			}
-			break;
-		default:
+		} else {
 			try {
 				root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
 			} catch (IOException e) {
-
 			}
-			break;
 		}
-		Main.currentUser = user;
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
 		window.show();
-
 	}
 
 }

@@ -77,7 +77,6 @@ public class RequestsScreenController {
 
 	public void initialize() {
 		_ins = this;
-		//TODO: add CollegeUserUnderTablePane1
 		TableSetup();
 		RefreshTable();
 		new Thread() {
@@ -88,6 +87,11 @@ public class RequestsScreenController {
 				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
 			}
 		}.start();
+	}
+
+	public void loadData() {
+		// TODO: add CollegeUserUnderTablePane1
+		
 	}
 
 	@FXML
@@ -114,7 +118,6 @@ public class RequestsScreenController {
 	}
 
 	public void RefreshTable() {
-		System.out.println(Main.currentUser.getRole().toString());
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESH, ""));
 			// TODO: create different message to server, to search College user
@@ -185,5 +188,5 @@ public class RequestsScreenController {
 		TesterPane1.setVisible(false);
 		CUserOpenRequest1.setVisible(false);
 	}
-	
+
 }
