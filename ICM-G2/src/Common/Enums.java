@@ -6,7 +6,7 @@ public class Enums {
 
 
 	public enum MessageEnum {
-		CONNECT, SearchUser, REFRESH,LoginFail,loginGood,DISCONNECT,UPLOAD;
+		CONNECT, SearchUser, REFRESH,LoginFail,loginGood,DISCONNECT,REFRESHUSERID,UPLOAD;
 		public static MessageEnum getMessageEnum(int i) {
 			switch (i) {
 			case 0:
@@ -21,8 +21,10 @@ public class Enums {
 				return loginGood;
 			case 5:
 				return DISCONNECT;
-			case 6:
+			case 7:
 				return UPLOAD;
+			case 6:
+				return REFRESHUSERID;
 			}
 			return null;
 		}
@@ -42,6 +44,8 @@ public class Enums {
 			case DISCONNECT:
 				return 5;
 			case UPLOAD:
+				return 7;
+			case REFRESHUSERID:
 				return 6;
 			}
 			return -1;

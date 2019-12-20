@@ -53,6 +53,15 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
+			case REFRESHUSERID:
+				System.out.println(CSMsg.getMsg());
+				ObservableList<Request> ol1 = DataBaseController.SearchUserById(CSMsg.getMsg());
+				try {
+					client.sendToClient(ol1.toArray());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
 			case SearchUser:
 				String[] temp = CSMsg.getMsg().split(" ");
 				User us1 = DataBaseController.SearchUser(temp[0], temp[1]);
