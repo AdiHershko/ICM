@@ -72,9 +72,12 @@ public class RequestsScreenController {
 	private Pane TesterPane1;
 	@FXML
 	private Pane SupervisorPane1;
+	@FXML
+	private Pane CUserOpenRequest1;
 
 	public void initialize() {
 		_ins = this;
+		//TODO: add CollegeUserUnderTablePane1
 		TableSetup();
 		RefreshTable();
 		new Thread() {
@@ -127,6 +130,7 @@ public class RequestsScreenController {
 	@FXML
 	public void showRequest() {
 		try {
+			disableAllRequestPans();
 			Request r;
 			GeneralViewRequest1.setVisible(true);
 			UserViewsRequest1.setVisible(true);
@@ -142,7 +146,7 @@ public class RequestsScreenController {
 			if (Main.currentUser.getRole() == Enums.Role.Supervisor
 					|| Main.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
-			} else {
+			} else if (Main.currentUser.getRole() != Enums.Role.College) {
 				showRequestByStage(r);
 			}
 		} catch (Exception e) {
@@ -170,4 +174,16 @@ public class RequestsScreenController {
 		}
 	}
 
+	public void disableAllRequestPans() {
+		GeneralViewRequest1.setVisible(false);
+		UserViewsRequest1.setVisible(false);
+		SupervisorPane1.setVisible(false);
+		AssesmentMakerPane1.setVisible(false);
+		StageManagersPane1.setVisible(false);
+		ComittePane1.setVisible(false);
+		StageManagersPane1.setVisible(false);
+		TesterPane1.setVisible(false);
+		CUserOpenRequest1.setVisible(false);
+	}
+	
 }
