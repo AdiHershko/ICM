@@ -110,6 +110,16 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				return;
+			case UPLOADFINISH:
+				Platform.runLater(new Runnable(){
+
+					@Override
+					public void run() {
+						RequestsScreenController._ins.uploadFileMessage(((ClientServerMessage) msg).isUploadstatus());
+					}
+
+				});
+			return;
 			default:
 				return;
 			}

@@ -14,6 +14,8 @@ import Common.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -218,6 +220,23 @@ public class RequestsScreenController {
 		StageManagersPane1.setVisible(false);
 		TesterPane1.setVisible(false);
 		CUserOpenRequest1.setVisible(false);
+	}
+
+	public void uploadFileMessage(boolean status)
+	{
+		if (status)
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Upload finished");
+			alert.setContentText("Upload finished succesfully");
+			alert.showAndWait();
+		}
+		else {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Upload failed");
+			alert.setContentText("Could not upload file to server");
+			alert.showAndWait();
+		}
 	}
 //Main.currentUser.getUserIdToString(Main.currentUser.getUserId()))
 }

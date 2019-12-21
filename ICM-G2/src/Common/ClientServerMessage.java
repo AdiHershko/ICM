@@ -18,6 +18,15 @@ public class ClientServerMessage implements Serializable {
 	private String fileName;
 	private BufferedInputStream bis;
 	private byte[] buffer;
+	private boolean uploadstatus;
+
+	public boolean isUploadstatus() {
+		return uploadstatus;
+	}
+
+	public void setUploadstatus(boolean uploadstatus) {
+		this.uploadstatus = uploadstatus;
+	}
 
 	public ClientServerMessage(MessageEnum type) {
 		this.type = type;
@@ -37,6 +46,11 @@ public class ClientServerMessage implements Serializable {
 		this.fileName=fileName;
 		this.buffer=buffer;
 		this.request=request;
+	}
+
+	public ClientServerMessage(MessageEnum uploadfinish, boolean sucess) {
+		this.type=uploadfinish;
+		this.uploadstatus=sucess;
 	}
 
 	public byte[] getBuffer() {

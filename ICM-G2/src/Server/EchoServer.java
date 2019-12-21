@@ -87,23 +87,25 @@ public class EchoServer extends AbstractServer {
 				String path = "src\\Server\\"+CSMsg.getRequest().getId();
 				File f = new File(path+"\\"+CSMsg.getFileName());
 			    OutputStream os = null;
+			    boolean sucess=false;
 			    try {
 			        os = new FileOutputStream(f);
 			        os.write(CSMsg.getBuffer());
+			        sucess=true;
 			    	}
 			     catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("cant find file");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Cannot write to file");
 				} finally {
 					try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.UPLOADFINISH,sucess));
 			        os.close();
 					} catch (Exception e ) { }
+
 			    }
 			default:
-
 				break;
 			}
 		}
