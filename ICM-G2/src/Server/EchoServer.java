@@ -83,20 +83,15 @@ public class EchoServer extends AbstractServer {
 				}
 				return;
 			case UPLOAD:
-				boolean folder = new File("src\\Server\\"+CSMsg.getRequest().getId()).mkdir();
+				new File("src\\Server\\"+CSMsg.getRequest().getId()).mkdir();
 				String path = "src\\Server\\"+CSMsg.getRequest().getId();
-				File f = new File(path+"\\"+CSMsg.getFile().getName());
-			    InputStream is = null;
+				File f = new File(path+"\\"+CSMsg.getFileName());
 			    OutputStream os = null;
 			    try {
-			        is = new FileInputStream(CSMsg.getFile().getPath());
 			        os = new FileOutputStream(f);
-			        byte[] buffer = new byte[1024];
-			        int length;
-			        while ((length = is.read(buffer)) > 0) {
-			            os.write(buffer, 0, length);
-			        }
-			    } catch (FileNotFoundException e) {
+			        os.write(CSMsg.getBuffer());
+			    	}
+			     catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -104,7 +99,6 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				} finally {
 					try {
-			        is.close();
 			        os.close();
 					} catch (Exception e ) { }
 			    }

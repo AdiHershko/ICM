@@ -1,6 +1,11 @@
 package Client;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import Common.ClientServerMessage;
@@ -105,9 +110,24 @@ public class RequestsScreenController {
 		if (filePathTextField.getText()=="")
 			return;
 		File f = new File(filePathTextField.getText());
+		InputStream is = null;
+		BufferedInputStream bis=null;
+		byte[] buffer=null;
 		try {
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD,f,tableView.getSelectionModel().getSelectedItem()));
+			is = new FileInputStream(f.getPath());
+			buffer = new byte[(int)f.length()];
+			bis = new BufferedInputStream(is);
+			bis.read(buffer,0,buffer.length);
+		} catch (IOException e) {
+			System.out.println("Error reading file!");
+		}
+		try {
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD,f.getName(),buffer,tableView.getSelectionModel().getSelectedItem()));
 		} catch(Exception e ) {return; }
+		try{
+			bis.close();
+			is.close();
+		} catch (Exception e) { }
 	}
 
 	public TableView<Request> getTableView() {

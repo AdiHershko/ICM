@@ -1,5 +1,6 @@
 package Common;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.Serializable;
 
@@ -14,6 +15,9 @@ public class ClientServerMessage implements Serializable {
 	private User user;
 	private File file;
 	private Request request;
+	private String fileName;
+	private BufferedInputStream bis;
+	private byte[] buffer;
 
 	public ClientServerMessage(MessageEnum type) {
 		this.type = type;
@@ -28,10 +32,35 @@ public class ClientServerMessage implements Serializable {
 		this.msg = msg;
 	}
 
-	public ClientServerMessage(MessageEnum type, File file,Request request) {
+	public ClientServerMessage(MessageEnum type, String fileName,byte[] buffer,Request request) {
 		this.type = type;
-		this.file=file;
+		this.fileName=fileName;
+		this.buffer=buffer;
 		this.request=request;
+	}
+
+	public byte[] getBuffer() {
+		return buffer;
+	}
+
+	public void setBuffer(byte[] buffer) {
+		this.buffer = buffer;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public BufferedInputStream getBis() {
+		return bis;
+	}
+
+	public void setBis(BufferedInputStream bis) {
+		this.bis = bis;
 	}
 
 	public Request getRequest() {
