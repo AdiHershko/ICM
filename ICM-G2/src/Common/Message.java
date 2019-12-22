@@ -9,10 +9,10 @@ public class Message implements Serializable {
 	private int type;
 	private String title;
 	private String details;
-	private ISUser receiver;
+	private User receiver;
 	private Request request;
 
-	public Message(int type, String Title, String Details, ISUser Receiver, Request request) {
+	public Message(int type, String Title, String Details, User Receiver, Request request) {
 		this.type=type;
 		this.title=Title;
 		this.details=Details;
@@ -44,11 +44,11 @@ public class Message implements Serializable {
 		this.details = details;
 	}
 
-	public ISUser getReceiver() {
+	public User getReceiver() {
 		return receiver;
 	}
 
-	public void setReceiver(ISUser receiver) {
+	public void setReceiver(User receiver) {
 		this.receiver = receiver;
 	}
 

@@ -17,6 +17,7 @@ public class Main extends Application {
 	LoginScreenController c;
 	public static ChatClient client;
 	static User currentUser;
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
@@ -33,19 +34,15 @@ public class Main extends Application {
 		stage.setScene(s);
 		stage.setTitle("ICM Prototype - Client");
 		stage.show();
-		stage.setOnCloseRequest(e->{
+		stage.setOnCloseRequest(e -> {
 			client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.DISCONNECT));
 			System.exit(0);
 		});
 
 	}
 
-
-
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		launch(args);
 	}
-
 
 }
