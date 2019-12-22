@@ -22,7 +22,7 @@ public class Request implements Serializable {
 	private RequestStageENUM currentStage;
 	private RequestStage stages[];
 	private Report report;
-	private ArrayList<ISUser> currentHandlers;
+	private ArrayList<User> currentHandlers;
 
 	public Request(int id,String requestorID, SystemENUM system, String description, String changes, String changeReason, String date) {
 		this.id=id;
@@ -35,7 +35,7 @@ public class Request implements Serializable {
 		this.currentStage=Enums.RequestStageENUM.Start;
 		this.status=Enums.RequestStatus.Active;
 		this.comments="";
-		currentHandlers = new ArrayList<ISUser>();
+		currentHandlers = new ArrayList<User>();
 	}
 
 	public int getId() {
@@ -145,11 +145,11 @@ public class Request implements Serializable {
 		return serialVersionUID;
 	}
 
-	public ArrayList<ISUser> getCurrentHandlers() {
+	public ArrayList<User> getCurrentHandlers() {
 		return currentHandlers;
 	}
 
-	public void setCurrentHandlers(ArrayList<ISUser> currentHandlers) {
+	public void setCurrentHandlers(ArrayList<User> currentHandlers) {
 		this.currentHandlers = currentHandlers;
 	}
 

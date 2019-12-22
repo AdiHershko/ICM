@@ -155,6 +155,7 @@ public class RequestsScreenController {
 		} else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESH, ""));
+			//TODO change for manager and supervisor
 		} else {
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.REFRESH, Main.currentUser.getUsername()));
@@ -200,7 +201,6 @@ public class RequestsScreenController {
 			break;
 		case Execution:
 			StageManagersPane1.setVisible(true);
-			// TODO: how to check if second time?
 			break;
 		case Testing:
 			TesterPane1.setVisible(true);

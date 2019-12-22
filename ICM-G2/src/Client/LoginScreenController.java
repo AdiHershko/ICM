@@ -64,7 +64,6 @@ public class LoginScreenController {
 	public void LoginGood(User user) {
 		Main.currentUser = user;
 		Parent root = null;
-		// TODO so are we using only user roles? no College/ISUser instance?
 		if (user.getRole() == Enums.Role.Manager) {
 			try {
 				root = FXMLLoader.load(getClass().getResource("3.0-ManagerScreen.fxml"));

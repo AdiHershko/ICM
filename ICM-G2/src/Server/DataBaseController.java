@@ -50,6 +50,7 @@ public class DataBaseController {
 				try {
 					Request r = new Request(rs.getInt(1), rs.getString(2), Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
 							rs.getString(6), rs.getDate(9).toString());
+					//TODO add stages
 					r.setCurrentStage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)));
 					o.add(r);
 				} catch (SQLException e) {

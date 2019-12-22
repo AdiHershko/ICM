@@ -9,11 +9,11 @@ public class Stage {
 	private Date plannedDueDate;
 	private Boolean isApproved;
 	private Boolean isExtended;
-	private ArrayList<ISUser> stageMembers;
+	private ArrayList<User> stageMembers;
 	private User stageLeader;
 
 	public Stage(RequestStageENUM stageName, Date plannedDueDate, Boolean isApproved, Boolean isExtended,
-			ArrayList<ISUser> stageMembers, User stageLeader) {
+			ArrayList<User> stageMembers, User stageLeader) {
 
 		this.stageName = stageName;
 		this.plannedDueDate = plannedDueDate;
@@ -56,11 +56,11 @@ public class Stage {
 		this.isExtended = isExtended;
 	}
 
-	public ArrayList<ISUser> getStageMembers() {
+	public ArrayList<User> getStageMembers() {
 		return stageMembers;
 	}
 
-	public void setStageMembers(ArrayList<ISUser> stageMembers) {
+	public void setStageMembers(ArrayList<User> stageMembers) {
 		this.stageMembers = stageMembers;
 	}
 
