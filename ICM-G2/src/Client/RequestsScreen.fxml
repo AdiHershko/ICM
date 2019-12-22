@@ -129,6 +129,6 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="1127.0" layoutY="7.0" mnemonicParsing="false" text="Log Out" />
+      <Button fx:id="logoutButton" layoutX="1127.0" layoutY="7.0" mnemonicParsing="false" onAction="#logout" text="Log Out" />
    </children>
 </Pane>

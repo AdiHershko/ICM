@@ -24,6 +24,12 @@ public class LoginScreenController {
 	static LoginScreenController _ins;
 	public static boolean success = true;
 	private ActionEvent event;
+	@FXML
+	private Button loginButton;
+	@FXML
+	private PasswordField passTXT;
+	@FXML
+	private TextField userTXT;
 
 	public void initialize() {
 		ChatClient client;
@@ -36,21 +42,22 @@ public class LoginScreenController {
 		}
 		Main.client = client;
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.CONNECT));
+		loginButton.setDefaultButton(true);
 	}
 
 	@FXML
-	private Button loginButton;
-	@FXML
-	private PasswordField passTXT;
-	@FXML
-	private TextField userTXT;
-
-	@FXML
 	public void MoveScreen(ActionEvent event) throws IOException {
-		this.event = event;
-		String temp = userTXT.getText() + " " + passTXT.getText();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.SearchUser, temp));
-
+		if (userTXT.getText().equals("") || passTXT.getText().equals("")) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR!");
+			alert.setContentText("EMPTY USERNAME/PASSOWRD");
+			alert.showAndWait();
+		}
+		else {
+			this.event = event;
+			String temp = userTXT.getText() + " " + passTXT.getText();
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.SearchUser, temp));
+		}
 	}
 
 	public void LoginFailError() {
@@ -69,7 +76,8 @@ public class LoginScreenController {
 				root = FXMLLoader.load(getClass().getResource("3.0-ManagerScreen.fxml"));
 			} catch (IOException e) {
 			}
-		} else {
+		}
+		else {
 			try {
 				root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
 			} catch (IOException e) {
