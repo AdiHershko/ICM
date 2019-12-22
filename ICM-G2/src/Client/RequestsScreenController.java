@@ -89,6 +89,9 @@ public class RequestsScreenController {
 	public void initialize() {
 		_ins = this;
 		// TODO: add CollegeUserUnderTablePane1
+		if (Main.currentUser.getRole() == Enums.Role.College)
+			CollegeUserUnderTablePane1.setVisible(true);
+
 		TableSetup();
 		RefreshTable();
 		new Thread() {
@@ -107,34 +110,37 @@ public class RequestsScreenController {
 		File f;
 		fileChooser.setTitle("Select a file to add");
 		f = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
-		if (f!=null)
+		if (f != null)
 			filePathTextField.setText(f.getPath());
 	}
 
 	@FXML
-	public void uploadFileToServer()
-	{
-		if (filePathTextField.getText()=="")
+	public void uploadFileToServer() {
+		if (filePathTextField.getText() == "")
 			return;
 		File f = new File(filePathTextField.getText());
 		InputStream is = null;
-		BufferedInputStream bis=null;
-		byte[] buffer=null;
+		BufferedInputStream bis = null;
+		byte[] buffer = null;
 		try {
 			is = new FileInputStream(f.getPath());
-			buffer = new byte[(int)f.length()];
+			buffer = new byte[(int) f.length()];
 			bis = new BufferedInputStream(is);
-			bis.read(buffer,0,buffer.length);
+			bis.read(buffer, 0, buffer.length);
 		} catch (IOException e) {
 			System.out.println("Error reading file!");
 		}
 		try {
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD,f.getName(),buffer,tableView.getSelectionModel().getSelectedItem()));
-		} catch(Exception e ) {return; }
-		try{
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer,
+					tableView.getSelectionModel().getSelectedItem()));
+		} catch (Exception e) {
+			return;
+		}
+		try {
 			bis.close();
 			is.close();
-		} catch (Exception e) { }
+		} catch (Exception e) {
+		}
 	}
 
 	public TableView<Request> getTableView() {
@@ -156,11 +162,12 @@ public class RequestsScreenController {
 
 	public void RefreshTable() {
 		if (Main.currentUser.getRole() == Enums.Role.College) {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHUSERID,Main.currentUser.getUsername()));
+			Main.client.handleMessageFromClientUI(
+					new ClientServerMessage(Enums.MessageEnum.REFRESHUSERID, Main.currentUser.getUsername()));
 		} else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESH, ""));
-			//TODO change for manager and supervisor
+			// TODO change for manager and supervisor
 		} else {
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.REFRESH, Main.currentUser.getUsername()));
@@ -173,7 +180,7 @@ public class RequestsScreenController {
 			disableAllRequestPans();
 			Request r;
 			r = tableView.getSelectionModel().getSelectedItem();
-			if (r==null)
+			if (r == null)
 				return;
 			GeneralViewRequest1.setVisible(true);
 			UserViewsRequest1.setVisible(true);
@@ -227,25 +234,23 @@ public class RequestsScreenController {
 		CUserOpenRequest1.setVisible(false);
 	}
 
-	public void uploadFileMessage(boolean status)
-	{
-		if (status)
-		{
+	public void uploadFileMessage(boolean status) {
+		if (status) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Upload finished");
 			alert.setContentText("Upload finished succesfully");
 			alert.showAndWait();
-		}
-		else {
+		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Upload failed");
 			alert.setContentText("Could not upload file to server");
 			alert.showAndWait();
 		}
 	}
+
 	@FXML
 	public void logout(ActionEvent event) throws IOException {
-		Main.currentUser=null;
+		Main.currentUser = null;
 		Parent root = null;
 		root = FXMLLoader.load(getClass().getResource("loginScreen.fxml"));
 		Scene requests = new Scene(root);
