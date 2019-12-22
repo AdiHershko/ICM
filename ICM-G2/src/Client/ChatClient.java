@@ -113,6 +113,13 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				return;
+			case GETOBLIST:
+				ObservableList<Request> l = FXCollections.observableArrayList();
+				for (Object o : ((ClientServerMessage)msg).getList()) {
+					l.add((Request) o);
+				}
+				RequestsScreenController._ins.getTableView().setItems(l);
+				return;
 			case UPLOADFINISH:
 				Platform.runLater(new Runnable(){
 

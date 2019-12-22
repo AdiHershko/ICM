@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.Serializable;
 
 import Common.Enums.*;
+import javafx.collections.ObservableList;
 
 public class ClientServerMessage implements Serializable {
 
@@ -19,6 +20,7 @@ public class ClientServerMessage implements Serializable {
 	private BufferedInputStream bis;
 	private byte[] buffer;
 	private boolean uploadstatus;
+	private Object [] list;
 
 	public boolean isUploadstatus() {
 		return uploadstatus;
@@ -51,6 +53,11 @@ public class ClientServerMessage implements Serializable {
 	public ClientServerMessage(MessageEnum uploadfinish, boolean sucess) {
 		this.type=uploadfinish;
 		this.uploadstatus=sucess;
+	}
+	
+	public ClientServerMessage(MessageEnum uploadfinish, Object[] list) {
+		this.type=uploadfinish;
+		this.list=list;
 	}
 
 	public byte[] getBuffer() {
@@ -115,5 +122,9 @@ public class ClientServerMessage implements Serializable {
 
 	public void setFile(File file) {
 		this.file = file;
+	}
+	
+	public Object[] getList() {
+		return list;
 	}
 }

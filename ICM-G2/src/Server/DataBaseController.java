@@ -5,10 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import Common.Request;
+import Common.Stage;
 import Common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,9 +38,18 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static ObservableList<Request> getTable(String UserName) {
+	public static ObservableList<Request> getRequestsForIS(String UserName) {
+		String query = "select * from Requests where status=0 and currenthandlers LIKE '%," + UserName + ",%'";
+		return getRequests(query);
+	}
+
+	public static ObservableList<Request> getRequestsForCollege(String userName) {
+		String query = "select * from Requests where Requestor='" + userName + "'";
+		return getRequests(query);
+	}
+
+	public static ObservableList<Request> getRequests(String query) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
-		String query = "select * from Requests where status=0 and currenthandlers LIKE '%,"+UserName+",%'";
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -48,9 +61,10 @@ public class DataBaseController {
 		try {
 			while (rs.next()) {
 				try {
-					Request r = new Request(rs.getInt(1), rs.getString(2), Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
+					Request r = new Request(rs.getInt(1), rs.getString(2),
+							Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
 							rs.getString(6), rs.getDate(9).toString());
-					//TODO add stages
+					r.setStages(getRequestStages(rs.getInt(1)));
 					r.setCurrentStage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)));
 					o.add(r);
 				} catch (SQLException e) {
@@ -61,6 +75,40 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		return o;
+	}
+
+	public static Stage[] getRequestStages(int RequestID) {
+		Stage RequestStages[] = new Stage[5];
+		String query = "select * from Stages where RequestID=" + RequestID;
+		PreparedStatement statement;
+		ResultSet rs = null;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i < 5; i++) {
+			RequestStages[i] = new Stage();
+		}
+		try {
+			while (rs.next()) {
+				Stage s = RequestStages[1];
+				s.setStageName(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(1)));
+				s.setPlannedDueDate(rs.getDate(2));
+				s.setIsApproved(rs.getInt(3) == 1);
+				s.setIsExtended(rs.getInt(4) == 1);
+				ArrayList<String> stageMembers = new ArrayList<String>();
+				String handlers_array[] = (rs.getString(5)).split(",");
+				for (int i = 0; i < handlers_array.length; i++)
+					stageMembers.add(handlers_array[i]);
+				System.out.println(stageMembers);
+				s.setStageMembers(stageMembers);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return RequestStages;
 	}
 
 	public static User SearchUser(String user, String pass) {
@@ -88,34 +136,6 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		return us;
-	}
-	public static ObservableList<Request> SearchUserById(String userName) {
-		ObservableList<Request> o = FXCollections.observableArrayList();
-		String query = "select * from Requests where Requestor='"+userName+"'";
-		ResultSet rs = null;
-		PreparedStatement statement;
-		try {
-			statement = c.prepareStatement(query);
-			rs = statement.executeQuery();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			if (rs.next()) {
-				try {
-					Request r = new Request(rs.getInt(1), rs.getString(2), Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
-							rs.getString(6), rs.getDate(9).toString());
-					r.setCurrentStage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)));
-					o.add(r);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return o;
 	}
 
 	public static void setUrl(String url) {

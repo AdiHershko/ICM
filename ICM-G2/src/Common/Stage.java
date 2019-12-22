@@ -1,27 +1,30 @@
 package Common;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import Common.Enums.RequestStageENUM;
-import sun.util.calendar.LocalGregorianCalendar.Date;
+import java.util.Date;
 
-public class Stage {
+import Common.Enums.RequestStageENUM;
+
+
+public class Stage implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private RequestStageENUM stageName;
 	private Date plannedDueDate;
 	private Boolean isApproved;
 	private Boolean isExtended;
-	private ArrayList<User> stageMembers;
+	private ArrayList<String> stageMembers;
 	private User stageLeader;
 
-	public Stage(RequestStageENUM stageName, Date plannedDueDate, Boolean isApproved, Boolean isExtended,
-			ArrayList<User> stageMembers, User stageLeader) {
-
+	public Stage() {
+		
+	}
+	
+	public Stage(RequestStageENUM stageName, Date plannedDueDate, Boolean isApproved, Boolean isExtended) {
 		this.stageName = stageName;
 		this.plannedDueDate = plannedDueDate;
 		this.isApproved = isApproved;
 		this.isExtended = isExtended;
-		this.stageMembers = stageMembers;
-		this.stageLeader = stageLeader;
-
 	}
 
 	public RequestStageENUM getStageName() {
@@ -56,11 +59,11 @@ public class Stage {
 		this.isExtended = isExtended;
 	}
 
-	public ArrayList<User> getStageMembers() {
+	public ArrayList<String> getStageMembers() {
 		return stageMembers;
 	}
 
-	public void setStageMembers(ArrayList<User> stageMembers) {
+	public void setStageMembers(ArrayList<String> stageMembers) {
 		this.stageMembers = stageMembers;
 	}
 

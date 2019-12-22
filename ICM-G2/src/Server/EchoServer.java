@@ -46,18 +46,18 @@ public class EchoServer extends AbstractServer {
 				System.out.println("User "+client.toString()+" Disconnected");
 				return;
 			case REFRESH:
-				ObservableList<Request> ol = DataBaseController.getTable(((ClientServerMessage) msg).getMsg());
+				ObservableList<Request> ol = DataBaseController.getRequestsForIS(((ClientServerMessage) msg).getMsg());
 				try {
-					client.sendToClient(ol.toArray());
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol.toArray()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				return;
 			case REFRESHUSERID:
 				System.out.println(CSMsg.getMsg());
-				ObservableList<Request> ol1 = DataBaseController.SearchUserById(CSMsg.getMsg());
+				ObservableList<Request> ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg());
 				try {
-					client.sendToClient(ol1.toArray());
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol1.toArray()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
