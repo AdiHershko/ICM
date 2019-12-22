@@ -25,7 +25,7 @@ public class ChatClient extends AbstractClient {
 
 	final public static int DEFAULT_PORT = 5555;
 	Dialog<Boolean> noConnection = new Dialog<>();
-
+	Node closeButton;
 	public ChatClient(String host, int port) throws IOException {
 		super(host, port); // Call the superclass constructor
 		openConnection();
@@ -37,6 +37,7 @@ public class ChatClient extends AbstractClient {
 				while (true) {
 					if (!isConnected()) {
 						Platform.runLater(new Runnable() {
+
 							public void run() {
 								{
 									if (!noConnection.isShowing()) {
@@ -47,11 +48,13 @@ public class ChatClient extends AbstractClient {
 										noConnection.setTitle("ERROR!");
 										noConnection.setContentText(
 												"Server disconnected\nTrying to reconnect...");
+										if (closeButton==null)
+										{
 										noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-										// TODO: temporary, will throw exception after second d/c
-										Node closeButton = noConnection.getDialogPane().lookupButton(ButtonType.CLOSE);
+										closeButton = noConnection.getDialogPane().lookupButton(ButtonType.CLOSE);
 										closeButton.managedProperty().bind(closeButton.visibleProperty());
 										closeButton.setVisible(false);
+										}
 										noConnection.showAndWait();
 
 									}
