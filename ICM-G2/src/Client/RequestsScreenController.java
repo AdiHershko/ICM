@@ -317,7 +317,9 @@ public class RequestsScreenController {
 		r.setId(newRequestID);
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("New request created! \n Request ID: " + r.getId());
-		alert.show();
+		alert.showAndWait();
+		RefreshTable();
+		disableAllRequestPans();
 	}
 
 }

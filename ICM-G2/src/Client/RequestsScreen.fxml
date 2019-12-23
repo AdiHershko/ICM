@@ -97,7 +97,7 @@
                <children>
                   <Button layoutX="343.0" layoutY="447.0" mnemonicParsing="false" onAction="#submitNewRequest" text="Submit New Request" />
                   <Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System:" wrappingWidth="40.552734375" />
-                  <ChoiceBox fx:id="choiceBox" prefWidth="150.0" />
+                  <ChoiceBox fx:id="choiceBox" layoutX="65.0" layoutY="23.0" prefWidth="150.0" />
                </children>
             </Pane>
             <Text layoutX="10.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current state descreption:" />
