@@ -17,6 +17,8 @@ import Common.Stage;
 import Common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import Common.Enums;
 
 public class DataBaseController {
@@ -148,8 +150,37 @@ public class DataBaseController {
 		}
 		return us;
 	}
-
+	
+	public static String getSupervisor() {
+		String query = "select Users.username from Users where Role=4";
+		ResultSet rs = null;
+		User us = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if(rs.next()) {
+				return rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public static int CreateNewRequest(Request r) {
+		String temp=getSupervisor();
+		if(temp==null) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR!");
+			alert.setContentText("no supervisor for system!!!");
+			alert.show();
+			return 0;
+		}
 		PreparedStatement st = null;
 		ResultSet rs;
 		int id = 0;
@@ -166,7 +197,7 @@ public class DataBaseController {
 			st.setInt(7, 0);
 			st.setDate(8, java.sql.Date.valueOf(r.getDate()));
 			st.setString(9, r.getComments());
-			st.setString(10, "");// TODO: add Supervisor
+			st.setString(10, ","+temp+",");
 			st.executeUpdate();
 			rs = st.getGeneratedKeys();
 			rs.next();

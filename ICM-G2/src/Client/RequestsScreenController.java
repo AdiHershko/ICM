@@ -290,7 +290,14 @@ public class RequestsScreenController {
 
 	@FXML
 	void submitNewRequest(ActionEvent event) {
-		// TODO add verify for fields
+		
+		if(descArea.getText().equals("")||changeArea.getText().equals("")||reasonArea.getText().equals("")) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR!");
+			alert.setContentText("Empty required fields!");
+			alert.show();
+			return;
+		}
 		if(choiceBox.getSelectionModel().isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
