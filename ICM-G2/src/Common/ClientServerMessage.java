@@ -21,6 +21,7 @@ public class ClientServerMessage implements Serializable {
 	private byte[] buffer;
 	private boolean uploadstatus;
 	private Object [] list;
+	private int id;
 
 	public boolean isUploadstatus() {
 		return uploadstatus;
@@ -42,6 +43,16 @@ public class ClientServerMessage implements Serializable {
 		this.type = type;
 		this.msg = msg;
 	}
+	
+	public ClientServerMessage(MessageEnum type, int id) {
+		this.type = type;
+		this.id = id;
+	}
+	
+	public ClientServerMessage(MessageEnum type, Request request) {
+		this.type = type;
+		this.request = request;
+	}
 
 	public ClientServerMessage(MessageEnum type, String fileName,byte[] buffer,Request request) {
 		this.type = type;
@@ -50,13 +61,13 @@ public class ClientServerMessage implements Serializable {
 		this.request=request;
 	}
 
-	public ClientServerMessage(MessageEnum uploadfinish, boolean sucess) {
-		this.type=uploadfinish;
+	public ClientServerMessage(MessageEnum type, boolean sucess) {
+		this.type=type;
 		this.uploadstatus=sucess;
 	}
 	
-	public ClientServerMessage(MessageEnum uploadfinish, Object[] list) {
-		this.type=uploadfinish;
+	public ClientServerMessage(MessageEnum type, Object[] list) {
+		this.type=type;
 		this.list=list;
 	}
 
@@ -126,5 +137,13 @@ public class ClientServerMessage implements Serializable {
 	
 	public Object[] getList() {
 		return list;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

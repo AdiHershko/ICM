@@ -120,6 +120,10 @@ public class ChatClient extends AbstractClient {
 				}
 				RequestsScreenController._ins.getTableView().setItems(l);
 				return;
+			case NewRequestID:
+				RequestsScreenController.newRequestID = ((ClientServerMessage) msg).getId();
+				RequestsScreenController.waitForNewRequest = true;
+				return;
 			case UPLOADFINISH:
 				Platform.runLater(new Runnable(){
 

@@ -94,7 +94,6 @@ public class EchoServer extends AbstractServer {
 			        sucess=true;
 			    	}
 			     catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					System.out.println("cant find file");
 				} catch (IOException e) {
 					System.out.println("Cannot write to file");
@@ -105,6 +104,15 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e ) { }
 
 			    }
+			case CreateRequest:
+				Request r = CSMsg.getRequest();
+				int id = DataBaseController.CreateNewRequest(r);
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.NewRequestID, id));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
 			default:
 				break;
 			}

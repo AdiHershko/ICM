@@ -23,6 +23,8 @@ public class Request implements Serializable {
 	private Stage stages[];
 	private Report report;
 
+	//TODO change to real date
+	
 	public Request(int id,String requestorID, SystemENUM system, String description, String changes, String changeReason, String date) {
 		this.id=id;
 		this.requestorID = requestorID;

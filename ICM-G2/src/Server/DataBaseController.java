@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,8 +25,19 @@ public class DataBaseController {
 	private static String username = "rPTfgnHCnB";
 	private static String password = "atcFy4mIAf";
 
-	public static boolean Connect() {
+	public static void setUrl(String url) {
+		DataBaseController.url = url;
+	}
 
+	public static void setUsername(String username) {
+		DataBaseController.username = username;
+	}
+
+	public static void setPassword(String password) {
+		DataBaseController.password = password;
+	}
+
+	public static boolean Connect() {
 		System.out.println("Connecting to database...");
 
 		try {
@@ -102,7 +114,6 @@ public class DataBaseController {
 				String handlers_array[] = (rs.getString(5)).split(",");
 				for (int i = 0; i < handlers_array.length; i++)
 					stageMembers.add(handlers_array[i]);
-				System.out.println(stageMembers);
 				s.setStageMembers(stageMembers);
 			}
 		} catch (Exception e) {
@@ -138,16 +149,33 @@ public class DataBaseController {
 		return us;
 	}
 
-	public static void setUrl(String url) {
-		DataBaseController.url = url;
-	}
-
-	public static void setUsername(String username) {
-		DataBaseController.username = username;
-	}
-
-	public static void setPassword(String password) {
-		DataBaseController.password = password;
+	public static int CreateNewRequest(Request r) {
+		PreparedStatement st = null;
+		ResultSet rs;
+		int id = 0;
+		try {
+			String query = "INSERT INTO Requests (Requests.Requestor, Requests.System, Requests.Description, Requests.Change, Requests.ChangeReason,"
+					+ " Requests.Stage, Requests.Status, Requests.Date, Requests.Connect, Requests.CurrentHandlers) Values (?,?,?,?,?,?,?,?,?,?)";
+			st = c.prepareStatement(query, st.RETURN_GENERATED_KEYS);
+			st.setString(1, r.getRequestorID());
+			st.setInt(2, Enums.SystemENUM.getSystemByEnum(r.getSystem()));
+			st.setString(3, r.getDescription());
+			st.setString(4, r.getChanges());
+			st.setString(5, r.getChangeReason());
+			st.setInt(6, 0);
+			st.setInt(7, 0);
+			st.setDate(8, java.sql.Date.valueOf(r.getDate()));
+			st.setString(9, r.getComments());
+			st.setString(10, "");// TODO: add Supervisor
+			st.executeUpdate();
+			rs = st.getGeneratedKeys();
+			rs.next();
+			id = rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// TODO create stages for request
+		return id;
 	}
 
 }

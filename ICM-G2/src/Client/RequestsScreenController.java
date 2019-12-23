@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import Common.ClientServerMessage;
@@ -32,6 +33,8 @@ import javafx.stage.Stage;
 
 public class RequestsScreenController {
 	public static RequestsScreenController _ins;
+	public static boolean waitForNewRequest;
+	public static int newRequestID;
 
 	@FXML
 	private Button addFilesButton;
@@ -88,7 +91,6 @@ public class RequestsScreenController {
 
 	public void initialize() {
 		_ins = this;
-		// TODO: add CollegeUserUnderTablePane1
 		if (Main.currentUser.getRole() == Enums.Role.College)
 			CollegeUserUnderTablePane1.setVisible(true);
 
@@ -232,6 +234,10 @@ public class RequestsScreenController {
 		StageManagersPane1.setVisible(false);
 		TesterPane1.setVisible(false);
 		CUserOpenRequest1.setVisible(false);
+		descArea.clear();
+		changeArea.clear();
+		reasonArea.clear();
+		commentsArea.clear();
 	}
 
 	public void uploadFileMessage(boolean status) {
@@ -258,5 +264,41 @@ public class RequestsScreenController {
 		window.setScene(requests);
 		window.show();
 	}
-//Main.currentUser.getUserIdToString(Main.currentUser.getUserId()))
+
+	@FXML
+	void openNewRequestPane(ActionEvent event) {
+		disableAllRequestPans();
+		GeneralViewRequest1.setVisible(true);
+		CUserOpenRequest1.setVisible(true);
+		descArea.setEditable(true);
+		changeArea.setEditable(true);
+		reasonArea.setEditable(true);
+		commentsArea.setEditable(true);
+	}
+
+	@FXML
+	void submitNewRequest(ActionEvent event) {
+		// TODO add verify for fields
+		// TODO get system - check in AviTipus
+		String description = descArea.getText();
+		String changes = changeArea.getText();
+		String changeReason = reasonArea.getText();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate now = LocalDate.now();
+		Request r = new Request(0, Main.currentUser.getUsername(), Enums.SystemENUM.InfoStation, description, changes,
+				changeReason, dtf.format(now).toString());
+		r.setComments(commentsArea.getText());
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CreateRequest, r));
+		waitForNewRequest = false;
+		try {
+			while (waitForNewRequest == false)
+				Thread.sleep(1);
+		} catch (InterruptedException e) {
+		}
+		r.setId(newRequestID);
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setContentText("New request created! \n Request ID: " + r.getId());
+		alert.show();
+	}
+
 }
