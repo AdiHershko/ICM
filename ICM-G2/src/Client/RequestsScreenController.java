@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import Common.ClientServerMessage;
 import Common.Enums;
+import Common.Enums.SystemENUM;
 import Common.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -88,7 +90,9 @@ public class RequestsScreenController {
 	private TextField filePathTextField;
 	@FXML
 	private Button uploadFileButton;
-
+	@FXML
+	private ChoiceBox<SystemENUM> choiceBox = new ChoiceBox<SystemENUM>();
+	
 	public void initialize() {
 		_ins = this;
 		if (Main.currentUser.getRole() == Enums.Role.College)
@@ -104,6 +108,14 @@ public class RequestsScreenController {
 				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
 			}
 		}.start();
+		
+			choiceBox.getItems().add(SystemENUM.InfoStation);
+			choiceBox.getItems().add(SystemENUM.Moodle);
+			choiceBox.getItems().add(SystemENUM.Library);
+			choiceBox.getItems().add(SystemENUM.Computers);
+			choiceBox.getItems().add(SystemENUM.Labs);
+			choiceBox.getItems().add(SystemENUM.Site);
+		
 	}
 
 	@FXML
@@ -279,13 +291,20 @@ public class RequestsScreenController {
 	@FXML
 	void submitNewRequest(ActionEvent event) {
 		// TODO add verify for fields
-		// TODO get system - check in AviTipus
+		if(choiceBox.getSelectionModel().isEmpty()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR!");
+			alert.setContentText("no system selected!");
+			alert.show();
+			return;
+		}
 		String description = descArea.getText();
 		String changes = changeArea.getText();
 		String changeReason = reasonArea.getText();
+		SystemENUM system=choiceBox.getValue();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate now = LocalDate.now();
-		Request r = new Request(0, Main.currentUser.getUsername(), Enums.SystemENUM.InfoStation, description, changes,
+		Request r = new Request(0, Main.currentUser.getUsername(), system, description, changes,
 				changeReason, dtf.format(now).toString());
 		r.setComments(commentsArea.getText());
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CreateRequest, r));
