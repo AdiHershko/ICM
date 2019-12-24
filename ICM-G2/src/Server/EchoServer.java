@@ -7,8 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import Client.LoginScreenController;
 import Common.Request;
@@ -112,6 +116,7 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e ) { }
 
 			    }
+			    break;
 			case CreateRequest:
 				Request r = CSMsg.getRequest();
 				int id = DataBaseController.CreateNewRequest(r);
@@ -131,9 +136,22 @@ public class EchoServer extends AbstractServer {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					
+
 				}
-				
+				break;
+			case GETUSERFILES:
+				Request request = CSMsg.getRequest();
+				try (Stream<Path> paths = Files.walk(Paths.get("src\\Server\\"+request.getId()+"\\"))) {
+					ArrayList<Path> Paths=new ArrayList<>();
+					paths.forEach(Paths::add);
+					ArrayList<String> strings = new ArrayList<>();
+					for (Path p : Paths)
+						strings.add(p.toString());
+				      client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES,strings));
+				    } catch (IOException e) {
+				      return;
+				    }
+				break;
 			default:
 				break;
 			}

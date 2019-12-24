@@ -5,6 +5,7 @@
 package Client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import Common.ClientServerMessage;
 import Common.Request;
@@ -135,6 +136,10 @@ public class ChatClient extends AbstractClient {
 
 				});
 			return;
+			case GETUSERFILES:
+				ArrayList<String> arr = (ArrayList<String>) ((ClientServerMessage)msg).getL();
+				RequestsScreenController._ins.setFilePaths(arr);
+				return;
 			default:
 				return;
 			}

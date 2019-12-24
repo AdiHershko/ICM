@@ -6,10 +6,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import org.joda.time.DateTime;
 
@@ -42,6 +47,7 @@ public class RequestsScreenController {
 	public static boolean waitForNewRequest;
 	public static int newRequestID;
 	public static Request r;
+	private ArrayList<String> filesPaths = new ArrayList<String>();
 	private Scene report;
 	Stage newWindow = new Stage();
 	@FXML
@@ -102,6 +108,8 @@ public class RequestsScreenController {
 	private ChoiceBox<SystemENUM> choiceBox = new ChoiceBox<SystemENUM>();
 	@FXML
 	private Label timeCreatedLabel;
+	@FXML
+	private Label uploadedFilesLabel;
 
 	public void initialize() {
 		_ins = this;
@@ -167,6 +175,34 @@ public class RequestsScreenController {
 		}
 	}
 
+	public void uploadFileToServer_NewRequest(Request r) {
+		if (filePathTextField.getText() == "")
+			return;
+		File f = new File(filePathTextField.getText());
+		InputStream is = null;
+		BufferedInputStream bis = null;
+		byte[] buffer = null;
+		try {
+			is = new FileInputStream(f.getPath());
+			buffer = new byte[(int) f.length()];
+			bis = new BufferedInputStream(is);
+			bis.read(buffer, 0, buffer.length);
+		} catch (IOException e) {
+			System.out.println("Error reading file!");
+		}
+		try {
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer,
+					r));
+		} catch (Exception e) {
+			return;
+		}
+		try {
+			bis.close();
+			is.close();
+		} catch (Exception e) {
+		}
+	}
+
 	public TableView<Request> getTableView() {
 		return tableView;
 	}
@@ -215,6 +251,10 @@ public class RequestsScreenController {
 			systemLabel.setText(r.getSystem().toString());
 			stageLabel.setText(r.getCurrentStage().toString());
 			statusLabel.setText(r.getStatus());
+			filePathTextField.setText("");
+			uploadedFilesLabel.setText("Uploaded files: none");
+			showUploadedFiles(r);
+
 			if (Main.currentUser.getRole() == Enums.Role.Supervisor
 					|| Main.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
@@ -333,17 +373,18 @@ public class RequestsScreenController {
 		r.setId(newRequestID);
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("New request created! \n Request ID: " + r.getId());
+		uploadFileToServer_NewRequest(r);
 		alert.showAndWait();
 		RefreshTable();
 		disableAllRequestPans();
 	}
 	public void CreateAssessmentReport() {
-		
+
 		Parent root = null;
 		try {
 			root = FXMLLoader.load(getClass().getResource("2.2-ReportScreen.fxml"));
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 		report = new Scene(root);
@@ -358,8 +399,40 @@ public class RequestsScreenController {
 		alert.setContentText("Report submitted successfully!");
 		alert.showAndWait();
 		//RefreshTable();
-		
+
 	}
-	
+
+
+	public void showUploadedFiles(Request r)
+	{
+		new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				filesPaths.clear();
+			}
+		}).start();
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES,r));
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+
+		}
+		if (filesPaths.size()==0) {
+			uploadedFilesLabel.setText("Uploaded files: none");
+			return;
+		}
+		uploadedFilesLabel.setText("Uploaded files: ");
+		for (String s : filesPaths)
+		{
+			uploadedFilesLabel.setText(uploadedFilesLabel.getText()+s+",");
+		}
+	}
+
+	public void setFilePaths(ArrayList<String> filePaths)
+	{
+		this.filesPaths=filePaths;
+	}
+
 
 }

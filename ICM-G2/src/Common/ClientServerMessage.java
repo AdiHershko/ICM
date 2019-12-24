@@ -3,6 +3,7 @@ package Common;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.Serializable;
+import java.util.List;
 
 import Common.Enums.*;
 import javafx.collections.ObservableList;
@@ -23,6 +24,7 @@ public class ClientServerMessage implements Serializable {
 	private Object [] list;
 	private int id;
 	private Report report;
+	private List l;
 
 	public Report getReport() {
 		return report;
@@ -48,16 +50,29 @@ public class ClientServerMessage implements Serializable {
 		this.user = user;
 	}
 
+	public List getL() {
+		return l;
+	}
+
+	public void setL(List l) {
+		this.l = l;
+	}
+
 	public ClientServerMessage(MessageEnum type, String msg) {
 		this.type = type;
 		this.msg = msg;
 	}
-	
+
+	public ClientServerMessage(MessageEnum type, List l) {
+		this.type = type;
+		this.l=l;
+	}
+
 	public ClientServerMessage(MessageEnum type, int id) {
 		this.type = type;
 		this.id = id;
 	}
-	
+
 	public ClientServerMessage(MessageEnum type, Request request) {
 		this.type = type;
 		this.request = request;
@@ -78,7 +93,7 @@ public class ClientServerMessage implements Serializable {
 		this.type=type;
 		this.uploadstatus=sucess;
 	}
-	
+
 	public ClientServerMessage(MessageEnum type, Object[] list) {
 		this.type=type;
 		this.list=list;
@@ -147,7 +162,7 @@ public class ClientServerMessage implements Serializable {
 	public void setFile(File file) {
 		this.file = file;
 	}
-	
+
 	public Object[] getList() {
 		return list;
 	}

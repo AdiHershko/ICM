@@ -190,7 +190,7 @@ public class DataBaseController {
 
 	public static int CreateReportForRequest(Report r) {
 		PreparedStatement st = null;
-	
+
 		try {
 			String query = "INSERT INTO Reports (Reports.requestID, Reports.description, Reports.result, Reports.location, Reports.constraints,"
 					+ "Reports.risks, Reports.duration) Values (?,?,?,?,?,?,?)";
@@ -208,7 +208,7 @@ public class DataBaseController {
 			return 0;
 		}
 		return 1;
-		
+
 	}
 
 	public static int CreateNewRequest(Request r) {
@@ -287,10 +287,10 @@ public class DataBaseController {
 			return;
 		}
 		query = "Select Member where id="+id+" and StageName="+newstage;
-		
+
 		//TODO get in return the current stage and update current handlers from it
 	}
-	
+
 	public static String GetComitteString() {
 		String results = "";
 		String query = "select * from Users where Role = 2";
@@ -360,6 +360,6 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		Random rand = new Random();
-		return users.get(rand.nextInt(users.size()+1));
+		return users.get(rand.nextInt(users.size()));
 	}
 }

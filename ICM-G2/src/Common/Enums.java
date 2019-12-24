@@ -5,10 +5,10 @@ public class Enums {
 	public final int serverPort = 5555;
 
 	public final static int numberOfStages = 6;
-	
+
 	public enum MessageEnum {
 		CONNECT, SearchUser, REFRESH, LoginFail, loginGood, DISCONNECT, REFRESHUSERID, UPLOAD, UPLOADFINISH, GETOBLIST,
-		CreateRequest, NewRequestID, REFRESHMAN,CreateReport;
+		CreateRequest, NewRequestID, REFRESHMAN,CreateReport,GETUSERFILES;
 		public static MessageEnum getMessageEnum(int i) {
 			switch (i) {
 			case 0:
@@ -33,6 +33,8 @@ public class Enums {
 				return REFRESHMAN;
 			case 10:
 				return CreateReport;
+			case 11:
+				return GETUSERFILES;
 			}
 
 			return null;
@@ -62,6 +64,8 @@ public class Enums {
 				return 9;
 			case CreateReport:
 				return 10;
+			case GETUSERFILES:
+				return 11;
 			}
 			return -1;
 		}
