@@ -37,7 +37,9 @@ public class RequestsScreenController {
 	public static RequestsScreenController _ins;
 	public static boolean waitForNewRequest;
 	public static int newRequestID;
-
+	public static Request r;
+	private Scene report;
+	Stage newWindow = new Stage();
 	@FXML
 	private Button addFilesButton;
 	@FXML
@@ -90,6 +92,8 @@ public class RequestsScreenController {
 	private TextField filePathTextField;
 	@FXML
 	private Button uploadFileButton;
+	@FXML
+	private Button CreateAssessmentReportB;
 	@FXML
 	private ChoiceBox<SystemENUM> choiceBox = new ChoiceBox<SystemENUM>();
 	
@@ -191,7 +195,6 @@ public class RequestsScreenController {
 	public void showRequest() {
 		try {
 			disableAllRequestPans();
-			Request r;
 			r = tableView.getSelectionModel().getSelectedItem();
 			if (r == null)
 				return;
@@ -328,5 +331,27 @@ public class RequestsScreenController {
 		RefreshTable();
 		disableAllRequestPans();
 	}
+	public void CreateAssessmentReport() {
+		
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("2.2-ReportScreen.fxml"));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		report = new Scene(root);
+        newWindow.setTitle("Report");
+        newWindow.setScene(report);
+        newWindow.show();
+	}
+	public void closeExtraWindow() {
+		newWindow.close();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Great!");
+		alert.setContentText("Report submitted successfully!");
+		alert.showAndWait();
+	}
+	
 
 }

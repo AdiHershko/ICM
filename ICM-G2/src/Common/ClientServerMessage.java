@@ -22,6 +22,15 @@ public class ClientServerMessage implements Serializable {
 	private boolean uploadstatus;
 	private Object [] list;
 	private int id;
+	private Report report;
+
+	public Report getReport() {
+		return report;
+	}
+
+	public void setReport(Report report) {
+		this.report = report;
+	}
 
 	public boolean isUploadstatus() {
 		return uploadstatus;
@@ -52,6 +61,10 @@ public class ClientServerMessage implements Serializable {
 	public ClientServerMessage(MessageEnum type, Request request) {
 		this.type = type;
 		this.request = request;
+	}
+	public ClientServerMessage(MessageEnum type, Report report) {
+		this.type = type;
+		this.report = report;
 	}
 
 	public ClientServerMessage(MessageEnum type, String fileName,byte[] buffer,Request request) {

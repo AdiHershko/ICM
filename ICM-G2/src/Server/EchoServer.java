@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.ClientServerMessage;
 import Common.Enums;
+import Common.Report;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 //import server.DataBaseController;
@@ -120,6 +121,18 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
+			case CreateReport:
+				int i;
+				Report report = CSMsg.getReport();
+				i=DataBaseController.CreateReportForRequest(report);
+				if(i==1) {
+					try {
+						client.sendToClient("good");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
 			default:
 				break;
 			}

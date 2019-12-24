@@ -1,24 +1,29 @@
 package Common;
 
-public class Report {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Report implements Serializable{
+	private static final long serialVersionUID = -4393026080251453861L;
 	private String location;
 	private String description;
 	private String result;
 	private String constrains;
 	private String risks;
 	private int durationAssesment;
+	private int requestId;
+
+	
 
 
-	public Report(String location, String Description, String Result,String Constrains,String Risks, int DurationAssesment) {
-		this.location=location;
-		this.description=Description;
-		this.result=Result;
-		this.constrains=Constrains;
-		this.risks=Risks;
-		this.durationAssesment=DurationAssesment;
+	
+	public int getRequestId() {
+		return requestId;
 	}
 
-
+	public void setRequestId(int requestId) {
+		this.requestId = requestId;
+	}
 	public String getLocation() {
 		return location;
 	}
