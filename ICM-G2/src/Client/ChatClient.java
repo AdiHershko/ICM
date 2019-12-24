@@ -147,6 +147,13 @@ public class ChatClient extends AbstractClient {
 				}
 			});
 		}
+		if(msg instanceof String) {
+			Platform.runLater(new Runnable() {
+				public void run() {
+					RequestsScreenController._ins.closeExtraWindow();
+				}
+			});
+		}
 	}
 
 	public void handleMessageFromClientUI(Object message) {

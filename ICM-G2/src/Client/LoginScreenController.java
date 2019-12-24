@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 public class LoginScreenController {
 	static LoginScreenController _ins;
-	public static boolean success = true;
+	
 	private ActionEvent event;
 	@FXML
 	private Button loginButton;
