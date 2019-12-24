@@ -351,6 +351,8 @@ public class RequestsScreenController {
 		alert.setTitle("Great!");
 		alert.setContentText("Report submitted successfully!");
 		alert.showAndWait();
+		//RefreshTable();
+		
 	}
 	
 
