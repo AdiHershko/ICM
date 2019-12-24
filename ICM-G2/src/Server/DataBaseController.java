@@ -56,7 +56,10 @@ public class DataBaseController {
 		String query = "select * from Requests where status=0 and currenthandlers LIKE '%," + UserName + ",%'";
 		return getRequests(query);
 	}
-
+	public static ObservableList<Request> getRequestsForManager() {
+		String query = "select * from Requests where status=0";
+		return getRequests(query);
+	}
 	public static ObservableList<Request> getRequestsForCollege(String userName) {
 		String query = "select * from Requests where Requestor='" + userName + "'";
 		return getRequests(query);

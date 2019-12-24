@@ -11,6 +11,7 @@ public class Message implements Serializable {
 	private String details;
 	private User receiver;
 	private Request request;
+	
 
 	public Message(int type, String Title, String Details, User Receiver, Request request) {
 		this.type=type;
@@ -18,6 +19,7 @@ public class Message implements Serializable {
 		this.details=Details;
 		this.receiver=Receiver;
 		this.setRequest(request);
+	
 	}
 
 	public int getType() {
@@ -70,4 +72,5 @@ public class Message implements Serializable {
 			return null;
 		}
 	}
+
 }

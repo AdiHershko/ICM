@@ -2,11 +2,11 @@ package Common;
 
 public class Enums {
 
-	public final int serverPort= 5555;
-
+	public final int serverPort = 5555;
 
 	public enum MessageEnum {
-		CONNECT, SearchUser, REFRESH,LoginFail,loginGood,DISCONNECT,REFRESHUSERID,UPLOAD,UPLOADFINISH,GETOBLIST, CreateRequest, NewRequestID;
+		CONNECT, SearchUser, REFRESH, LoginFail, loginGood, DISCONNECT, REFRESHUSERID, UPLOAD, UPLOADFINISH, GETOBLIST,
+		CreateRequest, NewRequestID, REFRESHMAN;
 		public static MessageEnum getMessageEnum(int i) {
 			switch (i) {
 			case 0:
@@ -27,7 +27,10 @@ public class Enums {
 				return REFRESHUSERID;
 			case 8:
 				return UPLOADFINISH;
+			case 9:
+				return REFRESHMAN;
 			}
+
 			return null;
 		}
 
@@ -51,6 +54,8 @@ public class Enums {
 				return 6;
 			case UPLOADFINISH:
 				return 8;
+			case REFRESHMAN:
+				return 9;
 			}
 			return -1;
 		}

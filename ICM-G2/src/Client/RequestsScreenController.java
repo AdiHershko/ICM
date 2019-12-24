@@ -180,8 +180,7 @@ public class RequestsScreenController {
 					new ClientServerMessage(Enums.MessageEnum.REFRESHUSERID, Main.currentUser.getUsername()));
 		} else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESH, ""));
-			// TODO change for manager and supervisor
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN));
 		} else {
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.REFRESH, Main.currentUser.getUsername()));

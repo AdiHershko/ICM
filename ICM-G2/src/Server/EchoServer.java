@@ -54,10 +54,17 @@ public class EchoServer extends AbstractServer {
 				}
 				return;
 			case REFRESHUSERID:
-				System.out.println(CSMsg.getMsg());
 				ObservableList<Request> ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol1.toArray()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
+			case REFRESHMAN:
+				ObservableList<Request> ol2 = DataBaseController.getRequestsForManager();
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol2.toArray()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
