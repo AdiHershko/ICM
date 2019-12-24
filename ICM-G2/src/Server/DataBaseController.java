@@ -55,12 +55,12 @@ public class DataBaseController {
 	}
 
 	public static ObservableList<Request> getRequestsForIS(String UserName) {
-		String query = "select * from Requests where status=0 and currenthandlers LIKE '%," + UserName + ",%'";
+		String query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName + ",%'";
 		return getRequests(query);
 	}
 
 	public static ObservableList<Request> getRequestsForManager() {
-		String query = "select * from Requests where status=0";
+		String query = "select * from Requests where (status=0 or status=2)";
 		return getRequests(query);
 	}
 
@@ -88,6 +88,7 @@ public class DataBaseController {
 					r.setStages(getRequestStages(rs.getInt(1)));
 					r.setCurrentStage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)));
 					r.setComments(rs.getString(10));
+					r.setStatus(Enums.RequestStatus.getStatusByInt(rs.getInt(8)));
 					o.add(r);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -264,6 +265,29 @@ public class DataBaseController {
 		}
 	}
 
+	public static void ChangeRequestStage(int id, boolean Up) {
+		String query;
+		ResultSet rs;
+		int newstage = 0;
+		if (Up)
+			query = "update requests set Stage=Stage+1 where id="+id;
+		else
+			query = "update requests set Stage=Stage-1 where id="+id;
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
+			statement.executeUpdate();
+			rs = statement.getGeneratedKeys();
+			newstage = rs.getInt(7);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+		query = "Select Member where id="+id+" and StageName="+newstage;
+		
+		//TODO get in return the current stage and update current handlers from it
+	}
+	
 	public static String GetComitteString() {
 		String results = "";
 		String query = "select * from Users where Role = 2";
@@ -278,7 +302,7 @@ public class DataBaseController {
 		try {
 			if (rs.next()) {
 				try {
-					results += rs.getString(1) + ",";
+					results += "," + rs.getString(1) + ",";
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -297,7 +321,7 @@ public class DataBaseController {
 		try {
 			if (rs.next()) {
 				try {
-					results += rs.getString(1) + ",";
+					results += "," + rs.getString(1) + ",";
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
