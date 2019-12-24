@@ -325,8 +325,9 @@ public class RequestsScreenController {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CreateRequest, r));
 		waitForNewRequest = false;
 		try {
-			while (waitForNewRequest == false)
+			while (waitForNewRequest == false) {
 				Thread.sleep(100);
+			}
 		} catch (InterruptedException e) {
 		}
 		r.setId(newRequestID);

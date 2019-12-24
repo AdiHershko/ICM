@@ -247,6 +247,7 @@ public class DataBaseController {
 			PreparedStatement st = null;
 			String query = "INSERT INTO Stages (Stages.StageName, Stages.isApproved, Stages.isExtended, Stages.Member, Stages.RequestID) Values (?,?,?,?,?)";
 			for (int i = 0; i < Enums.numberOfStages; i++) {
+				Thread.sleep(100);
 				st = c.prepareStatement(query);
 				st.setInt(1, i);
 				st.setInt(2, 0);
@@ -262,7 +263,7 @@ public class DataBaseController {
 				st.setInt(5, id);
 				st.execute();
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
