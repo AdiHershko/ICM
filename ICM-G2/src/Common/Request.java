@@ -1,7 +1,9 @@
 package Common;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.sql.Date;
+
+import org.joda.time.DateTime;
 
 import Common.Enums.*;
 
@@ -17,13 +19,13 @@ public class Request implements Serializable {
 	private String changeReason;
 	private String comments;
 	private String filePath[];
-	private String date;//TODO change to real date and time
+	private DateTime date;//TODO change to real date and time
 	private RequestStatus status;
 	private RequestStageENUM currentStage;
 	private Stage stages[];
 	private Report report;
 
-	public Request(int id,String requestorID, SystemENUM system, String description, String changes, String changeReason, String date) {
+	public Request(int id,String requestorID, SystemENUM system, String description, String changes, String changeReason, DateTime date) {
 		this.id=id;
 		this.requestorID = requestorID;
 		this.system = system;
@@ -46,6 +48,14 @@ public class Request implements Serializable {
 
 	public String getRequestorID() {
 		return requestorID;
+	}
+
+	public DateTime getDate() {
+		return date;
+	}
+
+	public void setDate(DateTime date) {
+		this.date = date;
 	}
 
 	public void setRequestorID(String requestorID) {
@@ -92,13 +102,6 @@ public class Request implements Serializable {
 		this.filePath = filePath;
 	}
 
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
 
 	public RequestStatus getStatusEnum() {
 		return status;

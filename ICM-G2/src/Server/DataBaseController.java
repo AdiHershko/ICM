@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
+import org.joda.time.DateTime;
+
 import Common.Request;
 import Common.Stage;
 import Common.User;
@@ -83,7 +85,7 @@ public class DataBaseController {
 				try {
 					Request r = new Request(rs.getInt(1), rs.getString(2),
 							Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
-							rs.getString(6), rs.getDate(9).toString());
+							rs.getString(6), new DateTime(rs.getString(9)));
 					r.setStages(getRequestStages(rs.getInt(1)));
 					r.setCurrentStage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)));
 					r.setComments(rs.getString(10));
@@ -200,7 +202,7 @@ public class DataBaseController {
 			st.setString(5, r.getChangeReason());
 			st.setInt(6, 0);
 			st.setInt(7, 0);
-			st.setDate(8, java.sql.Date.valueOf(r.getDate()));
+			st.setString(8, r.getDate().toString());
 			st.setString(9, r.getComments());
 			st.setString(10, "," + temp + ",");
 			st.executeUpdate();
@@ -284,7 +286,7 @@ public class DataBaseController {
 		}
 		return results;
 	}
-	
+
 	public static String GetRandomISUser() {
 		ArrayList<String> users = new ArrayList<String>();
 		String query = "select * from Users where Role = 1";

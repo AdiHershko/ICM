@@ -6,9 +6,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import org.joda.time.DateTime;
+
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Enums.SystemENUM;
@@ -92,7 +96,9 @@ public class RequestsScreenController {
 	private Button uploadFileButton;
 	@FXML
 	private ChoiceBox<SystemENUM> choiceBox = new ChoiceBox<SystemENUM>();
-	
+	@FXML
+	private Label timeCreatedLabel;
+
 	public void initialize() {
 		_ins = this;
 		if (Main.currentUser.getRole() == Enums.Role.College)
@@ -108,14 +114,14 @@ public class RequestsScreenController {
 				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
 			}
 		}.start();
-		
+
 			choiceBox.getItems().add(SystemENUM.InfoStation);
 			choiceBox.getItems().add(SystemENUM.Moodle);
 			choiceBox.getItems().add(SystemENUM.Library);
 			choiceBox.getItems().add(SystemENUM.Computers);
 			choiceBox.getItems().add(SystemENUM.Labs);
 			choiceBox.getItems().add(SystemENUM.Site);
-		
+
 	}
 
 	@FXML
@@ -202,6 +208,7 @@ public class RequestsScreenController {
 			reasonArea.setText(r.getChangeReason());
 			commentsArea.setText(r.getComments());
 			requestIDLabel.setText("" + r.getId());
+			timeCreatedLabel.setText("Creation time: "+r.getDate().toString("dd/MM/yyyy hh:mm a"));
 			systemLabel.setText(r.getSystem().toString());
 			stageLabel.setText(r.getCurrentStage().toString());
 			statusLabel.setText(r.getStatus());
@@ -289,7 +296,7 @@ public class RequestsScreenController {
 
 	@FXML
 	void submitNewRequest(ActionEvent event) {
-		
+
 		if(descArea.getText().equals("")||changeArea.getText().equals("")||reasonArea.getText().equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
@@ -308,17 +315,15 @@ public class RequestsScreenController {
 		String changes = changeArea.getText();
 		String changeReason = reasonArea.getText();
 		SystemENUM system=choiceBox.getValue();
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
-		LocalDateTime now = LocalDateTime.now();//TODO change to include time
 		Request r = new Request(0, Main.currentUser.getUsername(), system, description, changes,
-				changeReason, dtf.format(now).toString());
+				changeReason, new DateTime());
 		String comments = commentsArea.getText();
 		r.setComments(comments);
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CreateRequest, r));
 		waitForNewRequest = false;
 		try {
 			while (waitForNewRequest == false)
-				Thread.sleep(1);
+				Thread.sleep(100);
 		} catch (InterruptedException e) {
 		}
 		r.setId(newRequestID);

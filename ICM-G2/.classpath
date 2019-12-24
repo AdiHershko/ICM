@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="src/Server/mysql-connector-java-8.0.13.jar"/>
+	<classpathentry kind="lib" path="src/Common/joda-time-2.10.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
