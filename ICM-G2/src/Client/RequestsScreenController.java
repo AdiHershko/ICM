@@ -300,7 +300,7 @@ public class RequestsScreenController {
 		if(choiceBox.getSelectionModel().isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
-			alert.setContentText("no system selected!");
+			alert.setContentText("No system selected!");
 			alert.show();
 			return;
 		}
@@ -308,11 +308,12 @@ public class RequestsScreenController {
 		String changes = changeArea.getText();
 		String changeReason = reasonArea.getText();
 		SystemENUM system=choiceBox.getValue();
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate now = LocalDate.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+		LocalDateTime now = LocalDateTime.now();//TODO change to include time
 		Request r = new Request(0, Main.currentUser.getUsername(), system, description, changes,
 				changeReason, dtf.format(now).toString());
-		r.setComments(commentsArea.getText());
+		String comments = commentsArea.getText();
+		r.setComments(comments);
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CreateRequest, r));
 		waitForNewRequest = false;
 		try {

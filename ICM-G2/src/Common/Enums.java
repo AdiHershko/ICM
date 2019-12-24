@@ -4,6 +4,8 @@ public class Enums {
 
 	public final int serverPort = 5555;
 
+	public final static int numberOfStages = 6;
+	
 	public enum MessageEnum {
 		CONNECT, SearchUser, REFRESH, LoginFail, loginGood, DISCONNECT, REFRESHUSERID, UPLOAD, UPLOADFINISH, GETOBLIST,
 		CreateRequest, NewRequestID, REFRESHMAN;
@@ -155,11 +157,11 @@ public class Enums {
 	}
 
 	public enum RequestStageENUM {
-		Start, Assesment, Examaning, Execution, Testing;
+		Initialization, Assesment, Examaning, Execution, Testing, Closing;
 		public static RequestStageENUM getRequestStageENUM(int i) {
 			switch (i) {
 			case 0:
-				return Start;
+				return Initialization;
 			case 1:
 				return Assesment;
 			case 2:
@@ -168,13 +170,15 @@ public class Enums {
 				return Execution;
 			case 4:
 				return Testing;
+			case 5:
+				return Closing;
 			}
 			return null;
 		}
 
 		public static int getRequestStageENUMByEnum(RequestStageENUM i) {
 			switch (i) {
-			case Start:
+			case Initialization:
 				return 0;
 			case Assesment:
 				return 1;
@@ -184,6 +188,8 @@ public class Enums {
 				return 3;
 			case Testing:
 				return 4;
+			case Closing:
+				return 5;
 			}
 			return -1;
 		}

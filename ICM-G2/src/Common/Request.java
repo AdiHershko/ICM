@@ -17,14 +17,12 @@ public class Request implements Serializable {
 	private String changeReason;
 	private String comments;
 	private String filePath[];
-	private String date;
+	private String date;//TODO change to real date and time
 	private RequestStatus status;
 	private RequestStageENUM currentStage;
 	private Stage stages[];
 	private Report report;
 
-	//TODO change to real date
-	
 	public Request(int id,String requestorID, SystemENUM system, String description, String changes, String changeReason, String date) {
 		this.id=id;
 		this.requestorID = requestorID;
@@ -33,7 +31,7 @@ public class Request implements Serializable {
 		this.changes = changes;
 		this.changeReason = changeReason;
 		this.date = date;
-		this.currentStage=Enums.RequestStageENUM.Start;
+		this.currentStage=Enums.RequestStageENUM.Initialization;
 		this.status=Enums.RequestStatus.Active;
 		this.comments="";
 	}

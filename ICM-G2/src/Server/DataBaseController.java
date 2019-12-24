@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Random;
 
 import Common.Request;
 import Common.Stage;
@@ -56,10 +57,12 @@ public class DataBaseController {
 		String query = "select * from Requests where status=0 and currenthandlers LIKE '%," + UserName + ",%'";
 		return getRequests(query);
 	}
+
 	public static ObservableList<Request> getRequestsForManager() {
 		String query = "select * from Requests where status=0";
 		return getRequests(query);
 	}
+
 	public static ObservableList<Request> getRequestsForCollege(String userName) {
 		String query = "select * from Requests where Requestor='" + userName + "'";
 		return getRequests(query);
@@ -83,6 +86,7 @@ public class DataBaseController {
 							rs.getString(6), rs.getDate(9).toString());
 					r.setStages(getRequestStages(rs.getInt(1)));
 					r.setCurrentStage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)));
+					r.setComments(rs.getString(10));
 					o.add(r);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -95,7 +99,7 @@ public class DataBaseController {
 	}
 
 	public static Stage[] getRequestStages(int RequestID) {
-		Stage RequestStages[] = new Stage[5];
+		Stage RequestStages[] = new Stage[Enums.numberOfStages];
 		String query = "select * from Stages where RequestID=" + RequestID;
 		PreparedStatement statement;
 		ResultSet rs = null;
@@ -105,13 +109,14 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < Enums.numberOfStages; i++) {
 			RequestStages[i] = new Stage();
 		}
 		try {
 			while (rs.next()) {
-				Stage s = RequestStages[1];
-				s.setStageName(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(1)));
+				Stage s = RequestStages[rs.getInt(1)];
+				Enums.RequestStageENUM tmp = Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(1));
+				s.setStageName(tmp);
 				s.setPlannedDueDate(rs.getDate(2));
 				s.setIsApproved(rs.getInt(3) == 1);
 				s.setIsExtended(rs.getInt(4) == 1);
@@ -153,11 +158,10 @@ public class DataBaseController {
 		}
 		return us;
 	}
-	
+
 	public static String getSupervisor() {
 		String query = "select Users.username from Users where Role=4";
 		ResultSet rs = null;
-		User us = null;
 		PreparedStatement statement;
 		try {
 			statement = c.prepareStatement(query);
@@ -165,25 +169,23 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
-			if(rs.next()) {
+			if (rs.next()) {
 				return rs.getString(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("ERROR!");
+		alert.setContentText("No supervisor for system!");
+		alert.show();
 		return null;
 	}
+
 	public static int CreateNewRequest(Request r) {
-		String temp=getSupervisor();
-		if(temp==null) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("ERROR!");
-			alert.setContentText("no supervisor for system!!!");
-			alert.show();
-			return 0;
-		}
+		String temp = getSupervisor();
 		PreparedStatement st = null;
 		ResultSet rs;
 		int id = 0;
@@ -200,7 +202,7 @@ public class DataBaseController {
 			st.setInt(7, 0);
 			st.setDate(8, java.sql.Date.valueOf(r.getDate()));
 			st.setString(9, r.getComments());
-			st.setString(10, ","+temp+",");
+			st.setString(10, "," + temp + ",");
 			st.executeUpdate();
 			rs = st.getGeneratedKeys();
 			rs.next();
@@ -208,8 +210,105 @@ public class DataBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// TODO create stages for request
+		CreateStagesDB(id);
 		return id;
 	}
 
+	public static void CreateStagesDB(int id) {
+		String temp = "";
+		try {
+			PreparedStatement st = null;
+			String query = "INSERT INTO Stages (Stages.StageName, Stages.isApproved, Stages.isExtended, Stages.Member, Stages.RequestID) Values (?,?,?,?,?)";
+			for (int i = 0; i < Enums.numberOfStages; i++) {
+				st = c.prepareStatement(query);
+				st.setInt(1, i);
+				st.setInt(2, 0);
+				st.setInt(3, 0);
+				if (i == 0 || i == 5)
+					st.setString(4, getSupervisor());
+				else if (i == 1)//TODO: maybe add department?
+					st.setString(4, GetRandomISUser());
+				else if (i == 2)
+					st.setString(4, GetComitteString());
+				else
+					st.setString(4, temp);
+				st.setInt(5, id);
+				st.execute();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static String GetComitteString() {
+		String results = "";
+		String query = "select * from Users where Role = 2";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if (rs.next()) {
+				try {
+					results += rs.getString(1) + ",";
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		query = "select * from Users where Role = 3";
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if (rs.next()) {
+				try {
+					results += rs.getString(1) + ",";
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+	
+	public static String GetRandomISUser() {
+		ArrayList<String> users = new ArrayList<String>();
+		String query = "select * from Users where Role = 1";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if (rs.next()) {
+				try {
+					users.add(rs.getString(1));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Random rand = new Random();
+		return users.get(rand.nextInt(users.size()+1));
+	}
 }
