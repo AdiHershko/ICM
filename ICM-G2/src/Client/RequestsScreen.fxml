@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.RequestsScreenController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.RequestsScreenController">
    
    <children>
       <Text fill="#007c9c" layoutX="114.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests:">
@@ -33,7 +33,7 @@
       </Pane>
       <Pane fx:id="GeneralViewRequest1" layoutX="318.0" layoutY="76.0" prefHeight="515.0" prefWidth="876.0" visible="false">
          <children>
-            <Pane fx:id="UserViewsRequest1" prefHeight="508.0" prefWidth="870.0">
+            <Pane fx:id="UserViewsRequest1" prefHeight="508.0" prefWidth="870.0" visible="false">
                <children>
                   <Label layoutX="11.0" layoutY="14.0" text="Request ID:" />
                   <Label layoutX="11.0" layoutY="40.0" text="System:" />
@@ -80,8 +80,8 @@
                   <Pane fx:id="SupervisorPane1" layoutX="74.0" layoutY="399.0" prefHeight="106.0" prefWidth="561.0" visible="false">
                      <children>
                         <Button fx:id="stagesSettingsButton" layoutX="200.0" layoutY="14.0" mnemonicParsing="false" onAction="#stageSettingsScreen" text="Set stages settings" />
-                        <Button layoutX="77.0" layoutY="39.0" mnemonicParsing="false" text="Close request" />
-                        <Button layoutX="358.0" layoutY="39.0" mnemonicParsing="false" text="Freeze/Unfreeze reqeust" />
+                        <Button fx:id="changeStatus" layoutX="77.0" layoutY="39.0" mnemonicParsing="false" onAction="#statusChange" text="Close request" />
+                        <Button fx:id="freezeUnfreezeBtn" layoutX="358.0" layoutY="39.0" mnemonicParsing="false" onAction="#FreezeUnfreeze" text="Freeze/Unfreeze reqeust" />
                         <Button layoutX="81.0" layoutY="74.0" mnemonicParsing="false" text="Edit request" />
                         <Button layoutX="387.0" layoutY="74.0" mnemonicParsing="false" text="Save changes" />
                      </children>

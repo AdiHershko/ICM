@@ -65,6 +65,37 @@ public class DataBaseController {
 		String query = "select * from Requests where (status=0 or status=2)";
 		return getRequests(query);
 	}
+	public static void ChangeRequestStatus(int id) {
+		String query = "UPDATE Requests SET Status = 1 WHERE ID = " + id + "";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void Freeze(int Id) {
+		String query = "UPDATE Requests SET Status = 2 WHERE ID = " + Id;
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void Unfreeze(int Id) {
+		String query = "UPDATE Requests SET Status = 0 WHERE ID = " + Id;
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static ObservableList<Request> getRequestsForCollege(String userName) {
 		String query = "select * from Requests where Requestor='" + userName + "'";

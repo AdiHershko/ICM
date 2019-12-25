@@ -113,7 +113,10 @@ public class RequestsScreenController {
 	private Label uploadedFilesLabel;
 	@FXML
 	private Button stagesSettingsButton;
-
+	@FXML
+	private Button changeStatus;
+	@FXML
+	private Button freezeUnfreezeBtn;
 	public void initialize() {
 		_ins = this;
 		if (Main.currentUser.getRole() == Enums.Role.College)
@@ -275,6 +278,10 @@ public class RequestsScreenController {
 			if (Main.currentUser.getRole() == Enums.Role.Supervisor
 					|| Main.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
+				if (r.getCurrentStageEnum() != Enums.RequestStageENUM.Closing)
+					changeStatus.setVisible(false);
+				else
+					changeStatus.setVisible(true);
 			} else if (Main.currentUser.getRole() != Enums.Role.College) {
 				showRequestByStage(r);
 			}
@@ -472,6 +479,44 @@ public class RequestsScreenController {
 	window.setScene(requests);
 	window.show();
 	}
+	@FXML
+	void statusChange(ActionEvent event) {
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, "" + r.getId()));
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Confirm!");
+			alert.setHeaderText("Request closed!");
+			alert.setContentText("Request number "+ r.getId()+" closed");
+			alert.show();
+		RefreshTable();
+	}
 
+	@FXML
+	void FreezeUnfreeze(ActionEvent event) {
+		boolean frozen=false,unfrozen=false;
+		if (r.getStatus().equals("Active")) {
+			frozen=true;
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze,""+r.getId()));
+		}
+		else if (r.getStatus().equals("Frozen")) {
+			unfrozen=true;
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze,""+r.getId()));
+		}
+		RefreshTable();
+		if(frozen) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Confirm!");
+		alert.setHeaderText("Changed to Frozen!");
+		alert.setContentText("Request number "+ r.getId()+" changed to frozen");
+		alert.show();
+		}
+		if(unfrozen) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Confirm!");
+			alert.setHeaderText("Changed to Active!");
+			alert.setContentText("Request number "+ r.getId()+" changed to active");
+			alert.show();
+		}
+		return;
+	}
 
 }

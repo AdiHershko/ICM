@@ -74,6 +74,15 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
+			case UpdateStatus:
+				 DataBaseController.ChangeRequestStatus(Integer.parseInt(CSMsg.getMsg()));
+				return;
+			case Freeze:
+				 DataBaseController.Freeze(Integer.parseInt(CSMsg.getMsg()));
+				return;
+			case Unfreeze:
+				DataBaseController.Unfreeze(Integer.parseInt(CSMsg.getMsg()));
+				return;
 			case SearchUser:
 				String[] temp = CSMsg.getMsg().split(" ");
 				User us1 = DataBaseController.SearchUser(temp[0], temp[1]);
