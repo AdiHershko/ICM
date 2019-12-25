@@ -22,6 +22,7 @@ import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Enums.SystemENUM;
 import Common.Request;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -120,10 +121,23 @@ public class RequestsScreenController {
 		RefreshTable();
 		new Thread() {
 			public void run() {
-				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				LocalDateTime now = LocalDateTime.now();
-				dateLabel.setText(dtf.format(now));
 				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
+				while (true) //update time in 0.5s intervals
+				{
+
+					Platform.runLater(new Runnable() //wont work without this shit
+							{
+								public void run(){
+									DateTime dt = new DateTime();
+									dateLabel.setText(dt.toString("dd/MM/yyyy hh:mm:ss a"));
+									dt=null; //for garbage collection
+								}
+							});
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) { }
+				}
+
 			}
 		}.start();
 
@@ -422,10 +436,17 @@ public class RequestsScreenController {
 			uploadedFilesLabel.setText("Uploaded files: none");
 			return;
 		}
+		filesPaths.remove(0); //removing folder path
 		uploadedFilesLabel.setText("Uploaded files: ");
-		for (String s : filesPaths)
+		for (String s : filesPaths) //THE MOST ARABIC CODE I HAVE EVER WRITTEN
 		{
-			uploadedFilesLabel.setText(uploadedFilesLabel.getText()+s+",");
+			char[] ch = s.toCharArray();
+			for (int i = 0 ; i < ch.length;i++)
+				if (ch[i]=='\\') ch[i]='/';
+			String str = String.valueOf(ch);
+			String[] str2 = str.split("/");
+
+			uploadedFilesLabel.setText(uploadedFilesLabel.getText()+str2[str2.length-1]+",");
 		}
 	}
 

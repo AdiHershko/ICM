@@ -120,7 +120,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="userNameLabel" layoutX="114.0" layoutY="7.0" text="UserName">
+      <Label fx:id="userNameLabel" layoutX="920.0" layoutY="8.0" text="UserName">
          <font>
             <Font size="18.0" />
          </font>
