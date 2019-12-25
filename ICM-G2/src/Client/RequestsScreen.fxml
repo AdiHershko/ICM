@@ -79,7 +79,7 @@
                   </Pane>
                   <Pane fx:id="SupervisorPane1" layoutX="74.0" layoutY="399.0" prefHeight="106.0" prefWidth="561.0" visible="false">
                      <children>
-                        <Button layoutX="200.0" layoutY="14.0" mnemonicParsing="false" text="Set stages settings" />
+                        <Button fx:id="stagesSettingsButton" layoutX="200.0" layoutY="14.0" mnemonicParsing="false" onAction="#stageSettingsScreen" text="Set stages settings" />
                         <Button layoutX="77.0" layoutY="39.0" mnemonicParsing="false" text="Close request" />
                         <Button layoutX="358.0" layoutY="39.0" mnemonicParsing="false" text="Freeze/Unfreeze reqeust" />
                         <Button layoutX="81.0" layoutY="74.0" mnemonicParsing="false" text="Edit request" />

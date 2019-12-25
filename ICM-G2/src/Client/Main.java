@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import Common.ClientServerMessage;
 import Common.Enums;
+import Common.Request;
 import Common.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ public class Main extends Application {
 	LoginScreenController c;
 	public static ChatClient client;
 	static User currentUser;
+	static Request currentRequest;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -30,12 +32,12 @@ public class Main extends Application {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		Scene s = new Scene(root);
 		stage.setScene(s);
 		stage.setTitle("ICM Prototype - Client");
 		stage.show();
-		
+
 		stage.setOnCloseRequest(e -> {
 			client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.DISCONNECT));
 			System.exit(0);

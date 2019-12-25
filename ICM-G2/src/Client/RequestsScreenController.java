@@ -111,6 +111,8 @@ public class RequestsScreenController {
 	private Label timeCreatedLabel;
 	@FXML
 	private Label uploadedFilesLabel;
+	@FXML
+	private Button stagesSettingsButton;
 
 	public void initialize() {
 		_ins = this;
@@ -254,6 +256,7 @@ public class RequestsScreenController {
 			r = tableView.getSelectionModel().getSelectedItem();
 			if (r == null)
 				return;
+			Main.currentRequest=r;
 			GeneralViewRequest1.setVisible(true);
 			UserViewsRequest1.setVisible(true);
 			descArea.setText(r.getDescription());
@@ -453,6 +456,21 @@ public class RequestsScreenController {
 	public void setFilePaths(ArrayList<String> filePaths)
 	{
 		this.filesPaths=filePaths;
+	}
+
+
+	@FXML
+	public void stageSettingsScreen(ActionEvent event)
+	{
+		Parent root=null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("2.3-SupervisorRequestSettingsScreen.fxml"));
+		} catch (IOException e) {
+		}
+	Scene requests = new Scene(root);
+	Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+	window.setScene(requests);
+	window.show();
 	}
 
 

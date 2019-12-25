@@ -152,6 +152,9 @@ public class EchoServer extends AbstractServer {
 				      return;
 				    }
 				break;
+			case STAGESSCREEN:
+				Request req = CSMsg.getRequest();
+				//create in dbcontrollers to fill string[10]
 			default:
 				break;
 			}
