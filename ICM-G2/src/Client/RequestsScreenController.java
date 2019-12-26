@@ -116,7 +116,7 @@ public class RequestsScreenController {
 	private Label uploadedFilesLabel;
 	@FXML
 	private Button stagesSettingsButton;
-
+	private int index;
 	public void initialize() {
 		_ins = this;
 		if (Main.currentUser.getRole() == Enums.Role.College)
@@ -407,6 +407,7 @@ public class RequestsScreenController {
 	public void openAssessmentReportFunc(Report r) {
 		reportOfRequest=r;
 		Parent root = null;
+		index = tableView.getSelectionModel().getSelectedIndex();
 		try {
 			root = FXMLLoader.load(getClass().getResource("2.2-ReportScreen.fxml"));
 		} catch (IOException e) {
@@ -430,6 +431,8 @@ public class RequestsScreenController {
 		alert.setContentText("Report saved successfully!");
 		RefreshTable();
 		alert.showAndWait();
+		tableView.getSelectionModel().select(index);
+
 
 	}
 
