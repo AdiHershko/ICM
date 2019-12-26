@@ -347,26 +347,47 @@ public class DataBaseController {
 	}
 
 	public static void ChangeRequestStage(int id, boolean Up) {
-		String query;
+		String query, newMembers = null;
 		ResultSet rs;
-		int newstage = 0;
+		int currentStage = 0;
 		if (Up)
-			query = "update requests set Stage=Stage+1 where id="+id;
+			query = "update Requests set Stage=Stage+1 where id="+id;
 		else
-			query = "update requests set Stage=Stage-1 where id="+id;
+			query = "update Requests set Stage=Stage-1 where id="+id;
 		PreparedStatement statement = null;
 		try {
-			statement = c.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
+			statement = c.prepareStatement(query);
 			statement.executeUpdate();
-			rs = statement.getGeneratedKeys();
-			newstage = rs.getInt(7);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return;
 		}
-		query = "Select Member where id="+id+" and StageName="+newstage;
-
-		//TODO get in return the current stage and update current handlers from it
+		query = "Select Stage from Requests where id="+id;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+			rs.next();
+			currentStage = rs.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		query = "Select Member from Stages where RequestID="+id+" and StageName="+currentStage;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+			rs.next();
+			newMembers = rs.getString(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		query = "update Requests set CurrentHandlers='"+newMembers+"' where id="+id;
+		try {
+			statement = c.prepareStatement(query);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
 	}
 
 	public static String GetComitteString() {
@@ -428,7 +449,8 @@ public class DataBaseController {
 		try {
 			if (rs.next()) {
 				try {
-					users.add(rs.getString(1));
+					String tmp = ","+rs.getString(1)+",";
+					users.add(tmp);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

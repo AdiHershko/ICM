@@ -436,7 +436,7 @@ public class RequestsScreenController {
 
 	public void closeExtraWindow() {
 		newWindow.close();
-		Alert alert = new Alert(AlertType.CONFIRMATION);
+		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Great!");
 		alert.setContentText("Report saved successfully!");
 		RefreshTable();

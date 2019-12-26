@@ -95,6 +95,7 @@ public class ReportScreenController {
 		}
 		else {
 			saveReport();
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, report.getRequestId()));
 		}
 
 	}
