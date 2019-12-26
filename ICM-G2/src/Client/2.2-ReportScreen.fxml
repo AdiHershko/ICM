@@ -26,7 +26,8 @@
       <Label layoutX="18.0" layoutY="402.0" text="Risks:" />
       <Label layoutX="17.0" layoutY="475.0" text="Time needed assesment:" />
       <TextField fx:id="timeTXT" layoutX="157.0" layoutY="471.0" prefHeight="25.0" prefWidth="290.0" />
-      <Button fx:id="SubmitReportButton" layoutX="404.0" layoutY="538.0" mnemonicParsing="false" onAction="#submitReport" text="Submit Report" />
+      <Button fx:id="SubmitReportButton" layoutX="508.0" layoutY="537.0" mnemonicParsing="false" onAction="#submitReport" text="Submit Report" />
       <Label fx:id="IDlabel" layoutX="82.0" layoutY="82.0" text="ID_num" />
+      <Button fx:id="SaveReportButton" layoutX="304.0" layoutY="537.0" mnemonicParsing="false" onAction="#saveReport" text="Save Report" />
    </children>
 </Pane>

@@ -21,6 +21,7 @@ import org.joda.time.DateTime;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Enums.SystemENUM;
+import Common.Report;
 import Common.Request;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -50,6 +51,7 @@ public class RequestsScreenController {
 	public static Request r;
 	private ArrayList<String> filesPaths = new ArrayList<String>();
 	private Scene report;
+	public static Report reportOfRequest;
 	Stage newWindow = new Stage();
 	@FXML
 	private Button addFilesButton;
@@ -104,7 +106,8 @@ public class RequestsScreenController {
 	@FXML
 	private Button uploadFileButton;
 	@FXML
-	private Button CreateAssessmentReportB;
+	private Button openAssessmentReportB;
+
 	@FXML
 	private ChoiceBox<SystemENUM> choiceBox = new ChoiceBox<SystemENUM>();
 	@FXML
@@ -124,31 +127,32 @@ public class RequestsScreenController {
 		new Thread() {
 			public void run() {
 				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
-				while (true) //update time in 0.5s intervals
+				while (true) // update time in 0.5s intervals
 				{
 
-					Platform.runLater(new Runnable() //wont work without this shit
-							{
-								public void run(){
-									DateTime dt = new DateTime();
-									dateLabel.setText(dt.toString("dd/MM/yyyy hh:mm:ss a"));
-									dt=null; //for garbage collection
-								}
-							});
+					Platform.runLater(new Runnable() // wont work without this shit
+					{
+						public void run() {
+							DateTime dt = new DateTime();
+							dateLabel.setText(dt.toString("dd/MM/yyyy hh:mm:ss a"));
+							dt = null; // for garbage collection
+						}
+					});
 					try {
 						Thread.sleep(500);
-					} catch (InterruptedException e) { }
+					} catch (InterruptedException e) {
+					}
 				}
 
 			}
 		}.start();
 
-			choiceBox.getItems().add(SystemENUM.InfoStation);
-			choiceBox.getItems().add(SystemENUM.Moodle);
-			choiceBox.getItems().add(SystemENUM.Library);
-			choiceBox.getItems().add(SystemENUM.Computers);
-			choiceBox.getItems().add(SystemENUM.Labs);
-			choiceBox.getItems().add(SystemENUM.Site);
+		choiceBox.getItems().add(SystemENUM.InfoStation);
+		choiceBox.getItems().add(SystemENUM.Moodle);
+		choiceBox.getItems().add(SystemENUM.Library);
+		choiceBox.getItems().add(SystemENUM.Computers);
+		choiceBox.getItems().add(SystemENUM.Labs);
+		choiceBox.getItems().add(SystemENUM.Site);
 
 	}
 
@@ -207,8 +211,8 @@ public class RequestsScreenController {
 			System.out.println("Error reading file!");
 		}
 		try {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer,
-					r));
+			Main.client.handleMessageFromClientUI(
+					new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer, r));
 		} catch (Exception e) {
 			return;
 		}
@@ -240,10 +244,12 @@ public class RequestsScreenController {
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.REFRESHUSERID, Main.currentUser.getUsername()));
-		} else if (Main.currentUser.getRole() == Enums.Role.Manager
+		}
+		else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN));
-		} else {
+		}
+		else {
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.REFRESH, Main.currentUser.getUsername()));
 		}
@@ -256,7 +262,7 @@ public class RequestsScreenController {
 			r = tableView.getSelectionModel().getSelectedItem();
 			if (r == null)
 				return;
-			Main.currentRequest=r;
+			Main.currentRequest = r;
 			GeneralViewRequest1.setVisible(true);
 			UserViewsRequest1.setVisible(true);
 			descArea.setText(r.getDescription());
@@ -264,7 +270,7 @@ public class RequestsScreenController {
 			reasonArea.setText(r.getChangeReason());
 			commentsArea.setText(r.getComments());
 			requestIDLabel.setText("" + r.getId());
-			timeCreatedLabel.setText("Creation time: "+r.getDate().toString("dd/MM/yyyy hh:mm a"));
+			timeCreatedLabel.setText("Creation time: " + r.getDate().toString("dd/MM/yyyy hh:mm a"));
 			systemLabel.setText(r.getSystem().toString());
 			stageLabel.setText(r.getCurrentStage().toString());
 			statusLabel.setText(r.getStatus());
@@ -275,7 +281,8 @@ public class RequestsScreenController {
 			if (Main.currentUser.getRole() == Enums.Role.Supervisor
 					|| Main.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
-			} else if (Main.currentUser.getRole() != Enums.Role.College) {
+			}
+			else if (Main.currentUser.getRole() != Enums.Role.College) {
 				showRequestByStage(r);
 			}
 		} catch (Exception e) {
@@ -324,7 +331,8 @@ public class RequestsScreenController {
 			alert.setTitle("Upload finished");
 			alert.setContentText("Upload finished succesfully");
 			alert.showAndWait();
-		} else {
+		}
+		else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Upload failed");
 			alert.setContentText("Could not upload file to server");
@@ -357,14 +365,14 @@ public class RequestsScreenController {
 	@FXML
 	void submitNewRequest(ActionEvent event) {
 
-		if(descArea.getText().equals("")||changeArea.getText().equals("")||reasonArea.getText().equals("")) {
+		if (descArea.getText().equals("") || changeArea.getText().equals("") || reasonArea.getText().equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
 			alert.setContentText("Empty required fields!");
 			alert.show();
 			return;
 		}
-		if(choiceBox.getSelectionModel().isEmpty()) {
+		if (choiceBox.getSelectionModel().isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
 			alert.setContentText("No system selected!");
@@ -374,9 +382,9 @@ public class RequestsScreenController {
 		String description = descArea.getText();
 		String changes = changeArea.getText();
 		String changeReason = reasonArea.getText();
-		SystemENUM system=choiceBox.getValue();
-		Request r = new Request(0, Main.currentUser.getUsername(), system, description, changes,
-				changeReason, new DateTime());
+		SystemENUM system = choiceBox.getValue();
+		Request r = new Request(0, Main.currentUser.getUsername(), system, description, changes, changeReason,
+				new DateTime());
 		String comments = commentsArea.getText();
 		r.setComments(comments);
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CreateRequest, r));
@@ -395,8 +403,9 @@ public class RequestsScreenController {
 		RefreshTable();
 		disableAllRequestPans();
 	}
-	public void CreateAssessmentReport() {
 
+	public void openAssessmentReportFunc(Report r) {
+		reportOfRequest=r;
 		Parent root = null;
 		try {
 			root = FXMLLoader.load(getClass().getResource("2.2-ReportScreen.fxml"));
@@ -405,73 +414,73 @@ public class RequestsScreenController {
 			e.printStackTrace();
 		}
 		report = new Scene(root);
-        newWindow.setTitle("Report");
-        newWindow.setScene(report);
-        newWindow.show();
+		newWindow.setTitle("Report");
+		newWindow.setScene(report);
+		newWindow.show();
 	}
+	public void AssessmentReportPage() {
+		int temp = tableView.getSelectionModel().getSelectedItem().getId();
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SearchReport, temp));
+	}
+
 	public void closeExtraWindow() {
 		newWindow.close();
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Great!");
-		alert.setContentText("Report submitted successfully!");
+		alert.setContentText("Report saved successfully!");
+		RefreshTable();
 		alert.showAndWait();
-		//RefreshTable();
 
 	}
 
-
-	public void showUploadedFiles(Request r)
-	{
-		new Thread(new Runnable(){
+	public void showUploadedFiles(Request r) {
+		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				filesPaths.clear();
 			}
 		}).start();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES,r));
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES, r));
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
 
 		}
-		if (filesPaths.size()==0) {
+		if (filesPaths.size() == 0) {
 			uploadedFilesLabel.setText("Uploaded files: none");
 			return;
 		}
-		filesPaths.remove(0); //removing folder path
+		filesPaths.remove(0); // removing folder path
 		uploadedFilesLabel.setText("Uploaded files: ");
-		for (String s : filesPaths) //THE MOST ARABIC CODE I HAVE EVER WRITTEN
+		for (String s : filesPaths) // THE MOST ARABIC CODE I HAVE EVER WRITTEN
 		{
 			char[] ch = s.toCharArray();
-			for (int i = 0 ; i < ch.length;i++)
-				if (ch[i]=='\\') ch[i]='/';
+			for (int i = 0; i < ch.length; i++)
+				if (ch[i] == '\\')
+					ch[i] = '/';
 			String str = String.valueOf(ch);
 			String[] str2 = str.split("/");
 
-			uploadedFilesLabel.setText(uploadedFilesLabel.getText()+str2[str2.length-1]+",");
+			uploadedFilesLabel.setText(uploadedFilesLabel.getText() + str2[str2.length - 1] + ",");
 		}
 	}
 
-	public void setFilePaths(ArrayList<String> filePaths)
-	{
-		this.filesPaths=filePaths;
+	public void setFilePaths(ArrayList<String> filePaths) {
+		this.filesPaths = filePaths;
 	}
 
-
 	@FXML
-	public void stageSettingsScreen(ActionEvent event)
-	{
-		Parent root=null;
+	public void stageSettingsScreen(ActionEvent event) {
+		Parent root = null;
 		try {
 			root = FXMLLoader.load(getClass().getResource("2.3-SupervisorRequestSettingsScreen.fxml"));
 		} catch (IOException e) {
 		}
-	Scene requests = new Scene(root);
-	Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-	window.setScene(requests);
-	window.show();
+		Scene requests = new Scene(root);
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		window.setScene(requests);
+		window.show();
 	}
-
 
 }

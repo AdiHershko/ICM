@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Common.ClientServerMessage;
+import Common.Report;
 import Common.Request;
 import Common.User;
 import javafx.application.Platform;
@@ -156,6 +157,13 @@ public class ChatClient extends AbstractClient {
 			Platform.runLater(new Runnable() {
 				public void run() {
 					RequestsScreenController._ins.closeExtraWindow();
+				}
+			});
+		}
+		if(msg instanceof Report) {
+			Platform.runLater(new Runnable() {
+				public void run() {
+					RequestsScreenController._ins.openAssessmentReportFunc((Report)msg);
 				}
 			});
 		}

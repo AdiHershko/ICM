@@ -13,8 +13,19 @@ public class Report implements Serializable{
 	private int durationAssesment;
 	private int requestId;
 
-	
-
+	public Report() {
+		
+	}
+	public Report(int requestId,String description,String result, String location,String constrains,String risks,int durationAssesment) {
+		this.requestId=requestId;
+		this.result=result;
+		this.location=location;
+		this.description=description;
+		this.constrains=constrains;
+		this.risks=risks;
+		this.durationAssesment=durationAssesment;
+		
+	}
 
 	
 	public int getRequestId() {

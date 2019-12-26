@@ -162,6 +162,32 @@ public class DataBaseController {
 		}
 		return us;
 	}
+	public static Report SearchReport(int id) {
+		String query = "select * from Reports where requestID="+String.valueOf(id);
+		ResultSet rs = null;
+		Report report =  null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if (rs.next()) {
+				try {
+					report = new Report(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+							rs.getString(6),rs.getInt(7));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return report;
+	}
 
 	public static String getSupervisor() {
 		String query = "select Users.username from Users where Role=4";
@@ -189,11 +215,19 @@ public class DataBaseController {
 	}
 
 	public static int CreateReportForRequest(Report r) {
+		Report check = SearchReport(r.getRequestId());
+		String query; 
+		if (check != null) {
+			query = "UPDATE Reports SET requestID= ?, description = ?, result = ?, location = ?, "; 
+			query+="constraints= ?, risks = ?, duration = ?  WHERE requestID = "+String.valueOf(r.getRequestId());
+		}
+		else {
+			query = "INSERT INTO Reports (Reports.requestID, Reports.description, Reports.result, Reports.location, Reports.constraints,"
+					+ "Reports.risks, Reports.duration) Values (?,?,?,?,?,?,?)";
+		}
 		PreparedStatement st = null;
 
 		try {
-			String query = "INSERT INTO Reports (Reports.requestID, Reports.description, Reports.result, Reports.location, Reports.constraints,"
-					+ "Reports.risks, Reports.duration) Values (?,?,?,?,?,?,?)";
 			st = c.prepareStatement(query);
 			st.setInt(1, r.getRequestId());
 			st.setString(2, r.getDescription());

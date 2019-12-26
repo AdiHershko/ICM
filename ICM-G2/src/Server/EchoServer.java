@@ -93,7 +93,29 @@ public class EchoServer extends AbstractServer {
 						System.out.println("Cant send user to client!");
 					}
 				}
-				return;
+				break;
+			case SearchReport:
+				
+				Report report = DataBaseController.SearchReport(CSMsg.getId());
+
+				if (report==null) {
+
+					try {
+						report = new Report(CSMsg.getId(), "", "", "", "",	"",-1);//TODO
+						client.sendToClient(report);
+					} catch (IOException e) {
+						System.out.println("Cant send no report to client!");
+					}
+				}
+				else {
+					try {
+						
+						client.sendToClient(report);
+					} catch (IOException e) {
+						System.out.println("Cant send user to client!");
+					}
+				}
+				break;
 			case UPLOAD:
 				new File("src\\Server\\"+CSMsg.getRequest().getId()).mkdir();
 				String path = "src\\Server\\"+CSMsg.getRequest().getId();
@@ -128,8 +150,8 @@ public class EchoServer extends AbstractServer {
 				return;
 			case CreateReport:
 				int i;
-				Report report = CSMsg.getReport();
-				i=DataBaseController.CreateReportForRequest(report);
+				Report report1 = CSMsg.getReport();
+				i=DataBaseController.CreateReportForRequest(report1);
 				if(i==1) {
 					try {
 						client.sendToClient("good");
