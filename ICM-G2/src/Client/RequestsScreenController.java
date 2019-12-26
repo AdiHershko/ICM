@@ -116,6 +116,14 @@ public class RequestsScreenController {
 	private Label uploadedFilesLabel;
 	@FXML
 	private Button stagesSettingsButton;
+	@FXML
+	private Button saveBtn;
+	@FXML
+	private Button editBtn;
+	@FXML
+	private Button changeStatus;
+	@FXML
+	private Button freezeUnfreeze;
 	private int index;
 	public void initialize() {
 		_ins = this;
@@ -277,12 +285,14 @@ public class RequestsScreenController {
 			filePathTextField.setText("");
 			uploadedFilesLabel.setText("Uploaded files: none");
 			showUploadedFiles(r);
-
 			if (Main.currentUser.getRole() == Enums.Role.Supervisor
 					|| Main.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
-			}
-			else if (Main.currentUser.getRole() != Enums.Role.College) {
+				if (r.getCurrentStageEnum() != Enums.RequestStageENUM.Closing)
+					changeStatus.setVisible(false);
+				else
+					changeStatus.setVisible(true);
+			} else if (Main.currentUser.getRole() != Enums.Role.College) {
 				showRequestByStage(r);
 			}
 		} catch (Exception e) {
@@ -485,5 +495,85 @@ public class RequestsScreenController {
 		window.setScene(requests);
 		window.show();
 	}
+	@FXML
+	void statusChange(ActionEvent event) {
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, "" + r.getId()));
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Confirm!");
+			alert.setHeaderText("Request closed!");
+			alert.setContentText("Request number "+ r.getId()+" closed");
+			alert.show();
+		RefreshTable();
+	}
 
+	@FXML
+	void FreezeUnfreeze(ActionEvent event) {
+		boolean frozen=false,unfrozen=false;
+		if (r.getStatus().equals("Active")) {
+			frozen=true;
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze,""+r.getId()));
+		}
+		else if (r.getStatus().equals("Frozen")) {
+			unfrozen=true;
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze,""+r.getId()));
+		}
+		RefreshTable();
+		if(frozen) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Confirm!");
+		alert.setHeaderText("Changed to Frozen!");
+		alert.setContentText("Request number "+ r.getId()+" changed to frozen");
+		alert.show();
+		}
+		if(unfrozen) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Confirm!");
+			alert.setHeaderText("Changed to Active!");
+			alert.setContentText("Request number "+ r.getId()+" changed to active");
+			alert.show();
+		}
+		return;
+	}
+	@FXML
+	void saveChanges(ActionEvent event) {
+		descArea.setEditable(false);
+		changeArea.setEditable(false);
+		reasonArea.setEditable(false);
+		commentsArea.setEditable(false);
+		String desc,change,reason,comment,res;
+		desc=descArea.getText();
+		change=changeArea.getText();
+		reason=reasonArea.getText();
+		comment=commentsArea.getText();
+		res=""+r.getId()+"-"+desc+"-"+change+"-"+reason+"-"+comment+"-"+"abc";
+		if(desc.isEmpty())
+			desc=" ";
+		if(change.isEmpty())
+			change=" ";
+		if(reason.isEmpty())
+			reason=" ";
+		if(comment.isEmpty()) {
+			comment=" ";
+		}
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateRequestDetails,res));
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Edited!");
+		alert.setHeaderText("Request edited!");
+		alert.setContentText("Request number "+ r.getId()+" edited");
+		alert.show();
+		RefreshTable();
+	}
+	@FXML
+	void editChanges(ActionEvent event) {
+		descArea.setEditable(true);
+		changeArea.setEditable(true);
+		reasonArea.setEditable(true);
+		commentsArea.setEditable(true);
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Edit!");
+			alert.setHeaderText("You can edit!");
+			alert.setContentText("Request number "+ r.getId()+" can be edited");
+			alert.show();
+		
+	}
 }
