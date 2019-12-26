@@ -68,9 +68,22 @@ public class ReportScreenController {
 	}
 
 	public void saveReport() {
+		
 		report = new Report();
-		report.setDurationAssesment(Integer.parseInt(timeTXT.getText().toString()));
-
+		if (!(timeTXT.getText().toString().equals(""))) {
+			try {
+			report.setDurationAssesment(Integer.parseInt(timeTXT.getText().toString()));
+			}catch (NumberFormatException e) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERROR!");
+				alert.setContentText("Not a number in duration assesment field!");
+				alert.showAndWait();
+				return;
+			  }
+		}
+		else {
+			report.setDurationAssesment(-1);
+		}
 		report.setConstrains(constrainsTXT.getText());
 		report.setResult(resultTXT.getText());
 		report.setRisks(risksTXT.getText());
