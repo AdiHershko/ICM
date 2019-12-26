@@ -12,12 +12,12 @@ import javafx.stage.WindowEvent;
 
 public class ServerConsole extends Application {
 	public static ServerConsole _init;
-	Pane root;
+	static Pane root;
 	static Stage stage;
 	ServerChooseController c;
 
 	//TODO: find common place for css and jpg
-	
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		_init = this;
@@ -37,9 +37,7 @@ public class ServerConsole extends Application {
 		Scene s = new Scene(root);
 		stage.setScene(s);
 		stage.setTitle("ICM Prototype - Server");
-
 		stage.show();
-
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent t) {

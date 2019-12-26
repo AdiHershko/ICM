@@ -1,6 +1,7 @@
 package Server;
 
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -9,11 +10,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Alert.AlertType;
 
 public class ServerChooseController {
 
+	public static boolean loading=false;
+	private ImageView loadinganim;
 	// components
 	@FXML
 	private TextField hostfield;
@@ -38,6 +42,10 @@ public class ServerChooseController {
 	private Button connectbtn;
 	@FXML
 	private ChoiceBox<String> choiceBox = new ChoiceBox<String>();
+
+	public void initialize(){
+		loadinganim = new ImageView("Server\\loading.gif");
+	}
 
 	// getters and setters
 
@@ -113,50 +121,84 @@ public class ServerChooseController {
 
 	@FXML
 	void connect(ActionEvent event) {
+		loading=true;
+		loadinganim.setScaleX(0.2);
+		loadinganim.setScaleY(0.2);
+		loadinganim.setX(ServerConsole.root.getPrefWidth()/3.5);
+		loadinganim.setY(ServerConsole.root.getPrefHeight()/8.0);
+		loadinganim.setVisible(true);
+		loadinganim.setVisible(true);
+		new Thread(new Runnable(){
+			public void run()
+			{
+				Platform.runLater(()->ServerConsole.root.getChildren().add(loadinganim));
+				if (choiceBox.getValue().equals("Local SQL Server, needs to have scheme and tables for ICM")) {
+					String temp = "jdbc:mysql://";
+					temp += hostfield.getText();
+					temp += ":";
+					temp += portfield.getText();
+					temp += "/";
+					temp += dbfield.getText();
+					temp += "?useLegacyDatetimeCode=false&serverTimezone=UTC";
+					DataBaseController.setUrl(temp);
+					DataBaseController.setPassword(passfield.getText());
+					DataBaseController.setUsername(unfield.getText());
+				}
 
-		if (choiceBox.getValue().equals("Local SQL Server, needs to have scheme and tables for ICM")) {
-			String temp = "jdbc:mysql://";
-			temp += hostfield.getText();
-			temp += ":";
-			temp += portfield.getText();
-			temp += "/";
-			temp += dbfield.getText();
-			temp += "?useLegacyDatetimeCode=false&serverTimezone=UTC";
-			DataBaseController.setUrl(temp);
-			DataBaseController.setPassword(passfield.getText());
-			DataBaseController.setUsername(unfield.getText());
-		}
+				int temp = 1;
+				try {
+					temp = EchoServer.Start(Integer.parseInt((getS_portField().getText())));
+				} catch (NumberFormatException e) {
+					Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("ERROR!");
+					alert.setContentText("No number in port field");
+					alert.show();
+					});
+					return;
+				}
+				if (temp == 1) {
+					Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("ERROR!");
+					alert.setContentText("Connection to DB failed");
+					alert.show();
+					});
 
-		int temp = 1;
-		try {
-			temp = EchoServer.Start(Integer.parseInt((getS_portField().getText())));
-		} catch (NumberFormatException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("ERROR!");
-			alert.setContentText("No number in port field");
-			alert.show();
-			return;
-		}
-		if (temp == 1) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("ERROR!");
-			alert.setContentText("Connection to DB failed");
-			alert.show();
+				}
+				else if (temp == 2) {
+					Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("ERROR!");
+					alert.setContentText("Can't listen to client");
+					alert.show();
+					});
+				}
+				else {
 
-		}
-		else if (temp == 2) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("ERROR!");
-			alert.setContentText("Can't listen to client");
-			alert.show();
-		}
-		else {
+					Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Successful");
+					alert.setContentText("System connected!");
+					alert.show();
+					});
+				}
+				while (loading)
+				{
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						break;
+					}
+				}
+				Platform.runLater(new Runnable(){
+					public void run(){
+						ServerConsole.root.getChildren().remove(loadinganim);
+					}
+				});
+			}
+		}).start();
 
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Successful");
-			alert.setContentText("System connected!");
-			alert.show();
-		}
 
 	}
 

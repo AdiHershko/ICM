@@ -19,7 +19,7 @@ public class Request implements Serializable {
 	private String changeReason;
 	private String comments;
 	private String filePath[];
-	private DateTime date;//TODO change to real date and time
+	private DateTime date;
 	private RequestStatus status;
 	private RequestStageENUM currentStage;
 	private Stage stages[];

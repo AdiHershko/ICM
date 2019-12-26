@@ -1,30 +1,23 @@
 package Server;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Stream;
-
-import Client.LoginScreenController;
 import Common.Request;
 import Common.User;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Report;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-//import server.DataBaseController;
 
 public class EchoServer extends AbstractServer {
 	final private static int DEFAULT_PORT = 5555;
@@ -107,7 +100,7 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case SearchReport:
-				
+
 				Report report = DataBaseController.SearchReport(CSMsg.getId());
 
 				if (report==null) {
@@ -121,7 +114,7 @@ public class EchoServer extends AbstractServer {
 				}
 				else {
 					try {
-						
+
 						client.sendToClient(report);
 					} catch (IOException e) {
 						System.out.println("Cant send user to client!");

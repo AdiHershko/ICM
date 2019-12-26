@@ -49,6 +49,7 @@ public class DataBaseController {
 		try {
 			c = DriverManager.getConnection(url, username, password);
 			System.out.println("Database connected!");
+			ServerChooseController.loading=false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -77,7 +78,7 @@ public class DataBaseController {
 				e.printStackTrace();
 			}
 		}
-	
+
 	public static void ChangeRequestStatus(int id) {
 		String query = "UPDATE Requests SET Status = 1 WHERE ID = " + id + "";
 		PreparedStatement statement = null;
@@ -259,9 +260,9 @@ public class DataBaseController {
 
 	public static int CreateReportForRequest(Report r) {
 		Report check = SearchReport(r.getRequestId());
-		String query; 
+		String query;
 		if (check != null) {
-			query = "UPDATE Reports SET requestID= ?, description = ?, result = ?, location = ?, "; 
+			query = "UPDATE Reports SET requestID= ?, description = ?, result = ?, location = ?, ";
 			query+="constraints= ?, risks = ?, duration = ?  WHERE requestID = "+String.valueOf(r.getRequestId());
 		}
 		else {
