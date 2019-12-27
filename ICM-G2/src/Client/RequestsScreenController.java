@@ -600,14 +600,14 @@ public class RequestsScreenController {
     void ApproveStageBtn(ActionEvent event) {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 		RefreshTable();
-		
+		GeneralViewRequest1.setVisible(false);
     }
 
     @FXML
     void AskMoreData(ActionEvent event) {
     	Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.downStage, r.getId()));
     	RefreshTable();
-    	
+    	GeneralViewRequest1.setVisible(false);
     }
 
     @FXML
