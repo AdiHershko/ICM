@@ -331,7 +331,7 @@ public class DataBaseController {
 				st.setInt(2, 0);
 				st.setInt(3, 0);
 				if (i == 0 || i == 5)
-					st.setString(4, getSupervisor());
+					st.setString(4, ","+getSupervisor()+",");
 				else if (i == 1)//TODO: maybe add department?
 					st.setString(4, GetRandomISUser());
 				else if (i == 2)

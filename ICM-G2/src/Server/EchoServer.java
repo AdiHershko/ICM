@@ -159,7 +159,7 @@ public class EchoServer extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				return;
+				break;
 			case CreateReport:
 				int i;
 				Report report1 = CSMsg.getReport();
@@ -191,6 +191,10 @@ public class EchoServer extends AbstractServer {
 				break;
 			case UpdateStage:
 				DataBaseController.ChangeRequestStage(CSMsg.getId(), true);
+				break;
+			case downStage:
+				DataBaseController.ChangeRequestStage(CSMsg.getId(), false);
+				break;
 			default:
 				break;
 			}

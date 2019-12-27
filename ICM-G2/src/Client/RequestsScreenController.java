@@ -425,7 +425,7 @@ public class RequestsScreenController {
 		r.setId(newRequestID);
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("New request created! \n Request ID: " + r.getId());
-		uploadFileToServer_NewRequest(r);
+		//uploadFileToServer_NewRequest(r); TODO: hersko
 		alert.showAndWait();
 		RefreshTable();
 		disableAllRequestPans();
@@ -598,12 +598,16 @@ public class RequestsScreenController {
 	
 	@FXML
     void ApproveStageBtn(ActionEvent event) {
-
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
+		RefreshTable();
+		
     }
 
     @FXML
     void AskMoreData(ActionEvent event) {
-
+    	Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.downStage, r.getId()));
+    	RefreshTable();
+    	
     }
 
     @FXML
