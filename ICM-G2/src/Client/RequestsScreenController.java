@@ -107,7 +107,26 @@ public class RequestsScreenController {
 	private Button uploadFileButton;
 	@FXML
 	private Button openAssessmentReportB;
-
+	@FXML
+	private Button FailureReportBtn;
+	@FXML
+	private Button DeclineRequestBtn;
+	@FXML
+	private Button AskMoreDataBtn;
+	@FXML
+	private TextField TesteAppointBtn;
+	@FXML
+	private Button SaveTesterApointBtn;
+	@FXML
+	private Button ViewReportBtn;
+	@FXML
+	private Button ReportFailureBtn;
+	@FXML
+	private Button ApproveStageBtn;
+	@FXML
+	private TextField dueDate;
+	@FXML
+	private Button extentionAskBtn;
 	@FXML
 	private ChoiceBox<SystemENUM> choiceBox = new ChoiceBox<SystemENUM>();
 	@FXML
@@ -125,6 +144,7 @@ public class RequestsScreenController {
 	@FXML
 	private Button freezeUnfreeze;
 	private int index;
+
 	public void initialize() {
 		_ins = this;
 		if (Main.currentUser.getRole() == Enums.Role.College)
@@ -252,12 +272,10 @@ public class RequestsScreenController {
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.REFRESHUSERID, Main.currentUser.getUsername()));
-		}
-		else if (Main.currentUser.getRole() == Enums.Role.Manager
+		} else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN));
-		}
-		else {
+		} else {
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.REFRESH, Main.currentUser.getUsername()));
 		}
@@ -341,8 +359,7 @@ public class RequestsScreenController {
 			alert.setTitle("Upload finished");
 			alert.setContentText("Upload finished succesfully");
 			alert.showAndWait();
-		}
-		else {
+		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Upload failed");
 			alert.setContentText("Could not upload file to server");
@@ -415,7 +432,7 @@ public class RequestsScreenController {
 	}
 
 	public void openAssessmentReportFunc(Report r) {
-		reportOfRequest=r;
+		reportOfRequest = r;
 		Parent root = null;
 		index = tableView.getSelectionModel().getSelectedIndex();
 		try {
@@ -429,6 +446,7 @@ public class RequestsScreenController {
 		newWindow.setScene(report);
 		newWindow.show();
 	}
+
 	public void AssessmentReportPage() {
 		int temp = tableView.getSelectionModel().getSelectedItem().getId();
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SearchReport, temp));
@@ -442,7 +460,6 @@ public class RequestsScreenController {
 		RefreshTable();
 		alert.showAndWait();
 		tableView.getSelectionModel().select(index);
-
 
 	}
 
@@ -495,85 +512,132 @@ public class RequestsScreenController {
 		window.setScene(requests);
 		window.show();
 	}
+
 	@FXML
 	void statusChange(ActionEvent event) {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, "" + r.getId()));
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Confirm!");
-			alert.setHeaderText("Request closed!");
-			alert.setContentText("Request number "+ r.getId()+" closed");
-			alert.show();
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Confirm!");
+		alert.setHeaderText("Request closed!");
+		alert.setContentText("Request number " + r.getId() + " closed");
+		alert.show();
 		RefreshTable();
 	}
 
 	@FXML
 	void FreezeUnfreeze(ActionEvent event) {
-		boolean frozen=false,unfrozen=false;
+		boolean frozen = false, unfrozen = false;
 		if (r.getStatus().equals("Active")) {
-			frozen=true;
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze,""+r.getId()));
-		}
-		else if (r.getStatus().equals("Frozen")) {
-			unfrozen=true;
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze,""+r.getId()));
+			frozen = true;
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
+		} else if (r.getStatus().equals("Frozen")) {
+			unfrozen = true;
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
 		}
 		RefreshTable();
-		if(frozen) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Confirm!");
-		alert.setHeaderText("Changed to Frozen!");
-		alert.setContentText("Request number "+ r.getId()+" changed to frozen");
-		alert.show();
+		if (frozen) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Confirm!");
+			alert.setHeaderText("Changed to Frozen!");
+			alert.setContentText("Request number " + r.getId() + " changed to frozen");
+			alert.show();
 		}
-		if(unfrozen) {
+		if (unfrozen) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Confirm!");
 			alert.setHeaderText("Changed to Active!");
-			alert.setContentText("Request number "+ r.getId()+" changed to active");
+			alert.setContentText("Request number " + r.getId() + " changed to active");
 			alert.show();
 		}
 		return;
 	}
+
 	@FXML
 	void saveChanges(ActionEvent event) {
 		descArea.setEditable(false);
 		changeArea.setEditable(false);
 		reasonArea.setEditable(false);
 		commentsArea.setEditable(false);
-		String desc,change,reason,comment,res;
-		desc=descArea.getText();
-		change=changeArea.getText();
-		reason=reasonArea.getText();
-		comment=commentsArea.getText();
-		res=""+r.getId()+"-"+desc+"-"+change+"-"+reason+"-"+comment+"-"+"abc";
-		if(desc.isEmpty())
-			desc=" ";
-		if(change.isEmpty())
-			change=" ";
-		if(reason.isEmpty())
-			reason=" ";
-		if(comment.isEmpty()) {
-			comment=" ";
+		String desc, change, reason, comment, res;
+		desc = descArea.getText();
+		change = changeArea.getText();
+		reason = reasonArea.getText();
+		comment = commentsArea.getText();
+		res = "" + r.getId() + "-" + desc + "-" + change + "-" + reason + "-" + comment + "-" + "abc";
+		if (desc.isEmpty())
+			desc = " ";
+		if (change.isEmpty())
+			change = " ";
+		if (reason.isEmpty())
+			reason = " ";
+		if (comment.isEmpty()) {
+			comment = " ";
 		}
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateRequestDetails,res));
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateRequestDetails, res));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Edited!");
 		alert.setHeaderText("Request edited!");
-		alert.setContentText("Request number "+ r.getId()+" edited");
+		alert.setContentText("Request number " + r.getId() + " edited");
 		alert.show();
 		RefreshTable();
 	}
+
 	@FXML
 	void editChanges(ActionEvent event) {
 		descArea.setEditable(true);
 		changeArea.setEditable(true);
 		reasonArea.setEditable(true);
 		commentsArea.setEditable(true);
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Edit!");
-			alert.setHeaderText("You can edit!");
-			alert.setContentText("Request number "+ r.getId()+" can be edited");
-			alert.show();
-		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Edit!");
+		alert.setHeaderText("You can edit!");
+		alert.setContentText("Request number " + r.getId() + " can be edited");
+		alert.show();
+
 	}
+	
+	@FXML
+    void ApproveStageBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void AskMoreData(ActionEvent event) {
+
+    }
+
+    @FXML
+    void DeclineRequest(ActionEvent event) {
+
+    }
+
+    @FXML
+    void ReportFailure(ActionEvent event) {
+
+    }
+
+    @FXML
+    void SaveTesterApoint(ActionEvent event) {
+
+    }
+
+    @FXML
+    void TesteAppoint(ActionEvent event) {
+
+    }
+
+    @FXML
+    void ViewReport(ActionEvent event) {
+
+    }
+
+    @FXML
+    void extentionAsk(ActionEvent event) {
+
+    }
+
+    @FXML
+    void viewFailureReport(ActionEvent event) {
+
+    }
 }

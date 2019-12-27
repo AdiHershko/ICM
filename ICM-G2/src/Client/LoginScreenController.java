@@ -81,6 +81,7 @@ public class LoginScreenController {
 			try {
 				root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		Scene requests = new Scene(root);
