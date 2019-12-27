@@ -64,6 +64,16 @@ public class ReportScreenController {
 		else {
 			timeTXT.setText(String.valueOf(RequestsScreenController.reportOfRequest.getDurationAssesment()));
 		}
+		if(RequestsScreenController.r.getCurrentStage()!=Enums.RequestStageENUM.Assesment) {
+			SubmitReportButton.setVisible(false);
+			SaveReportButton.setVisible(false);
+			descTXT.setEditable(false);
+			resultTXT.setEditable(false);
+			constrainsTXT.setEditable(false);
+			risksTXT.setEditable(false);
+			timeTXT.setEditable(false);
+			locatinTXT.setEditable(false);
+		}
 
 	}
 

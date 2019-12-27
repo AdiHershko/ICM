@@ -628,7 +628,7 @@ public class RequestsScreenController {
 
     @FXML
     void ViewReport(ActionEvent event) {
-
+    	AssessmentReportPage();
     }
 
     @FXML
