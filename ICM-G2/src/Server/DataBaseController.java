@@ -49,7 +49,7 @@ public class DataBaseController {
 		try {
 			c = DriverManager.getConnection(url, username, password);
 			System.out.println("Database connected!");
-			ServerChooseController.loading=false;
+			ServerChooseController.loading = false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -58,29 +58,21 @@ public class DataBaseController {
 	}
 
 	public static ObservableList<Request> getRequestsForIS(String UserName) {
-		String query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName + ",%'";
+		String query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
+				+ ",%'";
 		return getRequests(query);
 	}
 
 	public static ObservableList<Request> getRequestsForManager() {
-		String query = "select * from Requests where (status=0 or status=2)";
+		String query = "select * from Requests where (status=0 or status=2 or status=3)";
 		return getRequests(query);
 	}
+
 	public static void updateRequestDetails(String msg) {
 		PreparedStatement st = null;
 		String[] tem = msg.split("-");
-			String query= "UPDATE Requests SET Description = '"+tem[1]+"', `Change` = '"+tem[2]+"', ChangeReason = '"+tem[3]+"', Connect = '"+tem[4]+"' WHERE ID = "+tem[0];
-			PreparedStatement statement = null;
-			try {
-				statement = c.prepareStatement(query);
-				statement.execute();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-	public static void ChangeRequestStatus(int id) {
-		String query = "UPDATE Requests SET Status = 1 WHERE ID = " + id + "";
+		String query = "UPDATE Requests SET Description = '" + tem[1] + "', `Change` = '" + tem[2]
+				+ "', ChangeReason = '" + tem[3] + "', Connect = '" + tem[4] + "' WHERE ID = " + tem[0];
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
@@ -89,8 +81,48 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
+
+	public static void ChangeRequestStatus(String msg) {
+		String[] tem = msg.split("-");
+		String query;
+		if (tem[1].equals("Rejected")) 
+			 query = "UPDATE Requests SET Status = 4 WHERE ID = " + tem[0];
+		else
+			 query = "UPDATE Requests SET Status = 1 WHERE ID = " + tem[0];
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void Freeze(int Id) {
 		String query = "UPDATE Requests SET Status = 2 WHERE ID = " + Id;
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void changeReqToClosed(int Id) {
+		String query = "UPDATE Requests SET Stage = 5 WHERE ID =" + Id;
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void changeStatusToDecline(int Id) {
+		System.out.println("is that " + Id);
+		String query = "UPDATE Requests SET Status = 3 WHERE ID = " + Id;
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
@@ -110,6 +142,7 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
+
 	public static ObservableList<Request> getRequestsForCollege(String userName) {
 		String query = "select * from Requests where Requestor='" + userName + "'";
 		return getRequests(query);
@@ -234,9 +267,9 @@ public class DataBaseController {
 	}
 	
 	public static Report SearchReport(int id) {
-		String query = "select * from Reports where requestID="+String.valueOf(id);
+		String query = "select * from Reports where requestID=" + String.valueOf(id);
 		ResultSet rs = null;
-		Report report =  null;
+		Report report = null;
 		PreparedStatement statement;
 		try {
 			statement = c.prepareStatement(query);
@@ -247,8 +280,8 @@ public class DataBaseController {
 		try {
 			if (rs.next()) {
 				try {
-					report = new Report(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(6),rs.getInt(7));
+					report = new Report(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getString(5), rs.getString(6), rs.getInt(7));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -290,9 +323,8 @@ public class DataBaseController {
 		String query;
 		if (check != null) {
 			query = "UPDATE Reports SET requestID= ?, description = ?, result = ?, location = ?, ";
-			query+="constraints= ?, risks = ?, duration = ?  WHERE requestID = "+String.valueOf(r.getRequestId());
-		}
-		else {
+			query += "constraints= ?, risks = ?, duration = ?  WHERE requestID = " + String.valueOf(r.getRequestId());
+		} else {
 			query = "INSERT INTO Reports (Reports.requestID, Reports.description, Reports.result, Reports.location, Reports.constraints,"
 					+ "Reports.risks, Reports.duration) Values (?,?,?,?,?,?,?)";
 		}
@@ -358,8 +390,8 @@ public class DataBaseController {
 				st.setInt(2, 0);
 				st.setInt(3, 0);
 				if (i == 0 || i == 5)
-					st.setString(4, ","+getSupervisor()+",");
-				else if (i == 1)//TODO: maybe add department?
+					st.setString(4, "," + getSupervisor() + ",");
+				else if (i == 1)// TODO: maybe add department?
 					st.setString(4, GetRandomISUser());
 				else if (i == 2)
 					st.setString(4, GetComitteString());
@@ -378,9 +410,9 @@ public class DataBaseController {
 		ResultSet rs;
 		int currentStage = 0;
 		if (Up)
-			query = "update Requests set Stage=Stage+1 where id="+id;
+			query = "update Requests set Stage=Stage+1 where id=" + id;
 		else
-			query = "update Requests set Stage=Stage-1 where id="+id;
+			query = "update Requests set Stage=Stage-1 where id=" + id;
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
@@ -389,8 +421,8 @@ public class DataBaseController {
 			e.printStackTrace();
 			return;
 		}
-		
-		query = "Select Stage from Requests where id="+id;
+
+		query = "Select Stage from Requests where id=" + id;
 		try {
 			statement = c.prepareStatement(query);
 			rs = statement.executeQuery();
@@ -399,8 +431,9 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		query = "update Stages set ActualDate='"+(new DateTime()).toString()+"' where RequestID="+id+" and StageName="+(currentStage-1);
+
+		query = "update Stages set ActualDate='" + (new DateTime()).toString() + "' where RequestID=" + id
+				+ " and StageName=" + (currentStage - 1);
 		try {
 			statement = c.prepareStatement(query);
 			statement.executeUpdate();
@@ -408,8 +441,8 @@ public class DataBaseController {
 			e.printStackTrace();
 			return;
 		}
-		
-		query = "Select Member from Stages where RequestID="+id+" and StageName="+currentStage;
+
+		query = "Select Member from Stages where RequestID=" + id + " and StageName=" + currentStage;
 		try {
 			statement = c.prepareStatement(query);
 			rs = statement.executeQuery();
@@ -418,7 +451,7 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		query = "update Requests set CurrentHandlers='"+newMembers+"' where id="+id;
+		query = "update Requests set CurrentHandlers='" + newMembers + "' where id=" + id;
 		try {
 			statement = c.prepareStatement(query);
 			statement.executeUpdate();
@@ -499,7 +532,7 @@ public class DataBaseController {
 		try {
 			if (rs.next()) {
 				try {
-					String tmp = ","+rs.getString(1)+",";
+					String tmp = "," + rs.getString(1) + ",";
 					users.add(tmp);
 				} catch (SQLException e) {
 					e.printStackTrace();

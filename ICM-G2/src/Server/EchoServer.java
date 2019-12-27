@@ -45,10 +45,10 @@ public class EchoServer extends AbstractServer {
 			ClientServerMessage CSMsg = (ClientServerMessage) msg;
 			switch (CSMsg.getType()) {
 			case CONNECT:
-				System.out.println("User "+client.toString()+" Connected");
+				System.out.println("User " + client.toString() + " Connected");
 				return;
 			case DISCONNECT:
-				System.out.println("User "+client.toString()+" Disconnected");
+				System.out.println("User " + client.toString() + " Disconnected");
 				return;
 			case REFRESH:
 				ObservableList<Request> ol = DataBaseController.getRequestsForIS(((ClientServerMessage) msg).getMsg());
@@ -70,7 +70,7 @@ public class EchoServer extends AbstractServer {
 				DataBaseController.updateRequestDetails(CSMsg.getMsg());
 				return;
 			case UpdateStatus:
-				DataBaseController.ChangeRequestStatus(Integer.parseInt(CSMsg.getMsg()));
+				DataBaseController.ChangeRequestStatus(CSMsg.getMsg());
 				return;
 			case Freeze:
 				DataBaseController.Freeze(Integer.parseInt(CSMsg.getMsg()));
@@ -86,19 +86,23 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
+			case declineRequest:
+				System.out.println("im here");
+				DataBaseController.changeReqToClosed(Integer.parseInt(CSMsg.getMsg()));
+				DataBaseController.changeStatusToDecline(Integer.parseInt(CSMsg.getMsg()));
+				return;
 			case SearchUser:
 				String[] temp = CSMsg.getMsg().split(" ");
 				User us1 = DataBaseController.SearchUser(temp[0], temp[1]);
 
-				if (us1==null) {
+				if (us1 == null) {
 
 					try {
 						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.LoginFail));
 					} catch (IOException e) {
 						System.out.println("Cant send login fail to client!");
 					}
-				}
-				else {
+				} else {
 					try {
 						client.sendToClient(us1);
 					} catch (IOException e) {
@@ -107,21 +111,20 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case SearchReport:
-				
+
 				Report report = DataBaseController.SearchReport(CSMsg.getId());
 
-				if (report==null) {
+				if (report == null) {
 
 					try {
-						report = new Report(CSMsg.getId(), "", "", "", "",	"",-1);
+						report = new Report(CSMsg.getId(), "", "", "", "", "", -1);
 						client.sendToClient(report);
 					} catch (IOException e) {
 						System.out.println("Cant send no report to client!");
 					}
-				}
-				else {
+				} else {
 					try {
-						
+
 						client.sendToClient(report);
 					} catch (IOException e) {
 						System.out.println("Cant send user to client!");
@@ -129,28 +132,28 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case UPLOAD:
-				new File("src\\Server\\"+CSMsg.getRequest().getId()).mkdir();
-				String path = "src\\Server\\"+CSMsg.getRequest().getId();
-				File f = new File(path+"\\"+CSMsg.getFileName());
-			    OutputStream os = null;
-			    boolean sucess=false;
-			    try {
-			        os = new FileOutputStream(f);
-			        os.write(CSMsg.getBuffer());
-			        sucess=true;
-			    	}
-			     catch (FileNotFoundException e) {
+				new File("src\\Server\\" + CSMsg.getRequest().getId()).mkdir();
+				String path = "src\\Server\\" + CSMsg.getRequest().getId();
+				File f = new File(path + "\\" + CSMsg.getFileName());
+				OutputStream os = null;
+				boolean sucess = false;
+				try {
+					os = new FileOutputStream(f);
+					os.write(CSMsg.getBuffer());
+					sucess = true;
+				} catch (FileNotFoundException e) {
 					System.out.println("cant find file");
 				} catch (IOException e) {
 					System.out.println("Cannot write to file");
 				} finally {
 					try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.UPLOADFINISH,sucess));
-			        os.close();
-					} catch (Exception e ) { }
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.UPLOADFINISH, sucess));
+						os.close();
+					} catch (Exception e) {
+					}
 
-			    }
-			    break;
+				}
+				break;
 			case CreateRequest:
 				Request r = CSMsg.getRequest();
 				int id = DataBaseController.CreateNewRequest(r);
@@ -163,8 +166,8 @@ public class EchoServer extends AbstractServer {
 			case CreateReport:
 				int i;
 				Report report1 = CSMsg.getReport();
-				i=DataBaseController.CreateReportForRequest(report1);
-				if(i==1) {
+				i = DataBaseController.CreateReportForRequest(report1);
+				if (i == 1) {
 					try {
 						client.sendToClient("good");
 					} catch (IOException e) {
@@ -174,20 +177,20 @@ public class EchoServer extends AbstractServer {
 				break;
 			case GETUSERFILES:
 				Request request = CSMsg.getRequest();
-				try (Stream<Path> paths = Files.walk(Paths.get("src\\Server\\"+request.getId()+"\\"))) {
-					ArrayList<Path> Paths=new ArrayList<>();
+				try (Stream<Path> paths = Files.walk(Paths.get("src\\Server\\" + request.getId() + "\\"))) {
+					ArrayList<Path> Paths = new ArrayList<>();
 					paths.forEach(Paths::add);
 					ArrayList<String> strings = new ArrayList<>();
 					for (Path p : Paths)
 						strings.add(p.toString());
-				      client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES,strings));
-				    } catch (IOException e) {
-				      return;
-				    }
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES, strings));
+				} catch (IOException e) {
+					return;
+				}
 				break;
 			case STAGESSCREEN:
 				Request req = CSMsg.getRequest();
-				//create in dbcontrollers to fill string[10]
+				// create in dbcontrollers to fill string[10]
 				break;
 			case UpdateStage:
 				DataBaseController.ChangeRequestStage(CSMsg.getId(), true);

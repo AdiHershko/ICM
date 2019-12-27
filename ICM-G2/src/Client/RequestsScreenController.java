@@ -53,7 +53,7 @@ public class RequestsScreenController {
 	private Scene report;
 	public static Report reportOfRequest;
 	Stage newWindow = new Stage();
-	public static int saveOrSub =0;
+	public static int saveOrSub = 0;
 	@FXML
 	private Button addFilesButton;
 	@FXML
@@ -307,14 +307,17 @@ public class RequestsScreenController {
 			showUploadedFiles(r);
 			if (Main.currentUser.getRole() == Enums.Role.Supervisor
 					|| Main.currentUser.getRole() == Enums.Role.Manager) {
+				System.out.println("manager");
 				SupervisorPane1.setVisible(true);
 				if (r.getCurrentStageEnum() != Enums.RequestStageENUM.Closing)
 					changeStatus.setVisible(false);
 				else
 					changeStatus.setVisible(true);
 			} else if (Main.currentUser.getRole() != Enums.Role.College) {
+				System.out.println("tester");
 				showRequestByStage(r);
 			}
+
 		} catch (Exception e) {
 		}
 	}
@@ -442,7 +445,7 @@ public class RequestsScreenController {
 		r.setId(newRequestID);
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("New request created! \n Request ID: " + r.getId());
-		//uploadFileToServer_NewRequest(r); TODO: hersko
+		// uploadFileToServer_NewRequest(r); TODO: hersko
 		alert.showAndWait();
 		RefreshTable();
 		disableAllRequestPans();
@@ -470,7 +473,7 @@ public class RequestsScreenController {
 	}
 
 	public void closeExtraWindow() {
-		
+
 		newWindow.close();
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Great!");
@@ -533,7 +536,9 @@ public class RequestsScreenController {
 
 	@FXML
 	void statusChange(ActionEvent event) {
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, "" + r.getId()));
+		String s = r.getId() + "-" + r.getStatus();
+		System.out.println(s);
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, s));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Confirm!");
 		alert.setHeaderText("Request closed!");
@@ -613,32 +618,42 @@ public class RequestsScreenController {
 		alert.show();
 
 	}
+
 	public void unVisibleRequestPane() {
 		GeneralViewRequest1.setVisible(false);
 	}
+
 	@FXML
-    void ApproveStageBtn(ActionEvent event) {
+	void ApproveStageBtn(ActionEvent event) {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 		RefreshTable();
 		unVisibleRequestPane();
-    }
+	}
 
-    @FXML
-    void AskMoreData(ActionEvent event) {
-    	Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.downStage, r.getId()));
-    	RefreshTable();
-    	unVisibleRequestPane();
-    }
+	@FXML
+	void AskMoreData(ActionEvent event) {
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.downStage, r.getId()));
+		RefreshTable();
+		unVisibleRequestPane();
+	}
 
-    @FXML
-    void DeclineRequest(ActionEvent event) {
+	@FXML
+	void DeclineRequest(ActionEvent event) {
+		System.out.println("i want to " + r.getId());
+		Main.client
+				.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.declineRequest, "" + r.getId()));
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Request declined!");
+		alert.setHeaderText("Request declined!");
+		alert.setContentText("Request number " + r.getId() + " declined, waiting for supervisor confirmation");
+		alert.show();
+		RefreshTable();
+	}
 
-    }
-
-    @FXML
-    void ReportFailure(ActionEvent event) {
-
-    }
+	@FXML
+	void ReportFailure(ActionEvent event) throws IOException {
+	
+	}
 
     @FXML
     void SaveTesterApoint(ActionEvent event) {
@@ -657,19 +672,24 @@ public class RequestsScreenController {
 		alert.show();
     }
 
-    @FXML
-    void ViewReport(ActionEvent event) {
-    	AssessmentReportPage();
-    }
+	@FXML
+	void TesteAppoint(ActionEvent event) {
 
-    @FXML
-    void extentionAsk(ActionEvent event) {
+	}
 
-    }
+	@FXML
+	void ViewReport(ActionEvent event) {
+		AssessmentReportPage();
+	}
 
-    @FXML
-    void viewFailureReport(ActionEvent event) {
+	@FXML
+	void extentionAsk(ActionEvent event) {
 
-    }
-    
+	}
+
+	@FXML
+	void viewFailureReport(ActionEvent event) {
+
+	}
+
 }

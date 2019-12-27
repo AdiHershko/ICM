@@ -9,7 +9,7 @@ public class Enums {
 	public enum MessageEnum {
 		CONNECT, SearchUser, REFRESH, LoginFail, loginGood, DISCONNECT, REFRESHUSERID, UPLOAD, UPLOADFINISH, GETOBLIST,
 		UpdateStage, CreateRequest, NewRequestID, REFRESHMAN, CreateReport, GETUSERFILES, STAGESSCREEN, SearchReport,
-		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers;
+		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers, declineRequest;
 		public static MessageEnum getMessageEnum(int i) {
 			switch (i) {
 			case 0:
@@ -50,6 +50,8 @@ public class Enums {
 				return UpdateRequestDetails;
 			case 18:
 				return downStage;
+			case 19:
+				return declineRequest;
 			}
 
 			return null;
@@ -95,13 +97,15 @@ public class Enums {
 				return 17;
 			case downStage:
 				return 18;
+			case declineRequest:
+				return 19;
 			}
 			return -1;
 		}
 	}
 
 	public enum RequestStatus {
-		Active, Closed, Frozen;
+		Active, Closed, Frozen,Rejected,RejectedClosed;
 		public static RequestStatus getStatusByInt(int i) {
 			switch (i) {
 			case 0:
@@ -110,6 +114,10 @@ public class Enums {
 				return Closed;
 			case 2:
 				return Frozen;
+			case 3:
+				return Rejected;
+			case 4:
+				return RejectedClosed;
 			}
 			return null;
 		}
@@ -122,6 +130,10 @@ public class Enums {
 				return 1;
 			case Frozen:
 				return 2;
+			case Rejected:
+				return 3;
+			case RejectedClosed:
+				return 4;
 			}
 			return -1;
 		}
@@ -233,7 +245,7 @@ public class Enums {
 	}
 
 	public enum Role {
-		College, GeneralIS, CommitteChairman, CommitteMember, Supervisor, Manager;
+		College, GeneralIS, CommitteChairman, CommitteMember, Supervisor, Manager,Tester;
 		public static Role getRoleENUM(int i) {
 			switch (i) {
 			case 0:
@@ -248,6 +260,8 @@ public class Enums {
 				return Supervisor;
 			case 5:
 				return Manager;
+			case 6:
+				return Tester;
 			}
 			return null;
 		}
@@ -266,6 +280,8 @@ public class Enums {
 				return 4;
 			case Manager:
 				return 5;
+			case Tester:
+				return 6;
 			}
 			return -1;
 		}
