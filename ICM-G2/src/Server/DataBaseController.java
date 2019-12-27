@@ -206,6 +206,33 @@ public class DataBaseController {
 		}
 		return us;
 	}
+	
+	public static ArrayList<String> GetCommitte(){
+		String query = "select username from Users where role=3 or role=2";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		ArrayList<String> Committe = new ArrayList<String>();
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					Committe.add(rs.getString(1));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return Committe;
+	}
+	
 	public static Report SearchReport(int id) {
 		String query = "select * from Reports where requestID="+String.valueOf(id);
 		ResultSet rs = null;
@@ -401,6 +428,18 @@ public class DataBaseController {
 		}
 	}
 
+	public static void AppointStageHandlers(int id, int stage, String handlers) {
+		String query = "update Stages set Member=',"+handlers+",' where RequestID="+id+" and StageName="+stage;
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+	
 	public static String GetComitteString() {
 		String results = "";
 		String query = "select * from Users where Role = 2";

@@ -7,8 +7,9 @@ public class Enums {
 	public final static int numberOfStages = 6;
 
 	public enum MessageEnum {
-		CONNECT, SearchUser, REFRESH, LoginFail, loginGood, DISCONNECT, REFRESHUSERID, UPLOAD, UPLOADFINISH, GETOBLIST, UpdateStage,
-		CreateRequest, NewRequestID, REFRESHMAN,CreateReport,GETUSERFILES,STAGESSCREEN,SearchReport,UpdateStatus,Freeze,Unfreeze,UpdateRequestDetails,downStage;
+		CONNECT, SearchUser, REFRESH, LoginFail, loginGood, DISCONNECT, REFRESHUSERID, UPLOAD, UPLOADFINISH, GETOBLIST,
+		UpdateStage, CreateRequest, NewRequestID, REFRESHMAN, CreateReport, GETUSERFILES, STAGESSCREEN, SearchReport,
+		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers;
 		public static MessageEnum getMessageEnum(int i) {
 			switch (i) {
 			case 0:

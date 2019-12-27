@@ -3,6 +3,7 @@ package Common;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import Common.Enums.*;
@@ -23,8 +24,10 @@ public class ClientServerMessage implements Serializable {
 	private boolean uploadstatus;
 	private Object [] list;
 	private int id;
+	private int stage;
 	private Report report;
 	private List l;
+	private ArrayList<String> committe;
 
 	public Report getReport() {
 		return report;
@@ -58,9 +61,9 @@ public class ClientServerMessage implements Serializable {
 		this.l = l;
 	}
 
-	public ClientServerMessage(MessageEnum type, String msg) {
+	public ClientServerMessage(MessageEnum type, ArrayList<String> committe) {
 		this.type = type;
-		this.msg = msg;
+		this.committe = committe;
 	}
 
 	public ClientServerMessage(MessageEnum type, List l) {
@@ -99,6 +102,18 @@ public class ClientServerMessage implements Serializable {
 		this.list=list;
 	}
 
+	public ClientServerMessage(MessageEnum type, String msg) {
+		this.type = type;
+		this.msg = msg;
+	}
+	
+	public ClientServerMessage(MessageEnum type, int id, int stage, String msg) {
+		this.type = type;
+		this.id = id;
+		this.msg = msg;
+		this.stage = stage;
+	}
+	
 	public byte[] getBuffer() {
 		return buffer;
 	}
@@ -173,5 +188,21 @@ public class ClientServerMessage implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public ArrayList<String> getCommitte() {
+		return committe;
+	}
+
+	public void setCommitte(ArrayList<String> committe) {
+		this.committe = committe;
+	}
+
+	public int getStage() {
+		return stage;
+	}
+
+	public void setStage(int stage) {
+		this.stage = stage;
 	}
 }

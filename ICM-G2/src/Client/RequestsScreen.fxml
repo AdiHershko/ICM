@@ -51,9 +51,9 @@
                               <Button fx:id="DeclineRequestBtn" layoutX="370.0" layoutY="34.0" mnemonicParsing="false" onAction="#DeclineRequest" text="Decline request" />
                               <Button fx:id="AskMoreDataBtn" layoutX="484.0" layoutY="34.0" mnemonicParsing="false" onAction="#AskMoreData" text="Ask for more data" />
                               <Label layoutX="5.0" layoutY="74.0" text="Appoint tester:" />
-                              <TextField fx:id="TesteAppointBtn" layoutX="92.0" layoutY="70.0" onAction="#TesteAppoint" />
-                              <Button fx:id="SaveTesterApointBtn" layoutX="244.0" layoutY="68.0" mnemonicParsing="false" onAction="#SaveTesterApoint" text="Save" />
+                              <Button fx:id="SaveTesterApointBtn" layoutX="258.0" layoutY="68.0" mnemonicParsing="false" onAction="#SaveTesterApoint" text="Save" />
                               <Button fx:id="ViewReportBtn" layoutX="173.0" layoutY="34.0" mnemonicParsing="false" onAction="#ViewReport" text="View Report" />
+                              <ChoiceBox fx:id="testerCB" layoutX="98.0" layoutY="70.0" prefWidth="150.0" />
                            </children>
                         </Pane>
                         <Pane fx:id="TesterPane1" layoutX="367.0" layoutY="6.0" prefHeight="89.0" prefWidth="483.0" visible="false">

@@ -195,6 +195,17 @@ public class EchoServer extends AbstractServer {
 			case downStage:
 				DataBaseController.ChangeRequestStage(CSMsg.getId(), false);
 				break;
+			case GetComitte:
+				ArrayList<String> committe = DataBaseController.GetCommitte();
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ComitteList,committe));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case AppointStageHandlers:
+				DataBaseController.AppointStageHandlers(CSMsg.getId(), CSMsg.getStage(), CSMsg.getMsg());
+				break;
 			default:
 				break;
 			}

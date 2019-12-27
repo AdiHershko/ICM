@@ -141,6 +141,8 @@ public class ChatClient extends AbstractClient {
 				ArrayList<String> arr = (ArrayList<String>) ((ClientServerMessage)msg).getL();
 				RequestsScreenController._ins.setFilePaths(arr);
 				return;
+			case ComitteList:
+				RequestsScreenController._ins.loadComitteeMembers(((ClientServerMessage) msg).getCommitte());
 			default:
 				return;
 			}

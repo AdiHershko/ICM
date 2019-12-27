@@ -115,7 +115,7 @@ public class RequestsScreenController {
 	@FXML
 	private Button AskMoreDataBtn;
 	@FXML
-	private TextField TesteAppointBtn;
+	private TextField TesteAppointField;
 	@FXML
 	private Button SaveTesterApointBtn;
 	@FXML
@@ -144,6 +144,8 @@ public class RequestsScreenController {
 	private Button changeStatus;
 	@FXML
 	private Button freezeUnfreeze;
+	@FXML
+	private ChoiceBox<String> testerCB = new ChoiceBox<String>();
 	private int index;
 
 	public void initialize() {
@@ -182,7 +184,6 @@ public class RequestsScreenController {
 		choiceBox.getItems().add(SystemENUM.Computers);
 		choiceBox.getItems().add(SystemENUM.Labs);
 		choiceBox.getItems().add(SystemENUM.Site);
-
 	}
 
 	@FXML
@@ -326,11 +327,13 @@ public class RequestsScreenController {
 		case Examaning:
 			StageManagersPane1.setVisible(true);
 			ComittePane1.setVisible(true);
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetComitte));
 			break;
 		case Execution:
 			StageManagersPane1.setVisible(true);
 			break;
 		case Testing:
+			StageManagersPane1.setVisible(true);
 			TesterPane1.setVisible(true);
 			break;
 		default:
@@ -338,6 +341,16 @@ public class RequestsScreenController {
 		}
 	}
 
+	public void loadComitteeMembers(ArrayList<String> committe) {
+		if (testerCB.getItems().isEmpty()) {
+			for (String s : committe) {
+				testerCB.getItems().add(s);
+			}
+		}
+		testerCB.setVisible(true);
+		//TODO maybe selcet if already in
+	}
+	
 	public void disableAllRequestPans() {
 		GeneralViewRequest1.setVisible(false);
 		UserViewsRequest1.setVisible(false);
@@ -348,6 +361,8 @@ public class RequestsScreenController {
 		StageManagersPane1.setVisible(false);
 		TesterPane1.setVisible(false);
 		CUserOpenRequest1.setVisible(false);
+		testerCB.getSelectionModel().clearSelection();
+		testerCB.setVisible(false);
 		descArea.clear();
 		changeArea.clear();
 		reasonArea.clear();
@@ -382,6 +397,7 @@ public class RequestsScreenController {
 	@FXML
 	void openNewRequestPane(ActionEvent event) {
 		disableAllRequestPans();
+		choiceBox.getSelectionModel().clearSelection();
 		GeneralViewRequest1.setVisible(true);
 		CUserOpenRequest1.setVisible(true);
 		descArea.setEditable(true);
@@ -626,12 +642,19 @@ public class RequestsScreenController {
 
     @FXML
     void SaveTesterApoint(ActionEvent event) {
-
-    }
-
-    @FXML
-    void TesteAppoint(ActionEvent event) {
-
+    	if (testerCB.getSelectionModel().isEmpty()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR!");
+			alert.setContentText("No tester selected!");
+			alert.show();
+			return;
+		}
+		String tester = testerCB.getValue();
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.AppointStageHandlers, r.getId(),4,tester));
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Confirm tester");
+		alert.setContentText("Request number " + r.getId() + " tester is "+tester);
+		alert.show();
     }
 
     @FXML
