@@ -53,6 +53,7 @@ public class RequestsScreenController {
 	private Scene report;
 	public static Report reportOfRequest;
 	Stage newWindow = new Stage();
+	public static int saveOrSub =0;
 	@FXML
 	private Button addFilesButton;
 	@FXML
@@ -453,6 +454,7 @@ public class RequestsScreenController {
 	}
 
 	public void closeExtraWindow() {
+		
 		newWindow.close();
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Great!");
@@ -595,19 +597,21 @@ public class RequestsScreenController {
 		alert.show();
 
 	}
-	
+	public void unVisibleRequestPane() {
+		GeneralViewRequest1.setVisible(false);
+	}
 	@FXML
     void ApproveStageBtn(ActionEvent event) {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 		RefreshTable();
-		GeneralViewRequest1.setVisible(false);
+		unVisibleRequestPane();
     }
 
     @FXML
     void AskMoreData(ActionEvent event) {
     	Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.downStage, r.getId()));
     	RefreshTable();
-    	GeneralViewRequest1.setVisible(false);
+    	unVisibleRequestPane();
     }
 
     @FXML
@@ -644,4 +648,5 @@ public class RequestsScreenController {
     void viewFailureReport(ActionEvent event) {
 
     }
+    
 }

@@ -94,6 +94,7 @@ public class ReportScreenController {
 		else {
 			report.setDurationAssesment(-1);
 		}
+		
 		report.setConstrains(constrainsTXT.getText());
 		report.setResult(resultTXT.getText());
 		report.setRisks(risksTXT.getText());
@@ -104,7 +105,7 @@ public class ReportScreenController {
 		ClientServerMessage msg = new ClientServerMessage(Enums.MessageEnum.CreateReport, report);
 
 		Main.client.handleMessageFromClientUI(msg);
-
+		
 	}
 
 	public void submitReport() {
@@ -119,6 +120,7 @@ public class ReportScreenController {
 		else {
 			saveReport();
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, report.getRequestId()));
+			RequestsScreenController._ins.unVisibleRequestPane();
 		}
 
 	}
