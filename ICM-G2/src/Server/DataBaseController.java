@@ -362,6 +362,7 @@ public class DataBaseController {
 			e.printStackTrace();
 			return;
 		}
+		
 		query = "Select Stage from Requests where id="+id;
 		try {
 			statement = c.prepareStatement(query);
@@ -371,6 +372,16 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		query = "update Stages set ActualDate='"+(new DateTime()).toString()+"' where RequestID="+id+" and StageName="+(currentStage-1);
+		try {
+			statement = c.prepareStatement(query);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+		
 		query = "Select Member from Stages where RequestID="+id+" and StageName="+currentStage;
 		try {
 			statement = c.prepareStatement(query);

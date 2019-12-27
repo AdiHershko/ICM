@@ -142,7 +142,7 @@ public class RequestsScreenController {
 					{
 						public void run() {
 							DateTime dt = new DateTime();
-							dateLabel.setText(dt.toString("dd/MM/yyyy hh:mm:ss a"));
+							dateLabel.setText(dt.toString("dd/MM/yyyy hh:mm:ss a" + " |"));
 							dt = null; // for garbage collection
 						}
 					});
