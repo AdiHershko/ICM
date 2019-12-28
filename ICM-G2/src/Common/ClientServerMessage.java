@@ -23,6 +23,7 @@ public class ClientServerMessage implements Serializable {
 	private byte[] buffer;
 	private boolean uploadstatus;
 	private Object [] list;
+	private String[] stringarr;
 	private int id;
 	private int stage;
 	private Report report;
@@ -79,6 +80,11 @@ public class ClientServerMessage implements Serializable {
 	public ClientServerMessage(MessageEnum type, Report report) {
 		this.type = type;
 		this.report = report;
+	}
+
+	public ClientServerMessage(MessageEnum type, String[] stringarr) {
+		this.type = type;
+		this.stringarr=stringarr;
 	}
 
 	public ClientServerMessage(MessageEnum type, String fileName,byte[] buffer,Request request) {
@@ -168,6 +174,10 @@ public class ClientServerMessage implements Serializable {
 
 	public File getFile() {
 		return file;
+	}
+
+	public String[] getStringarr() {
+		return stringarr;
 	}
 
 	public void setFile(File file) {

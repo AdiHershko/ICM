@@ -9,7 +9,8 @@ public class Enums {
 	public enum MessageEnum {
 		CONNECT, SearchUser, REFRESH, LoginFail, loginGood, DISCONNECT, REFRESHUSERID, UPLOAD, UPLOADFINISH, GETOBLIST,
 		UpdateStage, CreateRequest, NewRequestID, REFRESHMAN, CreateReport, GETUSERFILES, STAGESSCREEN, SearchReport,
-		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers, declineRequest;
+		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers, declineRequest,ADDISUSER,
+		GETISUSER,UPDATEISUSER,CHECKSUPERVISOREXIST,COUNTCOMMITEEMEMBERS,CHECKCHAIRMANEXIST;
 		public static MessageEnum getMessageEnum(int i) {
 			switch (i) {
 			case 0:
@@ -52,6 +53,16 @@ public class Enums {
 				return downStage;
 			case 19:
 				return declineRequest;
+			case 20:
+				return ADDISUSER;
+			case 21:
+				return GETISUSER;
+			case 22:
+				return UPDATEISUSER;
+			case 23:
+				return CHECKSUPERVISOREXIST;
+			case 24:
+				return COUNTCOMMITEEMEMBERS;
 			}
 
 			return null;
@@ -99,6 +110,16 @@ public class Enums {
 				return 18;
 			case declineRequest:
 				return 19;
+			case ADDISUSER:
+				return 20;
+			case GETISUSER:
+				return 21;
+			case UPDATEISUSER:
+				return 22;
+			case CHECKSUPERVISOREXIST:
+				return 23;
+			case COUNTCOMMITEEMEMBERS:
+				return 24;
 			}
 			return -1;
 		}
