@@ -355,11 +355,10 @@ public class RequestsScreenController {
 		Platform.runLater(new Runnable()
 				{
 					public void run() {
-						testerCB.getSelectionModel().select(0);//TODO maybe selcet if already in
+						testerCB.getSelectionModel().select(r.getStages()[4].getStageMembers().get(1));//TODO maybe select if already in
 					}
 				});
 		testerCB.setVisible(true);
-		System.out.println(r.getStages()[4].getStageMembers());
 	}
 
 	public void disableAllRequestPans() {
@@ -678,6 +677,7 @@ public class RequestsScreenController {
 		alert.setTitle("Confirm tester");
 		alert.setContentText("Request number " + r.getId() + " tester is "+tester);
 		alert.show();
+		RefreshTable();
     }
 
 	@FXML
