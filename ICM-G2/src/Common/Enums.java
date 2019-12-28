@@ -245,7 +245,7 @@ public class Enums {
 	}
 
 	public enum Role {
-		College, GeneralIS, CommitteChairman, CommitteMember, Supervisor, Manager,Tester;
+		College, GeneralIS, CommitteChairman, CommitteMember, Supervisor, Manager;
 		public static Role getRoleENUM(int i) {
 			switch (i) {
 			case 0:
@@ -260,8 +260,6 @@ public class Enums {
 				return Supervisor;
 			case 5:
 				return Manager;
-			case 6:
-				return Tester;
 			}
 			return null;
 		}
@@ -280,8 +278,6 @@ public class Enums {
 				return 4;
 			case Manager:
 				return 5;
-			case Tester:
-				return 6;
 			}
 			return -1;
 		}

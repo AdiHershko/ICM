@@ -6,9 +6,6 @@ import Common.Enums.*;
 
 public class User implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2536685616674785116L;
 	private String username;
 	private String password;
@@ -18,18 +15,16 @@ public class User implements Serializable {
 	private CollegeWorkerRole Crole;
 	private String CollegeStudentDep;
 	private Role role;
-	private String permissions;
 
-	public User(String username, String password, String firstName, String lastName, String mail,Role role) {
+	public User(String username, String password, String firstName, String lastName, String mail, Role role) {
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
-		this.role=role;
+		this.role = role;
 	}
 
-	
 	public String getUsername() {
 		return username;
 	}
@@ -93,7 +88,4 @@ public class User implements Serializable {
 	public void setRole(Role iSrole) {
 		role = iSrole;
 	}
-
-	}
-
-
+}

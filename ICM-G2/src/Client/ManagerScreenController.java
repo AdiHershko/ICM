@@ -15,8 +15,8 @@ import javafx.stage.Stage;
 
 public class ManagerScreenController {
 	static ManagerScreenController _ins;
-	boolean isSup = false;
-	boolean isMan = false;
+	private Scene ISUsers;
+	Stage newWindow = new Stage();
 	ActionEvent event;
 	@FXML
 	private Button createUserButton;
@@ -47,20 +47,47 @@ public class ManagerScreenController {
 
 	public void initialize() {
 		_ins = this;
-		if (Main.currentUser.getRole() == Enums.Role.Manager) {
-			isMan = true;
-			System.out.println("sdfdsfs im here\n");
-		}
-		if (Main.currentUser.getRole() == Enums.Role.Supervisor) {
-			isSup = true;
-		}
 	}
 
 	@FXML
-	public void logout(ActionEvent event) throws IOException {
+    void openCreateUser(ActionEvent event) {
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("3.1-AddISUsersScreen.fxml"));
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		ISUsers = new Scene(root);
+		newWindow.setTitle("Create IS User");
+		newWindow.setScene(ISUsers);
+		newWindow.show();
+    }
+
+    @FXML
+    void openEditUser(ActionEvent event) {
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("3.1-AddISUsersScreen.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ISUsers = new Scene(root);
+		ISUsersScreenConstroller._ins.enableFindBtn();
+		newWindow.setTitle("Edit IS User");
+		newWindow.setScene(ISUsers);
+		newWindow.show();
+    }
+	
+	@FXML
+	public void logout(ActionEvent event) {
 		Main.currentUser = null;
 		Parent root = null;
-		root = FXMLLoader.load(getClass().getResource("loginScreen.fxml"));
+		try {
+			root = FXMLLoader.load(getClass().getResource("loginScreen.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
@@ -68,16 +95,6 @@ public class ManagerScreenController {
 	}
 
 	public void requestBtn(ActionEvent event) throws IOException {
-		this.event = event;
-		if (isMan) {
-			getReqScreen();
-			
-		} else if (isSup) {
-			getReqScreen();
-		}
-	}
-
-	public void getReqScreen() {
 		Parent root = null;
 		try {
 			root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));

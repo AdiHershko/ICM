@@ -350,8 +350,14 @@ public class RequestsScreenController {
 				testerCB.getItems().add(s);
 			}
 		}
+		Platform.runLater(new Runnable()
+				{
+					public void run() {
+						testerCB.getSelectionModel().select(0);//TODO maybe selcet if already in
+					}
+				});
 		testerCB.setVisible(true);
-		//TODO maybe selcet if already in
+		System.out.println(r.getStages()[4].getStageMembers());
 	}
 	
 	public void disableAllRequestPans() {
@@ -445,7 +451,7 @@ public class RequestsScreenController {
 		r.setId(newRequestID);
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("New request created! \n Request ID: " + r.getId());
-		// uploadFileToServer_NewRequest(r); TODO: hersko
+		uploadFileToServer_NewRequest(r);
 		alert.showAndWait();
 		RefreshTable();
 		disableAllRequestPans();
