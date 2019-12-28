@@ -36,6 +36,7 @@ public class Main extends Application {
 		Scene s = new Scene(root);
 		stage.setScene(s);
 		stage.setTitle("ICM Prototype - Client");
+		stage.setResizable(false);
 		stage.show();
 
 		stage.setOnCloseRequest(e -> {

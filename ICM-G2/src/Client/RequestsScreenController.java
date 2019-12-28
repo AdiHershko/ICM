@@ -409,6 +409,7 @@ public class RequestsScreenController {
 		root = FXMLLoader.load(getClass().getResource("loginScreen.fxml"));
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		window.setResizable(false);
 		window.setScene(requests);
 		window.show();
 	}
@@ -480,6 +481,7 @@ public class RequestsScreenController {
 		report = new Scene(root);
 		newWindow.setTitle("Report");
 		newWindow.setScene(report);
+		newWindow.setResizable(false);
 		newWindow.show();
 	}
 
@@ -547,6 +549,7 @@ public class RequestsScreenController {
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
+		window.setResizable(false);
 		window.show();
 	}
 
@@ -720,6 +723,7 @@ public class RequestsScreenController {
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
+		window.setResizable(false);
 		window.show();
 	}
 }

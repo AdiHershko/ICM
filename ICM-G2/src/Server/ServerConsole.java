@@ -37,6 +37,7 @@ public class ServerConsole extends Application {
 		Scene s = new Scene(root);
 		stage.setScene(s);
 		stage.setTitle("ICM Prototype - Server");
+		stage.setResizable(false);
 		stage.show();
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override

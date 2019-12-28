@@ -87,6 +87,7 @@ public class LoginScreenController {
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
+		window.setResizable(false);
 		window.show();
 	}
 	

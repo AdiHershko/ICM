@@ -61,6 +61,7 @@ public class ManagerScreenController {
 		ISUsers = new Scene(root);
 		newWindow.setTitle("Create IS User");
 		newWindow.setScene(ISUsers);
+		newWindow.setResizable(false);
 		newWindow.show();
     }
 
@@ -76,6 +77,7 @@ public class ManagerScreenController {
 		ISUsersScreenConstroller._ins.enableFindBtn();
 		newWindow.setTitle("Edit IS User");
 		newWindow.setScene(ISUsers);
+		newWindow.setResizable(false);
 		newWindow.show();
     }
 	
@@ -91,6 +93,7 @@ public class ManagerScreenController {
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
+		window.setResizable(false);
 		window.show();
 	}
 
@@ -104,6 +107,7 @@ public class ManagerScreenController {
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(requests);
+		window.setResizable(false);
 		window.show();
 	}
 }

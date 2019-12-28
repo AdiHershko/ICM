@@ -1,6 +1,6 @@
 .root {
     -fx-background-image: url("bg.jpg");
-	-fx-background-size: auto;
+	-fx-background-size: stretch;
 }
 
 .button {
