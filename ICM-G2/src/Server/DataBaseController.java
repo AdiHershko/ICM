@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,6 +59,55 @@ public class DataBaseController {
 		return true;
 	}
 
+	public static String addISUser(String query)
+	{
+		PreparedStatement st;
+		try{
+			st = c.prepareStatement(query);
+			st.execute();
+		}catch(SQLIntegrityConstraintViolationException e){
+			return "IDEXISTS";
+		}catch(SQLException e)
+		{
+			return "CANTEXECUTE";
+		}
+		return "GOOD";
+	}
+
+	public static String[] getISUser(String query)
+	{
+		PreparedStatement st;
+		ResultSet rs=null;
+		String[] res=null;
+		try{
+			st = c.prepareStatement(query);
+			rs = st.executeQuery();
+			res = new String[5];
+			if (!rs.next())
+			{
+				return null;
+			}
+			for (int i = 0;i<4;i++)
+				res[i]=rs.getString(i+1);
+			res[4]=""+rs.getInt(5);
+			} catch(SQLException e) {
+				return null;
+			}
+		return res;
+	}
+
+	public static boolean updateISUser(String query)
+	{
+		PreparedStatement st;
+		try{
+			st = c.prepareStatement(query);
+			st.execute();
+		} catch(SQLException e) {
+			return false;
+		}
+		return true;
+	}
+
 	public static ObservableList<Request> getRequestsForIS(String UserName) {
 		String query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
 				+ ",%'";
@@ -86,7 +136,7 @@ public class DataBaseController {
 	public static void ChangeRequestStatus(String msg) {
 		String[] tem = msg.split("-");
 		String query;
-		if (tem[1].equals("Rejected")) 
+		if (tem[1].equals("Rejected"))
 			 query = "UPDATE Requests SET Status = 4 WHERE ID = " + tem[0];
 		else
 			 query = "UPDATE Requests SET Status = 1 WHERE ID = " + tem[0];
@@ -248,7 +298,7 @@ public class DataBaseController {
 		}
 		return us;
 	}
-	
+
 	public static ArrayList<String> GetCommitte(){
 		String query = "select username from Users where role=3 or role=2";
 		ResultSet rs = null;
@@ -274,7 +324,7 @@ public class DataBaseController {
 		}
 		return Committe;
 	}
-	
+
 	public static Report SearchReport(int id) {
 		String query = "select * from Reports where requestID=" + String.valueOf(id);
 		ResultSet rs = null;
@@ -320,11 +370,54 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		Alert alert = new Alert(AlertType.ERROR);
+		/*Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("ERROR!");
 		alert.setContentText("No supervisor for system!");
-		alert.show();
+		alert.show();*/
 		return null;
+	}
+	public static String getChairman(){
+		String query = "select Users.username from Users where Role=2";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			if (rs.next()) {
+				return rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
+	public static int countCommitteMembers()
+	{
+		String query = "select COUNT(*) from Users where Role=3";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
 	public static int CreateReportForRequest(Report r) {
@@ -481,7 +574,7 @@ public class DataBaseController {
 			return;
 		}
 	}
-	
+
 	public static String GetComitteString() {
 		String results = "";
 		String query = "select * from Users where Role = 2";

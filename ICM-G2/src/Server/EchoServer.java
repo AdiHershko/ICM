@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 import Client.LoginScreenController;
 import Common.Request;
 import Common.User;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.ClientServerMessage;
@@ -211,6 +212,55 @@ public class EchoServer extends AbstractServer {
 				break;
 			case logOut:
 				DataBaseController.DisconnectUser(CSMsg.getMsg());
+				break;
+			case ADDISUSER:
+				String good = DataBaseController.addISUser(((ClientServerMessage)msg).getMsg());
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ADDISUSER,good));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case GETISUSER:
+				String[] res = DataBaseController.getISUser(((ClientServerMessage)msg).getMsg());
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETISUSER,res));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case UPDATEISUSER:
+				boolean result = DataBaseController.updateISUser(((ClientServerMessage)msg).getMsg());
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.UPDATEISUSER,result));
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+				break;
+			case CHECKSUPERVISOREXIST:
+				String supervisor = DataBaseController.getSupervisor();
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKSUPERVISOREXIST,supervisor));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+
+			case COUNTCOMMITEEMEMBERS:
+				int count = DataBaseController.countCommitteMembers();
+					try {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.COUNTCOMMITEEMEMBERS,count));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					break;
+			case CHECKCHAIRMANEXIST:
+				String chairman = DataBaseController.getChairman();
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKSUPERVISOREXIST,chairman));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				break;
 			default:
 				break;

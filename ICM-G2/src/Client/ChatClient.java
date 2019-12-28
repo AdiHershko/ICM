@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Common.ClientServerMessage;
+import Common.Enums;
 import Common.Report;
 import Common.Request;
 import Common.User;
@@ -151,6 +152,98 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				return;
+			case ADDISUSER:
+				if (((ClientServerMessage)msg).getMsg().equals("GOOD"))
+					Platform.runLater(()->{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("User added");
+						alert.show();
+					});
+				else if (((ClientServerMessage)msg).getMsg().equals("IDEXISTS")) Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("ID already exists");
+					alert.show();
+				});
+				else Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("User was not added");
+					alert.show();
+				});
+				break;
+			case GETISUSER:
+				String[] str = (String[]) (((ClientServerMessage)msg).getArray());
+				if (str==null)
+				{
+					Platform.runLater(()->{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("Could not find user");
+						alert.show();
+					});
+					return;
+				}
+				if (Integer.parseInt(str[4])==0)
+				{
+					Platform.runLater(()->{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("Cannot edit college users");
+						alert.show();
+					});
+					return;
+				}
+				Platform.runLater(()->{
+					ISUsersScreenConstroller._ins.getPasswordField().setText(str[0]);
+					ISUsersScreenConstroller._ins.getFirstNameField().setText(str[1]);
+					ISUsersScreenConstroller._ins.getLastNameField().setText(str[2]);
+					ISUsersScreenConstroller._ins.getMailField().setText(str[3]);
+					ISUsersScreenConstroller._ins.getRoleChoiceBox().getSelectionModel().select(Enums.Role.getRoleENUM(Integer.parseInt(str[4])));
+				});
+				return;
+			case UPDATEISUSER:
+				if (((ClientServerMessage)msg).isUploadstatus())
+				{
+					Platform.runLater(()->{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("User updated");
+						alert.show();
+					});
+					return;
+				}
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("User was not updated");
+					alert.show();
+				});
+				break;
+			case CHECKSUPERVISOREXIST:
+				String supervisor=(((ClientServerMessage)msg).getMsg());
+				if (supervisor==null){ //supervisor does not exists
+					ISUsersScreenConstroller._ins.setCanEdit(true);
+					ISUsersScreenConstroller._ins.setSemaphore(false);
+					return;
+				}
+				ISUsersScreenConstroller._ins.setCanEdit(false);
+				ISUsersScreenConstroller._ins.setSemaphore(false);
+				break;
+			case COUNTCOMMITEEMEMBERS:
+				int members=(((ClientServerMessage)msg).getId());
+				if (members<3){
+					ISUsersScreenConstroller._ins.setCanEdit(true);
+					ISUsersScreenConstroller._ins.setSemaphore(false);
+					return;
+				}
+				ISUsersScreenConstroller._ins.setCanEdit(false);
+				ISUsersScreenConstroller._ins.setSemaphore(false);
+				break;
+			case CHECKCHAIRMANEXIST:
+				String chairman=(((ClientServerMessage)msg).getMsg());
+				if (chairman==null){
+					ISUsersScreenConstroller._ins.setCanEdit(true);
+					ISUsersScreenConstroller._ins.setSemaphore(false);
+					return;
+				}
+				ISUsersScreenConstroller._ins.setCanEdit(false);
+				ISUsersScreenConstroller._ins.setSemaphore(false);
+				break;
 			default:
 				return;
 			}

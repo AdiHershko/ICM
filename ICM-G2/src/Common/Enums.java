@@ -10,6 +10,7 @@ public class Enums {
 		CONNECT, SearchUser, REFRESH, LoginFail, loginGood, DISCONNECT, REFRESHUSERID, UPLOAD, UPLOADFINISH, GETOBLIST,
 		UpdateStage, CreateRequest, NewRequestID, REFRESHMAN, CreateReport, GETUSERFILES, STAGESSCREEN, SearchReport,
 		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers,
+		ADDISUSER, GETISUSER, UPDATEISUSER, CHECKSUPERVISOREXIST, COUNTCOMMITEEMEMBERS, CHECKCHAIRMANEXIST,
 		declineRequest, logOut, tryingToLogSameTime;
 	}
 
