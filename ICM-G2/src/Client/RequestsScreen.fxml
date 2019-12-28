@@ -125,5 +125,6 @@
          </font>
       </Label>
       <Button fx:id="logoutButton" layoutX="1127.0" layoutY="7.0" mnemonicParsing="false" onAction="#logout" text="Log Out" />
+      <Button fx:id="managerBackBtn" layoutX="25.0" layoutY="560.0" mnemonicParsing="false" onAction="#managerBack" text="&lt;- Back" visible="false" />
    </children>
 </Pane>

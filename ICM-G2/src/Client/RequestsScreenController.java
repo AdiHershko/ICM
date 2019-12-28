@@ -146,6 +146,8 @@ public class RequestsScreenController {
 	@FXML
 	private Button freezeUnfreeze;
 	@FXML
+	private Button managerBackBtn;
+	@FXML
 	private ChoiceBox<String> testerCB = new ChoiceBox<String>();
 	private int index;
 
@@ -185,6 +187,13 @@ public class RequestsScreenController {
 		choiceBox.getItems().add(SystemENUM.Computers);
 		choiceBox.getItems().add(SystemENUM.Labs);
 		choiceBox.getItems().add(SystemENUM.Site);
+		
+		if (Main.currentUser.getRole() == Enums.Role.Manager) {
+			managerBackBtn.setVisible(true);
+		}
+		else {
+			managerBackBtn.setVisible(false);
+		}
 	}
 
 	@FXML
@@ -700,4 +709,17 @@ public class RequestsScreenController {
 
 	}
 
+	@FXML
+	void managerBack(ActionEvent event) {
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("3.0-ManagerScreen.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Scene requests = new Scene(root);
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		window.setScene(requests);
+		window.show();
+	}
 }
