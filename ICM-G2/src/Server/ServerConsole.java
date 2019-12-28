@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -39,6 +40,7 @@ public class ServerConsole extends Application {
 		stage.setTitle("ICM Prototype - Server");
 		stage.setResizable(false);
 		stage.show();
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.jpg")));
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent t) {
