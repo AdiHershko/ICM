@@ -2,8 +2,11 @@ package Client;
 
 import java.io.IOException;
 
+import org.joda.time.DateTime;
+
 import Common.ClientServerMessage;
 import Common.Enums;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,9 +48,35 @@ public class ManagerScreenController {
 
 	@FXML
 	private Button logoutButton;
+	@FXML
+	private Label dateLabel;
+	@FXML
+	private Label userNameLabel;
 
 	public void initialize() {
 		_ins = this;
+		new Thread() {
+			public void run() {
+				userNameLabel.setText("Welcome: "+Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
+				while (true) // update time in 0.5s intervals
+				{
+
+					Platform.runLater(new Runnable() // wont work without this shit
+					{
+						public void run() {
+							DateTime dt = new DateTime();
+							dateLabel.setText(dt.toString("dd/MM/yyyy hh:mm:ss a"));
+							dt = null; // for garbage collection
+						}
+					});
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+					}
+				}
+
+			}
+		}.start();
 	}
 
 	@FXML
@@ -81,7 +110,7 @@ public class ManagerScreenController {
 		newWindow.setResizable(false);
 		newWindow.show();
     }
-	
+
 	@FXML
 	public void logout(ActionEvent event) {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.logOut, Main.currentUser.getUsername()));

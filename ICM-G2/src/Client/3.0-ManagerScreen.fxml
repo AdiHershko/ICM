@@ -48,12 +48,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="timeDateTxt" layoutX="10.0" layoutY="10.0" text="Time&amp;Date |">
+      <Label fx:id="dateLabel" layoutX="14.0" layoutY="11.0" text="Time&amp;Date">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="userTXT" layoutX="117.0" layoutY="10.0" text="UserName">
+      <Label fx:id="userNameLabel" layoutX="829.0" layoutY="11.0" text="UserName">
          <font>
             <Font size="18.0" />
          </font>
