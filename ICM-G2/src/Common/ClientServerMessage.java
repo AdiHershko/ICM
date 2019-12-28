@@ -22,12 +22,11 @@ public class ClientServerMessage implements Serializable {
 	private BufferedInputStream bis;
 	private byte[] buffer;
 	private boolean uploadstatus;
-	private Object [] list;
+	private Object [] array;
 	private int id;
 	private int stage;
 	private Report report;
 	private List l;
-	//private ArrayList<String> committe;
 
 	public Report getReport() {
 		return report;
@@ -93,9 +92,9 @@ public class ClientServerMessage implements Serializable {
 		this.uploadstatus=sucess;
 	}
 
-	public ClientServerMessage(MessageEnum type, Object[] list) {
+	public ClientServerMessage(MessageEnum type, Object[] array) {
 		this.type=type;
-		this.list=list;
+		this.array=array;
 	}
 
 	public ClientServerMessage(MessageEnum type, String msg) {
@@ -174,8 +173,8 @@ public class ClientServerMessage implements Serializable {
 		this.file = file;
 	}
 
-	public Object[] getList() {
-		return list;
+	public Object[] getArray() {
+		return array;
 	}
 
 	public int getId() {

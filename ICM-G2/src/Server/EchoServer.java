@@ -92,11 +92,9 @@ public class EchoServer extends AbstractServer {
 				DataBaseController.changeStatusToDecline(Integer.parseInt(CSMsg.getMsg()));
 				return;
 			case SearchUser:
-				String[] temp = CSMsg.getMsg().split(" ");
+				String[] temp = (String[]) CSMsg.getArray();
 				User us1 = DataBaseController.SearchUser(temp[0], temp[1]);
-
 				if (us1 == null) {
-
 					try {
 						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.LoginFail));
 					} catch (IOException e) {
@@ -104,18 +102,20 @@ public class EchoServer extends AbstractServer {
 					}
 				} else {
 					try {
-						client.sendToClient(us1);
+						if (us1.getUsername().equals("")) {
+							client.sendToClient(new ClientServerMessage(Enums.MessageEnum.tryingToLogSameTime));
+						}
+						else {
+							client.sendToClient(us1);
+						}
 					} catch (IOException e) {
 						System.out.println("Cant send user to client!");
 					}
 				}
 				break;
 			case SearchReport:
-
 				Report report = DataBaseController.SearchReport(CSMsg.getId());
-
 				if (report == null) {
-
 					try {
 						report = new Report(CSMsg.getId(), "", "", "", "", "", -1);
 						client.sendToClient(report);
@@ -208,6 +208,9 @@ public class EchoServer extends AbstractServer {
 				break;
 			case AppointStageHandlers:
 				DataBaseController.AppointStageHandlers(CSMsg.getId(), CSMsg.getStage(), CSMsg.getMsg());
+				break;
+			case logOut:
+				DataBaseController.DisconnectUser(CSMsg.getMsg());
 				break;
 			default:
 				break;

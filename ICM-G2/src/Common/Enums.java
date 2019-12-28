@@ -9,103 +9,12 @@ public class Enums {
 	public enum MessageEnum {
 		CONNECT, SearchUser, REFRESH, LoginFail, loginGood, DISCONNECT, REFRESHUSERID, UPLOAD, UPLOADFINISH, GETOBLIST,
 		UpdateStage, CreateRequest, NewRequestID, REFRESHMAN, CreateReport, GETUSERFILES, STAGESSCREEN, SearchReport,
-		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers, declineRequest;
-		public static MessageEnum getMessageEnum(int i) {
-			switch (i) {
-			case 0:
-				return CONNECT;
-			case 1:
-				return SearchUser;
-			case 2:
-				return REFRESH;
-			case 3:
-				return LoginFail;
-			case 4:
-				return loginGood;
-			case 5:
-				return DISCONNECT;
-			case 7:
-				return UPLOAD;
-			case 6:
-				return REFRESHUSERID;
-			case 8:
-				return UPLOADFINISH;
-			case 9:
-				return REFRESHMAN;
-			case 10:
-				return CreateReport;
-			case 11:
-				return GETUSERFILES;
-			case 12:
-				return STAGESSCREEN;
-			case 13:
-				return SearchReport;
-			case 17:
-				return UpdateStatus;
-			case 14:
-				return Freeze;
-			case 15:
-				return Unfreeze;
-			case 16:
-				return UpdateRequestDetails;
-			case 18:
-				return downStage;
-			case 19:
-				return declineRequest;
-			}
-
-			return null;
-		}
-
-		public static int getMessageEnumByEnum(MessageEnum i) {
-			switch (i) {
-			case CONNECT:
-				return 0;
-			case SearchUser:
-				return 1;
-			case REFRESH:
-				return 2;
-			case LoginFail:
-				return 3;
-			case loginGood:
-				return 4;
-			case DISCONNECT:
-				return 5;
-			case UPLOAD:
-				return 7;
-			case REFRESHUSERID:
-				return 6;
-			case UPLOADFINISH:
-				return 8;
-			case REFRESHMAN:
-				return 9;
-			case CreateReport:
-				return 10;
-			case GETUSERFILES:
-				return 11;
-			case STAGESSCREEN:
-				return 12;
-			case SearchReport:
-				return 13;
-			case Freeze:
-				return 14;
-			case Unfreeze:
-				return 15;
-			case UpdateRequestDetails:
-				return 16;
-			case UpdateStatus:
-				return 17;
-			case downStage:
-				return 18;
-			case declineRequest:
-				return 19;
-			}
-			return -1;
-		}
+		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers,
+		declineRequest, logOut, tryingToLogSameTime;
 	}
 
 	public enum RequestStatus {
-		Active, Closed, Frozen,Rejected,RejectedClosed;
+		Active, Closed, Frozen, Rejected, RejectedClosed;
 		public static RequestStatus getStatusByInt(int i) {
 			switch (i) {
 			case 0:

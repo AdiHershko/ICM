@@ -117,7 +117,7 @@ public class ChatClient extends AbstractClient {
 				return;
 			case GETOBLIST:
 				ObservableList<Request> l = FXCollections.observableArrayList();
-				for (Object o : ((ClientServerMessage)msg).getList()) {
+				for (Object o : ((ClientServerMessage)msg).getArray()) {
 					l.add((Request) o);
 				}
 				RequestsScreenController._ins.getTableView().setItems(l);
@@ -136,13 +136,21 @@ public class ChatClient extends AbstractClient {
 					}
 
 				});
-			return;
+				return;
 			case GETUSERFILES:
 				ArrayList<String> arr = (ArrayList<String>) ((ClientServerMessage)msg).getL();
 				RequestsScreenController._ins.setFilePaths(arr);
 				return;
 			case ComitteList:
 				RequestsScreenController._ins.loadComitteeMembers(((ClientServerMessage) msg).getL());
+				break;
+			case tryingToLogSameTime:
+				Platform.runLater(new Runnable() {
+					public void run() {
+						LoginScreenController._ins.LoginSameTime();
+					}
+				});
+				return;
 			default:
 				return;
 			}

@@ -2,6 +2,7 @@ package Client;
 
 import java.io.IOException;
 
+import Common.ClientServerMessage;
 import Common.Enums;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -83,6 +84,7 @@ public class ManagerScreenController {
 	
 	@FXML
 	public void logout(ActionEvent event) {
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.logOut, Main.currentUser.getUsername()));
 		Main.currentUser = null;
 		Parent root = null;
 		try {

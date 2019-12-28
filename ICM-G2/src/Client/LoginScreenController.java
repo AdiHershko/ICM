@@ -55,7 +55,7 @@ public class LoginScreenController {
 		}
 		else {
 			this.event = event;
-			String temp = userTXT.getText() + " " + passTXT.getText();
+			String temp[] = {userTXT.getText(),passTXT.getText()};
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.SearchUser, temp));
 		}
 	}
@@ -65,9 +65,16 @@ public class LoginScreenController {
 		alert.setTitle("ERROR!");
 		alert.setContentText("BAD USERNAME/PASSOWRD");
 		alert.showAndWait();
-
 	}
 
+	public void LoginSameTime() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("ERROR!");
+		alert.setContentText("User already logged in");
+		alert.showAndWait();
+
+	}
+	
 	public void LoginGood(User user) {
 		Main.currentUser = user;
 		Parent root = null;

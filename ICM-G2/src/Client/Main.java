@@ -40,7 +40,14 @@ public class Main extends Application {
 		stage.show();
 
 		stage.setOnCloseRequest(e -> {
-			client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.DISCONNECT));
+			try {
+				if (currentUser != null) {
+					client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.logOut, currentUser.getUsername()));
+					client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.DISCONNECT));
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 			System.exit(0);
 		});
 

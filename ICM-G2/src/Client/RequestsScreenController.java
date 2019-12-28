@@ -404,6 +404,7 @@ public class RequestsScreenController {
 
 	@FXML
 	public void logout(ActionEvent event) throws IOException {
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.logOut, Main.currentUser.getUsername()));
 		Main.currentUser = null;
 		Parent root = null;
 		root = FXMLLoader.load(getClass().getResource("loginScreen.fxml"));
