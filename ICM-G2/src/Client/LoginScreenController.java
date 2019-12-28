@@ -32,16 +32,8 @@ public class LoginScreenController {
 	private TextField userTXT;
 
 	public void initialize() {
-		ChatClient client;
+		
 		_ins = this;
-		try {
-			client = new ChatClient("localhost", ChatClient.DEFAULT_PORT);
-		} catch (IOException e) {
-			System.out.println("Cannot connect to the server");
-			return;
-		}
-		Main.client = client;
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.CONNECT));
 		loginButton.setDefaultButton(true);
 	}
 

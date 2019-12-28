@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	Stage stage;
 	Pane root;
-	LoginScreenController c;
+	clientChooseController c;
 	public static ChatClient client;
 	static User currentUser;
 	static Request currentRequest;
@@ -27,7 +27,7 @@ public class Main extends Application {
 		this.stage = stage;
 		try { // loading fxml file
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("loginScreen.fxml"));
+			loader.setLocation(getClass().getResource("fxmlFile.fxml"));
 			root = loader.load();
 			c = loader.getController(); // saving controller class
 		} catch (IOException e) {
@@ -37,7 +37,7 @@ public class Main extends Application {
 
 		Scene s = new Scene(root);
 		stage.setScene(s);
-		stage.setTitle("ICM Prototype - Client");
+		stage.setTitle("Client connection");
 		stage.setResizable(false);
 		stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.jpg")));
 		stage.show();
