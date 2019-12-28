@@ -1,0 +1,55 @@
+.root {
+	-fx-background-color: #FFFFFF;
+}
+
+.button {
+    -fx-padding: 5;
+    -fx-background-color: #FFFFF4;
+    -fx-background-radius: 30;
+	-fx-background-insets: 0.5;
+	-fx-border-color: transparent, black;
+    -fx-border-width: 0.3, 0.3;
+	-fx-border-radius: 30;
+	-fx-effect: dropshadow(three-pass-box , rgba(0.6,0.6,0.6,0.6) , 3, 0.0 , 1 , 1);
+}
+
+.button:hover{
+	-fx-background-color: #CCCCF4;
+
+}
+
+.button:pressed {
+    -fx-scale-y: 0.9;
+    -fx-scale-x: 0.9;
+}
+
+.table-view{
+	-fx-background-radius: 10;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(#68B8FF 0%, #FFFFFF 100%);
+	-fx-background-radius: 10;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+
+.menu-button {
+    -fx-background-color:#f1f1f1;
+	-fx-background-radius: 5;
+	-fx-border-color: transparent, black;
+    -fx-border-width: 0.3, 0.3;
+	-fx-border-radius: 5;
+}
+
+.text-field {
+	-fx-background-radius: 5;
+	-fx-border-radius: 5;
+}
