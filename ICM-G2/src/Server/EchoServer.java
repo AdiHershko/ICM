@@ -257,7 +257,7 @@ public class EchoServer extends AbstractServer {
 			case CHECKCHAIRMANEXIST:
 				String chairman = DataBaseController.getChairman();
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKSUPERVISOREXIST,chairman));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKCHAIRMANEXIST,chairman));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
