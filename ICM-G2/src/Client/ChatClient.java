@@ -142,7 +142,7 @@ public class ChatClient extends AbstractClient {
 				RequestsScreenController._ins.setFilePaths(arr);
 				return;
 			case ComitteList:
-				RequestsScreenController._ins.loadComitteeMembers(((ClientServerMessage) msg).getCommitte());
+				RequestsScreenController._ins.loadComitteeMembers(((ClientServerMessage) msg).getL());
 			default:
 				return;
 			}

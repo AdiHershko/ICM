@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.joda.time.DateTime;
@@ -344,7 +345,8 @@ public class RequestsScreenController {
 		}
 	}
 
-	public void loadComitteeMembers(ArrayList<String> committe) {
+	public void loadComitteeMembers(List<String> committe) {
+		ArrayList<String> list = (ArrayList<String>) committe;
 		if (testerCB.getItems().isEmpty()) {
 			for (String s : committe) {
 				testerCB.getItems().add(s);
@@ -353,7 +355,7 @@ public class RequestsScreenController {
 		testerCB.setVisible(true);
 		//TODO maybe selcet if already in
 	}
-	
+
 	public void disableAllRequestPans() {
 		GeneralViewRequest1.setVisible(false);
 		UserViewsRequest1.setVisible(false);
@@ -445,7 +447,7 @@ public class RequestsScreenController {
 		r.setId(newRequestID);
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("New request created! \n Request ID: " + r.getId());
-		// uploadFileToServer_NewRequest(r); TODO: hersko
+		uploadFileToServer_NewRequest(r);
 		alert.showAndWait();
 		RefreshTable();
 		disableAllRequestPans();
@@ -489,7 +491,7 @@ public class RequestsScreenController {
 
 			@Override
 			public void run() {
-				filesPaths.clear();
+				filesPaths = new ArrayList<String>();
 			}
 		}).start();
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES, r));
@@ -652,7 +654,7 @@ public class RequestsScreenController {
 
 	@FXML
 	void ReportFailure(ActionEvent event) throws IOException {
-	
+
 	}
 
     @FXML

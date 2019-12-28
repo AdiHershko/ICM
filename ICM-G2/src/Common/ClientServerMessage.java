@@ -27,7 +27,7 @@ public class ClientServerMessage implements Serializable {
 	private int stage;
 	private Report report;
 	private List l;
-	private ArrayList<String> committe;
+	//private ArrayList<String> committe;
 
 	public Report getReport() {
 		return report;
@@ -61,10 +61,6 @@ public class ClientServerMessage implements Serializable {
 		this.l = l;
 	}
 
-	public ClientServerMessage(MessageEnum type, ArrayList<String> committe) {
-		this.type = type;
-		this.committe = committe;
-	}
 
 	public ClientServerMessage(MessageEnum type, List l) {
 		this.type = type;
@@ -106,14 +102,14 @@ public class ClientServerMessage implements Serializable {
 		this.type = type;
 		this.msg = msg;
 	}
-	
+
 	public ClientServerMessage(MessageEnum type, int id, int stage, String msg) {
 		this.type = type;
 		this.id = id;
 		this.msg = msg;
 		this.stage = stage;
 	}
-	
+
 	public byte[] getBuffer() {
 		return buffer;
 	}
@@ -190,13 +186,7 @@ public class ClientServerMessage implements Serializable {
 		this.id = id;
 	}
 
-	public ArrayList<String> getCommitte() {
-		return committe;
-	}
 
-	public void setCommitte(ArrayList<String> committe) {
-		this.committe = committe;
-	}
 
 	public int getStage() {
 		return stage;
