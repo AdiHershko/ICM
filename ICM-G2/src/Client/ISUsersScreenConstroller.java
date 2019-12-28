@@ -65,7 +65,6 @@ public class ISUsersScreenConstroller {
 	@FXML
 	void findUserFunction(ActionEvent event) {
 		isEdit = true;
-		userIDField.setEditable(false);
 		String query = "select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"+userIDField.getText()+"'";
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETISUSER,query));
 	}
@@ -73,8 +72,12 @@ public class ISUsersScreenConstroller {
 	@FXML
 	void saveUser(ActionEvent event) {
 		canedit=false;
-		if (!allFieldsFilled())
-			return;
+		if (!allFieldsFilled()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR!");
+			alert.setContentText("Empty fields!");
+			alert.showAndWait();
+		}
 		User current = new User(userIDField.getText(), passwordField.getText(), firstNameField.getText(),
 				lastNameField.getText(), mailField.getText(), roleChoiceBox.getSelectionModel().getSelectedItem());
 		if (roleChoiceBox.getSelectionModel().getSelectedItem()==Enums.Role.Supervisor)
