@@ -88,7 +88,6 @@ public class EchoServer extends AbstractServer {
 				}
 				return;
 			case declineRequest:
-				System.out.println("im here");
 				DataBaseController.changeReqToClosed(Integer.parseInt(CSMsg.getMsg()));
 				DataBaseController.changeStatusToDecline(Integer.parseInt(CSMsg.getMsg()));
 				return;
