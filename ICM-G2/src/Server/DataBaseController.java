@@ -294,7 +294,7 @@ public class DataBaseController {
 					if (rs.getInt(10) == 0 | rs.getInt(10) == 1) {//TODO
 						us = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
 								Enums.Role.getRoleENUM(rs.getInt(6)));
-						//query = "update Users set isLoggedIn=1 where username ='" + user + "'";
+						query = "update Users set isLoggedIn=1 where username ='" + user + "'";
 						statement = c.prepareStatement(query);
 						statement.execute();
 					}
