@@ -317,14 +317,12 @@ public class RequestsScreenController {
 			showUploadedFiles(r);
 			if (Main.currentUser.getRole() == Enums.Role.Supervisor
 					|| Main.currentUser.getRole() == Enums.Role.Manager) {
-				System.out.println("manager");
 				SupervisorPane1.setVisible(true);
 				if (r.getCurrentStageEnum() != Enums.RequestStageENUM.Closing)
 					changeStatus.setVisible(false);
 				else
 					changeStatus.setVisible(true);
 			} else if (Main.currentUser.getRole() != Enums.Role.College) {
-				System.out.println("tester");
 				showRequestByStage(r);
 			}
 

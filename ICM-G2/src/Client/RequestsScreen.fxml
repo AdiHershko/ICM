@@ -114,7 +114,7 @@
             <TextArea fx:id="commentsArea" editable="false" layoutX="9.0" layoutY="296.0" prefHeight="53.0" prefWidth="843.0" />
          </children>
       </Pane>
-      <Label fx:id="dateLabel" layoutX="7.0" layoutY="7.0" text="27/12/2019 09:57:12 AM | ">
+      <Label fx:id="dateLabel" layoutX="7.0" layoutY="7.0" text="Time and Date |">
          <font>
             <Font size="18.0" />
          </font>
