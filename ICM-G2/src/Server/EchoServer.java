@@ -87,6 +87,11 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
+			case TesterRep:
+				String[] tem = CSMsg.getMsg().split("-");
+				DataBaseController.ChangeReportFailure(CSMsg.getMsg());
+				DataBaseController.ChangeRequestStage(Integer.parseInt(tem[1]), false);
+				return;
 			case declineRequest:
 				DataBaseController.changeReqToClosed(Integer.parseInt(CSMsg.getMsg()));
 				DataBaseController.changeStatusToDecline(Integer.parseInt(CSMsg.getMsg()));

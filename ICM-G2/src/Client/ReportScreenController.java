@@ -60,11 +60,10 @@ public class ReportScreenController {
 		risksTXT.setText(RequestsScreenController.reportOfRequest.getRisks());
 		if (RequestsScreenController.reportOfRequest.getDurationAssesment() == -1) {
 			timeTXT.setText("");
-		}
-		else {
+		} else {
 			timeTXT.setText(String.valueOf(RequestsScreenController.reportOfRequest.getDurationAssesment()));
 		}
-		if(RequestsScreenController.r.getCurrentStage()!=Enums.RequestStageENUM.Assesment) {
+		if (RequestsScreenController.r.getCurrentStage() != Enums.RequestStageENUM.Assesment) {
 			SubmitReportButton.setVisible(false);
 			SaveReportButton.setVisible(false);
 			descTXT.setEditable(false);
@@ -78,23 +77,22 @@ public class ReportScreenController {
 	}
 
 	public void saveReport() {
-		
+
 		report = new Report();
 		if (!(timeTXT.getText().toString().equals(""))) {
 			try {
-			report.setDurationAssesment(Integer.parseInt(timeTXT.getText().toString()));
-			}catch (NumberFormatException e) {
+				report.setDurationAssesment(Integer.parseInt(timeTXT.getText().toString()));
+			} catch (NumberFormatException e) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR!");
 				alert.setContentText("Not a number in duration assesment field!");
 				alert.showAndWait();
 				return;
-			  }
-		}
-		else {
+			}
+		} else {
 			report.setDurationAssesment(-1);
 		}
-		
+
 		report.setConstrains(constrainsTXT.getText());
 		report.setResult(resultTXT.getText());
 		report.setRisks(risksTXT.getText());
@@ -105,7 +103,7 @@ public class ReportScreenController {
 		ClientServerMessage msg = new ClientServerMessage(Enums.MessageEnum.CreateReport, report);
 
 		Main.client.handleMessageFromClientUI(msg);
-		
+
 	}
 
 	public void submitReport() {
@@ -116,13 +114,14 @@ public class ReportScreenController {
 			alert.setTitle("ERROR!");
 			alert.setContentText("EMPTY REQUIERD FIELDS!");
 			alert.showAndWait();
-		}
-		else {
+		} else {
 			saveReport();
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, report.getRequestId()));
+			Main.client.handleMessageFromClientUI(
+					new ClientServerMessage(Enums.MessageEnum.UpdateStage, report.getRequestId()));
 			RequestsScreenController._ins.unVisibleRequestPane();
 		}
 
 	}
 
+	
 }

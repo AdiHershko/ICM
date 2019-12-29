@@ -161,7 +161,17 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
-
+	public static void ChangeReportFailure(String Msg) {
+		String[] tem = Msg.split("-");
+		String query = "UPDATE Stages SET ReportFailure = '"+tem[0]+"' WHERE StageName = '4' and RequestID = '"+tem[1]+"'";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public static void Freeze(int Id) {
 		String query = "UPDATE Requests SET Status = 2 WHERE ID = " + Id;
 		PreparedStatement statement = null;

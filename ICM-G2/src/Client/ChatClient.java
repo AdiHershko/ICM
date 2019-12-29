@@ -29,6 +29,7 @@ public class ChatClient extends AbstractClient {
 	final public static int DEFAULT_PORT = 5555;
 	Dialog<Boolean> noConnection = new Dialog<>();
 	Node closeButton;
+
 	public ChatClient(String host, int port) throws IOException {
 		super(host, port); // Call the superclass constructor
 		openConnection();
@@ -49,14 +50,12 @@ public class ChatClient extends AbstractClient {
 											System.exit(1);
 										});
 										noConnection.setTitle("ERROR!");
-										noConnection.setContentText(
-												"Server disconnected\nTrying to reconnect...");
-										if (closeButton==null)
-										{
-										noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-										closeButton = noConnection.getDialogPane().lookupButton(ButtonType.CLOSE);
-										closeButton.managedProperty().bind(closeButton.visibleProperty());
-										closeButton.setVisible(false);
+										noConnection.setContentText("Server disconnected\nTrying to reconnect...");
+										if (closeButton == null) {
+											noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+											closeButton = noConnection.getDialogPane().lookupButton(ButtonType.CLOSE);
+											closeButton.managedProperty().bind(closeButton.visibleProperty());
+											closeButton.setVisible(false);
 										}
 										noConnection.showAndWait();
 
@@ -317,6 +316,7 @@ public class ChatClient extends AbstractClient {
 				}
 			});
 		}
+	
 	}
 
 	public void handleMessageFromClientUI(Object message) {

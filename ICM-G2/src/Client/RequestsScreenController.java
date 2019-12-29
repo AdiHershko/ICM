@@ -46,10 +46,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class RequestsScreenController {
+	public static Stage newWindow123;
 	public static RequestsScreenController _ins;
 	public static boolean waitForNewRequest;
 	public static int newRequestID;
 	public static Request r;
+	public static int idnum;
 	private ArrayList<String> filesPaths = new ArrayList<String>();
 	private Scene report;
 	public static Report reportOfRequest;
@@ -126,6 +128,9 @@ public class RequestsScreenController {
 	@FXML
 	private Button ApproveStageBtn;
 	@FXML
+	private Button submitBtn;
+	
+	@FXML
 	private TextField dueDate;
 	@FXML
 	private Button extentionAskBtn;
@@ -149,6 +154,8 @@ public class RequestsScreenController {
 	private Button managerBackBtn;
 	@FXML
 	private ChoiceBox<String> testerCB = new ChoiceBox<String>();
+	@FXML
+	private TextField exectuionReport;
 	private int index;
 
 	public void initialize() {
@@ -482,6 +489,7 @@ public class RequestsScreenController {
 		newWindow.setScene(report);
 		newWindow.setResizable(false);
 		newWindow.show();
+		
 	}
 
 	public void AssessmentReportPage() {
@@ -640,7 +648,6 @@ public class RequestsScreenController {
 	public void unVisibleRequestPane() {
 		GeneralViewRequest1.setVisible(false);
 	}
-
 	@FXML
 	void ApproveStageBtn(ActionEvent event) {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
@@ -670,7 +677,29 @@ public class RequestsScreenController {
 
 	@FXML
 	void ReportFailure(ActionEvent event) throws IOException {
+		int number = tableView.getSelectionModel().getSelectedItem().getId();
+		this.idnum=number;
+		Platform.runLater(new Runnable() {
+			public void run() {
+				Pane root=null;
+				ExecutionFailuresController c;
+				try { // loading fxml file
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(getClass().getResource("2.1-ExecutionFailures.fxml"));
+					root = loader.load();
+					c = loader.getController(); // saving controller class
+				} catch (IOException e) {
+					e.printStackTrace();
+					return;
+				}
 
+				Scene s = new Scene(root);
+				newWindow.setScene(s);
+				newWindow.setTitle("Edit Report");
+				newWindow123=newWindow;
+				newWindow.show();
+			}
+		});
 	}
 
     @FXML
@@ -724,5 +753,14 @@ public class RequestsScreenController {
 		window.setScene(requests);
 		window.setResizable(false);
 		window.show();
+	}
+	public static void reportMsgAndRef() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Upload finished");
+		alert.setContentText("Upload finished succesfully");
+		alert.showAndWait();
+		_ins.RefreshTable();
+		newWindow123.close();
+		
 	}
 }
