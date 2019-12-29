@@ -124,7 +124,7 @@ public class ServerChooseController {
 		loading=true;
 		loadinganim.setScaleX(0.2);
 		loadinganim.setScaleY(0.2);
-		loadinganim.setX(ServerConsole.root.getPrefWidth()/3.5);
+		loadinganim.setX(ServerConsole.root.getPrefWidth()/4);
 		loadinganim.setY(ServerConsole.root.getPrefHeight()/8.0);
 		loadinganim.setVisible(true);
 		loadinganim.setVisible(true);

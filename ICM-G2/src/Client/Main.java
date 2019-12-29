@@ -27,7 +27,7 @@ public class Main extends Application {
 		this.stage = stage;
 		try { // loading fxml file
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("fxmlFile.fxml"));
+			loader.setLocation(getClass().getResource("ClientEntrance.fxml"));
 			root = loader.load();
 			c = loader.getController(); // saving controller class
 		} catch (IOException e) {
