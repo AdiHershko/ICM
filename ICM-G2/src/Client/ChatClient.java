@@ -244,6 +244,53 @@ public class ChatClient extends AbstractClient {
 				ISUsersScreenConstroller._ins.setCanEdit(false);
 				ISUsersScreenConstroller._ins.setSemaphore(false);
 				break;
+			case STAGESSCREEN:
+				ArrayList<String> list = (ArrayList<String>) ((ClientServerMessage)msg).getL();
+				Platform.runLater(()->{
+					RequestSettingsController._ins.getAssesmentDueDateText().setText(list.get(0));
+					RequestSettingsController._ins.getAssesmentAppointerText().setText(list.get(1));
+					RequestSettingsController._ins.getAssesmentExtensionDateText().setText(list.get(2));
+					RequestSettingsController._ins.getExaminingDueDateText().setText(list.get(3));
+					RequestSettingsController._ins.getExamaningDueDateText().setText(list.get(5));
+					RequestSettingsController._ins.getExecutionDueDateText().setText(list.get(6));
+					RequestSettingsController._ins.getExecutionAppointerText().setText(list.get(7));
+					RequestSettingsController._ins.getExecutionExtenstionDateText().setText(list.get(8));
+					RequestSettingsController._ins.getTestDueDateText().setText(list.get(9));
+					RequestSettingsController._ins.getTesterExtensionDateText().setText(list.get(11));
+				});
+				break;
+			case EDITASSESMENTER:
+				if (!((ClientServerMessage)msg).isUploadstatus())
+				{
+					Platform.runLater(()->{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("Could not find user");
+						alert.show();
+					});
+					return;
+				}
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Assesmentor updated");
+					alert.show();
+				});
+				break;
+			case EDITEXECUTIONER:
+				if (!((ClientServerMessage)msg).isUploadstatus())
+				{
+					Platform.runLater(()->{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("Could not find user");
+						alert.show();
+					});
+					return;
+				}
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Executioner updated");
+					alert.show();
+				});
+				break;
 			default:
 				return;
 			}

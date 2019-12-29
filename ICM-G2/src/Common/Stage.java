@@ -10,17 +10,17 @@ import Common.Enums.RequestStageENUM;
 public class Stage implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private RequestStageENUM stageName;
-	private Date plannedDueDate;
+	private String plannedDueDate;
 	private Boolean isApproved;
 	private Boolean isExtended;
 	private ArrayList<String> stageMembers;
 	private User stageLeader;
 
 	public Stage() {
-		
+
 	}
-	
-	public Stage(RequestStageENUM stageName, Date plannedDueDate, Boolean isApproved, Boolean isExtended) {
+
+	public Stage(RequestStageENUM stageName, String plannedDueDate, Boolean isApproved, Boolean isExtended) {
 		this.stageName = stageName;
 		this.plannedDueDate = plannedDueDate;
 		this.isApproved = isApproved;
@@ -35,11 +35,11 @@ public class Stage implements Serializable{
 		this.stageName = stageName;
 	}
 
-	public Date getPlannedDueDate() {
+	public String getPlannedDueDate() {
 		return plannedDueDate;
 	}
 
-	public void setPlannedDueDate(Date plannedDueDate) {
+	public void setPlannedDueDate(String plannedDueDate) {
 		this.plannedDueDate = plannedDueDate;
 	}
 

@@ -108,6 +108,19 @@ public class DataBaseController {
 		return true;
 	}
 
+	public static void updateAssesmentor(String id, int stage){
+		PreparedStatement st;
+		try{
+			st = c.prepareStatement("update Stages set Member='"+id+"' where StageName="+stage);
+			st.execute();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+
 	public static ObservableList<Request> getRequestsForIS(String UserName) {
 		String query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
 				+ ",%'";
@@ -249,7 +262,7 @@ public class DataBaseController {
 				Stage s = RequestStages[rs.getInt(1)];
 				Enums.RequestStageENUM tmp = Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(1));
 				s.setStageName(tmp);
-				s.setPlannedDueDate(rs.getDate(2));
+				s.setPlannedDueDate(rs.getString(2));
 				s.setIsApproved(rs.getInt(3) == 1);
 				s.setIsExtended(rs.getInt(4) == 1);
 				ArrayList<String> stageMembers = new ArrayList<String>();
@@ -283,7 +296,7 @@ public class DataBaseController {
 								Enums.Role.getRoleENUM(rs.getInt(6)));
 						//query = "update Users set isLoggedIn=1 where username ='" + user + "'";
 						statement = c.prepareStatement(query);
-						statement.executeUpdate();
+						statement.execute();
 					}
 					else {
 						us = new User("", "", "", "", "",Enums.Role.getRoleENUM(rs.getInt(6)));
@@ -647,7 +660,35 @@ public class DataBaseController {
 		Random rand = new Random();
 		return users.get(rand.nextInt(users.size()));
 	}
-	
+	public static ArrayList<String> getStagesInfo(int requestID)
+	{
+		ArrayList<String> res = new ArrayList<>();
+		String query = "SELECT PlannedDueDate,Member,ExtendedDueDate FROM Stages where RequestID="+requestID+" and StageName>0";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next())
+			{
+				if (rs.getString(1)!=null)
+					res.add(new DateTime(rs.getString(1)).toString("dd/MM/yyyy")); //duedate
+				else res.add("");
+				res.add(rs.getString(2)); //member
+				if (rs.getString(3)!=null)
+					res.add(new DateTime(rs.getString(3)).toString("dd/MM/yyyy")); //extension
+				else res.add("");
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 	public static void DisconnectUser(String UserID) {
 		String query = "update Users set isLoggedIn=0 where username ='" + UserID + "'";
 		PreparedStatement statement = null;

@@ -546,7 +546,7 @@ public class RequestsScreenController {
 		} catch (IOException e) {
 		}
 		Scene requests = new Scene(root);
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		Stage window = new Stage();
 		window.setScene(requests);
 		window.setResizable(false);
 		window.show();

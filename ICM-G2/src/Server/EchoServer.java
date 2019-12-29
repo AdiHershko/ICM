@@ -191,7 +191,12 @@ public class EchoServer extends AbstractServer {
 				break;
 			case STAGESSCREEN:
 				Request req = CSMsg.getRequest();
-				// create in dbcontrollers to fill string[10]
+				ArrayList<String> list = DataBaseController.getStagesInfo(req.getId());
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.STAGESSCREEN,list));
+				} catch (IOException e){
+					e.printStackTrace();
+				}
 				break;
 			case UpdateStage:
 				DataBaseController.ChangeRequestStage(CSMsg.getId(), true);
@@ -259,6 +264,38 @@ public class EchoServer extends AbstractServer {
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKCHAIRMANEXIST,chairman));
 				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case EDITASSESMENTER:
+				String id1 = ((ClientServerMessage)msg).getMsg();
+				if (DataBaseController.getISUser("select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"+id1+"'")==null)
+					try {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER,false));
+						return;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				DataBaseController.updateAssesmentor(id1, 1);
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER,true));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case EDITEXECUTIONER:
+				String id2 = ((ClientServerMessage)msg).getMsg();
+				if (DataBaseController.getISUser("select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"+id2+"'")==null)
+					try {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER,false));
+						return;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				DataBaseController.updateAssesmentor(id2, 3);
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER,true));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
