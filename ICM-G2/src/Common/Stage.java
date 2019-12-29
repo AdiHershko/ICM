@@ -11,6 +11,9 @@ public class Stage implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private RequestStageENUM stageName;
 	private String plannedDueDate;
+	private String extendedDueDate;
+	private String actualDate;
+	private String ReportFailure;
 	private Boolean isApproved;
 	private Boolean isExtended;
 	private ArrayList<String> stageMembers;
@@ -73,6 +76,30 @@ public class Stage implements Serializable{
 
 	public void setStageLeader(User stageLeader) {
 		this.stageLeader = stageLeader;
+	}
+
+	public String getExtendedDueDate() {
+		return extendedDueDate;
+	}
+
+	public void setExtendedDueDate(String extendedDueDate) {
+		this.extendedDueDate = extendedDueDate;
+	}
+
+	public String getReportFailure() {
+		return ReportFailure;
+	}
+
+	public void setReportFailure(String reportFailure) {
+		ReportFailure = reportFailure;
+	}
+
+	public String getActualDate() {
+		return actualDate;
+	}
+
+	public void setActualDate(String actualDate) {
+		this.actualDate = actualDate;
 	}
 
 }

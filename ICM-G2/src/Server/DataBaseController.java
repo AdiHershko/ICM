@@ -280,6 +280,9 @@ public class DataBaseController {
 				for (int i = 0; i < handlers_array.length; i++)
 					stageMembers.add(handlers_array[i]);
 				s.setStageMembers(stageMembers);
+				s.setActualDate(rs.getString(7));
+				s.setExtendedDueDate(rs.getString(8));
+				s.setReportFailure(rs.getString(9));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -629,7 +632,7 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		try {
-			if (rs.next()) {
+			while (rs.next()) {
 				try {
 					results += "," + rs.getString(1) + ",";
 				} catch (SQLException e) {

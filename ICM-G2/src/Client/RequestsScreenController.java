@@ -46,12 +46,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class RequestsScreenController {
-	public static Stage newWindow123;
+	public static Stage tmp_newWindow;
 	public static RequestsScreenController _ins;
 	public static boolean waitForNewRequest;
 	public static int newRequestID;
 	public static Request r;
-	public static int idnum;
 	private ArrayList<String> filesPaths = new ArrayList<String>();
 	private Scene report;
 	public static Report reportOfRequest;
@@ -129,7 +128,6 @@ public class RequestsScreenController {
 	private Button ApproveStageBtn;
 	@FXML
 	private Button submitBtn;
-	
 	@FXML
 	private TextField dueDate;
 	@FXML
@@ -349,6 +347,10 @@ public class RequestsScreenController {
 			break;
 		case Execution:
 			StageManagersPane1.setVisible(true);
+			if (r.getStages()[4].getReportFailure() == null)
+				ExecutionerFailure.setVisible(false);
+			else
+				ExecutionerFailure.setVisible(true);
 			break;
 		case Testing:
 			StageManagersPane1.setVisible(true);
@@ -677,17 +679,14 @@ public class RequestsScreenController {
 
 	@FXML
 	void ReportFailure(ActionEvent event) throws IOException {
-		int number = tableView.getSelectionModel().getSelectedItem().getId();
-		this.idnum=number;
 		Platform.runLater(new Runnable() {
 			public void run() {
 				Pane root=null;
-				ExecutionFailuresController c;
 				try { // loading fxml file
 					FXMLLoader loader = new FXMLLoader();
 					loader.setLocation(getClass().getResource("2.1-ExecutionFailures.fxml"));
 					root = loader.load();
-					c = loader.getController(); // saving controller class
+					loader.getController(); // saving controller class
 				} catch (IOException e) {
 					e.printStackTrace();
 					return;
@@ -695,8 +694,9 @@ public class RequestsScreenController {
 
 				Scene s = new Scene(root);
 				newWindow.setScene(s);
-				newWindow.setTitle("Edit Report");
-				newWindow123=newWindow;
+				newWindow.setTitle("Execution Failures Report");
+				newWindow.setResizable(false);
+				tmp_newWindow=newWindow;
 				newWindow.show();
 			}
 		});
@@ -721,11 +721,6 @@ public class RequestsScreenController {
     }
 
 	@FXML
-	void TesteAppoint(ActionEvent event) {
-
-	}
-
-	@FXML
 	void ViewReport(ActionEvent event) {
 		AssessmentReportPage();
 	}
@@ -737,7 +732,20 @@ public class RequestsScreenController {
 
 	@FXML
 	void viewFailureReport(ActionEvent event) {
+		Parent root = null;
+		index = tableView.getSelectionModel().getSelectedIndex();
+		try {
+			root = FXMLLoader.load(getClass().getResource("2.1-ExecutionFailures.fxml"));
+		} catch (IOException e) {
 
+			e.printStackTrace();
+		}
+		report = new Scene(root);
+		newWindow.setTitle("Execution Failures Report");
+		newWindow.setScene(report);
+		newWindow.setResizable(false);
+		tmp_newWindow=newWindow;
+		newWindow.show();
 	}
 
 	@FXML
@@ -754,13 +762,14 @@ public class RequestsScreenController {
 		window.setResizable(false);
 		window.show();
 	}
+	
 	public static void reportMsgAndRef() {
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Upload finished");
-		alert.setContentText("Upload finished succesfully");
+		alert.setTitle("Failure report sent");
+		alert.setContentText("Failure report sent succesfully");
 		alert.showAndWait();
 		_ins.RefreshTable();
-		newWindow123.close();
+		tmp_newWindow.close();
 		
 	}
 }

@@ -3,6 +3,7 @@ package Client;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Report;
+import Common.Request;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -14,9 +15,8 @@ import javafx.stage.Stage;
 
 public class ExecutionFailuresController {
 	Stage newWindow = new Stage();
-	private Scene reportScene;
 	static ExecutionFailuresController _ins;
-	private int requestNum;
+	private Request r;
 	@FXML
 	private TextField exectuionReport;
 	@FXML
@@ -24,13 +24,22 @@ public class ExecutionFailuresController {
 	@FXML
 	private Label IdLabel;
 	public void initialize() {
-		requestNum=RequestsScreenController.idnum;
 		_ins = this;
-		IdLabel.setText(""+requestNum);
+		r = RequestsScreenController.r;
+		IdLabel.setText(""+r.getId());
+		if (r.getStages()[4].getReportFailure() == null) {
+			submitBtn.setVisible(true);
+			exectuionReport.setEditable(true);
+		}
+		else {
+			submitBtn.setVisible(false);
+			exectuionReport.setEditable(false);
+			exectuionReport.setText(r.getStages()[4].getReportFailure());
+		}
 	}
 	public void submitTextField() {
 		String msgReport=exectuionReport.getText();
-		String res=msgReport+"-"+RequestsScreenController.idnum;
+		String res=msgReport+"-"+r.getId();
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.TesterRep,res));
 		RequestsScreenController.reportMsgAndRef();
 	}
