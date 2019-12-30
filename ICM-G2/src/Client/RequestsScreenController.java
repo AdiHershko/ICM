@@ -57,6 +57,9 @@ public class RequestsScreenController {
 	public static Report reportOfRequest;
 	Stage newWindow = new Stage();
 	public static int saveOrSub = 0;
+	private boolean isSearch;
+	private int index;
+	private int id = -1;
 	@FXML
 	private Button addFilesButton;
 	@FXML
@@ -163,7 +166,10 @@ public class RequestsScreenController {
 	private ChoiceBox<String> testerCB = new ChoiceBox<String>();
 	@FXML
 	private TextField exectuionReport;
-	private int index;
+	@FXML
+	private TextField searchField;
+	@FXML
+	private Button searchButton;
 
 	public void initialize() {
 		_ins = this;
@@ -204,10 +210,30 @@ public class RequestsScreenController {
 
 		if (Main.currentUser.getRole() == Enums.Role.Manager) {
 			managerBackBtn.setVisible(true);
-		}
-		else {
+		} else {
 			managerBackBtn.setVisible(false);
 		}
+	}
+
+	@FXML
+	public void search(ActionEvent event) {
+		String textFromUser = searchField.getText();
+		if (textFromUser.equals("")) {
+			isSearch = false;
+		} else {
+			try {
+				id = Integer.parseUnsignedInt(textFromUser);
+				isSearch = true;
+			} catch (Exception e) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Not a number");
+				alert.setContentText("You didn't enter a number");
+				alert.showAndWait();
+				return;
+			}
+		}
+		unVisibleRequestPane();
+		RefreshTable();
 	}
 
 	@FXML
@@ -313,14 +339,15 @@ public class RequestsScreenController {
 	public void RefreshTable() {
 
 		if (Main.currentUser.getRole() == Enums.Role.College) {
-			Main.client.handleMessageFromClientUI(
-					new ClientServerMessage(Enums.MessageEnum.REFRESHUSERID, Main.currentUser.getUsername()));
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
+					Main.currentUser.getUsername(), id, isSearch));
 		} else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN));
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN,
+					Main.currentUser.getUsername(), id, isSearch));
 		} else {
 			Main.client.handleMessageFromClientUI(
-					new ClientServerMessage(Enums.MessageEnum.REFRESH, Main.currentUser.getUsername()));
+					new ClientServerMessage(Enums.MessageEnum.REFRESHIS, Main.currentUser.getUsername(), id, isSearch));
 		}
 
 	}
@@ -344,17 +371,19 @@ public class RequestsScreenController {
 			requestorLabel.setText("Requestor: " + r.getRequestorID());
 			systemLabel.setText(r.getSystem().toString());
 			stageLabel.setText(r.getCurrentStage().toString());
-			statusLabel.setText(r.getStatus());
+			statusLabel.setText(r.getStatus().toString());
 			filePathTextField.setText("");
 			uploadedFilesLabel.setText("Uploaded files: none");
 			showUploadedFiles(r);
 			if (Main.currentUser.getRole() == Enums.Role.Supervisor
 					|| Main.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
-				if (r.getCurrentStageEnum() != Enums.RequestStageENUM.Closing)
-					changeStatus.setVisible(false);
-				else
+				if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Closing
+						&& (r.getStatus() == Enums.RequestStatus.Active
+								|| r.getStatus() == Enums.RequestStatus.RejectedClosed))
 					changeStatus.setVisible(true);
+				else
+					changeStatus.setVisible(false);
 				if (r.getStages()[4].getReportFailure() == null)
 					FailureReportBtn1.setVisible(false);
 				else
@@ -400,14 +429,14 @@ public class RequestsScreenController {
 				testerCB.getItems().add(s);
 			}
 		}
-		Platform.runLater(new Runnable()
-				{
-					public void run() {
-						try {
-						testerCB.getSelectionModel().select(r.getStages()[4].getStageMembers().get(1));
-						} catch (Exception e){}
-					}
-				});
+		Platform.runLater(new Runnable() {
+			public void run() {
+				try {
+					testerCB.getSelectionModel().select(r.getStages()[4].getStageMembers().get(1));
+				} catch (Exception e) {
+				}
+			}
+		});
 		testerCB.setVisible(true);
 	}
 
@@ -445,7 +474,8 @@ public class RequestsScreenController {
 
 	@FXML
 	public void logout(ActionEvent event) throws IOException {
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.logOut, Main.currentUser.getUsername()));
+		Main.client.handleMessageFromClientUI(
+				new ClientServerMessage(Enums.MessageEnum.logOut, Main.currentUser.getUsername()));
 		Main.currentUser = null;
 		Parent root = null;
 		root = FXMLLoader.load(getClass().getResource("loginScreen.fxml"));
@@ -599,7 +629,6 @@ public class RequestsScreenController {
 	@FXML
 	void statusChange(ActionEvent event) {
 		String s = r.getId() + "-" + r.getStatus();
-		System.out.println(s);
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, s));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Confirm!");
@@ -685,7 +714,9 @@ public class RequestsScreenController {
 
 	public void unVisibleRequestPane() {
 		GeneralViewRequest1.setVisible(false);
+		disableAllRequestPans();
 	}
+
 	@FXML
 	void ApproveStageBtn(ActionEvent event) {
 		if (r.getCurrentStage() == Enums.RequestStageENUM.Examaning && r.getStages()[4].getStageMembers().size() < 2) {
@@ -695,8 +726,7 @@ public class RequestsScreenController {
 			alert.setHeaderText("Missing tester");
 			alert.setContentText("You need to appoint a tester before entering next stage");
 			alert.show();
-		}
-		else {
+		} else {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 			RefreshTable();
 			unVisibleRequestPane();
@@ -728,7 +758,7 @@ public class RequestsScreenController {
 	void ReportFailure(ActionEvent event) throws IOException {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				Pane root=null;
+				Pane root = null;
 				try { // loading fxml file
 					FXMLLoader loader = new FXMLLoader();
 					loader.setLocation(getClass().getResource("2.1-ExecutionFailures.fxml"));
@@ -743,15 +773,15 @@ public class RequestsScreenController {
 				newWindow.setScene(s);
 				newWindow.setTitle("Execution Failures Report");
 				newWindow.setResizable(false);
-				tmp_newWindow=newWindow;
+				tmp_newWindow = newWindow;
 				newWindow.show();
 			}
 		});
 	}
 
-    @FXML
-    void SaveTesterApoint(ActionEvent event) {
-    	if (testerCB.getSelectionModel().isEmpty()) {
+	@FXML
+	void SaveTesterApoint(ActionEvent event) {
+		if (testerCB.getSelectionModel().isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
 			alert.setContentText("No tester selected!");
@@ -760,12 +790,13 @@ public class RequestsScreenController {
 		}
 		String tester = testerCB.getValue();
 		r.getStages()[4].getStageMembers().add(tester);
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.AppointStageHandlers, r.getId(),4,tester));
+		Main.client.handleMessageFromClientUI(
+				new ClientServerMessage(Enums.MessageEnum.AppointStageHandlers, r.getId(), 4, tester));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Confirm tester");
-		alert.setContentText("Request number " + r.getId() + " tester is "+tester);
+		alert.setContentText("Request number " + r.getId() + " tester is " + tester);
 		alert.show();
-    }
+	}
 
 	@FXML
 	void ViewReport(ActionEvent event) {
@@ -791,7 +822,7 @@ public class RequestsScreenController {
 		newWindow.setTitle("Execution Failures Report");
 		newWindow.setScene(report);
 		newWindow.setResizable(false);
-		tmp_newWindow=newWindow;
+		tmp_newWindow = newWindow;
 		newWindow.show();
 	}
 
@@ -809,6 +840,7 @@ public class RequestsScreenController {
 		window.setResizable(false);
 		window.show();
 	}
+
 	public void reportMsgAndRef() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Failure report sent");

@@ -23,9 +23,9 @@
             <Font size="40.0" />
          </font>
       </Text>
-      <Button layoutX="220.0" layoutY="508.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="53.0" text="Search" />
+      <Button fx:id="searchButton" layoutX="220.0" layoutY="508.0" mnemonicParsing="false" onAction="#search" prefHeight="27.0" prefWidth="53.0" text="Search" />
       <TableView fx:id="tableView" layoutX="25.0" layoutY="75.0" onMouseClicked="#showRequest" prefHeight="432.0" prefWidth="285.0" />
-      <TextField layoutX="68.0" layoutY="509.0" prefHeight="25.0" prefWidth="145.0" promptText="Enter request ID" />
+      <TextField fx:id="searchField" layoutX="68.0" layoutY="509.0" prefHeight="25.0" prefWidth="145.0" promptText="Enter request ID" />
       <Pane fx:id="CollegeUserUnderTablePane1" layoutX="25.0" layoutY="534.0" prefHeight="40.0" prefWidth="285.0" visible="false">
          <children>
             <Button layoutX="49.0" layoutY="8.0" mnemonicParsing="false" onAction="#openNewRequestPane" prefHeight="25.0" prefWidth="188.0" text="Open new request" />

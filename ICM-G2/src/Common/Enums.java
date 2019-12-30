@@ -7,12 +7,13 @@ public class Enums {
 	public final static int numberOfStages = 6;
 
 	public enum MessageEnum {
-		CONNECT, SearchUser, REFRESH, LoginFail, loginGood, DISCONNECT, REFRESHUSERID, UPLOAD, UPLOADFINISH, GETOBLIST,
+		CONNECT, SearchUser, LoginFail, loginGood, DISCONNECT, UPLOAD, UPLOADFINISH, GETOBLIST,
 		UpdateStage, CreateRequest, NewRequestID, REFRESHMAN, CreateReport, GETUSERFILES, STAGESSCREEN, SearchReport,
 		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers,
 		ADDISUSER, GETISUSER, UPDATEISUSER, CHECKSUPERVISOREXIST, COUNTCOMMITEEMEMBERS, CHECKCHAIRMANEXIST,
 		declineRequest, logOut, tryingToLogSameTime,EDITASSESMENTER,EDITEXECUTIONER, TesterRep,SETASSESMENTDATE,APPROVEASSEXTENSION,
-		SETEXAMDATE,SETEXECMDATE,SETTESTDATE;
+		SETEXAMDATE,SETEXECMDATE,SETTESTDATE,REFRESHCOLLEGE,REFRESHIS;;
+
 	}
 
 	public enum RequestStatus {

@@ -59,50 +59,54 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static String addISUser(String query)
-	{
+	public static String addISUser(User current) {
+		String query = "insert into Users(Users.username,Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role) values "
+				+ "('" + current.getUsername() + "','" + current.getPassword() + "','" + current.getFirstName() + "','"
+				+ current.getLastName() + "','" + current.getMail() + "','"
+				+ Enums.Role.getRoleByEnum(current.getRole()) + "')";
 		PreparedStatement st;
-		try{
+		try {
 			st = c.prepareStatement(query);
 			st.execute();
-		}catch(SQLIntegrityConstraintViolationException e){
+		} catch (SQLIntegrityConstraintViolationException e) {
 			return "IDEXISTS";
-		}catch(SQLException e)
-		{
+		} catch (SQLException e) {
 			return "CANTEXECUTE";
 		}
 		return "GOOD";
 	}
 
-	public static String[] getISUser(String query)
-	{
+	public static String[] getISUser(String userID) {
+		String query = "select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"
+				+ userID + "'";
 		PreparedStatement st;
-		ResultSet rs=null;
-		String[] res=null;
-		try{
+		ResultSet rs = null;
+		String[] res = null;
+		try {
 			st = c.prepareStatement(query);
 			rs = st.executeQuery();
 			res = new String[5];
-			if (!rs.next())
-			{
+			if (!rs.next()) {
 				return null;
 			}
-			for (int i = 0;i<4;i++)
-				res[i]=rs.getString(i+1);
-			res[4]=""+rs.getInt(5);
-			} catch(SQLException e) {
-				return null;
-			}
+			for (int i = 0; i < 4; i++)
+				res[i] = rs.getString(i + 1);
+			res[4] = "" + rs.getInt(5);
+		} catch (SQLException e) {
+			return null;
+		}
 		return res;
 	}
 
-	public static boolean updateISUser(String query)
-	{
+	public static boolean updateISUser(User current) {
+		String query = "update Users set Password='" + current.getPassword() + "',FirstName='" + current.getFirstName()
+				+ "',LastName='" + current.getLastName() + "',Mail='" + current.getMail() + "',Role="
+				+ Enums.Role.getRoleByEnum(current.getRole()) + " where username='" + current.getUsername() + "'";
 		PreparedStatement st;
-		try{
+		try {
 			st = c.prepareStatement(query);
 			st.execute();
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			return false;
 		}
 		return true;
@@ -113,21 +117,33 @@ public class DataBaseController {
 		try{
 			st = c.prepareStatement("update Stages set Member='"+id+"' where StageName="+stage+" and RequestID="+reqid);
 			st.execute();
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public static ObservableList<Request> getRequestsForIS(String UserName) {
-		String query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
-				+ ",%'";
+	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search) {
+		String query;
+		if (search == false) {
+			query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
+					+ ",%'";
+		} else {
+			query = "select * from Requests where currenthandlers LIKE '%," + UserName + ",%'" + "and id=" + id;
+		}
 		return getRequests(query);
 	}
 
-	public static ObservableList<Request> getRequestsForManager() {
-		String query = "select * from Requests where (status=0 or status=2 or status=3)";
-		return getRequests(query);
+	public static ObservableList<Request> getRequestsForManager(int id, boolean search) {
+		String query;
+		if (search == false) {
+			query = "select * from Requests where (status=0 or status=2 or status=3)";
+			return getRequests(query);
+		} else {
+			query = "select * from Requests where id=" + id;
+			return getRequests(query);
+		}
+
 	}
 
 	public static void updateRequestDetails(String msg) {
@@ -147,9 +163,9 @@ public class DataBaseController {
 		String[] tem = msg.split("-");
 		String query;
 		if (tem[1].equals("Rejected"))
-			 query = "UPDATE Requests SET Status = 4 WHERE ID = " + tem[0];
+			query = "UPDATE Requests SET Status = 4 WHERE ID = " + tem[0];
 		else
-			 query = "UPDATE Requests SET Status = 1 WHERE ID = " + tem[0];
+			query = "UPDATE Requests SET Status = 1 WHERE ID = " + tem[0];
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
@@ -158,9 +174,11 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
+
 	public static void ChangeReportFailure(String Msg) {
 		String[] tem = Msg.split("-");
-		String query = "UPDATE Stages SET ReportFailure = '"+tem[0]+"' WHERE StageName = '4' and RequestID = '"+tem[1]+"'";
+		String query = "UPDATE Stages SET ReportFailure = '" + tem[0] + "' WHERE StageName = '4' and RequestID = '"
+				+ tem[1] + "'";
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
@@ -169,6 +187,7 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
+
 	public static void Freeze(int Id) {
 		String query = "UPDATE Requests SET Status = 2 WHERE ID = " + Id;
 		PreparedStatement statement = null;
@@ -214,8 +233,13 @@ public class DataBaseController {
 		}
 	}
 
-	public static ObservableList<Request> getRequestsForCollege(String userName) {
-		String query = "select * from Requests where Requestor='" + userName + "'";
+	public static ObservableList<Request> getRequestsForCollege(String userName, int id, boolean search) {
+		String query;
+		if (search == false) {
+			query = "select * from Requests where Requestor='" + userName + "' and Status=0";
+		} else {
+			query = "select * from Requests where Requestor='" + userName + "'" + "and ID=" + id;
+		}
 		return getRequests(query);
 	}
 
@@ -302,15 +326,14 @@ public class DataBaseController {
 		try {
 			if (rs.next()) {
 				try {
-					if (rs.getInt(10) == 0 | rs.getInt(10) == 1) {//TODO
-						us = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-								Enums.Role.getRoleENUM(rs.getInt(6)));
+					if (rs.getInt(10) == 0 | rs.getInt(10) == 1) {// TODO
+						us = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+								rs.getString(5), Enums.Role.getRoleENUM(rs.getInt(6)));
 						query = "update Users set isLoggedIn=1 where username ='" + user + "'";
 						statement = c.prepareStatement(query);
 						statement.execute();
-					}
-					else {
-						us = new User("", "", "", "", "",Enums.Role.getRoleENUM(rs.getInt(6)));
+					} else {
+						us = new User("", "", "", "", "", Enums.Role.getRoleENUM(rs.getInt(6)));
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -323,7 +346,7 @@ public class DataBaseController {
 		return us;
 	}
 
-	public static ArrayList<String> GetCommitte(){
+	public static ArrayList<String> GetCommitte() {
 		String query = "select username from Users where role=3 or role=2";
 		ResultSet rs = null;
 		PreparedStatement statement;
@@ -396,7 +419,8 @@ public class DataBaseController {
 		}
 		return null;
 	}
-	public static String getChairman(){
+
+	public static String getChairman() {
 		String query = "select Users.username from Users where Role=2";
 		ResultSet rs = null;
 		PreparedStatement statement;
@@ -418,8 +442,7 @@ public class DataBaseController {
 
 	}
 
-	public static int countCommitteMembers()
-	{
+	public static int countCommitteMembers() {
 		String query = "select COUNT(*) from Users where Role=3";
 		ResultSet rs = null;
 		PreparedStatement statement;
@@ -524,7 +547,8 @@ public class DataBaseController {
 			}
 			DateTime dueDate = new DateTime();
 			dueDate = dueDate.plusDays(7);
-			st.execute("update Stages set PlannedDueDate='"+dueDate.toString()+"' where StageName=1 and RequestID="+id);
+			st.execute("update Stages set PlannedDueDate='" + dueDate.toString() + "' where StageName=1 and RequestID="
+					+ id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -587,7 +611,8 @@ public class DataBaseController {
 	}
 
 	public static void AppointStageHandlers(int id, int stage, String handlers) {
-		String query = "update Stages set Member=',"+handlers+",' where RequestID="+id+" and StageName="+stage;
+		String query = "update Stages set Member='," + handlers + ",' where RequestID=" + id + " and StageName="
+				+ stage;
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
@@ -670,10 +695,11 @@ public class DataBaseController {
 		Random rand = new Random();
 		return users.get(rand.nextInt(users.size()));
 	}
-	public static ArrayList<String> getStagesInfo(int requestID)
-	{
+
+	public static ArrayList<String> getStagesInfo(int requestID) {
 		ArrayList<String> res = new ArrayList<>();
-		String query = "SELECT PlannedDueDate,Member,ExtendedDueDate FROM Stages where RequestID="+requestID+" and StageName>0";
+		String query = "SELECT PlannedDueDate,Member,ExtendedDueDate FROM Stages where RequestID=" + requestID
+				+ " and StageName>0";
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -683,17 +709,18 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		try {
-			while (rs.next())
-			{
-				if (rs.getString(1)!=null)
-					res.add(new DateTime(rs.getString(1)).toString("dd/MM/yyyy")); //duedate
-				else res.add("");
-				res.add(rs.getString(2)); //member
-				if (rs.getString(3)!=null)
-					res.add(new DateTime(rs.getString(3)).toString("dd/MM/yyyy")); //extension
-				else res.add("");
+			while (rs.next()) {
+				if (rs.getString(1) != null)
+					res.add(new DateTime(rs.getString(1)).toString("dd/MM/yyyy")); // duedate
+				else
+					res.add("");
+				res.add(rs.getString(2)); // member
+				if (rs.getString(3) != null)
+					res.add(new DateTime(rs.getString(3)).toString("dd/MM/yyyy")); // extension
+				else
+					res.add("");
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return res;
