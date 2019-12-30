@@ -12,8 +12,6 @@ public class User implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String mail;
-	private CollegeWorkerRole Crole;
-	private String CollegeStudentDep;
 	private Role role;
 
 	public User(String username, String password, String firstName, String lastName, String mail, Role role) {
@@ -63,22 +61,6 @@ public class User implements Serializable {
 
 	public void setMail(String mail) {
 		this.mail = mail;
-	}
-
-	public CollegeWorkerRole getCrole() {
-		return Crole;
-	}
-
-	public void setCrole(CollegeWorkerRole crole) {
-		Crole = crole;
-	}
-
-	public String getCollegeStudentDep() {
-		return CollegeStudentDep;
-	}
-
-	public void setCollegeStudentDep(String collegeStudentDep) {
-		CollegeStudentDep = collegeStudentDep;
 	}
 
 	public Role getRole() {

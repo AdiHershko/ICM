@@ -88,33 +88,6 @@ public class Enums {
 		}
 	}
 
-	public enum CollegeWorkerRole {
-		Student, Lecturer, Worker;
-		public static CollegeWorkerRole getRoleByInt(int i) {
-			switch (i) {
-			case 0:
-				return Student;
-			case 1:
-				return Lecturer;
-			case 2:
-				return Worker;
-			}
-			return null;
-		}
-
-		public static int getCollegeUserRoleByEnum(CollegeWorkerRole i) {
-			switch (i) {
-			case Student:
-				return 0;
-			case Lecturer:
-				return 1;
-			case Worker:
-				return 2;
-			}
-			return -1;
-		}
-	}
-
 	public enum RequestStageENUM {
 		Initialization, Assesment, Examaning, Execution, Testing, Closing;
 		public static RequestStageENUM getRequestStageENUM(int i) {
@@ -188,64 +161,6 @@ public class Enums {
 				return 4;
 			case Manager:
 				return 5;
-			}
-			return -1;
-		}
-	}
-
-	public enum UserType {
-		CollegeStudent, CollegeWorker, ISUser;
-		public static UserType getUserTypeENUM(int i) {
-			switch (i) {
-			case 0:
-				return CollegeStudent;
-			case 1:
-				return CollegeWorker;
-			case 2:
-				return ISUser;
-			}
-			return null;
-		}
-
-		public static int getUserTypeByEnum(UserType i) {
-			switch (i) {
-			case CollegeStudent:
-				return 0;
-			case CollegeWorker:
-				return 1;
-			case ISUser:
-				return 2;
-			}
-			return -1;
-		}
-	}
-
-	public enum OrganizationEnum {
-		GeneralWorker, Lecturer, Administrative, Manager;
-		public static OrganizationEnum getOrganizationENUM(int i) {
-			switch (i) {
-			case 0:
-				return GeneralWorker;
-			case 1:
-				return Lecturer;
-			case 2:
-				return Administrative;
-			case 3:
-				return Manager;
-			}
-			return null;
-		}
-
-		public static int geOrganizationByEnum(OrganizationEnum i) {
-			switch (i) {
-			case GeneralWorker:
-				return 0;
-			case Lecturer:
-				return 1;
-			case Administrative:
-				return 2;
-			case Manager:
-				return 3;
 			}
 			return -1;
 		}

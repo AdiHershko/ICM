@@ -318,6 +318,7 @@ public class RequestsScreenController {
 			commentsArea.setText(r.getComments());
 			requestIDLabel.setText("" + r.getId());
 			timeCreatedLabel.setText("Creation time: " + r.getDate().toString("dd/MM/yyyy hh:mm a"));
+			requestorLabel.setText("Requestor: " + r.getRequestorID());
 			systemLabel.setText(r.getSystem().toString());
 			stageLabel.setText(r.getCurrentStage().toString());
 			statusLabel.setText(r.getStatus());
@@ -367,7 +368,6 @@ public class RequestsScreenController {
 	}
 
 	public void loadComitteeMembers(List<String> committe) {
-		ArrayList<String> list = (ArrayList<String>) committe;
 		if (testerCB.getItems().isEmpty()) {
 			for (String s : committe) {
 				testerCB.getItems().add(s);
@@ -376,7 +376,9 @@ public class RequestsScreenController {
 		Platform.runLater(new Runnable()
 				{
 					public void run() {
-						testerCB.getSelectionModel().select(r.getStages()[4].getStageMembers().get(1));//TODO maybe select if already in
+						try {
+						testerCB.getSelectionModel().select(r.getStages()[4].getStageMembers().get(1));
+						} catch (Exception e){}
 					}
 				});
 		testerCB.setVisible(true);
@@ -657,9 +659,19 @@ public class RequestsScreenController {
 	}
 	@FXML
 	void ApproveStageBtn(ActionEvent event) {
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
-		RefreshTable();
-		unVisibleRequestPane();
+		if (r.getCurrentStage() == Enums.RequestStageENUM.Examaning && r.getStages()[4].getStageMembers().size() < 2) {
+			System.out.println("Line 665");
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Missing tester");
+			alert.setHeaderText("Missing tester");
+			alert.setContentText("You need to appoint a tester before entering next stage");
+			alert.show();
+		}
+		else {
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
+			RefreshTable();
+			unVisibleRequestPane();
+		}
 	}
 
 	@FXML
@@ -717,12 +729,12 @@ public class RequestsScreenController {
 			return;
 		}
 		String tester = testerCB.getValue();
+		r.getStages()[4].getStageMembers().add(tester);
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.AppointStageHandlers, r.getId(),4,tester));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Confirm tester");
 		alert.setContentText("Request number " + r.getId() + " tester is "+tester);
 		alert.show();
-		RefreshTable();
     }
 
 	@FXML

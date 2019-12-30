@@ -119,8 +119,6 @@ public class DataBaseController {
 
 	}
 
-
-
 	public static ObservableList<Request> getRequestsForIS(String UserName) {
 		String query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
 				+ ",%'";
@@ -133,7 +131,6 @@ public class DataBaseController {
 	}
 
 	public static void updateRequestDetails(String msg) {
-		PreparedStatement st = null;
 		String[] tem = msg.split("-");
 		String query = "UPDATE Requests SET Description = '" + tem[1] + "', `Change` = '" + tem[2]
 				+ "', ChangeReason = '" + tem[3] + "', Connect = '" + tem[4] + "' WHERE ID = " + tem[0];
@@ -396,10 +393,6 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		/*Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("ERROR!");
-		alert.setContentText("No supervisor for system!");
-		alert.show();*/
 		return null;
 	}
 	public static String getChairman(){
