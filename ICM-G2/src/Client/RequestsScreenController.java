@@ -37,6 +37,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -200,7 +201,7 @@ public class RequestsScreenController {
 		choiceBox.getItems().add(SystemENUM.Computers);
 		choiceBox.getItems().add(SystemENUM.Labs);
 		choiceBox.getItems().add(SystemENUM.Site);
-		
+
 		if (Main.currentUser.getRole() == Enums.Role.Manager) {
 			managerBackBtn.setVisible(true);
 		}
@@ -282,6 +283,22 @@ public class RequestsScreenController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void TableSetup() {
+ 		tableView.setRowFactory(tv -> new TableRow<Request>() { //MAKES TABLE UGLY, DELETE LATER
+		    @Override
+		    public void updateItem(Request item, boolean empty) {
+		    	if (item==null)
+		    		return;
+		    	if (item.getIsDenied()==0)
+		    	{
+		    		//setStyle(".table-row-cell:selected {-fx-selection-bar: red;-fx-background-insets: 0;-fx-background-radius: 1;}");
+		    	//	setStyle("-fx-selection-background: blue; -fx-selection-bar: red; -fx-selection-bar-non-focused: salmon;");
+		    	}
+		    	else if (item.getIsDenied()==1)
+		    	{
+		            setStyle("-fx-background-color: tomato;");
+		    	}
+		    	}
+		});
 		TableColumn<Request, Integer> idColumn = new TableColumn<>("Request ID");
 		idColumn.setCellValueFactory(new PropertyValueFactory("id"));
 		TableColumn<Request, String> statusColumn = new TableColumn<>("Status");
@@ -294,6 +311,7 @@ public class RequestsScreenController {
 	}
 
 	public void RefreshTable() {
+
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.REFRESHUSERID, Main.currentUser.getUsername()));
@@ -304,6 +322,7 @@ public class RequestsScreenController {
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.REFRESH, Main.currentUser.getUsername()));
 		}
+
 	}
 
 	@FXML
@@ -506,7 +525,7 @@ public class RequestsScreenController {
 		newWindow.setScene(report);
 		newWindow.setResizable(false);
 		newWindow.show();
-		
+
 	}
 
 	public void AssessmentReportPage() {
@@ -790,7 +809,6 @@ public class RequestsScreenController {
 		window.setResizable(false);
 		window.show();
 	}
-	
 	public void reportMsgAndRef() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Failure report sent");

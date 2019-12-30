@@ -60,6 +60,20 @@ public class ClientServerMessage implements Serializable {
 		this.l = l;
 	}
 
+	public ClientServerMessage(MessageEnum type,int id,String msg)
+	{
+		this.type=type;
+		this.id=id;
+		this.msg=msg;
+	}
+
+	public ClientServerMessage(MessageEnum type,int id,int stage)
+	{
+		this.type=type;
+		this.id=id;
+		this.stage=stage;
+	}
+
 
 	public ClientServerMessage(MessageEnum type, List l) {
 		this.type = type;

@@ -11,7 +11,8 @@ public class Enums {
 		UpdateStage, CreateRequest, NewRequestID, REFRESHMAN, CreateReport, GETUSERFILES, STAGESSCREEN, SearchReport,
 		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers,
 		ADDISUSER, GETISUSER, UPDATEISUSER, CHECKSUPERVISOREXIST, COUNTCOMMITEEMEMBERS, CHECKCHAIRMANEXIST,
-		declineRequest, logOut, tryingToLogSameTime,EDITASSESMENTER,EDITEXECUTIONER, TesterRep;
+		declineRequest, logOut, tryingToLogSameTime,EDITASSESMENTER,EDITEXECUTIONER, TesterRep,SETASSESMENTDATE,APPROVEASSEXTENSION,
+		SETEXAMDATE,SETEXECMDATE,SETTESTDATE;
 	}
 
 	public enum RequestStatus {

@@ -249,8 +249,8 @@ public class ChatClient extends AbstractClient {
 					RequestSettingsController._ins.getAssesmentDueDateText().setText(list.get(0));
 					RequestSettingsController._ins.getAssesmentAppointerText().setText(list.get(1));
 					RequestSettingsController._ins.getAssesmentExtensionDateText().setText(list.get(2));
-					RequestSettingsController._ins.getExaminingDueDateText().setText(list.get(3));
-					RequestSettingsController._ins.getExamaningDueDateText().setText(list.get(5));
+					RequestSettingsController._ins.getExaminingDueDateText().setText(list.get(5));
+					RequestSettingsController._ins.getExamaningDueDateText().setText(list.get(3));
 					RequestSettingsController._ins.getExecutionDueDateText().setText(list.get(6));
 					RequestSettingsController._ins.getExecutionAppointerText().setText(list.get(7));
 					RequestSettingsController._ins.getExecutionExtenstionDateText().setText(list.get(8));
@@ -290,6 +290,29 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 				break;
+			case SETASSESMENTDATE:
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Date updated");
+					alert.show();
+				});
+				break;
+			case APPROVEASSEXTENSION:
+				if ((((ClientServerMessage)msg).isUploadstatus()))
+				{
+					Platform.runLater(()->{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("Extension declined");
+						alert.show();
+					});
+					return;
+				}
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Extension approved");
+					alert.show();
+				});
+			break;
 			default:
 				return;
 			}
@@ -316,7 +339,7 @@ public class ChatClient extends AbstractClient {
 				}
 			});
 		}
-	
+
 	}
 
 	public void handleMessageFromClientUI(Object message) {

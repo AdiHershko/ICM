@@ -24,6 +24,7 @@ public class Request implements Serializable {
 	private RequestStageENUM currentStage;
 	private Stage stages[];
 	private Report report;
+	private int isDenied;
 
 	public Request(int id,String requestorID, SystemENUM system, String description, String changes, String changeReason, DateTime date) {
 		this.id=id;
@@ -36,6 +37,7 @@ public class Request implements Serializable {
 		this.currentStage=Enums.RequestStageENUM.Initialization;
 		this.status=Enums.RequestStatus.Active;
 		this.comments="";
+		this.isDenied=0;
 	}
 
 	public int getId() {
@@ -52,6 +54,15 @@ public class Request implements Serializable {
 
 	public DateTime getDate() {
 		return date;
+	}
+
+
+	public int getIsDenied() {
+		return isDenied;
+	}
+
+	public void setIsDenied(int isDenied) {
+		this.isDenied = isDenied;
 	}
 
 	public void setDate(DateTime date) {

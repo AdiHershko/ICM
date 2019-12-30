@@ -108,10 +108,10 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static void updateAssesmentor(String id, int stage){
+	public static void updateAssesmentor(String id,int reqid, int stage){
 		PreparedStatement st;
 		try{
-			st = c.prepareStatement("update Stages set Member='"+id+"' where StageName="+stage);
+			st = c.prepareStatement("update Stages set Member='"+id+"' where StageName="+stage+" and RequestID="+reqid);
 			st.execute();
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -239,6 +239,7 @@ public class DataBaseController {
 					r.setCurrentStage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)));
 					r.setComments(rs.getString(10));
 					r.setStatus(Enums.RequestStatus.getStatusByInt(rs.getInt(8)));
+					r.setIsDenied(rs.getInt(13));
 					o.add(r);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -698,6 +699,53 @@ public class DataBaseController {
 		return res;
 	}
 
+	public static boolean isRequestDenied(int requestID)
+	{
+		String query = "SELECT isDenied from Requests where ID="+requestID;
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			rs.next();
+			if (rs.getInt(1)==1) return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public static void setDate(int requestID,int stage,String date)
+	{
+		String query = "update Stages set PlannedDueDate='"+date+"' where StageName="+stage+" and RequestID="+requestID;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static boolean setRequestDeny(int requestID,int i)
+	{
+		String query = "update Requests set isDenied="+i+" where ID="+requestID;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (i==0) return false;
+		return true;
+	}
+
 	public static void DisconnectUser(String UserID) {
 		String query = "update Users set isLoggedIn=0 where username ='" + UserID + "'";
 		PreparedStatement statement = null;
@@ -709,4 +757,5 @@ public class DataBaseController {
 			return;
 		}
 	}
+
 }
