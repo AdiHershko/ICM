@@ -51,18 +51,30 @@ public class EchoServer extends AbstractServer {
 			case DISCONNECT:
 				System.out.println("User " + client.toString() + " Disconnected");
 				return;
-			case REFRESH:
-				ObservableList<Request> ol = DataBaseController.getRequestsForIS(((ClientServerMessage) msg).getMsg());
+			case REFRESHIS:
+				ObservableList<Request> ol = FXCollections.observableArrayList();
+				ol = DataBaseController.getRequestsForIS(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol.toArray()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				return;
-			case REFRESHUSERID:
-				ObservableList<Request> ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg());
+			case REFRESHCOLLEGE:
+				ObservableList<Request> ol1 = FXCollections.observableArrayList();
+				ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch());
+
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol1.toArray()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
+			case REFRESHMAN:
+				ObservableList<Request> ol2 = FXCollections.observableArrayList();
+				ol2 = DataBaseController.getRequestsForManager(CSMsg.getId(),CSMsg.isSearch());
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol2.toArray()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -78,14 +90,6 @@ public class EchoServer extends AbstractServer {
 				return;
 			case Unfreeze:
 				DataBaseController.Unfreeze(Integer.parseInt(CSMsg.getMsg()));
-				return;
-			case REFRESHMAN:
-				ObservableList<Request> ol2 = DataBaseController.getRequestsForManager();
-				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol2.toArray()));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 				return;
 			case TesterRep:
 				String[] tem = CSMsg.getMsg().split("-");
@@ -109,8 +113,7 @@ public class EchoServer extends AbstractServer {
 					try {
 						if (us1.getUsername().equals("")) {
 							client.sendToClient(new ClientServerMessage(Enums.MessageEnum.tryingToLogSameTime));
-						}
-						else {
+						} else {
 							client.sendToClient(us1);
 						}
 					} catch (IOException e) {
@@ -197,8 +200,8 @@ public class EchoServer extends AbstractServer {
 				Request req = CSMsg.getRequest();
 				ArrayList<String> list = DataBaseController.getStagesInfo(req.getId());
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.STAGESSCREEN,list));
-				} catch (IOException e){
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.STAGESSCREEN, list));
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
@@ -211,7 +214,7 @@ public class EchoServer extends AbstractServer {
 			case GetComitte:
 				ArrayList<String> committe = DataBaseController.GetCommitte();
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ComitteList,committe));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ComitteList, committe));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -223,33 +226,33 @@ public class EchoServer extends AbstractServer {
 				DataBaseController.DisconnectUser(CSMsg.getMsg());
 				break;
 			case ADDISUSER:
-				String good = DataBaseController.addISUser(((ClientServerMessage)msg).getMsg());
+				String good = DataBaseController.addISUser(((ClientServerMessage) msg).getMsg());
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ADDISUSER,good));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ADDISUSER, good));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
 			case GETISUSER:
-				String[] res = DataBaseController.getISUser(((ClientServerMessage)msg).getMsg());
+				String[] res = DataBaseController.getISUser(((ClientServerMessage) msg).getMsg());
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETISUSER,res));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETISUSER, res));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
 			case UPDATEISUSER:
-				boolean result = DataBaseController.updateISUser(((ClientServerMessage)msg).getMsg());
+				boolean result = DataBaseController.updateISUser(((ClientServerMessage) msg).getMsg());
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.UPDATEISUSER,result));
-				}catch (Exception e){
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.UPDATEISUSER, result));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			case CHECKSUPERVISOREXIST:
 				String supervisor = DataBaseController.getSupervisor();
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKSUPERVISOREXIST,supervisor));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKSUPERVISOREXIST, supervisor));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -257,48 +260,52 @@ public class EchoServer extends AbstractServer {
 
 			case COUNTCOMMITEEMEMBERS:
 				int count = DataBaseController.countCommitteMembers();
-					try {
-						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.COUNTCOMMITEEMEMBERS,count));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					break;
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.COUNTCOMMITEEMEMBERS, count));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
 			case CHECKCHAIRMANEXIST:
 				String chairman = DataBaseController.getChairman();
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKCHAIRMANEXIST,chairman));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKCHAIRMANEXIST, chairman));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
 			case EDITASSESMENTER:
-				String id1 = ((ClientServerMessage)msg).getMsg();
-				if (DataBaseController.getISUser("select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"+id1+"'")==null)
+				String id1 = ((ClientServerMessage) msg).getMsg();
+				if (DataBaseController.getISUser(
+						"select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"
+								+ id1 + "'") == null)
 					try {
-						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER,false));
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER, false));
 						return;
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				DataBaseController.updateAssesmentor(id1, 1);
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER,true));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER, true));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			case EDITEXECUTIONER:
-				String id2 = ((ClientServerMessage)msg).getMsg();
-				if (DataBaseController.getISUser("select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"+id2+"'")==null)
+				String id2 = ((ClientServerMessage) msg).getMsg();
+				if (DataBaseController.getISUser(
+						"select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"
+								+ id2 + "'") == null)
 					try {
-						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER,false));
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER, false));
 						return;
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				DataBaseController.updateAssesmentor(id2, 3);
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER,true));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER, true));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

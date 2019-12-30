@@ -27,6 +27,15 @@ public class ClientServerMessage implements Serializable {
 	private int stage;
 	private Report report;
 	private List l;
+	private boolean search;
+
+	public boolean isSearch() {
+		return search;
+	}
+
+	public void setSearch(boolean search) {
+		this.search = search;
+	}
 
 	public Report getReport() {
 		return report;
@@ -107,6 +116,18 @@ public class ClientServerMessage implements Serializable {
 		this.id = id;
 		this.msg = msg;
 		this.stage = stage;
+	}
+	
+	public ClientServerMessage(MessageEnum type, String msg,int id, boolean search) {
+		this.type = type;
+		this.msg=msg;
+		this.id = id;
+		this.search = search;
+	}
+	public ClientServerMessage(MessageEnum type, String msg, boolean search) {
+		this.type = type;
+		this.msg=msg;
+		this.search = search;
 	}
 
 	public byte[] getBuffer() {
