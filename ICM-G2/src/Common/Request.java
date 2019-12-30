@@ -106,8 +106,8 @@ public class Request implements Serializable {
 	public RequestStatus getStatusEnum() {
 		return status;
 	}
-	public String getStatus() {
-		return status.toString();
+	public RequestStatus getStatus() {
+		return status;
 	}
 
 	public void setStatus(RequestStatus status) {

@@ -190,11 +190,11 @@ public class ChatClient extends AbstractClient {
 					return;
 				}
 				Platform.runLater(()->{
-					ISUsersScreenConstroller._ins.getPasswordField().setText(str[0]);
-					ISUsersScreenConstroller._ins.getFirstNameField().setText(str[1]);
-					ISUsersScreenConstroller._ins.getLastNameField().setText(str[2]);
-					ISUsersScreenConstroller._ins.getMailField().setText(str[3]);
-					ISUsersScreenConstroller._ins.getRoleChoiceBox().getSelectionModel().select(Enums.Role.getRoleENUM(Integer.parseInt(str[4])));
+					ISUsersScreenController._ins.getPasswordField().setText(str[0]);
+					ISUsersScreenController._ins.getFirstNameField().setText(str[1]);
+					ISUsersScreenController._ins.getLastNameField().setText(str[2]);
+					ISUsersScreenController._ins.getMailField().setText(str[3]);
+					ISUsersScreenController._ins.getRoleChoiceBox().getSelectionModel().select(Enums.Role.getRoleENUM(Integer.parseInt(str[4])));
 				});
 				return;
 			case UPDATEISUSER:
@@ -216,32 +216,32 @@ public class ChatClient extends AbstractClient {
 			case CHECKSUPERVISOREXIST:
 				String supervisor=(((ClientServerMessage)msg).getMsg());
 				if (supervisor==null){ //supervisor does not exists
-					ISUsersScreenConstroller._ins.setCanEdit(true);
-					ISUsersScreenConstroller._ins.setSemaphore(false);
+					ISUsersScreenController._ins.setCanEdit(true);
+					ISUsersScreenController._ins.setSemaphore(false);
 					return;
 				}
-				ISUsersScreenConstroller._ins.setCanEdit(false);
-				ISUsersScreenConstroller._ins.setSemaphore(false);
+				ISUsersScreenController._ins.setCanEdit(false);
+				ISUsersScreenController._ins.setSemaphore(false);
 				break;
 			case COUNTCOMMITEEMEMBERS:
 				int members=(((ClientServerMessage)msg).getId());
 				if (members<3){
-					ISUsersScreenConstroller._ins.setCanEdit(true);
-					ISUsersScreenConstroller._ins.setSemaphore(false);
+					ISUsersScreenController._ins.setCanEdit(true);
+					ISUsersScreenController._ins.setSemaphore(false);
 					return;
 				}
-				ISUsersScreenConstroller._ins.setCanEdit(false);
-				ISUsersScreenConstroller._ins.setSemaphore(false);
+				ISUsersScreenController._ins.setCanEdit(false);
+				ISUsersScreenController._ins.setSemaphore(false);
 				break;
 			case CHECKCHAIRMANEXIST:
 				String chairman=(((ClientServerMessage)msg).getMsg());
 				if (chairman==null){
-					ISUsersScreenConstroller._ins.setCanEdit(true);
-					ISUsersScreenConstroller._ins.setSemaphore(false);
+					ISUsersScreenController._ins.setCanEdit(true);
+					ISUsersScreenController._ins.setSemaphore(false);
 					return;
 				}
-				ISUsersScreenConstroller._ins.setCanEdit(false);
-				ISUsersScreenConstroller._ins.setSemaphore(false);
+				ISUsersScreenController._ins.setCanEdit(false);
+				ISUsersScreenController._ins.setSemaphore(false);
 				break;
 			case STAGESSCREEN:
 				ArrayList<String> list = (ArrayList<String>) ((ClientServerMessage)msg).getL();

@@ -130,6 +130,11 @@ public class ClientServerMessage implements Serializable {
 		this.search = search;
 	}
 
+	public ClientServerMessage(MessageEnum type, User user) {
+		this.type = type;
+		this.user = user;
+	}
+	
 	public byte[] getBuffer() {
 		return buffer;
 	}
@@ -205,8 +210,6 @@ public class ClientServerMessage implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 
 	public int getStage() {
 		return stage;

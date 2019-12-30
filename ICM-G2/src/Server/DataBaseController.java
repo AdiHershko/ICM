@@ -59,7 +59,11 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static String addISUser(String query) {
+	public static String addISUser(User current) {
+		String query = "insert into Users(Users.username,Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role) values "
+				+ "('" + current.getUsername() + "','" + current.getPassword() + "','" + current.getFirstName() + "','"
+				+ current.getLastName() + "','" + current.getMail() + "','"
+				+ Enums.Role.getRoleByEnum(current.getRole()) + "')";
 		PreparedStatement st;
 		try {
 			st = c.prepareStatement(query);
@@ -72,7 +76,9 @@ public class DataBaseController {
 		return "GOOD";
 	}
 
-	public static String[] getISUser(String query) {
+	public static String[] getISUser(String userID) {
+		String query = "select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"
+				+ userID + "'";
 		PreparedStatement st;
 		ResultSet rs = null;
 		String[] res = null;
@@ -92,7 +98,10 @@ public class DataBaseController {
 		return res;
 	}
 
-	public static boolean updateISUser(String query) {
+	public static boolean updateISUser(User current) {
+		String query = "update Users set Password='" + current.getPassword() + "',FirstName='" + current.getFirstName()
+				+ "',LastName='" + current.getLastName() + "',Mail='" + current.getMail() + "',Role="
+				+ Enums.Role.getRoleByEnum(current.getRole()) + " where username='" + current.getUsername() + "'";
 		PreparedStatement st;
 		try {
 			st = c.prepareStatement(query);
@@ -114,35 +123,27 @@ public class DataBaseController {
 
 	}
 
-	public static ObservableList<Request> getRequestsForIS(String UserName,int id,boolean search) {
+	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search) {
 		String query;
-	
-		if(search==false)
-		{
-		 query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
-				+ ",%'";
+		if (search == false) {
+			query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
+					+ ",%'";
+		} else {
+			query = "select * from Requests where currenthandlers LIKE '%," + UserName + ",%'" + "and id=" + id;
+		}
 		return getRequests(query);
-		}
-		else {
-			 query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
-						+ ",%'"+"and id="+id;
-			 return getRequests(query);
-		}
 	}
 
-	public static ObservableList<Request> getRequestsForManager(int id,boolean search) {
+	public static ObservableList<Request> getRequestsForManager(int id, boolean search) {
 		String query;
-		if(search==false)
-		{
-		    query = "select * from Requests where (status=0 or status=2 or status=3)";
+		if (search == false) {
+			query = "select * from Requests where (status=0 or status=2 or status=3)";
+			return getRequests(query);
+		} else {
+			query = "select * from Requests where id=" + id;
 			return getRequests(query);
 		}
-		else
-		{
-			query = "select * from Requests where (status=0 or status=2 or status=3)" + "and id=" +id;
-			return getRequests(query);
-		}
-	
+
 	}
 
 	public static void updateRequestDetails(String msg) {
@@ -235,13 +236,11 @@ public class DataBaseController {
 	public static ObservableList<Request> getRequestsForCollege(String userName, int id, boolean search) {
 		String query;
 		if (search == false) {
-			query = "select * from Requests where Requestor='" + userName + "'";
-			return getRequests(query);
+			query = "select * from Requests where Requestor='" + userName + "' and Status=0";
 		} else {
-			query = "select * from Requests where Requestor='" + userName + "'" + "and id=" + id;
-			return getRequests(query);
+			query = "select * from Requests where Requestor='" + userName + "'" + "and ID=" + id;
 		}
-
+		return getRequests(query);
 	}
 
 	public static ObservableList<Request> getRequests(String query) {

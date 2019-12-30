@@ -104,7 +104,7 @@ public class ManagerScreenController {
 			e.printStackTrace();
 		}
 		ISUsers = new Scene(root);
-		ISUsersScreenConstroller._ins.enableFindBtn();
+		ISUsersScreenController._ins.enableFindBtn();
 		newWindow.setTitle("Edit IS User");
 		newWindow.setScene(ISUsers);
 		newWindow.setResizable(false);

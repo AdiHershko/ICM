@@ -63,7 +63,6 @@ public class EchoServer extends AbstractServer {
 			case REFRESHCOLLEGE:
 				ObservableList<Request> ol1 = FXCollections.observableArrayList();
 				ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch());
-
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol1.toArray()));
 				} catch (IOException e) {
@@ -72,7 +71,7 @@ public class EchoServer extends AbstractServer {
 				return;
 			case REFRESHMAN:
 				ObservableList<Request> ol2 = FXCollections.observableArrayList();
-				ol2 = DataBaseController.getRequestsForManager(CSMsg.getId(),CSMsg.isSearch());
+				ol2 = DataBaseController.getRequestsForManager(CSMsg.getId(), CSMsg.isSearch());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol2.toArray()));
 				} catch (IOException e) {
@@ -226,7 +225,7 @@ public class EchoServer extends AbstractServer {
 				DataBaseController.DisconnectUser(CSMsg.getMsg());
 				break;
 			case ADDISUSER:
-				String good = DataBaseController.addISUser(((ClientServerMessage) msg).getMsg());
+				String good = DataBaseController.addISUser(((ClientServerMessage) msg).getUser());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ADDISUSER, good));
 				} catch (IOException e) {
@@ -242,7 +241,7 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case UPDATEISUSER:
-				boolean result = DataBaseController.updateISUser(((ClientServerMessage) msg).getMsg());
+				boolean result = DataBaseController.updateISUser(((ClientServerMessage) msg).getUser());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.UPDATEISUSER, result));
 				} catch (Exception e) {

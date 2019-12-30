@@ -56,6 +56,9 @@ public class RequestsScreenController {
 	public static Report reportOfRequest;
 	Stage newWindow = new Stage();
 	public static int saveOrSub = 0;
+	private boolean isSearch;
+	private int index;
+	private int id = -1;
 	@FXML
 	private Button addFilesButton;
 	@FXML
@@ -166,9 +169,6 @@ public class RequestsScreenController {
 	private TextField searchField;
 	@FXML
 	private Button searchButton;
-	private boolean isSearch;
-	int searchid;
-	private int index;
 
 	public void initialize() {
 		_ins = this;
@@ -217,108 +217,22 @@ public class RequestsScreenController {
 	@FXML
 	public void search(ActionEvent event) {
 		String textFromUser = searchField.getText();
-		if (Main.currentUser.getRole() == Enums.Role.College) {
-
-			if (textFromUser.equals("")) {
-				isSearch = false;
-				RefreshTable();
-			}
-
-			else {
-
-				try {
-					int id = Integer.parseUnsignedInt(textFromUser);
-					isSearch = true;
-					searchid = id;
-					Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
-							Main.currentUser.getUsername(),searchid, isSearch));
-
-				} catch (Exception e) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Upload finished");
-					alert.setContentText("You Have To Enter Only Numbers");
-					alert.showAndWait();
-				}
-
+		if (textFromUser.equals("")) {
+			isSearch = false;
+		} else {
+			try {
+				id = Integer.parseUnsignedInt(textFromUser);
+				isSearch = true;
+			} catch (Exception e) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Not a number");
+				alert.setContentText("You didn't enter a number");
+				alert.showAndWait();
+				return;
 			}
 		}
-		if (Main.currentUser.getRole() == Enums.Role.GeneralIS) {
-
-			if (textFromUser.equals("")) {
-				isSearch = false;
-				RefreshTable();
-			}
-
-			else {
-
-				try {
-					int id = Integer.parseUnsignedInt(textFromUser);
-					isSearch = true;
-					searchid = id;
-					Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHIS,
-							Main.currentUser.getUsername(),searchid, isSearch));
-
-				} catch (Exception e) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Upload finished");
-					alert.setContentText("You Have To Enter Only Numbers");
-					alert.showAndWait();
-				}
-
-			}
-		}
-		if ((Main.currentUser.getRole() == Enums.Role.Manager)|| (Main.currentUser.getRole() == Enums.Role.Supervisor)){
-
-			if (textFromUser.equals("")) {
-				isSearch = false;
-				RefreshTable();
-			}
-
-			else {
-
-				try {
-					int id = Integer.parseUnsignedInt(textFromUser);
-					isSearch = true;
-					searchid = id;
-					Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN,
-							Main.currentUser.getUsername(),searchid, isSearch));
-
-				} catch (Exception e) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Upload finished");
-					alert.setContentText("You Have To Enter Only Numbers");
-					alert.showAndWait();
-				}
-
-			}
-		}
-		if ((Main.currentUser.getRole() == Enums.Role.CommitteMember)|| (Main.currentUser.getRole() == Enums.Role.CommitteChairman)){
-
-			if (textFromUser.equals("")) {
-				isSearch = false;
-				RefreshTable();
-			}
-
-			else {
-
-				try {
-					int id = Integer.parseUnsignedInt(textFromUser);
-					isSearch = true;
-					searchid = id;
-					Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHIS,
-							Main.currentUser.getUsername(),searchid, isSearch));
-
-				} catch (Exception e) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Upload finished");
-					alert.setContentText("You Have To Enter Only Numbers");
-					alert.showAndWait();
-				}
-
-			}
-		}
-		 
-
+		unVisibleRequestPane();
+		RefreshTable();
 	}
 
 	@FXML
@@ -406,17 +320,16 @@ public class RequestsScreenController {
 	}
 
 	public void RefreshTable() {
-		isSearch = false;
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
-					Main.currentUser.getUsername(), isSearch));
+					Main.currentUser.getUsername(), id, isSearch));
 		} else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
-			Main.client.handleMessageFromClientUI(
-					new ClientServerMessage(Enums.MessageEnum.REFRESHMAN, Main.currentUser.getUsername(), isSearch));
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN,
+					Main.currentUser.getUsername(), id, isSearch));
 		} else {
 			Main.client.handleMessageFromClientUI(
-					new ClientServerMessage(Enums.MessageEnum.REFRESHIS, Main.currentUser.getUsername(), isSearch));
+					new ClientServerMessage(Enums.MessageEnum.REFRESHIS, Main.currentUser.getUsername(), id, isSearch));
 		}
 	}
 
@@ -439,17 +352,19 @@ public class RequestsScreenController {
 			requestorLabel.setText("Requestor: " + r.getRequestorID());
 			systemLabel.setText(r.getSystem().toString());
 			stageLabel.setText(r.getCurrentStage().toString());
-			statusLabel.setText(r.getStatus());
+			statusLabel.setText(r.getStatus().toString());
 			filePathTextField.setText("");
 			uploadedFilesLabel.setText("Uploaded files: none");
 			showUploadedFiles(r);
 			if (Main.currentUser.getRole() == Enums.Role.Supervisor
 					|| Main.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
-				if (r.getCurrentStageEnum() != Enums.RequestStageENUM.Closing)
-					changeStatus.setVisible(false);
-				else
+				if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Closing
+						&& (r.getStatus() == Enums.RequestStatus.Active
+								|| r.getStatus() == Enums.RequestStatus.RejectedClosed))
 					changeStatus.setVisible(true);
+				else
+					changeStatus.setVisible(false);
 				if (r.getStages()[4].getReportFailure() == null)
 					FailureReportBtn1.setVisible(false);
 				else
@@ -695,7 +610,6 @@ public class RequestsScreenController {
 	@FXML
 	void statusChange(ActionEvent event) {
 		String s = r.getId() + "-" + r.getStatus();
-		System.out.println(s);
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, s));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Confirm!");
@@ -781,6 +695,7 @@ public class RequestsScreenController {
 
 	public void unVisibleRequestPane() {
 		GeneralViewRequest1.setVisible(false);
+		disableAllRequestPans();
 	}
 
 	@FXML
