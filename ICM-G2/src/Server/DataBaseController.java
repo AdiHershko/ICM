@@ -528,6 +528,9 @@ public class DataBaseController {
 				st.setInt(5, id);
 				st.execute();
 			}
+			DateTime dueDate = new DateTime();
+			dueDate = dueDate.plusDays(7);
+			st.execute("update Stages set PlannedDueDate='"+dueDate.toString()+"' where StageName=1 and RequestID="+id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
