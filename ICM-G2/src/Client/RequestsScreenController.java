@@ -113,7 +113,11 @@ public class RequestsScreenController {
 	@FXML
 	private Button openAssessmentReportB;
 	@FXML
+	private Button openAssessmentReportB1;
+	@FXML
 	private Button FailureReportBtn;
+	@FXML
+	private Button FailureReportBtn1;
 	@FXML
 	private Button DeclineRequestBtn;
 	@FXML
@@ -332,6 +336,10 @@ public class RequestsScreenController {
 					changeStatus.setVisible(false);
 				else
 					changeStatus.setVisible(true);
+				if (r.getStages()[4].getReportFailure() == null)
+					FailureReportBtn1.setVisible(false);
+				else
+					FailureReportBtn1.setVisible(true);
 			} else if (Main.currentUser.getRole() != Enums.Role.College) {
 				showRequestByStage(r);
 			}
@@ -580,6 +588,7 @@ public class RequestsScreenController {
 		alert.setContentText("Request number " + r.getId() + " closed");
 		alert.show();
 		RefreshTable();
+		unVisibleRequestPane();
 	}
 
 	@FXML
@@ -607,6 +616,7 @@ public class RequestsScreenController {
 			alert.setContentText("Request number " + r.getId() + " changed to active");
 			alert.show();
 		}
+		unVisibleRequestPane();
 		return;
 	}
 
@@ -692,6 +702,7 @@ public class RequestsScreenController {
 		alert.setContentText("Request number " + r.getId() + " declined, waiting for supervisor confirmation");
 		alert.show();
 		RefreshTable();
+		unVisibleRequestPane();
 	}
 
 	@FXML
@@ -780,13 +791,12 @@ public class RequestsScreenController {
 		window.show();
 	}
 	
-	public static void reportMsgAndRef() {
+	public void reportMsgAndRef() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Failure report sent");
 		alert.setContentText("Failure report sent succesfully");
 		alert.showAndWait();
 		_ins.RefreshTable();
 		tmp_newWindow.close();
-		
 	}
 }

@@ -63,7 +63,8 @@ public class ReportScreenController {
 		} else {
 			timeTXT.setText(String.valueOf(RequestsScreenController.reportOfRequest.getDurationAssesment()));
 		}
-		if (RequestsScreenController.r.getCurrentStage() != Enums.RequestStageENUM.Assesment) {
+		if (RequestsScreenController.r.getCurrentStage() != Enums.RequestStageENUM.Assesment && Main.currentUser.getRole() != Enums.Role.Manager
+				&& Main.currentUser.getRole() != Enums.Role.Supervisor) {
 			SubmitReportButton.setVisible(false);
 			SaveReportButton.setVisible(false);
 			descTXT.setEditable(false);

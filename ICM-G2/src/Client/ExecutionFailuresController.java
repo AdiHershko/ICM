@@ -23,25 +23,30 @@ public class ExecutionFailuresController {
 	private Button submitBtn;
 	@FXML
 	private Label IdLabel;
+
 	public void initialize() {
 		_ins = this;
 		r = RequestsScreenController.r;
-		IdLabel.setText(""+r.getId());
-		if (r.getStages()[4].getReportFailure() == null) {
+		IdLabel.setText("" + r.getId());
+		if (r.getStages()[4].getReportFailure() == null || Main.currentUser.getRole() != Enums.Role.CommitteChairman
+				|| Main.currentUser.getRole() != Enums.Role.CommitteMember) {
 			submitBtn.setVisible(true);
 			exectuionReport.setEditable(true);
-		}
-		else {
+		} else {
 			submitBtn.setVisible(false);
 			exectuionReport.setEditable(false);
+		}
+		if (r.getStages()[4].getReportFailure() != null) {
 			exectuionReport.setText(r.getStages()[4].getReportFailure());
 		}
 	}
+
 	public void submitTextField() {
-		String msgReport=exectuionReport.getText();
-		String res=msgReport+"-"+r.getId();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.TesterRep,res));
-		RequestsScreenController.reportMsgAndRef();
+		String msgReport = exectuionReport.getText();
+		String res = msgReport + "-" + r.getId();
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.TesterRep, res));
+		RequestsScreenController._ins.reportMsgAndRef();
+		RequestsScreenController._ins.unVisibleRequestPane();
 	}
-	
+
 }

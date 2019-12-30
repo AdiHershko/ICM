@@ -87,6 +87,8 @@
                         <Button fx:id="changeStatus" layoutX="487.0" layoutY="80.0" mnemonicParsing="false" onAction="#statusChange" text="Close request" />
                         <Button fx:id="freezeUnfreeze" layoutX="458.0" layoutY="45.0" mnemonicParsing="false" onAction="#FreezeUnfreeze" text="Freeze/Unfreeze reqeust" />
                         <Button fx:id="editBtn" layoutX="77.0" layoutY="10.0" mnemonicParsing="false" onAction="#editChanges" text="Edit request" />
+                        <Button fx:id="openAssessmentReportB1" layoutX="42.0" layoutY="60.0" mnemonicParsing="false" onAction="#AssessmentReportPage" text="Open Assessment Report" />
+                        <Button fx:id="FailureReportBtn1" layoutX="194.0" layoutY="60.0" mnemonicParsing="false" onAction="#viewFailureReport" text="View Failures Report" />
                         <Button fx:id="saveBtn" layoutX="212.0" layoutY="10.0" mnemonicParsing="false" onAction="#saveChanges" text="Save changes" />
                      </children>
                   </Pane>
