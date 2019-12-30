@@ -245,7 +245,7 @@ public class RequestsScreenController {
 	}
 
 	public void uploadFileToServer_NewRequest(Request r) {
-		if (filePathTextField.getText() == "")
+		if (filePathTextField.getText().equals(""))
 			return;
 		File f = new File(filePathTextField.getText());
 		InputStream is = null;
