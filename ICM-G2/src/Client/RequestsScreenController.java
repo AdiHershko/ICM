@@ -85,6 +85,8 @@ public class RequestsScreenController {
 	@FXML
 	private Label dateLabel;
 	@FXML
+	private Label requestorLabel;
+	@FXML
 	private Label userNameLabel;
 	@FXML
 	private Pane AssesmentMakerPane1;
@@ -118,6 +120,8 @@ public class RequestsScreenController {
 	private Button AskMoreDataBtn;
 	@FXML
 	private TextField TesteAppointField;
+	@FXML
+	private TextField extensionReason;
 	@FXML
 	private Button SaveTesterApointBtn;
 	@FXML
@@ -347,10 +351,11 @@ public class RequestsScreenController {
 			break;
 		case Execution:
 			StageManagersPane1.setVisible(true);
+			ExecutionerFailure.setVisible(true);
 			if (r.getStages()[4].getReportFailure() == null)
-				ExecutionerFailure.setVisible(false);
+				FailureReportBtn.setVisible(false);
 			else
-				ExecutionerFailure.setVisible(true);
+				FailureReportBtn.setVisible(true);
 			break;
 		case Testing:
 			StageManagersPane1.setVisible(true);

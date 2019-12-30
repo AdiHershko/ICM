@@ -57,7 +57,7 @@ public class ManagerScreenController {
 		_ins = this;
 		new Thread() {
 			public void run() {
-				userNameLabel.setText("Welcome: "+Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
+				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
 				while (true) // update time in 0.5s intervals
 				{
 
