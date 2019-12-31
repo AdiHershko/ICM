@@ -158,6 +158,8 @@ public class RequestsScreenController {
 	@FXML
 	private Label timeCreatedLabel;
 	@FXML
+	private Label stageDate1;
+	@FXML
 	private Label uploadedFilesLabel;
 	@FXML
 	private Button stagesSettingsButton;
@@ -376,8 +378,15 @@ public class RequestsScreenController {
 			reasonArea.setText(r.getChangeReason());
 			commentsArea.setText(r.getComments());
 			requestIDLabel.setText("" + r.getId());
-			Main.client
+			if(Main.currentUser.getRole()==Enums.Role.College) {
+				Main.client
+				.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getDateUser,r.getId(),Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())));
+			}
+			else {
+				stageDate1.setVisible(false);
+				Main.client
 			.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getDate,r.getId(),Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())));
+			}
 			timeCreatedLabel.setText("Creation time: " + r.getDate().toString("dd/MM/yyyy hh:mm a"));
 			requestorLabel.setText("Requestor: " + r.getRequestorID());
 			systemLabel.setText(r.getSystem().toString());
@@ -869,8 +878,12 @@ public class RequestsScreenController {
 		}
 
 	}
+	public void setDueTimeStringForUser(String msg) {
+		stageDate1.setText("due date for stage: "+msg);
+	}
+
 	@FXML
-	void setAssDueTime(ActionEvent event) {
+	public void setAssDueTime(ActionEvent event) {
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime date=null;
 		if (setDueTime1.getText().equals("")) {
@@ -908,7 +921,7 @@ public class RequestsScreenController {
 		}
 	}
 	@FXML
-	void setExecDueTime(ActionEvent event) {
+	public void setExecDueTime(ActionEvent event) {
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime date=null;
 		if (dueDate.getText().equals("")) {
@@ -946,5 +959,6 @@ public class RequestsScreenController {
 		}
 	}
 
+	
 
 }

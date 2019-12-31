@@ -101,6 +101,7 @@
                   <Label fx:id="timeCreatedLabel" layoutX="388.0" layoutY="14.0" text="Time Created" />
                   <Label fx:id="uploadedFilesLabel" layoutX="446.0" layoutY="372.0" text="Files Uploaded: none" />
                   <Label fx:id="requestorLabel" layoutX="388.0" layoutY="40.0" text="Requestor:" />
+                  <Label fx:id="stageDate1" layoutX="510.0" layoutY="40.0" text="due date for stage:" />
                </children>
             </Pane>
             <Pane fx:id="CUserOpenRequest1" prefHeight="508.0" prefWidth="870.0" visible="false">

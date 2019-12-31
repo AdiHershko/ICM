@@ -362,6 +362,14 @@ public class EchoServer extends AbstractServer {
 				} catch (IOException e) {
 				}
 				break;
+			case getDateUser:
+				String tempDateUser="";
+				tempDateUser=DataBaseController.getDate(CSMsg.getId(),CSMsg.getStage());
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.getDateUser,tempDateUser));
+				} catch (IOException e) {
+				}
+				break;
 			default:
 				break;
 			}

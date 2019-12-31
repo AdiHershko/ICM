@@ -320,6 +320,13 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				break;
+			case getDateUser:
+				Platform.runLater(new Runnable() {
+					public void run() {
+						RequestsScreenController._ins.setDueTimeStringForUser(((ClientServerMessage) msg).getMsg());
+					}
+				});
+				break;
 			default:
 				return;
 			}
