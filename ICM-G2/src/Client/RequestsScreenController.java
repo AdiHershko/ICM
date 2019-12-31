@@ -320,7 +320,7 @@ public class RequestsScreenController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void TableSetup() {
- 		tableView.setRowFactory(tv -> new TableRow<Request>() { //MAKES TABLE UGLY, DELETE LATER
+		/*tableView.setRowFactory(tv -> new TableRow<Request>() { //MAKES TABLE UGLY, DELETE LATER TODO
 		    @Override
 		    public void updateItem(Request item, boolean empty) {
 		    	if (item==null)
@@ -335,7 +335,7 @@ public class RequestsScreenController {
 		            setStyle("-fx-background-color: tomato;");
 		    	}
 		    	}
-		});
+		});*/
 		TableColumn<Request, Integer> idColumn = new TableColumn<>("Request ID");
 		idColumn.setCellValueFactory(new PropertyValueFactory("id"));
 		TableColumn<Request, String> statusColumn = new TableColumn<>("Status");
@@ -344,7 +344,7 @@ public class RequestsScreenController {
 		stageColumn.setCellValueFactory(new PropertyValueFactory("currentStage"));
 		tableView.getColumns().addAll(idColumn, statusColumn, stageColumn);
 		for (TableColumn<Request, ?> col : tableView.getColumns())
-			col.setMinWidth(100);
+			col.setMinWidth(95);
 	}
 
 	public void RefreshTable() {
@@ -379,6 +379,7 @@ public class RequestsScreenController {
 			commentsArea.setText(r.getComments());
 			requestIDLabel.setText("" + r.getId());
 			if(Main.currentUser.getRole()==Enums.Role.College) {
+				//r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage())].getPlannedDueDate() TODO
 				Main.client
 				.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getDateUser,r.getId(),Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())));
 			}
@@ -662,10 +663,10 @@ public class RequestsScreenController {
 	@FXML
 	void FreezeUnfreeze(ActionEvent event) {
 		boolean frozen = false, unfrozen = false;
-		if (r.getStatus().equals("Active")) {
+		if (r.getStatus().equals(Enums.RequestStatus.Active)) {
 			frozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
-		} else if (r.getStatus().equals("Frozen")) {
+		} else if (r.getStatus().equals(Enums.RequestStatus.Frozen)) {
 			unfrozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
 		}
@@ -684,6 +685,7 @@ public class RequestsScreenController {
 			alert.setContentText("Request number " + r.getId() + " changed to active");
 			alert.show();
 		}
+		RefreshTable();
 		unVisibleRequestPane();
 		return;
 	}
@@ -879,7 +881,7 @@ public class RequestsScreenController {
 
 	}
 	public void setDueTimeStringForUser(String msg) {
-		stageDate1.setText("due date for stage: "+msg);
+		stageDate1.setText("Current Stage Due Date: "+msg);
 	}
 
 	@FXML

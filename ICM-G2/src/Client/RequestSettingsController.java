@@ -74,6 +74,9 @@ public class RequestSettingsController {
 
 	/*
 	 * TODO: להוריד שכפולים בקוד.. שיהיה לי כח
+	 * להשתמש ב:
+	 * r.getStages()
+	 * RequestScreenController.r.getStages()
 	 */
 
 

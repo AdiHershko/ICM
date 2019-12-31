@@ -34,7 +34,7 @@
       </Pane>
       <Pane fx:id="GeneralViewRequest1" layoutX="318.0" layoutY="76.0" prefHeight="515.0" prefWidth="876.0" visible="false">
          <children>
-            <Pane fx:id="UserViewsRequest1" prefHeight="508.0" prefWidth="870.0">
+            <Pane fx:id="UserViewsRequest1" prefHeight="508.0" prefWidth="870.0" visible="false">
                <children>
                   <Label layoutX="11.0" layoutY="14.0" text="Request ID:" />
                   <Label layoutX="11.0" layoutY="40.0" text="System:" />
@@ -101,7 +101,7 @@
                   <Label fx:id="timeCreatedLabel" layoutX="388.0" layoutY="14.0" text="Time Created" />
                   <Label fx:id="uploadedFilesLabel" layoutX="446.0" layoutY="372.0" text="Files Uploaded: none" />
                   <Label fx:id="requestorLabel" layoutX="388.0" layoutY="40.0" text="Requestor:" />
-                  <Label fx:id="stageDate1" layoutX="510.0" layoutY="40.0" text="due date for stage:" />
+                  <Label fx:id="stageDate1" layoutX="9.0" layoutY="398.0" text="Current Stage Due Date:" />
                </children>
             </Pane>
             <Pane fx:id="CUserOpenRequest1" prefHeight="508.0" prefWidth="870.0" visible="false">

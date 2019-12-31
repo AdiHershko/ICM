@@ -17,7 +17,6 @@ public class Stage implements Serializable{
 	private Boolean isApproved;
 	private Boolean isExtended;
 	private ArrayList<String> stageMembers;
-	private User stageLeader;
 
 	public Stage() {
 
@@ -68,14 +67,6 @@ public class Stage implements Serializable{
 
 	public void setStageMembers(ArrayList<String> stageMembers) {
 		this.stageMembers = stageMembers;
-	}
-
-	public User getStageLeader() {
-		return stageLeader;
-	}
-
-	public void setStageLeader(User stageLeader) {
-		this.stageLeader = stageLeader;
 	}
 
 	public String getExtendedDueDate() {
