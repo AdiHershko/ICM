@@ -31,6 +31,7 @@ import Common.Report;
 import Common.Request;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -39,6 +40,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -47,6 +49,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -55,6 +58,8 @@ public class RequestsScreenController {
 	public static Stage tmp_newWindow;
 	public static RequestsScreenController _ins;
 	public static boolean waitForNewRequest;
+	private boolean unActive;
+	private boolean isSearch;
 	public static int newRequestID;
 	public static Request r;
 	private ArrayList<String> filesPaths = new ArrayList<String>();
@@ -62,7 +67,6 @@ public class RequestsScreenController {
 	public static Report reportOfRequest;
 	Stage newWindow = new Stage();
 	public static int saveOrSub = 0;
-	private boolean isSearch;
 	private int index;
 	private int id = -1;
 	@FXML
@@ -181,6 +185,8 @@ public class RequestsScreenController {
 	private TextField searchField;
 	@FXML
 	private Button searchButton;
+	@FXML
+	private CheckBox unActiveCheckBox;
 
 	public void initialize() {
 		_ins = this;
@@ -221,8 +227,7 @@ public class RequestsScreenController {
 
 		if (Main.currentUser.getRole() == Enums.Role.Manager) {
 			managerBackBtn.setVisible(true);
-		}
-		else {
+		} else {
 			managerBackBtn.setVisible(false);
 		}
 	}
@@ -232,8 +237,7 @@ public class RequestsScreenController {
 		String textFromUser = searchField.getText();
 		if (textFromUser.equals("")) {
 			isSearch = false;
-		}
-		else {
+		} else {
 			try {
 				id = Integer.parseUnsignedInt(textFromUser);
 				isSearch = true;
@@ -247,6 +251,23 @@ public class RequestsScreenController {
 		}
 		unVisibleRequestPane();
 		RefreshTable();
+	}
+
+	@FXML
+	public void showUnactive(ActionEvent event) {
+		unActiveCheckBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if (unActiveCheckBox.isSelected()) {
+					unActive = true;
+
+				} else {
+					unActive = false;
+
+				}
+				RefreshTable();
+			}
+		});
 	}
 
 	@FXML
@@ -349,16 +370,14 @@ public class RequestsScreenController {
 
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
-					Main.currentUser.getUsername(), id, isSearch));
-		}
-		else if (Main.currentUser.getRole() == Enums.Role.Manager
+					Main.currentUser.getUsername(), id, isSearch, unActive));
+		} else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN,
-					Main.currentUser.getUsername(), id, isSearch));
-		}
-		else {
-			Main.client.handleMessageFromClientUI(
-					new ClientServerMessage(Enums.MessageEnum.REFRESHIS, Main.currentUser.getUsername(), id, isSearch));
+					Main.currentUser.getUsername(), id, isSearch, unActive));
+		} else {
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHIS,
+					Main.currentUser.getUsername(), id, isSearch, unActive));
 		}
 
 	}
@@ -384,19 +403,16 @@ public class RequestsScreenController {
 				if (temp != null) {
 					temp = new DateTime(temp).toString("dd/MM/yyyy");
 					stageDate1.setText("current stage due date: " + temp);
-				}
-				else {
+				} else {
 					stageDate1.setText("Current stage due date: date not yet updated.");
 				}
-			}
-			else {
+			} else {
 				stageDate1.setVisible(false);
 				if (temp != null) {
 					temp = new DateTime(temp).toString("dd/MM/yyyy");
 					if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
 						setDueTime1.setText(temp);
-					}
-					else {
+					} else {
 						dueDate.setText(temp);
 					}
 				}
@@ -423,8 +439,7 @@ public class RequestsScreenController {
 					FailureReportBtn1.setVisible(false);
 				else
 					FailureReportBtn1.setVisible(true);
-			}
-			else if (Main.currentUser.getRole() != Enums.Role.College) {
+			} else if (Main.currentUser.getRole() != Enums.Role.College) {
 				showRequestByStage(r);
 			}
 
@@ -500,8 +515,7 @@ public class RequestsScreenController {
 			alert.setTitle("Upload finished");
 			alert.setContentText("Upload finished succesfully");
 			alert.showAndWait();
-		}
-		else {
+		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Upload failed");
 			alert.setContentText("Could not upload file to server");
@@ -682,8 +696,7 @@ public class RequestsScreenController {
 		if (r.getStatus().equals(Enums.RequestStatus.Active)) {
 			frozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
-		}
-		else if (r.getStatus().equals(Enums.RequestStatus.Frozen)) {
+		} else if (r.getStatus().equals(Enums.RequestStatus.Frozen)) {
 			unfrozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
 		}
@@ -765,8 +778,7 @@ public class RequestsScreenController {
 			alert.setHeaderText("Missing tester");
 			alert.setContentText("You need to appoint a tester before entering next stage");
 			alert.show();
-		}
-		else {
+		} else {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 			RefreshTable();
 			unVisibleRequestPane();
@@ -900,8 +912,7 @@ public class RequestsScreenController {
 			alert.setContentText("must fill due time!");
 			alert.showAndWait();
 			return;
-		}
-		else {
+		} else {
 			try {
 				date = dtf.parseDateTime(setDueTime1.getText());
 			} catch (Exception e) {
@@ -939,8 +950,7 @@ public class RequestsScreenController {
 			alert.setContentText("must fill due time!");
 			alert.showAndWait();
 			return;
-		}
-		else {
+		} else {
 			try {
 				date = dtf.parseDateTime(dueDate.getText());
 			} catch (Exception e) {

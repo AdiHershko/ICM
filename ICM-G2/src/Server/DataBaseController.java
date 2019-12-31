@@ -112,36 +112,14 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static void updateAssesmentor(String id,int reqid, int stage){
+	public static void updateAssesmentor(String id, int reqid, int stage) {
 		PreparedStatement st;
-		try{
-			st = c.prepareStatement("update Stages set Member='"+id+"' where StageName="+stage+" and RequestID="+reqid);
+		try {
+			st = c.prepareStatement(
+					"update Stages set Member='" + id + "' where StageName=" + stage + " and RequestID=" + reqid);
 			st.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-
-	}
-
-	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search) {
-		String query;
-		if (search == false) {
-			query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
-					+ ",%'";
-		} else {
-			query = "select * from Requests where currenthandlers LIKE '%," + UserName + ",%'" + "and id=" + id;
-		}
-		return getRequests(query);
-	}
-
-	public static ObservableList<Request> getRequestsForManager(int id, boolean search) {
-		String query;
-		if (search == false) {
-			query = "select * from Requests where (status=0 or status=2 or status=3)";
-			return getRequests(query);
-		} else {
-			query = "select * from Requests where id=" + id;
-			return getRequests(query);
 		}
 
 	}
@@ -233,16 +211,6 @@ public class DataBaseController {
 		}
 	}
 
-	public static ObservableList<Request> getRequestsForCollege(String userName, int id, boolean search) {
-		String query;
-		if (search == false) {
-			query = "select * from Requests where Requestor='" + userName + "' and Status=0";
-		} else {
-			query = "select * from Requests where Requestor='" + userName + "'" + "and ID=" + id;
-		}
-		return getRequests(query);
-	}
-
 	public static ObservableList<Request> getRequests(String query) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
 		ResultSet rs = null;
@@ -273,6 +241,56 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		return o;
+	}
+
+	public static ObservableList<Request> getRequestsForCollege(String userName, int id, boolean search,
+			boolean unActive) {
+		String query;
+		if (unActive == true) {
+			query = "select * from Requests where Requestor='" + userName + "'";
+
+		} else {
+			query = "select * from Requests where Requestor='" + userName + "'" + "and Status=0";
+
+		}
+
+		if (search == true) {
+			query = "select * from Requests where Requestor='" + userName + "'" + "and ID=" + id;
+
+		}
+		return getRequests(query);
+
+	}
+
+	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search, boolean unActive) {
+		String query;
+		if (unActive == true) {
+			query = "select * from Requests where currenthandlers LIKE ',%" + UserName + "%,'";
+		} else {
+			query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE ',%" + UserName
+					+ "%,'";
+		}
+		if (search == true) {
+			query = "select * from Requests where currenthandlers LIKE ',%" + UserName + "%,'" + "and id=" + id;
+		}
+		return getRequests(query);
+	}
+
+	public static ObservableList<Request> getRequestsForManager(int id, boolean search, boolean unActive) {
+		String query;
+		if (unActive == true) {
+			query = "select * from Requests";
+
+		} else {
+			query = "select * from Requests where (status=0 or status=2 or status=3)";
+		}
+		if (search == true) {
+
+			query = "select * from Requests where id=" + id;
+
+		}
+		return getRequests(query);
+
 	}
 
 	public static Stage[] getRequestStages(int RequestID) {
@@ -726,9 +744,8 @@ public class DataBaseController {
 		return res;
 	}
 
-	public static boolean isRequestDenied(int requestID)
-	{
-		String query = "SELECT isDenied from Requests where ID="+requestID;
+	public static boolean isRequestDenied(int requestID) {
+		String query = "SELECT isDenied from Requests where ID=" + requestID;
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -739,16 +756,17 @@ public class DataBaseController {
 		}
 		try {
 			rs.next();
-			if (rs.getInt(1)==1) return true;
+			if (rs.getInt(1) == 1)
+				return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 
-	public static void setDate(int requestID,int stage,String date)
-	{
-		String query = "update Stages set PlannedDueDate='"+date+"' where StageName="+stage+" and RequestID="+requestID;
+	public static void setDate(int requestID, int stage, String date) {
+		String query = "update Stages set PlannedDueDate='" + date + "' where StageName=" + stage + " and RequestID="
+				+ requestID;
 		PreparedStatement statement;
 		try {
 			statement = c.prepareStatement(query);
@@ -759,9 +777,8 @@ public class DataBaseController {
 
 	}
 
-	public static boolean setRequestDeny(int requestID,int i)
-	{
-		String query = "update Requests set isDenied="+i+" where ID="+requestID;
+	public static boolean setRequestDeny(int requestID, int i) {
+		String query = "update Requests set isDenied=" + i + " where ID=" + requestID;
 		PreparedStatement statement;
 		try {
 			statement = c.prepareStatement(query);
@@ -769,7 +786,8 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (i==0) return false;
+		if (i == 0)
+			return false;
 		return true;
 	}
 
