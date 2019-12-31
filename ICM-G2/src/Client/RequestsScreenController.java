@@ -864,7 +864,7 @@ public class RequestsScreenController {
 		if(r.getCurrentStage()==Enums.RequestStageENUM.Assesment) {
 		setDueTime1.setText(date);
 		}
-		if(r.getCurrentStage()==Enums.RequestStageENUM.Execution) {
+		else {
 			dueDate.setText(date);
 		}
 		
