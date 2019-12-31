@@ -7,10 +7,13 @@ import org.joda.time.format.DateTimeFormatter;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Request;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -30,7 +33,7 @@ public class RequestSettingsController {
 	@FXML
 	private TextField assesmentExtensionDateText;
 	@FXML
-	private TextField examiningDueDateText;
+	private TextField examaningExtensionText;
 	@FXML
 	private TextField executionDueDateText;
 	@FXML
@@ -55,6 +58,10 @@ public class RequestSettingsController {
 	private Button setExecDateButton;
 	@FXML
 	private Button setTestDateButton;
+	@FXML
+	private TextField testerAppointedText;
+	@FXML
+	private Button editTesterButton;
 
 
 	public void initialize()
@@ -66,11 +73,8 @@ public class RequestSettingsController {
 
 
 	/*
-	 * TODO:
-	 * compare due date with todays date
-	 * add tester appointer text
+	 * TODO: להוריד שכפולים בקוד.. שיהיה לי כח
 	 */
-
 
 
 	public void setScreen(){
@@ -89,6 +93,11 @@ public class RequestSettingsController {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER,currentRequest.getId(),executionAppointerText.getText()));
 	}
 
+	@FXML
+	public void editTester(){
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITTESTER,currentRequest.getId(),testerAppointedText.getText()));
+	}
+
 
 	@FXML
 	public void doneButtonAction(){
@@ -101,8 +110,27 @@ public class RequestSettingsController {
 	@FXML
 	public void setAssesmentDate(){
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-		DateTime dt = dtf.parseDateTime(assesmentDueDateText.getText());
-		// add if not before today
+		DateTime dt;
+		try {
+		 dt = dtf.parseDateTime(assesmentDueDateText.getText());
+		} catch (IllegalArgumentException e)
+		{
+			Platform.runLater(()->{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setContentText("Invalid date. Enter a date with format dd/MM/yyyy");
+				alert.show();
+			});
+			return;
+		}
+		if (dt.isBeforeNow())
+		{
+			Platform.runLater(()->{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setContentText("Please enter a date that is later than today.");
+				alert.show();
+			});
+			return;
+		}
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE,currentRequest.getId(),dt.toString()));
 	}
 
@@ -125,8 +153,27 @@ public class RequestSettingsController {
 	@FXML
 	public void saveExamDate(){
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-		DateTime dt = dtf.parseDateTime(examaningDueDateText.getText());
-		// add if not before today
+		DateTime dt;
+		try {
+			 dt = dtf.parseDateTime(examaningDueDateText.getText());
+			} catch (IllegalArgumentException e)
+			{
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Invalid date. Enter a date with format dd/MM/yyyy");
+					alert.show();
+				});
+				return;
+			}
+			if (dt.isBeforeNow())
+			{
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Please enter a date that is later than today.");
+					alert.show();
+				});
+				return;
+			}
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SETEXAMDATE,currentRequest.getId(),dt.toString()));
 	}
 
@@ -134,16 +181,54 @@ public class RequestSettingsController {
 	@FXML
 	public void setExecDate(){
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-		DateTime dt = dtf.parseDateTime(executionDueDateText.getText());
-		// add if not before today
+		DateTime dt;
+		try {
+			 dt = dtf.parseDateTime(executionDueDateText.getText());
+			} catch (IllegalArgumentException e)
+			{
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Invalid date. Enter a date with format dd/MM/yyyy");
+					alert.show();
+				});
+				return;
+			}
+			if (dt.isBeforeNow())
+			{
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Please enter a date that is later than today.");
+					alert.show();
+				});
+				return;
+			}
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SETEXECMDATE,currentRequest.getId(),dt.toString()));
 	}
 
 	@FXML
 	public void setTestDate(){
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-		DateTime dt = dtf.parseDateTime(testDueDateText.getText());
-		// add if not before today
+		DateTime dt;
+		try {
+			 dt = dtf.parseDateTime(testDueDateText.getText());
+			} catch (IllegalArgumentException e)
+			{
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Invalid date. Enter a date with format dd/MM/yyyy");
+					alert.show();
+				});
+				return;
+			}
+			if (dt.isBeforeNow())
+			{
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Please enter a date that is later than today.");
+					alert.show();
+				});
+				return;
+			}
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SETTESTDATE,currentRequest.getId(),dt.toString()));
 
 	}
@@ -233,14 +318,14 @@ public class RequestSettingsController {
 
 
 
-	public TextField getExaminingDueDateText() {
-		return examiningDueDateText;
+	public TextField getExamaningExtensionText() {
+		return examaningExtensionText;
 	}
 
 
 
-	public void setExaminingDueDateText(TextField examiningDueDateText) {
-		this.examiningDueDateText = examiningDueDateText;
+	public void setexamaningExtensionText(TextField examaningExtensionText) {
+		this.examaningExtensionText = examaningExtensionText;
 	}
 
 
@@ -249,6 +334,16 @@ public class RequestSettingsController {
 		return executionDueDateText;
 	}
 
+
+
+	public TextField getTesterAppointedText() {
+		return testerAppointedText;
+	}
+
+
+	public void setTesterAppointedText(TextField testerAppointedText) {
+		this.testerAppointedText = testerAppointedText;
+	}
 
 
 	public void setExecutionDueDateText(TextField executionDueDateText) {

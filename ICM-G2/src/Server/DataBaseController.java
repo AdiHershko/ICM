@@ -78,7 +78,7 @@ public class DataBaseController {
 
 	public static String[] getISUser(String userID) {
 		String query = "select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"
-				+ userID + "'";
+				+ userID + "' and Users.Role>0";
 		PreparedStatement st;
 		ResultSet rs = null;
 		String[] res = null;

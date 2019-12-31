@@ -275,9 +275,7 @@ public class EchoServer extends AbstractServer {
 				break;
 			case EDITASSESMENTER:
 				String id1 = ((ClientServerMessage) msg).getMsg();
-				if (DataBaseController.getISUser(
-						"select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"
-								+ id1 + "'") == null)
+				if (DataBaseController.getISUser(id1)==null)
 					try {
 						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER, false));
 						return;
@@ -293,9 +291,7 @@ public class EchoServer extends AbstractServer {
 				break;
 			case EDITEXECUTIONER:
 				String id2 = ((ClientServerMessage) msg).getMsg();
-				if (DataBaseController.getISUser(
-						"select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"
-								+ id2 + "'") == null)
+				if (DataBaseController.getISUser(id2)==null)
 					try {
 						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER, false));
 						return;
@@ -305,6 +301,22 @@ public class EchoServer extends AbstractServer {
 				DataBaseController.updateAssesmentor(id2,CSMsg.getId(), 3);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER, true));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case EDITTESTER:
+				String id3 = ((ClientServerMessage) msg).getMsg();
+				if (DataBaseController.getISUser(id3) == null)
+					try {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITTESTER, false));
+						return;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				DataBaseController.updateAssesmentor(id3,CSMsg.getId(), 4);
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITTESTER, true));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
