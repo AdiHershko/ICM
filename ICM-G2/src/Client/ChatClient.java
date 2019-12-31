@@ -330,22 +330,6 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 			break;
-			case getDate:
-				Platform.runLater(new Runnable() {
-					public void run() {
-						RequestsScreenController._ins.setDueTimeString(((ClientServerMessage) msg).getMsg());
-					}
-				});
-				break;
-			case getDateUser:
-				Platform.runLater(new Runnable() {
-					public void run() {
-						RequestsScreenController._ins.setDueTimeStringForUser(((ClientServerMessage) msg).getMsg());
-					}
-				});
-				break;
-			default:
-				return;
 			}
 		}
 		if (msg instanceof User)

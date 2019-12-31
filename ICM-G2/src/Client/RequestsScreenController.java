@@ -221,7 +221,8 @@ public class RequestsScreenController {
 
 		if (Main.currentUser.getRole() == Enums.Role.Manager) {
 			managerBackBtn.setVisible(true);
-		} else {
+		}
+		else {
 			managerBackBtn.setVisible(false);
 		}
 	}
@@ -231,7 +232,8 @@ public class RequestsScreenController {
 		String textFromUser = searchField.getText();
 		if (textFromUser.equals("")) {
 			isSearch = false;
-		} else {
+		}
+		else {
 			try {
 				id = Integer.parseUnsignedInt(textFromUser);
 				isSearch = true;
@@ -320,22 +322,18 @@ public class RequestsScreenController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void TableSetup() {
-		/*tableView.setRowFactory(tv -> new TableRow<Request>() { //MAKES TABLE UGLY, DELETE LATER TODO
-		    @Override
-		    public void updateItem(Request item, boolean empty) {
-		    	if (item==null)
-		    		return;
-		    	if (item.getIsDenied()==0)
-		    	{
-		    		//setStyle(".table-row-cell:selected {-fx-selection-bar: red;-fx-background-insets: 0;-fx-background-radius: 1;}");
-		    		setStyle("-fx-selection-background: blue; -fx-selection-bar: red; -fx-selection-bar-non-focused: salmon;");
-		    	}
-		    	else if (item.getIsDenied()==1)
-		    	{
-		            setStyle("-fx-background-color: tomato;");
-		    	}
-		    	}
-		});*/
+		/*
+		 * tableView.setRowFactory(tv -> new TableRow<Request>() { //MAKES TABLE UGLY,
+		 * DELETE LATER TODO
+		 * 
+		 * @Override public void updateItem(Request item, boolean empty) { if
+		 * (item==null) return; if (item.getIsDenied()==0) { //
+		 * setStyle(".table-row-cell:selected {-fx-selection-bar: red;-fx-background-insets: 0;-fx-background-radius: 1;}"
+		 * );
+		 * setStyle("-fx-selection-background: blue; -fx-selection-bar: red; -fx-selection-bar-non-focused: salmon;"
+		 * ); } else if (item.getIsDenied()==1) {
+		 * setStyle("-fx-background-color: tomato;"); } } });
+		 */
 		TableColumn<Request, Integer> idColumn = new TableColumn<>("Request ID");
 		idColumn.setCellValueFactory(new PropertyValueFactory("id"));
 		TableColumn<Request, String> statusColumn = new TableColumn<>("Status");
@@ -352,11 +350,13 @@ public class RequestsScreenController {
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
 					Main.currentUser.getUsername(), id, isSearch));
-		} else if (Main.currentUser.getRole() == Enums.Role.Manager
+		}
+		else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN,
 					Main.currentUser.getUsername(), id, isSearch));
-		} else {
+		}
+		else {
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.REFRESHIS, Main.currentUser.getUsername(), id, isSearch));
 		}
@@ -378,15 +378,29 @@ public class RequestsScreenController {
 			reasonArea.setText(r.getChangeReason());
 			commentsArea.setText(r.getComments());
 			requestIDLabel.setText("" + r.getId());
-			if(Main.currentUser.getRole()==Enums.Role.College) {
-				//r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage())].getPlannedDueDate() TODO
-				Main.client
-				.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getDateUser,r.getId(),Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())));
+			String temp = r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage())]
+					.getPlannedDueDate();
+			if (Main.currentUser.getRole() == Enums.Role.College) {
+				if (temp != null) {
+					temp = new DateTime(temp).toString("dd/MM/yyyy");
+					stageDate1.setText("current stage due date: " + temp);
+				}
+				else {
+					stageDate1.setText("Current stage due date: date not yet updated.");
+				}
 			}
 			else {
 				stageDate1.setVisible(false);
-				Main.client
-			.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getDate,r.getId(),Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())));
+				if (temp != null) {
+					temp = new DateTime(temp).toString("dd/MM/yyyy");
+					if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
+						setDueTime1.setText(temp);
+					}
+					else {
+						dueDate.setText(temp);
+					}
+				}
+
 			}
 			timeCreatedLabel.setText("Creation time: " + r.getDate().toString("dd/MM/yyyy hh:mm a"));
 			requestorLabel.setText("Requestor: " + r.getRequestorID());
@@ -409,7 +423,8 @@ public class RequestsScreenController {
 					FailureReportBtn1.setVisible(false);
 				else
 					FailureReportBtn1.setVisible(true);
-			} else if (Main.currentUser.getRole() != Enums.Role.College) {
+			}
+			else if (Main.currentUser.getRole() != Enums.Role.College) {
 				showRequestByStage(r);
 			}
 
@@ -485,7 +500,8 @@ public class RequestsScreenController {
 			alert.setTitle("Upload finished");
 			alert.setContentText("Upload finished succesfully");
 			alert.showAndWait();
-		} else {
+		}
+		else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Upload failed");
 			alert.setContentText("Could not upload file to server");
@@ -666,7 +682,8 @@ public class RequestsScreenController {
 		if (r.getStatus().equals(Enums.RequestStatus.Active)) {
 			frozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
-		} else if (r.getStatus().equals(Enums.RequestStatus.Frozen)) {
+		}
+		else if (r.getStatus().equals(Enums.RequestStatus.Frozen)) {
 			unfrozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
 		}
@@ -748,7 +765,8 @@ public class RequestsScreenController {
 			alert.setHeaderText("Missing tester");
 			alert.setContentText("You need to appoint a tester before entering next stage");
 			alert.show();
-		} else {
+		}
+		else {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 			RefreshTable();
 			unVisibleRequestPane();
@@ -871,23 +889,11 @@ public class RequestsScreenController {
 		_ins.RefreshTable();
 		tmp_newWindow.close();
 	}
-	public void setDueTimeString(String date) {
-		if(r.getCurrentStage()==Enums.RequestStageENUM.Assesment) {
-		setDueTime1.setText(date);
-		}
-		else {
-			dueDate.setText(date);
-		}
-
-	}
-	public void setDueTimeStringForUser(String msg) {
-		stageDate1.setText("Current Stage Due Date: "+msg);
-	}
 
 	@FXML
 	public void setAssDueTime(ActionEvent event) {
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-		DateTime date=null;
+		DateTime date = null;
 		if (setDueTime1.getText().equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
@@ -897,15 +903,15 @@ public class RequestsScreenController {
 		}
 		else {
 			try {
-			date = dtf.parseDateTime(setDueTime1.getText());
-			}catch(Exception e) {
+				date = dtf.parseDateTime(setDueTime1.getText());
+			} catch (Exception e) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
 				alert.setContentText("must fill due date like this:\ndd/MM/yyyy");
 				alert.showAndWait();
 				return;
 			}
-			if(date.isBeforeNow()) {
+			if (date.isBeforeNow()) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
 				alert.setContentText("due date too soon!");
@@ -913,19 +919,20 @@ public class RequestsScreenController {
 				return;
 			}
 			if (date != null) {
-				if(r.getCurrentStageEnum()==Enums.RequestStageENUM.Assesment) {
-				Main.client
-						.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE,r.getId(), date.toString()));
+				if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Assesment) {
+					Main.client.handleMessageFromClientUI(
+							new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE, r.getId(), date.toString()));
 				}
 
 			}
-
+			RefreshTable();
 		}
 	}
+
 	@FXML
 	public void setExecDueTime(ActionEvent event) {
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-		DateTime date=null;
+		DateTime date = null;
 		if (dueDate.getText().equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
@@ -935,15 +942,15 @@ public class RequestsScreenController {
 		}
 		else {
 			try {
-			date = dtf.parseDateTime(dueDate.getText());
-			}catch(Exception e) {
+				date = dtf.parseDateTime(dueDate.getText());
+			} catch (Exception e) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
 				alert.setContentText("must fill due date like this:\ndd/MM/yyyy");
 				alert.showAndWait();
 				return;
 			}
-			if(date.isBeforeNow()) {
+			if (date.isBeforeNow()) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
 				alert.setContentText("due date too soon!");
@@ -951,16 +958,15 @@ public class RequestsScreenController {
 				return;
 			}
 			if (date != null) {
-				if(r.getCurrentStageEnum()==Enums.RequestStageENUM.Execution) {
-				Main.client
-						.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SETEXECMDATE,r.getId(), date.toString()));
+				if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Execution) {
+					Main.client.handleMessageFromClientUI(
+							new ClientServerMessage(Enums.MessageEnum.SETEXECMDATE, r.getId(), date.toString()));
 				}
 
 			}
-
+			RefreshTable();
 		}
-	}
 
-	
+	}
 
 }
