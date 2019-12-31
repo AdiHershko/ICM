@@ -10,14 +10,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import Common.ClientServerMessage;
 import Common.Enums;
@@ -64,6 +69,8 @@ public class RequestsScreenController {
 	private Button addFilesButton;
 	@FXML
 	private Button logoutButton;
+	@FXML
+	private Button setDueDateBTN;
 	@FXML
 	private TableView<Request> tableView;
 	@FXML
@@ -142,6 +149,8 @@ public class RequestsScreenController {
 	private Button submitBtn;
 	@FXML
 	private TextField dueDate;
+	@FXML
+	private TextField setDueTime1;
 	@FXML
 	private Button extentionAskBtn;
 	@FXML
@@ -367,6 +376,8 @@ public class RequestsScreenController {
 			reasonArea.setText(r.getChangeReason());
 			commentsArea.setText(r.getComments());
 			requestIDLabel.setText("" + r.getId());
+			Main.client
+			.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getDate,r.getId(),Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())));
 			timeCreatedLabel.setText("Creation time: " + r.getDate().toString("dd/MM/yyyy hh:mm a"));
 			requestorLabel.setText("Requestor: " + r.getRequestorID());
 			systemLabel.setText(r.getSystem().toString());
@@ -849,4 +860,91 @@ public class RequestsScreenController {
 		_ins.RefreshTable();
 		tmp_newWindow.close();
 	}
+	public void setDueTimeString(String date) {
+		if(r.getCurrentStage()==Enums.RequestStageENUM.Assesment) {
+		setDueTime1.setText(date);
+		}
+		if(r.getCurrentStage()==Enums.RequestStageENUM.Execution) {
+			dueDate.setText(date);
+		}
+		
+	}
+	@FXML
+	void setAssDueTime(ActionEvent event) {
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		DateTime date=null;
+		if (setDueTime1.getText().equals("")) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setContentText("must fill due time!");
+			alert.showAndWait();
+			return;
+		}
+		else {
+			try {
+			date = dtf.parseDateTime(setDueTime1.getText());
+			}catch(Exception e) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERROR");
+				alert.setContentText("must fill due date like this:\ndd/MM/yyyy");
+				alert.showAndWait();
+				return;
+			}
+			if(date.isBeforeNow()) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERROR");
+				alert.setContentText("due date too soon!");
+				alert.showAndWait();
+				return;
+			}
+			if (date != null) {
+				if(r.getCurrentStageEnum()==Enums.RequestStageENUM.Assesment) {
+				Main.client
+						.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE,r.getId(), date.toString()));
+				}
+				
+			}
+
+		}
+	}
+	@FXML
+	void setExecDueTime(ActionEvent event) {
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		DateTime date=null;
+		if (dueDate.getText().equals("")) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setContentText("must fill due time!");
+			alert.showAndWait();
+			return;
+		}
+		else {
+			try {
+			date = dtf.parseDateTime(dueDate.getText());
+			}catch(Exception e) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERROR");
+				alert.setContentText("must fill due date like this:\ndd/MM/yyyy");
+				alert.showAndWait();
+				return;
+			}
+			if(date.isBeforeNow()) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERROR");
+				alert.setContentText("due date too soon!");
+				alert.showAndWait();
+				return;
+			}
+			if (date != null) {
+				if(r.getCurrentStageEnum()==Enums.RequestStageENUM.Execution) {
+				Main.client
+						.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SETEXECMDATE,r.getId(), date.toString()));
+				}
+				
+			}
+
+		}
+	}
+
+
 }

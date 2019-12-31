@@ -758,6 +758,26 @@ public class DataBaseController {
 		}
 
 	}
+	public static String getDate(int requestID,int stage)
+	{
+		String query = "select Stages.PlannedDueDate from Stages where StageName="+stage+" and RequestID="+requestID;
+		ResultSet rs = null;
+		String temp="";
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if(rs.next()) {
+				temp=new DateTime(rs.getString(1)).toString("dd/MM/yyyy");
+			}
+		} catch (SQLException e) {
+		}
+		return temp;
+	}
 
 	public static boolean setRequestDeny(int requestID,int i)
 	{

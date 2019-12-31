@@ -149,6 +149,8 @@ public class ClientServerMessage implements Serializable {
 		this.user = user;
 	}
 	
+	
+
 	public byte[] getBuffer() {
 		return buffer;
 	}

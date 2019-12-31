@@ -45,7 +45,7 @@
                         <Pane fx:id="ExecutionerFailure" layoutX="98.0" layoutY="1.0" prefHeight="106.0" prefWidth="427.0" visible="false">
                            <children>
                               <Button fx:id="FailureReportBtn" layoutX="205.0" layoutY="77.0" mnemonicParsing="false" onAction="#viewFailureReport" text="View Failures Report" />
-                              <Button fx:id="executionSetTime" layoutX="47.0" layoutY="38.0" mnemonicParsing="false" text="Set Time" />
+                              <Button fx:id="executionSetTime" layoutX="47.0" layoutY="38.0" mnemonicParsing="false" onAction="#setExecDueTime" text="Set Time" />
                            </children>
                         </Pane>
                         <Pane fx:id="ComittePane1" layoutX="-1.0" layoutY="5.0" prefHeight="106.0" prefWidth="857.0" visible="false">
@@ -75,8 +75,8 @@
                      <children>
                         <Button fx:id="openAssessmentReportB" layoutX="318.0" layoutY="39.0" mnemonicParsing="false" onAction="#AssessmentReportPage" text="Open Assessment Report" />
                         <Label layoutX="13.0" layoutY="7.0" text="Stage due date:" />
-                        <TextField layoutX="103.0" layoutY="3.0" />
-                        <Button layoutX="261.0" layoutY="3.0" mnemonicParsing="false" text="Set Time" />
+                        <TextField fx:id="setDueTime1" layoutX="103.0" layoutY="3.0" />
+                        <Button fx:id="setDueDateBTN" layoutX="261.0" layoutY="3.0" mnemonicParsing="false" onAction="#setAssDueTime" text="Set Time" />
                         <Button fx:id="extentionAskBtn1" layoutX="653.0" layoutY="3.0" mnemonicParsing="false" onAction="#extentionAsk" text="Ask for extension" />
                         <Label layoutX="340.0" layoutY="7.0" text="Extension reason:" />
                         <TextField fx:id="extensionReason1" layoutX="435.0" layoutY="3.0" prefHeight="25.0" prefWidth="210.0" />
