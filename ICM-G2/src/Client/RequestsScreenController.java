@@ -326,7 +326,7 @@ public class RequestsScreenController {
 		    	if (item.getIsDenied()==0)
 		    	{
 		    		//setStyle(".table-row-cell:selected {-fx-selection-bar: red;-fx-background-insets: 0;-fx-background-radius: 1;}");
-		    	//	setStyle("-fx-selection-background: blue; -fx-selection-bar: red; -fx-selection-bar-non-focused: salmon;");
+		    		setStyle("-fx-selection-background: blue; -fx-selection-bar: red; -fx-selection-bar-non-focused: salmon;");
 		    	}
 		    	else if (item.getIsDenied()==1)
 		    	{
@@ -867,7 +867,7 @@ public class RequestsScreenController {
 		else {
 			dueDate.setText(date);
 		}
-		
+
 	}
 	@FXML
 	void setAssDueTime(ActionEvent event) {
@@ -902,7 +902,7 @@ public class RequestsScreenController {
 				Main.client
 						.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE,r.getId(), date.toString()));
 				}
-				
+
 			}
 
 		}
@@ -940,7 +940,7 @@ public class RequestsScreenController {
 				Main.client
 						.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SETEXECMDATE,r.getId(), date.toString()));
 				}
-				
+
 			}
 
 		}
