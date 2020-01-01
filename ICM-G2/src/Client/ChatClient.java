@@ -233,22 +233,6 @@ public class ChatClient extends AbstractClient {
 				ISUsersScreenController._ins.setCanEdit(false);
 				ISUsersScreenController._ins.setSemaphore(false);
 				break;
-			case STAGESSCREEN: //can remove
-				ArrayList<String> list = (ArrayList<String>) ((ClientServerMessage)msg).getL();
-				Platform.runLater(()->{
-					RequestSettingsController._ins.getAssesmentDueDateText().setText(list.get(0));
-					RequestSettingsController._ins.getAssesmentAppointerText().setText(list.get(1));
-					RequestSettingsController._ins.getAssesmentExtensionDateText().setText(list.get(2));
-					RequestSettingsController._ins.getExamaningExtensionText().setText(list.get(5));
-					RequestSettingsController._ins.getExamaningDueDateText().setText(list.get(3));
-					RequestSettingsController._ins.getExecutionDueDateText().setText(list.get(6));
-					RequestSettingsController._ins.getExecutionAppointerText().setText(list.get(7));
-					RequestSettingsController._ins.getExecutionExtenstionDateText().setText(list.get(8));
-					RequestSettingsController._ins.getTestDueDateText().setText(list.get(9));
-					RequestSettingsController._ins.getTesterAppointedText().setText(list.get(10));
-					RequestSettingsController._ins.getTesterExtensionDateText().setText(list.get(11));
-				});
-				break;
 			case EDITASSESMENTER:
 				if (!((ClientServerMessage)msg).isUploadstatus())
 				{
