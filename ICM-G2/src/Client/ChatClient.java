@@ -50,7 +50,7 @@ public class ChatClient extends AbstractClient {
 											System.exit(1);
 										});
 										noConnection.setTitle("ERROR!");
-										noConnection.setContentText("Server disconnected\nTrying to reconnect...\n(Closing this dialog would close the app)");
+										noConnection.setContentText("Server disconnected\nTrying to reconnect...");
 										if (closeButton == null) {
 											noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 											closeButton = noConnection.getDialogPane().lookupButton(ButtonType.CLOSE);

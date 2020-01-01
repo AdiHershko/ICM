@@ -6,12 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Random;
 
 import org.joda.time.DateTime;
@@ -21,9 +16,6 @@ import Common.Stage;
 import Common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Report;
 
@@ -60,13 +52,16 @@ public class DataBaseController {
 	}
 
 	public static String addISUser(User current) {
-		String query = "insert into Users(Users.username,Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role) values "
-				+ "('" + current.getUsername() + "','" + current.getPassword() + "','" + current.getFirstName() + "','"
-				+ current.getLastName() + "','" + current.getMail() + "','"
-				+ Enums.Role.getRoleByEnum(current.getRole()) + "')";
+		String query = "insert into Users(Users.username,Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role) values (?,?,?,?,?,?)";
 		PreparedStatement st;
 		try {
 			st = c.prepareStatement(query);
+			st.setString(1, current.getUsername());
+			st.setString(2, current.getPassword());
+			st.setString(3, current.getFirstName());
+			st.setString(4, current.getLastName());
+			st.setString(5, current.getMail());
+			st.setInt(6, Enums.Role.getRoleByEnum(current.getRole()));
 			st.execute();
 		} catch (SQLIntegrityConstraintViolationException e) {
 			return "IDEXISTS";
@@ -99,12 +94,16 @@ public class DataBaseController {
 	}
 
 	public static boolean updateISUser(User current) {
-		String query = "update Users set Password='" + current.getPassword() + "',FirstName='" + current.getFirstName()
-				+ "',LastName='" + current.getLastName() + "',Mail='" + current.getMail() + "',Role="
-				+ Enums.Role.getRoleByEnum(current.getRole()) + " where username='" + current.getUsername() + "'";
+		String query = "update Users set Password=? ,FirstName=? ,LastName=? ,Mail=? ,Role=? where username=?";
 		PreparedStatement st;
 		try {
 			st = c.prepareStatement(query);
+			st.setString(1, current.getPassword());
+			st.setString(2, current.getFirstName());
+			st.setString(3, current.getLastName());
+			st.setString(4, current.getMail());
+			st.setInt(5, Enums.Role.getRoleByEnum(current.getRole()));
+			st.setString(6, current.getUsername());
 			st.execute();
 		} catch (SQLException e) {
 			return false;
@@ -112,7 +111,7 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static void updateAssesmentor(String id, int reqid, int stage) {
+	public static void updateStageMember(String id, int reqid, int stage) {
 		PreparedStatement st;
 		try {
 			st = c.prepareStatement(
@@ -121,7 +120,7 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		updateLogChangeStageHandler(reqid,stage,id);
 	}
 
 	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search) {
@@ -147,48 +146,29 @@ public class DataBaseController {
 
 	}
 
-	public static void updateRequestDetails(String[] msg) {
-		String query= "UPDATE Requests SET Description = '"+msg[1]+"', `Change` = '"+msg[2]+"', ChangeReason = '"+msg[3]+"', Connect = '"+msg[4]+"' WHERE ID = "+msg[0];
+	public static void updateRequestDetails(Request r) {
+		String query= "UPDATE Requests SET Description = ?, `Change` = ?, ChangeReason = ?, Connect = ? WHERE ID = ?";
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
+			statement.setString(1, r.getDescription());
+			statement.setString(2, r.getChanges());
+			statement.setString(3, r.getChangeReason());
+			statement.setString(4, r.getComments());
+			statement.setInt(5, r.getId());
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	public static void ChangeRequestStatus(String[] msg) {
-		String query;
-		if (msg[1].equals("Rejected"))
-			query = "UPDATE Requests SET Status = 4 WHERE ID = " + msg[0];
-		else
-			query = "UPDATE Requests SET Status = 1 WHERE ID = " + msg[0];
-		PreparedStatement statement = null;
-		try {
-			statement = c.prepareStatement(query);
-			statement.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	public static void ChangeReportFailure(String[] Msg) {
-		String query = "UPDATE Stages SET ReportFailure = '" + Msg[0] + "' WHERE StageName = '4' and RequestID = '"
-				+ Msg[1] + "'";
+		String query = "UPDATE Stages SET ReportFailure = ? WHERE StageName = '4' and RequestID = ?";
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
-			statement.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void Freeze(int Id) {
-		String query = "UPDATE Requests SET Status = 2 WHERE ID = " + Id;
-		PreparedStatement statement = null;
-		try {
-			statement = c.prepareStatement(query);
+			statement.setString(1, Msg[0]);
+			statement.setInt(1, Integer.parseUnsignedInt(Msg[1]));
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -204,10 +184,19 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		query = "update Stages set ActualDate='" + (new DateTime()).toString() + "' where RequestID=" + Id + " and StageName=2";
+		try {
+			statement = c.prepareStatement(query);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
 	}
-
-	public static void changeStatusToDecline(int Id) {
-		String query = "UPDATE Requests SET Status = 3 WHERE ID = " + Id;
+	
+	public static void changeRequestStatus(int id, int status) {
+		String query = "UPDATE Requests SET Status = "+status+ " WHERE ID = " + id;
+		System.out.println(query);
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
@@ -215,17 +204,7 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void Unfreeze(int Id) {
-		String query = "UPDATE Requests SET Status = 0 WHERE ID = " + Id;
-		PreparedStatement statement = null;
-		try {
-			statement = c.prepareStatement(query);
-			statement.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		updateLogChangeStatus(id,status);
 	}
 
 	public static ObservableList<Request> getRequests(String query) {
@@ -338,12 +317,14 @@ public class DataBaseController {
 	}
 
 	public static User SearchUser(String user, String pass) {
-		String query = "select * from Users where binary username ='" + user + "' and binary Password ='" + pass + "'";
+		String query = "select * from Users where binary username =? and binary Password =?";
 		ResultSet rs = null;
 		User us = null;
 		PreparedStatement statement;
 		try {
 			statement = c.prepareStatement(query);
+			statement.setString(1, user);
+			statement.setString(2, pass);
 			rs = statement.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -781,7 +762,7 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		updateLogChangeStageDate(requestID,stage,date);
 	}
 
 	public static boolean setRequestDeny(int requestID, int i) {
@@ -810,18 +791,64 @@ public class DataBaseController {
 		}
 	}
 
-	public static void updateLog(Request request) {
-		String resDes="||"+request.getDescription()+"||"+request.getChanges()+"||"+request.getChangeReason()+"||"+request.getComments()+"||";
-		System.out.println(resDes);
-		String query= "INSERT INTO SuperSql (`RequestId`, `description`, `status`, `date`) VALUES ('"+request.getId()+"', '"+resDes+"', '"+Enums.RequestStatus.getRequestStatusByEnum(request.getStatus())+"', '"+request.getDate()+"')";
+	public static void updateLogRequestDetails(Request request) {
+		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
+		String WhatChanged = request.getDescription()+"||"+request.getChanges()+"||"+request.getChangeReason()+"||"+request.getComments();
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
+			statement.setInt(1, request.getId());
+			statement.setString(2, new DateTime().toString("dd/MM/yyyy HH:mm:ss"));
+			statement.setString(3, "Details");
+			statement.setString(4, WhatChanged);
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+	}
+	
+	public static void updateLogChangeStatus(int id, int status) {
+		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.setInt(1, id);
+			statement.setString(2, new DateTime().toString("dd/MM/yyyy HH:mm:ss"));
+			statement.setString(3, "Status");
+			statement.setString(4, ((Integer)status).toString());
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void updateLogChangeStageHandler(int id, int stage, String member) {
+		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.setInt(1, id);
+			statement.setString(2, new DateTime().toString("dd/MM/yyyy HH:mm:ss"));
+			statement.setString(3, "Stage "+stage+" handler");
+			statement.setString(4, member);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
+	public static void updateLogChangeStageDate(int id, int stage, String date) {
+		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.setInt(1, id);
+			statement.setString(2, new DateTime().toString("dd/MM/yyyy HH:mm:ss"));
+			statement.setString(3, "Stage "+stage+" due date");
+			statement.setString(4, date);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

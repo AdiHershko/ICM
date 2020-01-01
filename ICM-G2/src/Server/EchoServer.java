@@ -25,7 +25,6 @@ import Common.Enums;
 import Common.Report;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-//import server.DataBaseController;
 
 public class EchoServer extends AbstractServer {
 	final private static int DEFAULT_PORT = 5555;
@@ -39,7 +38,7 @@ public class EchoServer extends AbstractServer {
 	}
 
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
-
+		Request r;
 		if (msg == null)
 			return;
 		if (msg instanceof ClientServerMessage) {
@@ -69,11 +68,6 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-				
-			case sendToLog:
-				Request request1 = CSMsg.getRequest();
-				DataBaseController.updateLog(request1);
-				return;
 			case REFRESHMAN:
 				ObservableList<Request> ol2 = FXCollections.observableArrayList();
 				ol2 = DataBaseController.getRequestsForManager(CSMsg.getId(), CSMsg.isSearch(), CSMsg.isUnActive());
@@ -84,16 +78,23 @@ public class EchoServer extends AbstractServer {
 				}
 				return;
 			case UpdateRequestDetails:
-				DataBaseController.updateRequestDetails((String[]) CSMsg.getArray());
+				DataBaseController.updateRequestDetails(CSMsg.getRequest());
+				DataBaseController.updateLogRequestDetails(CSMsg.getRequest());
 				return;
 			case UpdateStatus:
-				DataBaseController.ChangeRequestStatus((String[]) CSMsg.getArray());
+				r = CSMsg.getRequest();
+				if (r.getStatus() == Enums.RequestStatus.Rejected) {
+					DataBaseController.changeRequestStatus(CSMsg.getRequest().getId(), 4);
+				}
+				else {
+					DataBaseController.changeRequestStatus(CSMsg.getRequest().getId(), 1);
+				}
 				return;
 			case Freeze:
-				DataBaseController.Freeze(Integer.parseInt(CSMsg.getMsg()));
+				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 2);
 				return;
 			case Unfreeze:
-				DataBaseController.Unfreeze(Integer.parseInt(CSMsg.getMsg()));
+				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()),0);
 				return;
 			case TesterRep:
 				String[] arr = (String[]) CSMsg.getArray();
@@ -102,7 +103,7 @@ public class EchoServer extends AbstractServer {
 				return;
 			case declineRequest:
 				DataBaseController.changeReqToClosed(Integer.parseInt(CSMsg.getMsg()));
-				DataBaseController.changeStatusToDecline(Integer.parseInt(CSMsg.getMsg()));
+				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 3);
 				return;
 			case SearchUser:
 				String[] temp = (String[]) CSMsg.getArray();
@@ -167,7 +168,7 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case CreateRequest:
-				Request r = CSMsg.getRequest();
+				r = CSMsg.getRequest();
 				int id = DataBaseController.CreateNewRequest(r);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.NewRequestID, id));
@@ -287,7 +288,7 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				DataBaseController.updateAssesmentor(id1, CSMsg.getId(), 1);
+				DataBaseController.updateStageMember(id1, CSMsg.getId(), 1);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER, true));
 				} catch (Exception e) {
@@ -303,7 +304,7 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				DataBaseController.updateAssesmentor(id2, CSMsg.getId(), 3);
+				DataBaseController.updateStageMember(id2, CSMsg.getId(), 3);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER, true));
 				} catch (Exception e) {
@@ -319,7 +320,7 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				DataBaseController.updateAssesmentor(id3,CSMsg.getId(), 4);
+				DataBaseController.updateStageMember(id3,CSMsg.getId(), 4);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITTESTER, true));
 				} catch (Exception e) {

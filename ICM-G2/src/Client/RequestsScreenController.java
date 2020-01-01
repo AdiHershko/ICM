@@ -663,10 +663,7 @@ public class RequestsScreenController {
 
 	@FXML
 	void statusChange(ActionEvent event) {
-		String[] s= new String[2];
-		s[0]=""+r.getId();
-		s[1]=""+r.getStatus();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, s));
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, r));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Confirm!");
 		alert.setHeaderText("Request closed!");
@@ -712,14 +709,11 @@ public class RequestsScreenController {
 		changeArea.setEditable(false);
 		reasonArea.setEditable(false);
 		commentsArea.setEditable(false);
-		String result[]= new String[5];
-		result[0]= ""+r.getId();
-		result[1]= descArea.getText();
-		result[2]= changeArea.getText();
-		result[3]= reasonArea.getText();
-		result[4]= commentsArea.getText();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.sendToLog, r));
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateRequestDetails, result));
+		r.setDescription(descArea.getText());
+		r.setChanges(changeArea.getText());
+		r.setChangeReason(reasonArea.getText());
+		r.setComments(commentsArea.getText());
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateRequestDetails, r));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Edited!");
 		alert.setHeaderText("Request edited!");

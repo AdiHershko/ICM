@@ -79,10 +79,10 @@ public class ISUsersScreenController {
 			alert.showAndWait();
 			return;
 		}
-		if (userIDField.getText().contains(",")) {
+		if (userIDField.getText().contains(",") || userIDField.getText().contains("'")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
-			alert.setContentText("UserID can't contain ,");
+			alert.setContentText("UserID can contain only letters");
 			alert.showAndWait();
 			return;
 		}
