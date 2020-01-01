@@ -320,7 +320,17 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 			break;
+			case ASKFOREXTENSION:
+				Platform.runLater(()->{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Asked for new date");
+					alert.show();
+				});
+				break;
+			default:
+				break;
 			}
+
 		}
 		if (msg instanceof User)
 		{

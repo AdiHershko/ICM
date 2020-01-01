@@ -371,6 +371,14 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
+			case ASKFOREXTENSION:
+				DataBaseController.changeExtendedDate(CSMsg.getRequest(), CSMsg.getMsg());
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ASKFOREXTENSION));
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				break;
 			default:
 				break;
 			}

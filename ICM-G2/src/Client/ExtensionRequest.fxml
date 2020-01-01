@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="392.0" stylesheets="@application-nobg.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.ExtensionRequestController">
+   <children>
+      <Label layoutX="133.0" layoutY="14.0" text="Extension" textFill="#00aaff">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="24.0" layoutY="159.0" text="Reason" />
+      <Button fx:id="submitButton" layoutX="178.0" layoutY="348.0" mnemonicParsing="false" onAction="#submitRequest" text="Submit" />
+      <Label layoutX="31.0" layoutY="303.0" text="Date" />
+      <TextArea fx:id="descText" layoutX="72.0" layoutY="88.0" prefHeight="197.0" prefWidth="290.0" wrapText="true" />
+      <DatePicker fx:id="datePicker" layoutX="72.0" layoutY="299.0" prefHeight="25.0" prefWidth="290.0" />
+      <Label fx:id="reqIDLabel" layoutX="42.0" layoutY="59.0" text="Label" />
+   </children>
+</Pane>

@@ -6,10 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import Common.Request;
 import Common.Stage;
@@ -161,7 +163,7 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void ChangeReportFailure(String[] Msg) {
 		String query = "UPDATE Stages SET ReportFailure = ? WHERE StageName = '4' and RequestID = ?";
 		PreparedStatement statement = null;
@@ -193,7 +195,7 @@ public class DataBaseController {
 			return;
 		}
 	}
-	
+
 	public static void changeRequestStatus(int id, int status) {
 		String query = "UPDATE Requests SET Status = "+status+ " WHERE ID = " + id;
 		System.out.println(query);
@@ -806,7 +808,7 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void updateLogChangeStatus(int id, int status) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
 		PreparedStatement statement = null;
@@ -821,7 +823,7 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void updateLogChangeStageHandler(int id, int stage, String member) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
 		PreparedStatement statement = null;
@@ -850,5 +852,21 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void changeExtendedDate(Request r,String date)
+	{
+		DateTime dt;
+		org.joda.time.format.DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		dt = dtf.parseDateTime(date);
+		String query = "update Stages set ExtendedDueDate='"+dt.toString()+"' where RequestID ='" + r.getId() + "' and StageName="+Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage());
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+
 	}
 }

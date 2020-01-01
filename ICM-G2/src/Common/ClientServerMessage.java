@@ -85,6 +85,7 @@ public class ClientServerMessage implements Serializable {
 	}
 
 
+
 	public ClientServerMessage(MessageEnum type, List l) {
 		this.type = type;
 		this.l=l;
@@ -98,6 +99,12 @@ public class ClientServerMessage implements Serializable {
 	public ClientServerMessage(MessageEnum type, Request request) {
 		this.type = type;
 		this.request = request;
+	}
+
+	public ClientServerMessage(MessageEnum type, Request request,String msg) {
+		this.type = type;
+		this.request = request;
+		this.msg=msg;
 	}
 	public ClientServerMessage(MessageEnum type, Report report) {
 		this.type = type;
@@ -132,7 +139,7 @@ public class ClientServerMessage implements Serializable {
 		this.msg = msg;
 		this.stage = stage;
 	}
-	
+
 	public ClientServerMessage(MessageEnum type, String msg,int id, boolean search) {
 		this.type = type;
 		this.msg=msg;
@@ -156,8 +163,8 @@ public class ClientServerMessage implements Serializable {
 		this.search = search;
 		this.unActive=unActive;
 	}
-	
-	
+
+
 
 	public byte[] getBuffer() {
 		return buffer;

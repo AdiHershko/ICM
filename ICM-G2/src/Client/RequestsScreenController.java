@@ -48,6 +48,7 @@ public class RequestsScreenController {
 	private ArrayList<String> filesPaths = new ArrayList<String>();
 	private Scene report;
 	public static Report reportOfRequest;
+	private Scene extensionScene;
 	Stage newWindow = new Stage();
 	public static int saveOrSub = 0;
 	private int index;
@@ -720,7 +721,7 @@ public class RequestsScreenController {
 		alert.setContentText("Request number " + r.getId() + " edited");
 		alert.show();
 		RefreshTable();
-	
+
 	}
 
 	@FXML
@@ -946,7 +947,17 @@ public class RequestsScreenController {
 
 	@FXML
 	void extentionAsk(ActionEvent event) {
-
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("ExtensionRequest.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		extensionScene = new Scene(root);
+		newWindow.setTitle("Ask for extension");
+		newWindow.setScene(extensionScene);
+		newWindow.setResizable(false);
+		newWindow.show();
 	}
 
 }
