@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="900.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.RequestSettingsController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="900.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.RequestSettingsController">
    <children>
       <Label layoutX="291.0" layoutY="14.0" text="Request Stages Settings" textFill="#00aaff">
          <font>
@@ -36,11 +36,11 @@
       <Button fx:id="approveAssesmentButton" layoutX="587.0" layoutY="191.0" mnemonicParsing="false" onAction="#approveAssesment" text="Approve Extension" />
       <Label layoutX="303.0" layoutY="195.0" text="Extension Due Date:" />
       <TextField fx:id="assesmentExtensionDateText" layoutX="428.0" layoutY="191.0" />
-      <Button layoutX="587.0" layoutY="259.0" mnemonicParsing="false" onAction="#approveAssesment" text="Approve Extension" />
+      <Button layoutX="587.0" layoutY="259.0" mnemonicParsing="false" onAction="#approveExamaning" text="Approve Extension" />
       <Label layoutX="303.0" layoutY="263.0" text="Extension Due Date:" />
       <TextField fx:id="examaningExtensionText" layoutX="428.0" layoutY="259.0" />
       <Button fx:id="declineAssesmentButton" layoutX="712.0" layoutY="191.0" mnemonicParsing="false" onAction="#declineAssesment" text="Decline Extension" />
-      <Button layoutX="726.0" layoutY="259.0" mnemonicParsing="false" onAction="#declineAssesment" text="Decline Extension" />
+      <Button layoutX="712.0" layoutY="259.0" mnemonicParsing="false" onAction="#declineExamaning" text="Decline Extension" />
       <Label layoutX="14.0" layoutY="310.0" text="Execution Stage:" textFill="#007c9c">
          <font>
             <Font size="20.0" />
@@ -52,7 +52,7 @@
       <TextField fx:id="executionAppointerText" layoutX="83.0" layoutY="340.0" />
       <TextField fx:id="executionDueDateText" layoutX="428.0" layoutY="340.0" />
       <Button fx:id="setExecDateButton" layoutX="613.0" layoutY="340.0" mnemonicParsing="false" onAction="#setExecDate" prefHeight="29.0" prefWidth="41.0" text="Set" />
-      <Button layoutX="587.0" layoutY="377.0" mnemonicParsing="false" onAction="#approveAssesment" text="Approve Extension" />
+      <Button layoutX="587.0" layoutY="377.0" mnemonicParsing="false" onAction="#approveExecution" text="Approve Extension" />
       <Label layoutX="303.0" layoutY="381.0" text="Extension Due Date:" />
       <TextField fx:id="executionExtenstionDateText" layoutX="428.0" layoutY="377.0" />
       <Button layoutX="712.0" layoutY="377.0" mnemonicParsing="false" onAction="#declineAssesment" text="Decline Extension" />
@@ -64,7 +64,7 @@
       <Label layoutX="356.0" layoutY="431.0" text="Due Date:" />
       <TextField fx:id="testDueDateText" layoutX="428.0" layoutY="426.0" />
       <Button fx:id="setTestDateButton" layoutX="615.0" layoutY="425.0" mnemonicParsing="false" onAction="#setTestDate" prefHeight="29.0" prefWidth="41.0" text="Set" />
-      <Button layoutX="587.0" layoutY="461.0" mnemonicParsing="false" onAction="#approveAssesment" text="Approve Extension" />
+      <Button layoutX="587.0" layoutY="461.0" mnemonicParsing="false" onAction="#approveTest" text="Approve Extension" />
       <Label layoutX="303.0" layoutY="467.0" text="Extension Due Date:" />
       <TextField fx:id="testerExtensionDateText" layoutX="428.0" layoutY="463.0" />
       <Button layoutX="712.0" layoutY="461.0" mnemonicParsing="false" onAction="#declineAssesment" text="Decline Extension" />

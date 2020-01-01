@@ -123,6 +123,7 @@ public class RequestSettingsController {
 
 	@FXML
 	public void doneButtonAction() {
+		RequestsScreenController._ins.RefreshTable();
 		Window window = doneButton.getScene().getWindow();
 		if (window instanceof Stage)
 			((Stage) window).close();
@@ -157,17 +158,42 @@ public class RequestSettingsController {
 
 	@FXML
 	public void approveAssesment() {
-		setDenied(0);
+		setDenied(0,1);
 	}
 
 	@FXML
 	public void declineAssesment() {
-		setDenied(1);
+		setDenied(1,1);
+	}
+	@FXML
+	public void approveExamaning(){
+		setDenied(0,2);
+	}
+	@FXML
+	public void declineExamaning() {
+		setDenied(1,2);
+	}
+	@FXML
+	public void approveExecution(){
+		setDenied(0,3);
+	}
+	@FXML
+	public void declineExecution(){
+		setDenied(1,3);
+	}
+	@FXML
+	public void approveTest(){
+		setDenied(0,4);
+	}
+	@FXML
+	public void declineTest(){
+		setDenied(1,4);
 	}
 
-	private void setDenied(int isDenied) {
+	private void setDenied(int isDenied,int stage) {
+		currentRequest.setIsDenied(isDenied);
 		Main.client.handleMessageFromClientUI(
-				new ClientServerMessage(Enums.MessageEnum.APPROVEASSEXTENSION, currentRequest.getId(), isDenied));
+				new ClientServerMessage(Enums.MessageEnum.APPROVEASSEXTENSION, currentRequest, stage));
 	}
 
 	@FXML

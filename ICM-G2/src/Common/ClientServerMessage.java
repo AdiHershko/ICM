@@ -101,6 +101,12 @@ public class ClientServerMessage implements Serializable {
 		this.request = request;
 	}
 
+	public ClientServerMessage(MessageEnum type, Request request,int stage) {
+		this.type = type;
+		this.request = request;
+		this.stage=stage;
+	}
+
 	public ClientServerMessage(MessageEnum type, Request request,String msg) {
 		this.type = type;
 		this.request = request;

@@ -737,17 +737,25 @@ public class DataBaseController {
 		updateLogChangeStageDate(requestID,stage,date);
 	}
 
-	public static boolean setRequestDeny(int requestID, int i) {
-		String query = "update Requests set isDenied=" + i + " where ID=" + requestID;
+	public static boolean setRequestDeny(Request r, int stage) {
+		String query = "update Requests set isDenied=" + r.getIsDenied() + " where ID=" + r.getId();
 		PreparedStatement statement;
 		try {
 			statement = c.prepareStatement(query);
 			statement.execute(query);
+			if (r.getIsDenied() == 0)
+			{
+				query = "update Stages set isExtended=1,isApproved=1,ExtendedDueDate=null, PlannedDueDate=ExtendedDueDate where RequestID="+r.getId()+" and StageName="+stage;
+				statement.execute(query);
+				return false;
+			}
+			else {
+				query = "update Stages set isApproved=0,isExtended=0 ExtendedDueDate=null where RequestID="+r.getId()+" and StageName="+stage;
+				statement.execute(query);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (i == 0)
-			return false;
 		return true;
 	}
 

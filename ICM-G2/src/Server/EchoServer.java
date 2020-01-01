@@ -328,7 +328,7 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case APPROVEASSEXTENSION:
-				boolean isDenied = DataBaseController.setRequestDeny(CSMsg.getId(), CSMsg.getStage());
+				boolean isDenied = DataBaseController.setRequestDeny(CSMsg.getRequest(),CSMsg.getStage());
 				try {
 					if (isDenied) {
 						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.APPROVEASSEXTENSION, true));
