@@ -82,7 +82,26 @@ public class RequestSettingsController {
 
 	public void setScreen(){
 		requestIDLabel.setText(""+currentRequest.getId());
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.STAGESSCREEN,currentRequest));
+		//Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.STAGESSCREEN,currentRequest));
+		if (currentRequest.getStages()[1].getPlannedDueDate()!=null)
+		getAssesmentDueDateText().setText(new DateTime(currentRequest.getStages()[1].getPlannedDueDate()).toString("dd/MM/yyyy"));
+		getAssesmentAppointerText().setText(currentRequest.getStages()[1].getStageMembers().toString().replaceAll("[^A-Za-z0-9]+", ""));
+		if (currentRequest.getStages()[1].getExtendedDueDate()!=null)
+		getAssesmentExtensionDateText().setText(new DateTime(currentRequest.getStages()[1].getExtendedDueDate()).toString("dd/MM/yyyy"));
+		if (currentRequest.getStages()[2].getExtendedDueDate()!=null)
+		getExamaningExtensionText().setText(new DateTime(currentRequest.getStages()[2].getExtendedDueDate()).toString("dd/MM/yyyy"));
+		if (currentRequest.getStages()[2].getPlannedDueDate()!=null)
+		getExamaningDueDateText().setText(new DateTime(currentRequest.getStages()[2].getPlannedDueDate()).toString("dd/MM/yyyy"));
+		if (currentRequest.getStages()[3].getPlannedDueDate()!=null)
+		getExecutionDueDateText().setText(new DateTime(currentRequest.getStages()[3].getPlannedDueDate()).toString("dd/MM/yyyy"));
+		getExecutionAppointerText().setText(currentRequest.getStages()[3].getStageMembers().toString().replaceAll("[^A-Za-z0-9]+", ""));
+		if (currentRequest.getStages()[3].getExtendedDueDate()!=null)
+		getExecutionExtenstionDateText().setText(new DateTime(currentRequest.getStages()[3].getExtendedDueDate()).toString("dd/MM/yyyy"));
+		if (currentRequest.getStages()[4].getPlannedDueDate()!=null)
+		getTestDueDateText().setText(new DateTime(currentRequest.getStages()[4].getPlannedDueDate()).toString("dd/MM/yyyy"));
+		getTesterAppointedText().setText(currentRequest.getStages()[4].getStageMembers().toString().replaceAll("[^A-Za-z0-9]+", ""));
+		if (currentRequest.getStages()[4].getExtendedDueDate()!=null)
+		getTesterExtensionDateText().setText(new DateTime(currentRequest.getStages()[4].getExtendedDueDate()).toString("dd/MM/yyyy"));
 	}
 
 

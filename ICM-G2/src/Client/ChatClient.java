@@ -29,13 +29,13 @@ public class ChatClient extends AbstractClient {
 	final public static int DEFAULT_PORT = 5555;
 	Dialog<Boolean> noConnection = new Dialog<>();
 	Node closeButton;
+	Alert noConnectionAlert;
 
 	public ChatClient(String host, int port) throws IOException {
 		super(host, port); // Call the superclass constructor
 		openConnection();
 		System.out.println("Client connected");
 		// -----------Checking if server is connected every 5 seconds.
-		// TODO: why closing window after reconnect?
 		new Thread() {
 			public void run() {
 				while (true) {
@@ -50,7 +50,7 @@ public class ChatClient extends AbstractClient {
 											System.exit(1);
 										});
 										noConnection.setTitle("ERROR!");
-										noConnection.setContentText("Server disconnected\nTrying to reconnect...");
+										noConnection.setContentText("Server disconnected\nTrying to reconnect...\n(Closing this dialog would close the app)");
 										if (closeButton == null) {
 											noConnection.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 											closeButton = noConnection.getDialogPane().lookupButton(ButtonType.CLOSE);
@@ -58,7 +58,6 @@ public class ChatClient extends AbstractClient {
 											closeButton.setVisible(false);
 										}
 										noConnection.showAndWait();
-
 									}
 								}
 							}
@@ -80,6 +79,7 @@ public class ChatClient extends AbstractClient {
 								connected.setContentText("Reconnected to server!");
 								noConnection.setResult(Boolean.TRUE);
 								noConnection.close();
+								noConnectionAlert.close();
 								connected.show();
 							}
 						});
@@ -129,7 +129,6 @@ public class ChatClient extends AbstractClient {
 				return;
 			case UPLOADFINISH:
 				Platform.runLater(new Runnable(){
-
 					@Override
 					public void run() {
 						RequestsScreenController._ins.uploadFileMessage(((ClientServerMessage) msg).isUploadstatus());
@@ -176,15 +175,6 @@ public class ChatClient extends AbstractClient {
 					Platform.runLater(()->{
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setContentText("Could not find user");
-						alert.show();
-					});
-					return;
-				}
-				if (Integer.parseInt(str[4])==0)
-				{
-					Platform.runLater(()->{
-						Alert alert = new Alert(AlertType.INFORMATION);
-						alert.setContentText("Cannot edit college users");
 						alert.show();
 					});
 					return;
@@ -243,7 +233,7 @@ public class ChatClient extends AbstractClient {
 				ISUsersScreenController._ins.setCanEdit(false);
 				ISUsersScreenController._ins.setSemaphore(false);
 				break;
-			case STAGESSCREEN:
+			case STAGESSCREEN: //can remove
 				ArrayList<String> list = (ArrayList<String>) ((ClientServerMessage)msg).getL();
 				Platform.runLater(()->{
 					RequestSettingsController._ins.getAssesmentDueDateText().setText(list.get(0));
@@ -330,22 +320,6 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 			break;
-			case getDate:
-				Platform.runLater(new Runnable() {
-					public void run() {
-						RequestsScreenController._ins.setDueTimeString(((ClientServerMessage) msg).getMsg());
-					}
-				});
-				break;
-			case getDateUser:
-				Platform.runLater(new Runnable() {
-					public void run() {
-						RequestsScreenController._ins.setDueTimeStringForUser(((ClientServerMessage) msg).getMsg());
-					}
-				});
-				break;
-			default:
-				return;
 			}
 		}
 		if (msg instanceof User)
@@ -377,10 +351,10 @@ public class ChatClient extends AbstractClient {
 		try {
 			sendToServer(message);
 		} catch (IOException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("ERROR!");
-			alert.setContentText("Action declined.\nNo connection to server.");
-			alert.showAndWait();
+			noConnectionAlert = new Alert(AlertType.ERROR);
+			noConnectionAlert.setTitle("ERROR!");
+			noConnectionAlert.setContentText("Action declined.\nNo connection to server.");
+			noConnectionAlert.showAndWait();
 		}
 	}
 

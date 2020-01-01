@@ -28,6 +28,7 @@ public class ClientServerMessage implements Serializable {
 	private Report report;
 	private List l;
 	private boolean search;
+	private boolean unActive;
 
 	public boolean isSearch() {
 		return search;
@@ -148,6 +149,13 @@ public class ClientServerMessage implements Serializable {
 		this.type = type;
 		this.user = user;
 	}
+	public ClientServerMessage(MessageEnum type, String msg,int id, boolean search,boolean unActive) {
+		this.type = type;
+		this.msg=msg;
+		this.id = id;
+		this.search = search;
+		this.unActive=unActive;
+	}
 	
 	
 
@@ -233,5 +241,12 @@ public class ClientServerMessage implements Serializable {
 
 	public void setStage(int stage) {
 		this.stage = stage;
+	}
+	public boolean isUnActive() {
+		return unActive;
+	}
+
+	public void setUnActive(boolean unActive) {
+		this.unActive = unActive;
 	}
 }

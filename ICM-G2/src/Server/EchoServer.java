@@ -53,7 +53,7 @@ public class EchoServer extends AbstractServer {
 				return;
 			case REFRESHIS:
 				ObservableList<Request> ol = FXCollections.observableArrayList();
-				ol = DataBaseController.getRequestsForIS(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch());
+				ol = DataBaseController.getRequestsForIS(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(), CSMsg.isUnActive());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol.toArray()));
 				} catch (IOException e) {
@@ -62,7 +62,7 @@ public class EchoServer extends AbstractServer {
 				return;
 			case REFRESHCOLLEGE:
 				ObservableList<Request> ol1 = FXCollections.observableArrayList();
-				ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch());
+				ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(), CSMsg.isUnActive());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol1.toArray()));
 				} catch (IOException e) {
@@ -75,7 +75,7 @@ public class EchoServer extends AbstractServer {
 				return;
 			case REFRESHMAN:
 				ObservableList<Request> ol2 = FXCollections.observableArrayList();
-				ol2 = DataBaseController.getRequestsForManager(CSMsg.getId(), CSMsg.isSearch());
+				ol2 = DataBaseController.getRequestsForManager(CSMsg.getId(), CSMsg.isSearch(), CSMsg.isUnActive());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol2.toArray()));
 				} catch (IOException e) {
@@ -199,7 +199,7 @@ public class EchoServer extends AbstractServer {
 					return;
 				}
 				break;
-			case STAGESSCREEN:
+			case STAGESSCREEN: //can remove
 				Request req = CSMsg.getRequest();
 				ArrayList<String> list = DataBaseController.getStagesInfo(req.getId());
 				try {
@@ -367,22 +367,6 @@ public class EchoServer extends AbstractServer {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
-				break;
-			case getDate:
-				String tempDate = "";
-				tempDate = DataBaseController.getDate(CSMsg.getId(), CSMsg.getStage());
-				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.getDate, tempDate));
-				} catch (IOException e) {
-				}
-				break;
-			case getDateUser:
-				String tempDateUser = "";
-				tempDateUser = DataBaseController.getDate(CSMsg.getId(), CSMsg.getStage());
-				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.getDateUser, tempDateUser));
-				} catch (IOException e) {
 				}
 				break;
 			default:

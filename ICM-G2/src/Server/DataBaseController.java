@@ -112,10 +112,11 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static void updateAssesmentor(String id,int reqid, int stage){
+	public static void updateAssesmentor(String id, int reqid, int stage) {
 		PreparedStatement st;
-		try{
-			st = c.prepareStatement("update Stages set Member='"+id+"' where StageName="+stage+" and RequestID="+reqid);
+		try {
+			st = c.prepareStatement(
+					"update Stages set Member='," + id + ",' where StageName=" + stage + " and RequestID=" + reqid);
 			st.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -237,16 +238,6 @@ public class DataBaseController {
 		}
 	}
 
-	public static ObservableList<Request> getRequestsForCollege(String userName, int id, boolean search) {
-		String query;
-		if (search == false) {
-			query = "select * from Requests where Requestor='" + userName + "' and Status=0";
-		} else {
-			query = "select * from Requests where Requestor='" + userName + "'" + "and ID=" + id;
-		}
-		return getRequests(query);
-	}
-
 	public static ObservableList<Request> getRequests(String query) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
 		ResultSet rs = null;
@@ -277,6 +268,46 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		return o;
+	}
+
+	public static ObservableList<Request> getRequestsForCollege(String userName, int id, boolean search,
+			boolean unActive) {
+		String query = "select * from Requests where Requestor='" + userName + "'";
+		if (unActive == false) {
+			query += " and Status=0";
+		}
+		if (search == true) {
+			query += " and ID=" + id;
+
+		}
+		return getRequests(query);
+
+	}
+
+	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search, boolean unActive) {
+		String query = "select * from Requests where currenthandlers LIKE ',%" + UserName + "%,'";
+		if (unActive == false) {
+			query+=" and (status=0 or status=2)";
+		}
+		if (search == true) {
+			query+=" and id=" + id;
+		}
+		return getRequests(query);
+	}
+
+	public static ObservableList<Request> getRequestsForManager(int id, boolean search, boolean unActive) {
+		String query = "select * from Requests";
+		if (unActive == false) {
+			query += " where (status=0 or status=2 or status=3)";
+			if (search == true) {
+				query += " and id=" + id;
+			}
+		}
+		if (search == true && unActive == true) {
+			query += " where id=" + id;
+		}
+		return getRequests(query);
+
 	}
 
 	public static Stage[] getRequestStages(int RequestID) {
@@ -718,7 +749,7 @@ public class DataBaseController {
 					res.add(new DateTime(rs.getString(1)).toString("dd/MM/yyyy")); // duedate
 				else
 					res.add("");
-				res.add(rs.getString(2)); // member
+				res.add(rs.getString(2).split(",")[1]); // member
 				if (rs.getString(3) != null)
 					res.add(new DateTime(rs.getString(3)).toString("dd/MM/yyyy")); // extension
 				else
@@ -730,9 +761,8 @@ public class DataBaseController {
 		return res;
 	}
 
-	public static boolean isRequestDenied(int requestID)
-	{
-		String query = "SELECT isDenied from Requests where ID="+requestID;
+	public static boolean isRequestDenied(int requestID) {
+		String query = "SELECT isDenied from Requests where ID=" + requestID;
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -743,16 +773,17 @@ public class DataBaseController {
 		}
 		try {
 			rs.next();
-			if (rs.getInt(1)==1) return true;
+			if (rs.getInt(1) == 1)
+				return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 
-	public static void setDate(int requestID,int stage,String date)
-	{
-		String query = "update Stages set PlannedDueDate='"+date+"' where StageName="+stage+" and RequestID="+requestID;
+	public static void setDate(int requestID, int stage, String date) {
+		String query = "update Stages set PlannedDueDate='" + date + "' where StageName=" + stage + " and RequestID="
+				+ requestID;
 		PreparedStatement statement;
 		try {
 			statement = c.prepareStatement(query);
@@ -762,30 +793,9 @@ public class DataBaseController {
 		}
 
 	}
-	public static String getDate(int requestID,int stage)
-	{
-		String query = "select Stages.PlannedDueDate from Stages where StageName="+stage+" and RequestID="+requestID;
-		ResultSet rs = null;
-		String temp="";
-		PreparedStatement statement;
-		try {
-			statement = c.prepareStatement(query);
-			rs = statement.executeQuery();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			if(rs.next()) {
-				temp=new DateTime(rs.getString(1)).toString("dd/MM/yyyy");
-			}
-		} catch (SQLException e) {
-		}
-		return temp;
-	}
 
-	public static boolean setRequestDeny(int requestID,int i)
-	{
-		String query = "update Requests set isDenied="+i+" where ID="+requestID;
+	public static boolean setRequestDeny(int requestID, int i) {
+		String query = "update Requests set isDenied=" + i + " where ID=" + requestID;
 		PreparedStatement statement;
 		try {
 			statement = c.prepareStatement(query);
@@ -793,7 +803,8 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (i==0) return false;
+		if (i == 0)
+			return false;
 		return true;
 	}
 

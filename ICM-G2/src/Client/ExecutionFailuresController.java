@@ -28,8 +28,8 @@ public class ExecutionFailuresController {
 		_ins = this;
 		r = RequestsScreenController.r;
 		IdLabel.setText("" + r.getId());
-		if (r.getStages()[4].getReportFailure() == null || Main.currentUser.getRole() != Enums.Role.CommitteChairman
-				|| Main.currentUser.getRole() != Enums.Role.CommitteMember) {
+		if (Main.currentUser.getRole() == Enums.Role.CommitteChairman
+				|| Main.currentUser.getRole() == Enums.Role.CommitteMember) {
 			submitBtn.setVisible(true);
 			exectuionReport.setEditable(true);
 		} else {

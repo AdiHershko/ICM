@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.RequestsScreenController">
-   
+
    <children>
       <Text fill="#007c9c" layoutX="114.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests:">
          <font>
@@ -26,7 +26,7 @@
       </Text>
       <Button fx:id="searchButton" layoutX="205.0" layoutY="508.0" mnemonicParsing="false" onAction="#search" prefHeight="27.0" prefWidth="53.0" text="Search" />
       <TableView fx:id="tableView" layoutX="25.0" layoutY="75.0" onMouseClicked="#showRequest" prefHeight="432.0" prefWidth="285.0" />
-      <TextField fx:id="searchField" layoutX="60.0" layoutY="510.0" prefHeight="25.0" prefWidth="145.0" promptText="Enter request ID" />
+      <TextField fx:id="searchField" layoutX="60.0" layoutY="510.0" onAction="#search" prefHeight="25.0" prefWidth="145.0" promptText="Enter request ID" />
       <Pane fx:id="CollegeUserUnderTablePane1" layoutX="25.0" layoutY="554.0" prefHeight="40.0" prefWidth="285.0" visible="false">
          <children>
             <Button layoutX="49.0" layoutY="8.0" mnemonicParsing="false" onAction="#openNewRequestPane" prefHeight="25.0" prefWidth="188.0" text="Open new request" />
@@ -97,7 +97,6 @@
                   <Label fx:id="systemLabel" layoutX="52.0" layoutY="40.0" text="System" />
                   <Label fx:id="stageLabel" layoutX="286.0" layoutY="14.0" text="stage" />
                   <Label fx:id="statusLabel" layoutX="288.0" layoutY="40.0" text="status" />
-                  <Button fx:id="uploadFileButton" layoutX="369.0" layoutY="366.0" mnemonicParsing="false" onAction="#uploadFileToServer" text="Upload" />
                   <Label fx:id="timeCreatedLabel" layoutX="388.0" layoutY="14.0" text="Time Created" />
                   <Label fx:id="uploadedFilesLabel" layoutX="446.0" layoutY="372.0" text="Files Uploaded: none" />
                   <Label fx:id="requestorLabel" layoutX="388.0" layoutY="40.0" text="Requestor:" />
@@ -115,7 +114,8 @@
             <Text layoutX="9.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Needed change:" />
             <Text layoutX="9.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for change:" />
             <Text layoutX="10.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="More comments (optional):" />
-            <Text layoutX="10.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attached files (optional):" />
+            <Text fx:id="attachedFilesLabel" layoutX="10.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attached files (optional):" />
+            <Button fx:id="uploadFileButton" layoutX="361.0" layoutY="366.0" mnemonicParsing="false" onAction="#uploadFileToServer" text="Upload" />
             <Button fx:id="addFilesButton" layoutX="297.0" layoutY="366.0" mnemonicParsing="false" onAction="#addFiles" prefHeight="25.0" prefWidth="53.0" text="Add" />
             <TextField fx:id="filePathTextField" editable="false" layoutX="9.0" layoutY="366.0" prefHeight="25.0" prefWidth="285.0" />
             <TextArea fx:id="descArea" editable="false" layoutX="9.0" layoutY="76.0" prefHeight="53.0" prefWidth="843.0" />
@@ -136,6 +136,6 @@
       </Label>
       <Button fx:id="logoutButton" layoutX="1127.0" layoutY="7.0" mnemonicParsing="false" onAction="#logout" text="Log Out" />
       <Button fx:id="managerBackBtn" layoutX="25.0" layoutY="560.0" mnemonicParsing="false" onAction="#managerBack" text="&lt;- Back" visible="false" />
-      <CheckBox layoutX="92.0" layoutY="539.0" mnemonicParsing="false" text="Show un-active requests" />
+      <CheckBox fx:id="unActiveCheckBox" layoutX="92.0" layoutY="539.0" mnemonicParsing="false" onAction="#showUnactive" text="Show un-active requests" />
    </children>
 </Pane>
