@@ -715,7 +715,7 @@ public class RequestsScreenController {
 		result[2]= changeArea.getText();
 		result[3]= reasonArea.getText();
 		result[4]= commentsArea.getText();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.sendToLog, result));
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.sendToLog, r));
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateRequestDetails, result));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Edited!");

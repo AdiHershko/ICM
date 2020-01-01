@@ -71,7 +71,8 @@ public class EchoServer extends AbstractServer {
 				return;
 				
 			case sendToLog:
-				DataBaseController.updateLog((String[]) CSMsg.getArray());
+				Request request1 = CSMsg.getRequest();
+				DataBaseController.updateLog(request1);
 				return;
 			case REFRESHMAN:
 				ObservableList<Request> ol2 = FXCollections.observableArrayList();

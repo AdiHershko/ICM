@@ -157,16 +157,6 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
-	public static void updateLog(String[] msg) {
-		String query= "INSERT INTO SuperLog (`requestId`, `changed`, `before`, `now`) VALUES ('2', '3', '4', '5')";
-		PreparedStatement statement = null;
-		try {
-			statement = c.prepareStatement(query);
-			statement.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	public static void ChangeRequestStatus(String[] msg) {
 		String query;
 		if (msg[1].equals("Rejected"))
@@ -818,6 +808,20 @@ public class DataBaseController {
 			e.printStackTrace();
 			return;
 		}
+	}
+
+	public static void updateLog(Request request) {
+		String resDes="||"+request.getDescription()+"||"+request.getChanges()+"||"+request.getChangeReason()+"||"+request.getComments()+"||";
+		System.out.println(resDes);
+		String query= "INSERT INTO SuperSql (`RequestId`, `description`, `status`, `date`) VALUES ('"+request.getId()+"', '"+resDes+"', '"+Enums.RequestStatus.getRequestStatusByEnum(request.getStatus())+"', '"+request.getDate()+"')";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
