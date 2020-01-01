@@ -884,6 +884,7 @@ public class RequestsScreenController {
 
 	@FXML
 	public void setAssDueTime(ActionEvent event) {
+		int index = tableView.getSelectionModel().getSelectedIndex();
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime date = null;
 		if (setDueTime1.getText().equals("")) {
@@ -915,9 +916,9 @@ public class RequestsScreenController {
 					Main.client.handleMessageFromClientUI(
 							new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE, r.getId(), date.toString()));
 				}
-
 			}
 			RefreshTable();
+			tableView.getSelectionModel().select(index);
 		}
 	}
 

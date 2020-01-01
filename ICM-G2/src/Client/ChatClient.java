@@ -120,7 +120,12 @@ public class ChatClient extends AbstractClient {
 				for (Object o : ((ClientServerMessage)msg).getArray()) {
 					l.add((Request) o);
 				}
-				RequestsScreenController._ins.getTableView().setItems(l);
+				Platform.runLater(new Runnable(){
+					public void run(){
+					RequestsScreenController._ins.getTableView().setItems(l);
+					}
+				});
+
 				return;
 			case NewRequestID:
 				RequestsScreenController.waitForNewRequest = true;

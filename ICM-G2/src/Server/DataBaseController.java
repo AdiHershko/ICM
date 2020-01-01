@@ -745,12 +745,13 @@ public class DataBaseController {
 			statement.execute(query);
 			if (r.getIsDenied() == 0)
 			{
-				query = "update Stages set isExtended=1,isApproved=1,ExtendedDueDate=null, PlannedDueDate=ExtendedDueDate where RequestID="+r.getId()+" and StageName="+stage;
+				query = "update Stages set isExtended=1,isApproved=1, PlannedDueDate=ExtendedDueDate where RequestID="+r.getId()+" and StageName="+stage;
 				statement.execute(query);
+				statement.execute("update Stages set ExtendedDueDate=null where RequestID="+r.getId()+" and StageName="+stage);
 				return false;
 			}
 			else {
-				query = "update Stages set isApproved=0,isExtended=0 ExtendedDueDate=null where RequestID="+r.getId()+" and StageName="+stage;
+				query = "update Stages set isApproved=0,isExtended=0, ExtendedDueDate=null where RequestID="+r.getId()+" and StageName="+stage;
 				statement.execute(query);
 			}
 		} catch (SQLException e) {
