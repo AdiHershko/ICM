@@ -389,6 +389,9 @@ public class RequestsScreenController {
 					if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
 						setDueTime1.setText(temp);
 					} else {
+						if(r.getCurrentStage() != Enums.RequestStageENUM.Execution){
+							dueDate.setEditable(false);
+						}
 						dueDate.setText(temp);
 					}
 				}
