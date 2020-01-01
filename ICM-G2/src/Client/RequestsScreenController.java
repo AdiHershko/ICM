@@ -211,7 +211,8 @@ public class RequestsScreenController {
 
 		if (Main.currentUser.getRole() == Enums.Role.Manager) {
 			managerBackBtn.setVisible(true);
-		} else {
+		}
+		else {
 			managerBackBtn.setVisible(false);
 		}
 	}
@@ -221,7 +222,8 @@ public class RequestsScreenController {
 		String textFromUser = searchField.getText();
 		if (textFromUser.equals("")) {
 			isSearch = false;
-		} else {
+		}
+		else {
 			try {
 				id = Integer.parseUnsignedInt(textFromUser);
 				isSearch = true;
@@ -241,7 +243,8 @@ public class RequestsScreenController {
 	public void showUnactive(ActionEvent event) {
 		if (unActiveCheckBox.isSelected()) {
 			unActive = true;
-		} else {
+		}
+		else {
 			unActive = false;
 		}
 		RefreshTable();
@@ -348,11 +351,13 @@ public class RequestsScreenController {
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
 					Main.currentUser.getUsername(), id, isSearch, unActive));
-		} else if (Main.currentUser.getRole() == Enums.Role.Manager
+		}
+		else if (Main.currentUser.getRole() == Enums.Role.Manager
 				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN,
 					Main.currentUser.getUsername(), id, isSearch, unActive));
-		} else {
+		}
+		else {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHIS,
 					Main.currentUser.getUsername(), id, isSearch, unActive));
 		}
@@ -380,17 +385,20 @@ public class RequestsScreenController {
 				if (temp != null) {
 					temp = new DateTime(temp).toString("dd/MM/yyyy");
 					stageDate1.setText("current stage due date: " + temp);
-				} else {
+				}
+				else {
 					stageDate1.setText("Current stage due date: date not yet updated.");
 				}
-			} else {
+			}
+			else {
 				stageDate1.setVisible(false);
 				if (temp != null) {
 					temp = new DateTime(temp).toString("dd/MM/yyyy");
 					if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
 						setDueTime1.setText(temp);
-					} else {
-						if(r.getCurrentStage() != Enums.RequestStageENUM.Execution){
+					}
+					else {
+						if (r.getCurrentStage() != Enums.RequestStageENUM.Execution) {
 							dueDate.setEditable(false);
 						}
 						dueDate.setText(temp);
@@ -418,7 +426,8 @@ public class RequestsScreenController {
 					FailureReportBtn1.setVisible(false);
 				else
 					FailureReportBtn1.setVisible(true);
-			} else if (Main.currentUser.getRole() != Enums.Role.College) {
+			}
+			else if (Main.currentUser.getRole() != Enums.Role.College) {
 				showRequestByStage(r);
 			}
 
@@ -497,7 +506,8 @@ public class RequestsScreenController {
 			alert.setTitle("Upload finished");
 			alert.setContentText("Upload finished succesfully");
 			alert.showAndWait();
-		} else {
+		}
+		else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Upload failed");
 			alert.setContentText("Could not upload file to server");
@@ -680,7 +690,8 @@ public class RequestsScreenController {
 		if (r.getStatus().equals(Enums.RequestStatus.Active)) {
 			frozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
-		} else if (r.getStatus().equals(Enums.RequestStatus.Frozen)) {
+		}
+		else if (r.getStatus().equals(Enums.RequestStatus.Frozen)) {
 			unfrozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
 		}
@@ -752,7 +763,8 @@ public class RequestsScreenController {
 			alert.setHeaderText("Missing tester");
 			alert.setContentText("You need to appoint a tester before entering next stage");
 			alert.show();
-		} else {
+		}
+		else {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 			RefreshTable();
 			unVisibleRequestPane();
@@ -768,7 +780,8 @@ public class RequestsScreenController {
 
 	@FXML
 	void DeclineRequest(ActionEvent event) {
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.declineRequest, "" + r.getId()));
+		Main.client
+				.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.declineRequest, "" + r.getId()));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Request declined!");
 		alert.setHeaderText("Request declined!");
@@ -879,7 +892,8 @@ public class RequestsScreenController {
 			alert.setContentText("must fill due time!");
 			alert.showAndWait();
 			return;
-		} else {
+		}
+		else {
 			try {
 				date = dtf.parseDateTime(setDueTime1.getText());
 			} catch (Exception e) {
@@ -917,7 +931,8 @@ public class RequestsScreenController {
 			alert.setContentText("must fill due time!");
 			alert.showAndWait();
 			return;
-		} else {
+		}
+		else {
 			try {
 				date = dtf.parseDateTime(dueDate.getText());
 			} catch (Exception e) {
@@ -947,17 +962,36 @@ public class RequestsScreenController {
 
 	@FXML
 	void extentionAsk(ActionEvent event) {
-		Parent root = null;
-		try {
-			root = FXMLLoader.load(getClass().getResource("ExtensionRequest.fxml"));
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())].getIsExtended()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setContentText("extension already given for this stage in that request!");
+			alert.showAndWait();
+			return;
+
 		}
-		extensionScene = new Scene(root);
-		newWindow.setTitle("Ask for extension");
-		newWindow.setScene(extensionScene);
-		newWindow.setResizable(false);
-		newWindow.show();
+		DateTime dt=new DateTime(r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())].getPlannedDueDate());
+		if(dt.minusDays(3).isAfterNow()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setContentText("can't ask for extension more than 3 days to due date!");
+			alert.showAndWait();
+			return;
+		}
+		else {
+
+			Parent root = null;
+			try {
+				root = FXMLLoader.load(getClass().getResource("ExtensionRequest.fxml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			extensionScene = new Scene(root);
+			newWindow.setTitle("Ask for extension");
+			newWindow.setScene(extensionScene);
+			newWindow.setResizable(false);
+			newWindow.show();
+		}
 	}
 
 }
