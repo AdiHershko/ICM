@@ -321,7 +321,7 @@ public class RequestsScreenController {
 		/*
 		 * tableView.setRowFactory(tv -> new TableRow<Request>() { //MAKES TABLE UGLY,
 		 * DELETE LATER TODO
-		 * 
+		 *
 		 * @Override public void updateItem(Request item, boolean empty) { if
 		 * (item==null) return; if (item.getIsDenied()==0) { //
 		 * setStyle(".table-row-cell:selected {-fx-selection-bar: red;-fx-background-insets: 0;-fx-background-radius: 1;}"
@@ -477,6 +477,9 @@ public class RequestsScreenController {
 		CUserOpenRequest1.setVisible(false);
 		testerCB.getSelectionModel().clearSelection();
 		testerCB.setVisible(false);
+		filePathTextField.setVisible(false);
+		uploadFileButton.setVisible(false);
+		addFilesButton.setVisible(false);
 		descArea.clear();
 		changeArea.clear();
 		reasonArea.clear();
@@ -521,6 +524,9 @@ public class RequestsScreenController {
 		changeArea.setEditable(true);
 		reasonArea.setEditable(true);
 		commentsArea.setEditable(true);
+		filePathTextField.setVisible(true);
+		uploadFileButton.setVisible(true);
+		addFilesButton.setVisible(true);
 	}
 
 	@FXML
@@ -946,7 +952,7 @@ public class RequestsScreenController {
 			RefreshTable();
 		}
 	}
-	
+
 	@FXML
 	void extentionAsk(ActionEvent event) {
 

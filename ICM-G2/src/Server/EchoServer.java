@@ -195,7 +195,7 @@ public class EchoServer extends AbstractServer {
 					return;
 				}
 				break;
-			case STAGESSCREEN:
+			case STAGESSCREEN: //can remove
 				Request req = CSMsg.getRequest();
 				ArrayList<String> list = DataBaseController.getStagesInfo(req.getId());
 				try {

@@ -242,7 +242,7 @@ public class ChatClient extends AbstractClient {
 				ISUsersScreenController._ins.setCanEdit(false);
 				ISUsersScreenController._ins.setSemaphore(false);
 				break;
-			case STAGESSCREEN:
+			case STAGESSCREEN: //can remove
 				ArrayList<String> list = (ArrayList<String>) ((ClientServerMessage)msg).getL();
 				Platform.runLater(()->{
 					RequestSettingsController._ins.getAssesmentDueDateText().setText(list.get(0));

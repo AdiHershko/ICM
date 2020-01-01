@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.RequestsScreenController">
-   
+
    <children>
       <Text fill="#007c9c" layoutX="114.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests:">
          <font>
@@ -97,7 +97,6 @@
                   <Label fx:id="systemLabel" layoutX="52.0" layoutY="40.0" text="System" />
                   <Label fx:id="stageLabel" layoutX="286.0" layoutY="14.0" text="stage" />
                   <Label fx:id="statusLabel" layoutX="288.0" layoutY="40.0" text="status" />
-                  <Button fx:id="uploadFileButton" layoutX="369.0" layoutY="366.0" mnemonicParsing="false" onAction="#uploadFileToServer" text="Upload" />
                   <Label fx:id="timeCreatedLabel" layoutX="388.0" layoutY="14.0" text="Time Created" />
                   <Label fx:id="uploadedFilesLabel" layoutX="446.0" layoutY="372.0" text="Files Uploaded: none" />
                   <Label fx:id="requestorLabel" layoutX="388.0" layoutY="40.0" text="Requestor:" />
@@ -115,7 +114,8 @@
             <Text layoutX="9.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Needed change:" />
             <Text layoutX="9.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for change:" />
             <Text layoutX="10.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="More comments (optional):" />
-            <Text layoutX="10.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attached files (optional):" />
+            <Text fx:id="attachedFilesLabel" layoutX="10.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attached files (optional):" />
+            <Button fx:id="uploadFileButton" layoutX="361.0" layoutY="366.0" mnemonicParsing="false" onAction="#uploadFileToServer" text="Upload" />
             <Button fx:id="addFilesButton" layoutX="297.0" layoutY="366.0" mnemonicParsing="false" onAction="#addFiles" prefHeight="25.0" prefWidth="53.0" text="Add" />
             <TextField fx:id="filePathTextField" editable="false" layoutX="9.0" layoutY="366.0" prefHeight="25.0" prefWidth="285.0" />
             <TextArea fx:id="descArea" editable="false" layoutX="9.0" layoutY="76.0" prefHeight="53.0" prefWidth="843.0" />

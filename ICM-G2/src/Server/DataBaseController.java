@@ -116,7 +116,7 @@ public class DataBaseController {
 		PreparedStatement st;
 		try {
 			st = c.prepareStatement(
-					"update Stages set Member='" + id + "' where StageName=" + stage + " and RequestID=" + reqid);
+					"update Stages set Member='," + id + ",' where StageName=" + stage + " and RequestID=" + reqid);
 			st.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -722,7 +722,7 @@ public class DataBaseController {
 					res.add(new DateTime(rs.getString(1)).toString("dd/MM/yyyy")); // duedate
 				else
 					res.add("");
-				res.add(rs.getString(2)); // member
+				res.add(rs.getString(2).split(",")[1]); // member
 				if (rs.getString(3) != null)
 					res.add(new DateTime(rs.getString(3)).toString("dd/MM/yyyy")); // extension
 				else
