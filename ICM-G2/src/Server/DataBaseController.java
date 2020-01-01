@@ -146,10 +146,8 @@ public class DataBaseController {
 
 	}
 
-	public static void updateRequestDetails(String msg) {
-		String[] tem = msg.split("-");
-		String query = "UPDATE Requests SET Description = '" + tem[1] + "', `Change` = '" + tem[2]
-				+ "', ChangeReason = '" + tem[3] + "', Connect = '" + tem[4] + "' WHERE ID = " + tem[0];
+	public static void updateRequestDetails(String[] msg) {
+		String query= "UPDATE Requests SET Description = '"+msg[1]+"', `Change` = '"+msg[2]+"', ChangeReason = '"+msg[3]+"', Connect = '"+msg[4]+"' WHERE ID = "+msg[0];
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
@@ -158,14 +156,22 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
-
-	public static void ChangeRequestStatus(String msg) {
-		String[] tem = msg.split("-");
+	public static void updateLog(String[] msg) {
+		String query= "INSERT INTO SuperLog (`requestId`, `changed`, `before`, `now`) VALUES ('2', '3', '4', '5')";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void ChangeRequestStatus(String[] msg) {
 		String query;
-		if (tem[1].equals("Rejected"))
-			query = "UPDATE Requests SET Status = 4 WHERE ID = " + tem[0];
+		if (msg[1].equals("Rejected"))
+			query = "UPDATE Requests SET Status = 4 WHERE ID = " + msg[0];
 		else
-			query = "UPDATE Requests SET Status = 1 WHERE ID = " + tem[0];
+			query = "UPDATE Requests SET Status = 1 WHERE ID = " + msg[0];
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
@@ -175,10 +181,9 @@ public class DataBaseController {
 		}
 	}
 
-	public static void ChangeReportFailure(String Msg) {
-		String[] tem = Msg.split("-");
-		String query = "UPDATE Stages SET ReportFailure = '" + tem[0] + "' WHERE StageName = '4' and RequestID = '"
-				+ tem[1] + "'";
+	public static void ChangeReportFailure(String[] Msg) {
+		String query = "UPDATE Stages SET ReportFailure = '" + Msg[0] + "' WHERE StageName = '4' and RequestID = '"
+				+ Msg[1] + "'";
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
@@ -211,7 +216,6 @@ public class DataBaseController {
 	}
 
 	public static void changeStatusToDecline(int Id) {
-		System.out.println("is that " + Id);
 		String query = "UPDATE Requests SET Status = 3 WHERE ID = " + Id;
 		PreparedStatement statement = null;
 		try {

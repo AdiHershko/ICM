@@ -401,7 +401,7 @@ public class RequestsScreenController {
 				SupervisorPane1.setVisible(true);
 				if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Closing
 						&& (r.getStatus() == Enums.RequestStatus.Active
-								|| r.getStatus() == Enums.RequestStatus.RejectedClosed))
+								|| r.getStatus() == Enums.RequestStatus.Rejected))
 					changeStatus.setVisible(true);
 				else
 					changeStatus.setVisible(false);
@@ -649,7 +649,9 @@ public class RequestsScreenController {
 
 	@FXML
 	void statusChange(ActionEvent event) {
-		String s = r.getId() + "-" + r.getStatus();
+		String[] s= new String[2];
+		s[0]=""+r.getId();
+		s[1]=""+r.getStatus();
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, s));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Confirm!");
@@ -696,28 +698,21 @@ public class RequestsScreenController {
 		changeArea.setEditable(false);
 		reasonArea.setEditable(false);
 		commentsArea.setEditable(false);
-		String desc, change, reason, comment, res;
-		desc = descArea.getText();
-		change = changeArea.getText();
-		reason = reasonArea.getText();
-		comment = commentsArea.getText();
-		res = "" + r.getId() + "-" + desc + "-" + change + "-" + reason + "-" + comment + "-" + "abc";
-		if (desc.isEmpty())
-			desc = " ";
-		if (change.isEmpty())
-			change = " ";
-		if (reason.isEmpty())
-			reason = " ";
-		if (comment.isEmpty()) {
-			comment = " ";
-		}
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateRequestDetails, res));
+		String result[]= new String[5];
+		result[0]= ""+r.getId();
+		result[1]= descArea.getText();
+		result[2]= changeArea.getText();
+		result[3]= reasonArea.getText();
+		result[4]= commentsArea.getText();
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.sendToLog, result));
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateRequestDetails, result));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Edited!");
 		alert.setHeaderText("Request edited!");
 		alert.setContentText("Request number " + r.getId() + " edited");
 		alert.show();
 		RefreshTable();
+	
 	}
 
 	@FXML
@@ -764,9 +759,7 @@ public class RequestsScreenController {
 
 	@FXML
 	void DeclineRequest(ActionEvent event) {
-		System.out.println("i want to " + r.getId());
-		Main.client
-				.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.declineRequest, "" + r.getId()));
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.declineRequest, "" + r.getId()));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Request declined!");
 		alert.setHeaderText("Request declined!");

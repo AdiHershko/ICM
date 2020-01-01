@@ -43,8 +43,10 @@ public class ExecutionFailuresController {
 
 	public void submitTextField() {
 		String msgReport = exectuionReport.getText();
-		String res = msgReport + "-" + r.getId();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.TesterRep, res));
+		String[] result= new String[2];
+		result[0]=msgReport;
+		result[1]=""+r.getId();
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.TesterRep, result));
 		RequestsScreenController._ins.reportMsgAndRef();
 		RequestsScreenController._ins.unVisibleRequestPane();
 	}

@@ -69,6 +69,10 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
+				
+			case sendToLog:
+				DataBaseController.updateLog((String[]) CSMsg.getArray());
+				return;
 			case REFRESHMAN:
 				ObservableList<Request> ol2 = FXCollections.observableArrayList();
 				ol2 = DataBaseController.getRequestsForManager(CSMsg.getId(), CSMsg.isSearch());
@@ -79,10 +83,10 @@ public class EchoServer extends AbstractServer {
 				}
 				return;
 			case UpdateRequestDetails:
-				DataBaseController.updateRequestDetails(CSMsg.getMsg());
+				DataBaseController.updateRequestDetails((String[]) CSMsg.getArray());
 				return;
 			case UpdateStatus:
-				DataBaseController.ChangeRequestStatus(CSMsg.getMsg());
+				DataBaseController.ChangeRequestStatus((String[]) CSMsg.getArray());
 				return;
 			case Freeze:
 				DataBaseController.Freeze(Integer.parseInt(CSMsg.getMsg()));
@@ -91,9 +95,9 @@ public class EchoServer extends AbstractServer {
 				DataBaseController.Unfreeze(Integer.parseInt(CSMsg.getMsg()));
 				return;
 			case TesterRep:
-				String[] tem = CSMsg.getMsg().split("-");
-				DataBaseController.ChangeReportFailure(CSMsg.getMsg());
-				DataBaseController.ChangeRequestStage(Integer.parseInt(tem[1]), false);
+				String[] arr = (String[]) CSMsg.getArray();
+				DataBaseController.ChangeReportFailure(arr);
+				DataBaseController.ChangeRequestStage(Integer.parseInt(arr[1]), false);
 				return;
 			case declineRequest:
 				DataBaseController.changeReqToClosed(Integer.parseInt(CSMsg.getMsg()));
@@ -282,7 +286,7 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				DataBaseController.updateAssesmentor(id1,CSMsg.getId(), 1);
+				DataBaseController.updateAssesmentor(id1, CSMsg.getId(), 1);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER, true));
 				} catch (Exception e) {
@@ -298,7 +302,7 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				DataBaseController.updateAssesmentor(id2,CSMsg.getId(), 3);
+				DataBaseController.updateAssesmentor(id2, CSMsg.getId(), 3);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER, true));
 				} catch (Exception e) {
@@ -323,62 +327,61 @@ public class EchoServer extends AbstractServer {
 				break;
 			case SETASSESMENTDATE:
 				DataBaseController.setDate(CSMsg.getId(), 1, CSMsg.getMsg());
-				try{
+				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
-				}catch(Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			case APPROVEASSEXTENSION:
 				boolean isDenied = DataBaseController.setRequestDeny(CSMsg.getId(), CSMsg.getStage());
 				try {
-					if (isDenied)
-					{
-						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.APPROVEASSEXTENSION,true));
+					if (isDenied) {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.APPROVEASSEXTENSION, true));
 						return;
 					}
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.APPROVEASSEXTENSION,false));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.APPROVEASSEXTENSION, false));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
 			case SETEXAMDATE:
 				DataBaseController.setDate(CSMsg.getId(), 2, CSMsg.getMsg());
-				try{
+				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
-				}catch(Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			case SETEXECMDATE:
 				DataBaseController.setDate(CSMsg.getId(), 3, CSMsg.getMsg());
-				try{
+				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
-				}catch(Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			case SETTESTDATE:
 				DataBaseController.setDate(CSMsg.getId(), 4, CSMsg.getMsg());
-				try{
+				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
-				}catch(Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			case getDate:
-				String tempDate="";
-				tempDate=DataBaseController.getDate(CSMsg.getId(),CSMsg.getStage());
+				String tempDate = "";
+				tempDate = DataBaseController.getDate(CSMsg.getId(), CSMsg.getStage());
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.getDate,tempDate));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.getDate, tempDate));
 				} catch (IOException e) {
 				}
 				break;
 			case getDateUser:
-				String tempDateUser="";
-				tempDateUser=DataBaseController.getDate(CSMsg.getId(),CSMsg.getStage());
+				String tempDateUser = "";
+				tempDateUser = DataBaseController.getDate(CSMsg.getId(), CSMsg.getStage());
 				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.getDateUser,tempDateUser));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.getDateUser, tempDateUser));
 				} catch (IOException e) {
 				}
 				break;
