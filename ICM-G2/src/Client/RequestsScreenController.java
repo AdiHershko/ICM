@@ -243,6 +243,7 @@ public class RequestsScreenController {
 		} else {
 			unActive = false;
 		}
+		RefreshTable();
 	}
 
 	@FXML

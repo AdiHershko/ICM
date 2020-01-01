@@ -179,15 +179,6 @@ public class ChatClient extends AbstractClient {
 					});
 					return;
 				}
-				if (Integer.parseInt(str[4])==0)
-				{
-					Platform.runLater(()->{
-						Alert alert = new Alert(AlertType.INFORMATION);
-						alert.setContentText("Cannot edit college users");
-						alert.show();
-					});
-					return;
-				}
 				Platform.runLater(()->{
 					ISUsersScreenController._ins.getPasswordField().setText(str[0]);
 					ISUsersScreenController._ins.getFirstNameField().setText(str[1]);
