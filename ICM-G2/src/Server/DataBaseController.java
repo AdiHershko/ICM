@@ -702,36 +702,6 @@ public class DataBaseController {
 		return users.get(rand.nextInt(users.size()));
 	}
 
-	public static ArrayList<String> getStagesInfo(int requestID) {
-		ArrayList<String> res = new ArrayList<>();
-		String query = "SELECT PlannedDueDate,Member,ExtendedDueDate FROM Stages where RequestID=" + requestID
-				+ " and StageName>0";
-		ResultSet rs = null;
-		PreparedStatement statement;
-		try {
-			statement = c.prepareStatement(query);
-			rs = statement.executeQuery();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			while (rs.next()) {
-				if (rs.getString(1) != null)
-					res.add(new DateTime(rs.getString(1)).toString("dd/MM/yyyy")); // duedate
-				else
-					res.add("");
-				res.add(rs.getString(2).split(",")[1]); // member
-				if (rs.getString(3) != null)
-					res.add(new DateTime(rs.getString(3)).toString("dd/MM/yyyy")); // extension
-				else
-					res.add("");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
-
 	public static boolean isRequestDenied(int requestID) {
 		String query = "SELECT isDenied from Requests where ID=" + requestID;
 		ResultSet rs = null;
@@ -843,12 +813,24 @@ public class DataBaseController {
 		try {
 			statement = c.prepareStatement(query);
 			statement.setInt(1, id);
-			statement.setString(2, new DateTime().toString("dd/MM/yyyy HH:mm:ss"));
+			statement.setString(2, new DateTime().toString());
 			statement.setString(3, "Stage "+stage+" due date");
 			statement.setString(4, date);
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static void setClosingDate(int id) {
+		String query = "update Stages set ActualDate='" + (new DateTime()).toString() + "' where RequestID=" + id + " and StageName=5";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
 		}
 	}
 }

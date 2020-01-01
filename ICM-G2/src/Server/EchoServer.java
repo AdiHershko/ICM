@@ -84,17 +84,18 @@ public class EchoServer extends AbstractServer {
 			case UpdateStatus:
 				r = CSMsg.getRequest();
 				if (r.getStatus() == Enums.RequestStatus.Rejected) {
-					DataBaseController.changeRequestStatus(CSMsg.getRequest().getId(), 4);
+					DataBaseController.changeRequestStatus(r.getId(), 4);
 				}
 				else {
-					DataBaseController.changeRequestStatus(CSMsg.getRequest().getId(), 1);
+					DataBaseController.changeRequestStatus(r.getId(), 1);
 				}
+				DataBaseController.setClosingDate(r.getId());
 				return;
 			case Freeze:
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 2);
 				return;
 			case Unfreeze:
-				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()),0);
+				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 0);
 				return;
 			case TesterRep:
 				String[] arr = (String[]) CSMsg.getArray();
@@ -199,15 +200,6 @@ public class EchoServer extends AbstractServer {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES, strings));
 				} catch (IOException e) {
 					return;
-				}
-				break;
-			case STAGESSCREEN: //can remove
-				Request req = CSMsg.getRequest();
-				ArrayList<String> list = DataBaseController.getStagesInfo(req.getId());
-				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.STAGESSCREEN, list));
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
 				break;
 			case UpdateStage:
