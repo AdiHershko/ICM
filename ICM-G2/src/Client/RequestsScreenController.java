@@ -3,27 +3,13 @@ package Client;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Date;
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Enums.SystemENUM;
@@ -31,7 +17,6 @@ import Common.Report;
 import Common.Request;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -44,12 +29,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -255,19 +238,11 @@ public class RequestsScreenController {
 
 	@FXML
 	public void showUnactive(ActionEvent event) {
-		unActiveCheckBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				if (unActiveCheckBox.isSelected()) {
-					unActive = true;
-
-				} else {
-					unActive = false;
-
-				}
-				RefreshTable();
-			}
-		});
+		if (unActiveCheckBox.isSelected()) {
+			unActive = true;
+		} else {
+			unActive = false;
+		}
 	}
 
 	@FXML
@@ -416,7 +391,6 @@ public class RequestsScreenController {
 						dueDate.setText(temp);
 					}
 				}
-
 			}
 			timeCreatedLabel.setText("Creation time: " + r.getDate().toString("dd/MM/yyyy hh:mm a"));
 			requestorLabel.setText("Requestor: " + r.getRequestorID());
@@ -856,11 +830,6 @@ public class RequestsScreenController {
 	}
 
 	@FXML
-	void extentionAsk(ActionEvent event) {
-
-	}
-
-	@FXML
 	void viewFailureReport(ActionEvent event) {
 		Parent root = null;
 		index = tableView.getSelectionModel().getSelectedIndex();
@@ -976,6 +945,10 @@ public class RequestsScreenController {
 			}
 			RefreshTable();
 		}
+	}
+	
+	@FXML
+	void extentionAsk(ActionEvent event) {
 
 	}
 

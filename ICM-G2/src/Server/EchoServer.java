@@ -53,7 +53,7 @@ public class EchoServer extends AbstractServer {
 				return;
 			case REFRESHIS:
 				ObservableList<Request> ol = FXCollections.observableArrayList();
-				ol = DataBaseController.getRequestsForIS(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(),CSMsg.isUnActive());
+				ol = DataBaseController.getRequestsForIS(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(), CSMsg.isUnActive());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol.toArray()));
 				} catch (IOException e) {
@@ -62,7 +62,7 @@ public class EchoServer extends AbstractServer {
 				return;
 			case REFRESHCOLLEGE:
 				ObservableList<Request> ol1 = FXCollections.observableArrayList();
-				ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(),CSMsg.isUnActive());
+				ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(), CSMsg.isUnActive());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol1.toArray()));
 				} catch (IOException e) {
@@ -71,7 +71,7 @@ public class EchoServer extends AbstractServer {
 				return;
 			case REFRESHMAN:
 				ObservableList<Request> ol2 = FXCollections.observableArrayList();
-				ol2 = DataBaseController.getRequestsForManager(CSMsg.getId(), CSMsg.isSearch(),CSMsg.isUnActive());
+				ol2 = DataBaseController.getRequestsForManager(CSMsg.getId(), CSMsg.isSearch(), CSMsg.isUnActive());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol2.toArray()));
 				} catch (IOException e) {

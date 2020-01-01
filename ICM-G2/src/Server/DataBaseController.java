@@ -245,17 +245,12 @@ public class DataBaseController {
 
 	public static ObservableList<Request> getRequestsForCollege(String userName, int id, boolean search,
 			boolean unActive) {
-		String query;
-		if (unActive == true) {
-			query = "select * from Requests where Requestor='" + userName + "'";
-
-		} else {
-			query = "select * from Requests where Requestor='" + userName + "'" + "and Status=0";
-
+		String query = "select * from Requests where Requestor='" + userName + "'";
+		if (unActive == false) {
+			query += " and Status=0";
 		}
-
 		if (search == true) {
-			query = "select * from Requests where Requestor='" + userName + "'" + "and ID=" + id;
+			query += " and ID=" + id;
 
 		}
 		return getRequests(query);
@@ -263,31 +258,26 @@ public class DataBaseController {
 	}
 
 	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search, boolean unActive) {
-		String query;
-		if (unActive == true) {
-			query = "select * from Requests where currenthandlers LIKE ',%" + UserName + "%,'";
-		} else {
-			query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE ',%" + UserName
-					+ "%,'";
+		String query = "select * from Requests where currenthandlers LIKE ',%" + UserName + "%,'";
+		if (unActive == false) {
+			query+=" and (status=0 or status=2)";
 		}
 		if (search == true) {
-			query = "select * from Requests where currenthandlers LIKE ',%" + UserName + "%,'" + "and id=" + id;
+			query+=" and id=" + id;
 		}
 		return getRequests(query);
 	}
 
 	public static ObservableList<Request> getRequestsForManager(int id, boolean search, boolean unActive) {
-		String query;
-		if (unActive == true) {
-			query = "select * from Requests";
-
-		} else {
-			query = "select * from Requests where (status=0 or status=2 or status=3)";
+		String query = "select * from Requests";
+		if (unActive == false) {
+			query += " where (status=0 or status=2 or status=3)";
+			if (search == true) {
+				query += " and id=" + id;
+			}
 		}
-		if (search == true) {
-
-			query = "select * from Requests where id=" + id;
-
+		if (search == true && unActive == true) {
+			query += " where id=" + id;
 		}
 		return getRequests(query);
 
