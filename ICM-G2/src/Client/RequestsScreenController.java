@@ -884,7 +884,7 @@ public class RequestsScreenController {
 
 	@FXML
 	public void setAssDueTime(ActionEvent event) {
-		int index = tableView.getSelectionModel().getSelectedIndex();
+		index = tableView.getSelectionModel().getSelectedIndex();
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime date = null;
 		if (setDueTime1.getText().equals("")) {
@@ -917,8 +917,6 @@ public class RequestsScreenController {
 							new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE, r.getId(), date.toString()));
 				}
 			}
-			RefreshTable();
-			tableView.getSelectionModel().select(index);
 		}
 	}
 
@@ -971,8 +969,10 @@ public class RequestsScreenController {
 			return;
 
 		}
-		DateTime dt=new DateTime(r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())].getPlannedDueDate());
-		if(dt.minusDays(3).isAfterNow()) {
+		DateTime dt = new DateTime(
+				r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())]
+						.getPlannedDueDate());
+		if (dt.minusDays(3).isAfterNow()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
 			alert.setContentText("can't ask for extension more than 3 days to due date!");
@@ -993,6 +993,15 @@ public class RequestsScreenController {
 			newWindow.setResizable(false);
 			newWindow.show();
 		}
+	}
+
+	public void dateAlertRefresh() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setContentText("Date updated");
+		RefreshTable();
+		alert.showAndWait();
+		tableView.getSelectionModel().select(index);
+		showRequest();
 	}
 
 }

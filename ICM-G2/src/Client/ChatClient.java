@@ -288,9 +288,8 @@ public class ChatClient extends AbstractClient {
 				break;
 			case SETASSESMENTDATE:
 				Platform.runLater(()->{
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setContentText("Date updated");
-					alert.show();
+					RequestsScreenController._ins.dateAlertRefresh();
+					
 				});
 				break;
 			case APPROVEASSEXTENSION:
