@@ -687,14 +687,19 @@ public class RequestsScreenController {
 	@FXML
 	void FreezeUnfreeze(ActionEvent event) {
 		boolean frozen = false, unfrozen = false;
-		if (r.getStatus().equals(Enums.RequestStatus.Active)) {
+		if (r.getStatus()==Enums.RequestStatus.Active||r.getStatus()==Enums.RequestStatus.Rejected) {
 			frozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
 		}
-		else if (r.getStatus().equals(Enums.RequestStatus.Frozen)) {
+		else if(r.getStatus()==Enums.RequestStatus.Frozen && r.getStages()[5].getReportFailure() == null) {
 			unfrozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
 		}
+		else if (r.getStatus() == Enums.RequestStatus.Frozen) {
+			unfrozen = true;
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UnFreezeRejected, "" + r.getId()));
+		}
+		
 		RefreshTable();
 		if (frozen) {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -707,7 +712,7 @@ public class RequestsScreenController {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Confirm!");
 			alert.setHeaderText("Changed to Active!");
-			alert.setContentText("Request number " + r.getId() + " changed to active");
+			alert.setContentText("Request number " + r.getId() + " changed to unfrozen");
 			alert.show();
 		}
 		RefreshTable();

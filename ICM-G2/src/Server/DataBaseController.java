@@ -199,10 +199,19 @@ public class DataBaseController {
 			return;
 		}
 	}
+	public static void changeToRejected(int Id) {
+		String query = "UPDATE Stages SET `ReportFailure` = 'Rejected' WHERE (`StageName` = '5') and (`RequestID` = '"+Id+"')";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void changeRequestStatus(int id, int status) {
 		String query = "UPDATE Requests SET Status = "+status+ " WHERE ID = " + id;
-		System.out.println(query);
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);

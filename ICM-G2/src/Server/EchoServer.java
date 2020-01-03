@@ -94,6 +94,9 @@ public class EchoServer extends AbstractServer {
 			case Freeze:
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 2);
 				return;
+			case UnFreezeRejected:
+				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 3);
+				return;
 			case Unfreeze:
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 0);
 				return;
@@ -105,6 +108,7 @@ public class EchoServer extends AbstractServer {
 			case declineRequest:
 				DataBaseController.changeReqToClosed(Integer.parseInt(CSMsg.getMsg()));
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 3);
+				DataBaseController.changeToRejected(Integer.parseInt(CSMsg.getMsg()));
 				return;
 			case SearchUser:
 				String[] temp = (String[]) CSMsg.getArray();
