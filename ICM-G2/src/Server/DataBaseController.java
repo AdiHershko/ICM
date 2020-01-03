@@ -544,7 +544,7 @@ public class DataBaseController {
 				st.setInt(3, 0);
 				if (i == 0 || i == 5)
 					st.setString(4, "," + getSupervisor() + ",");
-				else if (i == 1)// TODO: maybe add department?
+				else if (i == 1)
 					st.setString(4, GetRandomISUser());
 				else if (i == 2)
 					st.setString(4, GetComitteString());
@@ -553,10 +553,6 @@ public class DataBaseController {
 				st.setInt(5, id);
 				st.execute();
 			}
-			DateTime dueDate = new DateTime();
-			dueDate = dueDate.plusDays(7);
-			st.execute("update Stages set PlannedDueDate='" + dueDate.toString() + "' where StageName=1 and RequestID="
-					+ id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

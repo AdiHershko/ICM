@@ -14,11 +14,11 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <Label layoutX="24.0" layoutY="159.0" text="Reason" />
+      <Label layoutX="24.0" layoutY="159.0" text="Reason:" />
       <Button fx:id="submitButton" layoutX="178.0" layoutY="348.0" mnemonicParsing="false" onAction="#submitRequest" text="Submit" />
-      <Label layoutX="31.0" layoutY="303.0" text="Date" />
+      <Label layoutX="31.0" layoutY="303.0" text="Date:" />
       <TextArea fx:id="descText" layoutX="72.0" layoutY="88.0" prefHeight="197.0" prefWidth="290.0" wrapText="true" />
       <DatePicker fx:id="datePicker" layoutX="72.0" layoutY="299.0" prefHeight="25.0" prefWidth="290.0" />
-      <Label fx:id="reqIDLabel" layoutX="42.0" layoutY="59.0" text="Label" />
+      <Label fx:id="reqIDLabel" layoutX="29.0" layoutY="59.0" text="Label" />
    </children>
 </Pane>
