@@ -122,6 +122,8 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if (stage==0)
+			ChangeRequestStage(reqid,true);
 		updateLogChangeStageHandler(reqid,stage,id);
 	}
 

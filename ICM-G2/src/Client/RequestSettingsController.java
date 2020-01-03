@@ -62,6 +62,8 @@ public class RequestSettingsController {
 	private TextField testerAppointedText;
 	@FXML
 	private Button editTesterButton;
+	@FXML
+	private Button editAssesmentButton1;
 
 	public void initialize() {
 		_ins = this;
@@ -107,6 +109,7 @@ public class RequestSettingsController {
 	public void editAssesment() {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER,
 				currentRequest.getId(), assesmentAppointerText.getText()));
+		assesmentAppointerText.setEditable(false);
 	}
 
 	@FXML
@@ -158,36 +161,56 @@ public class RequestSettingsController {
 
 	@FXML
 	public void approveAssesment() {
+		if (!assesmentExtensionDateText.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$"))
+			return;
 		setDenied(0,1);
 	}
 
 	@FXML
 	public void declineAssesment() {
+		if (!assesmentExtensionDateText.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$"))
+			return;
 		setDenied(1,1);
 	}
 	@FXML
 	public void approveExamaning(){
+		if (!examaningExtensionText.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$"))
+			return;
 		setDenied(0,2);
 	}
 	@FXML
 	public void declineExamaning() {
+		if (!examaningExtensionText.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$"))
+			return;
 		setDenied(1,2);
 	}
 	@FXML
 	public void approveExecution(){
+		if (!executionExtenstionDateText.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$"))
+			return;
 		setDenied(0,3);
 	}
 	@FXML
 	public void declineExecution(){
+		if (!executionExtenstionDateText.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$"))
+			return;
 		setDenied(1,3);
 	}
 	@FXML
 	public void approveTest(){
+		if (!testerExtensionDateText.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$"))
+			return;
 		setDenied(0,4);
 	}
 	@FXML
 	public void declineTest(){
+		if (!testerExtensionDateText.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$"))
+			return;
 		setDenied(1,4);
+	}
+	@FXML
+	public void editAssesment1(){
+		assesmentAppointerText.setEditable(true);
 	}
 
 	private void setDenied(int isDenied,int stage) {
