@@ -203,7 +203,14 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case UpdateStage:
-				DataBaseController.ChangeRequestStage(CSMsg.getId(), true);
+				boolean tmp = DataBaseController.ChangeRequestStage(CSMsg.getId(), true);
+				if (tmp==false) {
+					try {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CannotUpdateStage));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 				break;
 			case downStage:
 				DataBaseController.ChangeRequestStage(CSMsg.getId(), false);

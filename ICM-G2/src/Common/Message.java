@@ -9,14 +9,14 @@ public class Message implements Serializable {
 	private String title;
 	private String details;
 	private String receiver;
-	private Request request;
+	private int requestId;
 	
 
-	public Message(int type, String Title, String Details, String Receiver, Request request) {
+	public Message(String Title, String Details, String Receiver, int requestId) {
 		this.title=Title;
 		this.details=Details;
 		this.receiver=Receiver;
-		this.setRequest(request);
+		this.requestId = requestId;
 	
 	}
 
@@ -44,12 +44,12 @@ public class Message implements Serializable {
 		this.receiver = receiver;
 	}
 
-	public Request getRequest() {
-		return request;
+	public int getRequestId() {
+		return requestId;
 	}
 
-	public void setRequest(Request request) {
-		this.request = request;
+	public void setRequestId(int requestId) {
+		this.requestId = requestId;
 	}
 
 }

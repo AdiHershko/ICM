@@ -18,7 +18,9 @@ import Common.Stage;
 import Common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import Common.ClientServerMessage;
 import Common.Enums;
+import Common.Message;
 import Common.Report;
 
 public class DataBaseController {
@@ -560,23 +562,13 @@ public class DataBaseController {
 		}
 	}
 
-	public static void ChangeRequestStage(int id, boolean Up) {
+	public static boolean ChangeRequestStage(int id, boolean Up) {
 		String query, newMembers = null;
 		ResultSet rs;
-		int currentStage = 0;
-		if (Up)
-			query = "update Requests set Stage=Stage+1 where id=" + id;
-		else
-			query = "update Requests set Stage=Stage-1 where id=" + id;
 		PreparedStatement statement = null;
-		try {
-			statement = c.prepareStatement(query);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
-		}
-
+		int currentStage = 0, newStage;
+		
+		//getting the current stage
 		query = "Select Stage from Requests where id=" + id;
 		try {
 			statement = c.prepareStatement(query);
@@ -586,34 +578,72 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		query = "update Stages set ActualDate='" + (new DateTime()).toString() + "' where RequestID=" + id
-				+ " and StageName=" + (currentStage - 1);
-		try {
-			statement = c.prepareStatement(query);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
-		}
-
-		query = "Select Member from Stages where RequestID=" + id + " and StageName=" + currentStage;
+		
+		//saving the next stage
+		if (Up)
+			newStage = currentStage+1;
+		else
+			newStage = currentStage-1;
+		
+		//getting new stage members
+		query = "Select Member from Stages where RequestID=" + id + " and StageName=" + newStage;
 		try {
 			statement = c.prepareStatement(query);
 			rs = statement.executeQuery();
 			rs.next();
 			newMembers = rs.getString(1);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				}
+		if (newMembers.equals("")) {
+			//TODO send message to supervisor
+			return false;
+		}
+		
+		//setting current stage ActudalDate
+		query = "update Stages set ActualDate='" + (new DateTime()).toString() + "' where RequestID=" + id
+				+ " and StageName=" + (currentStage);
+		try {
+			statement = c.prepareStatement(query);
+			statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
+		
+		//if stages 2 or 4, needs to have auto date
+		if (newStage == 2 || newStage == 4) {
+			DateTime dueDate = new DateTime();
+			dueDate = dueDate.plusDays(7);
+			query = "update Stages set PlannedDueDate='" + dueDate.toString() + "' where StageName=" + newStage + " and RequestID=" + id;
+			try {
+				statement = c.prepareStatement(query);
+				statement.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//updating stage in requests
+		query = "update Requests set Stage="+ newStage +" where id=" + id;
+		try {
+			statement = c.prepareStatement(query);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		//saving it in requests
 		query = "update Requests set CurrentHandlers='" + newMembers + "' where id=" + id;
 		try {
 			statement = c.prepareStatement(query);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return;
+			return false;
 		}
+		return true;
 	}
 
 	public static void AppointStageHandlers(int id, int stage, String handlers) {
@@ -857,5 +887,21 @@ public class DataBaseController {
 			e.printStackTrace();
 			return;
 		}
+	}
+	
+	public static void createMessage(Message m) {
+		String query = "insert into Messages (Messages.RequestID, Messages.Title, Messages.Details, Messages.Receiver) values (?,?,?,?)";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.setInt(1, m.getRequestId());
+			statement.setString(2, m.getTitle());
+			statement.setString(3, m.getDetails());
+			statement.setString(4, m.getReceiver());
+			statement.execute();
+		} catch (SQLException e) {
+			return;
+		}
+		//Send mail
 	}
 }

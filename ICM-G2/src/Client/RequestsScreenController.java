@@ -757,7 +757,6 @@ public class RequestsScreenController {
 	@FXML
 	void ApproveStageBtn(ActionEvent event) {
 		if (r.getCurrentStage() == Enums.RequestStageENUM.Examaning && r.getStages()[4].getStageMembers().size() < 2) {
-			System.out.println("Line 665");
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Missing tester");
 			alert.setHeaderText("Missing tester");
@@ -999,6 +998,14 @@ public class RequestsScreenController {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("Date updated");
 		RefreshTable();
+		alert.showAndWait();
+		tableView.getSelectionModel().select(index);
+		showRequest();
+	}
+	
+	public void cannotUpdateStage() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setContentText("Can't update stage.\nNobody is appointed for next stage.\nMessage sent to supervisor.");
 		alert.showAndWait();
 		tableView.getSelectionModel().select(index);
 		showRequest();
