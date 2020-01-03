@@ -394,13 +394,13 @@ public class RequestsScreenController {
 				stageDate1.setVisible(false);
 				if (temp != null) {
 					temp = new DateTime(temp).toString("dd/MM/yyyy");
+					setDueDateBTN.setVisible(false);
 					if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
+						setDueTime1.setEditable(false);
 						setDueTime1.setText(temp);
 					}
 					else {
-						if (r.getCurrentStage() != Enums.RequestStageENUM.Execution) {
-							dueDate.setEditable(false);
-						}
+						dueDate.setEditable(false);
 						dueDate.setText(temp);
 					}
 				}
