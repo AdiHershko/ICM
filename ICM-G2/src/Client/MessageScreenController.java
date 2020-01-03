@@ -13,5 +13,8 @@ public class MessageScreenController {
 
 	@FXML
 	private Label userName;
+	
+	@FXML
+	private Label titleLabel;
 
 }
