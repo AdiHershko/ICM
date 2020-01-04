@@ -113,18 +113,18 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static void updateStageMember(String id, int reqid, int stage) {
+	public static void updateStageMember(String id, Request req, int stage) {
 		PreparedStatement st;
 		try {
 			st = c.prepareStatement(
-					"update Stages set Member='," + id + ",' where StageName=" + stage + " and RequestID=" + reqid);
+					"update Stages set Member='," + id + ",' where StageName=" + stage + " and RequestID=" + req.getId());
 			st.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (stage==0)
-			ChangeRequestStage(reqid,true);
-		updateLogChangeStageHandler(reqid,stage,id);
+		if (Enums.RequestStageENUM.getRequestStageENUMByEnum(req.getCurrentStage())==0)
+			ChangeRequestStage(req.getId(),true);
+		updateLogChangeStageHandler(req.getId(),stage,id);
 	}
 
 	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search) {
@@ -329,6 +329,40 @@ public class DataBaseController {
 			statement = c.prepareStatement(query);
 			statement.setString(1, user);
 			statement.setString(2, pass);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if (rs.next()) {
+				try {
+					if (rs.getInt(10) == 0 | rs.getInt(10) == 1) {// TODO
+						us = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+								rs.getString(5), Enums.Role.getRoleENUM(rs.getInt(6)));
+						query = "update Users set isLoggedIn=1 where username ='" + user + "'";
+						statement = c.prepareStatement(query);
+						statement.execute();
+					} else {
+						us = new User("", "", "", "", "", Enums.Role.getRoleENUM(rs.getInt(6)));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return us;
+	}
+	public static User SearchUser(String user) {
+		String query = "select * from Users where binary username =?";
+		ResultSet rs = null;
+		User us = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			statement.setString(1, user);
 			rs = statement.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();

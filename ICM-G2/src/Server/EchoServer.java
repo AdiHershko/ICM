@@ -21,6 +21,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.ClientServerMessage;
+import Common.EmailMessage;
 import Common.Enums;
 import Common.Report;
 import ocsf.server.AbstractServer;
@@ -28,6 +29,7 @@ import ocsf.server.ConnectionToClient;
 
 public class EchoServer extends AbstractServer {
 	final private static int DEFAULT_PORT = 5555;
+	private EmailService emailService;
 
 	public static int getDefaultPort() {
 		return DEFAULT_PORT;
@@ -35,6 +37,7 @@ public class EchoServer extends AbstractServer {
 
 	public EchoServer(int port) {
 		super(port);
+		emailService = EmailService.getInstannce();
 	}
 
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
@@ -280,12 +283,14 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				DataBaseController.updateStageMember(id1, CSMsg.getId(), 1);
+				DataBaseController.updateStageMember(id1, CSMsg.getRequest(), 1);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER, true));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				User sendTo = DataBaseController.SearchUser(id1);
+				emailService.sendEmail(new EmailMessage("You have been set for assesmentor for request "+CSMsg.getRequest().getId(), "By supervisor", sendTo.getMail(), ""));
 				break;
 			case EDITEXECUTIONER:
 				String id2 = ((ClientServerMessage) msg).getMsg();
@@ -296,7 +301,7 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				DataBaseController.updateStageMember(id2, CSMsg.getId(), 3);
+				DataBaseController.updateStageMember(id2, CSMsg.getRequest(), 3);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER, true));
 				} catch (Exception e) {
@@ -312,7 +317,7 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				DataBaseController.updateStageMember(id3,CSMsg.getId(), 4);
+				DataBaseController.updateStageMember(id3,CSMsg.getRequest(), 4);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITTESTER, true));
 				} catch (Exception e) {

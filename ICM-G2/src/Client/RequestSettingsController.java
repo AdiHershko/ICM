@@ -7,6 +7,7 @@ import org.joda.time.format.DateTimeFormatter;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Request;
+import Common.User;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,6 +21,7 @@ import javafx.stage.Window;
 public class RequestSettingsController {
 	static RequestSettingsController _ins;
 	Request currentRequest;
+	User currentUser;
 	@FXML
 	private TextField assesmentAppointerText;
 	@FXML
@@ -68,6 +70,7 @@ public class RequestSettingsController {
 	public void initialize() {
 		_ins = this;
 		currentRequest = Main.currentRequest;
+		currentUser = Main.currentUser;
 		setScreen();
 	}
 
@@ -108,7 +111,7 @@ public class RequestSettingsController {
 	@FXML
 	public void editAssesment() {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER,
-				currentRequest.getId(), assesmentAppointerText.getText()));
+				currentRequest, assesmentAppointerText.getText()));
 		assesmentAppointerText.setEditable(false);
 	}
 
