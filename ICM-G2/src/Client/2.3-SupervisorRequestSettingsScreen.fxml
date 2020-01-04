@@ -20,7 +20,7 @@
          </font>
       </Label>
       <Label layoutX="15.0" layoutY="158.0" text="Appointed:" />
-      <Button fx:id="editAssesmentButton" layoutX="291.0" layoutY="154.0" mnemonicParsing="false" onAction="#editAssesment" text="Approve" />
+      <Button fx:id="editAssesmentButton" layoutX="128.0" layoutY="183.0" mnemonicParsing="false" onAction="#editAssesment" text="Approve" />
       <Label layoutX="356.0" layoutY="158.0" text="Due Date:" />
       <TextField fx:id="assesmentAppointerText" editable="false" layoutX="83.0" layoutY="154.0" />
       <TextField fx:id="assesmentDueDateText" layoutX="428.0" layoutY="154.0" />

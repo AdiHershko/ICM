@@ -6,12 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import Common.Request;
 import Common.Stage;
@@ -20,7 +20,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.ClientServerMessage;
 import Common.Enums;
-import Common.Message;
 import Common.Report;
 
 public class DataBaseController {
@@ -28,6 +27,8 @@ public class DataBaseController {
 	private static String url = "jdbc:mysql://remotemysql.com:3306/rPTfgnHCnB?useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private static String username = "rPTfgnHCnB";
 	private static String password = "atcFy4mIAf";
+	
+	private static EmailService emailService;
 
 	public static void setUrl(String url) {
 		DataBaseController.url = url;
@@ -52,6 +53,7 @@ public class DataBaseController {
 			e.printStackTrace();
 			return false;
 		}
+		emailService = EmailService.getInstannce();
 		return true;
 	}
 
@@ -907,7 +909,7 @@ public class DataBaseController {
 	public static void changeExtendedDate(Request r,String date)
 	{
 		DateTime dt;
-		org.joda.time.format.DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
 		dt = dtf.parseDateTime(date);
 		String query = "update Stages set ExtendedDueDate='"+dt.toString()+"' where RequestID ='" + r.getId() + "' and StageName="+Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage());
 		PreparedStatement statement = null;
@@ -932,19 +934,48 @@ public class DataBaseController {
 		}
 	}
 	
-	public static void createMessage(Message m) {
+	public static void genAutoMessages() {
+		String query = "select * from Requests";
+		ObservableList<Request> list = getRequests(query);
+		autoMessage24hDueDate(list);
+		autoMessageExceptions(list);
+	}
+	
+	public static void autoMessage24hDueDate(ObservableList<Request> list) {
+		for(Request r : list) {
+			int currstageNum = Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage());
+			Stage currentStage = r.getStages()[currstageNum];
+			if (currentStage.getPlannedDueDate() != null) {
+				DateTime plannedDate = new DateTime(currentStage.getPlannedDueDate());
+				DateTime check24 = new DateTime();
+				check24 = check24.plusDays(1);
+				if (plannedDate.isBefore(check24)) {
+					User receiver = SearchUser(currentStage.getStageMembers().get(1));
+					EmailMessage toSend = new EmailMessage(r, receiver);
+					toSend.build24hStageMsg();
+					addAndSendMessage(toSend);
+				}
+			}
+		}
+	}
+	
+	public static void autoMessageExceptions(ObservableList<Request> list) {
+		
+	}
+	
+	public static void addAndSendMessage(EmailMessage m) {
 		String query = "insert into Messages (Messages.RequestID, Messages.Title, Messages.Details, Messages.Receiver) values (?,?,?,?)";
 		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
-			statement.setInt(1, m.getRequestId());
-			statement.setString(2, m.getTitle());
-			statement.setString(3, m.getDetails());
-			statement.setString(4, m.getReceiver());
+			statement.setInt(1, m.getRequest().getId());
+			statement.setString(2, m.getSubject());
+			statement.setString(3, m.getBody());
+			statement.setString(4, m.getReceiverUser().getUsername());
 			statement.execute();
 		} catch (SQLException e) {
 			return;
 		}
-		//Send mail
+		emailService.sendEmail(m);
 	}
 }

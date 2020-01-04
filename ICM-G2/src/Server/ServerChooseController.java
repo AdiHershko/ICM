@@ -17,6 +17,7 @@ import javafx.scene.control.Alert.AlertType;
 public class ServerChooseController {
 
 	public static boolean loading=false;
+	public static boolean connected = false;
 	private ImageView loadinganim;
 	// components
 	@FXML
@@ -175,13 +176,14 @@ public class ServerChooseController {
 					});
 				}
 				else {
-
 					Platform.runLater(()->{
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Successful");
 					alert.setContentText("System connected!");
 					alert.show();
 					});
+					connected = true;
+					DataBaseController.genAutoMessages();
 				}
 				while (loading)
 				{
@@ -198,8 +200,6 @@ public class ServerChooseController {
 				});
 			}
 		}).start();
-
-
 	}
 
 	public void disconnect() {

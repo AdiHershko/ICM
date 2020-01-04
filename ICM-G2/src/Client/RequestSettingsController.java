@@ -71,6 +71,9 @@ public class RequestSettingsController {
 		_ins = this;
 		currentRequest = Main.currentRequest;
 		currentUser = Main.currentUser;
+		if (currentRequest.getCurrentStage() != Enums.RequestStageENUM.Initialization) {
+			editAssesmentButton.setVisible(false);
+		}
 		setScreen();
 	}
 

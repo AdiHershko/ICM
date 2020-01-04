@@ -21,7 +21,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.ClientServerMessage;
-import Common.EmailMessage;
 import Common.Enums;
 import Common.Report;
 import ocsf.server.AbstractServer;
@@ -29,15 +28,12 @@ import ocsf.server.ConnectionToClient;
 
 public class EchoServer extends AbstractServer {
 	final private static int DEFAULT_PORT = 5555;
-	private EmailService emailService;
-
 	public static int getDefaultPort() {
 		return DEFAULT_PORT;
 	}
 
 	public EchoServer(int port) {
 		super(port);
-		emailService = EmailService.getInstannce();
 	}
 
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
@@ -300,8 +296,6 @@ public class EchoServer extends AbstractServer {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				User sendTo = DataBaseController.SearchUser(id1);
-				emailService.sendEmail(new EmailMessage("You have been set for assesmentor for request "+CSMsg.getRequest().getId(), "By supervisor", sendTo.getMail(), ""));
 				break;
 			case EDITEXECUTIONER:
 				String id2 = ((ClientServerMessage) msg).getMsg();
@@ -402,11 +396,11 @@ public class EchoServer extends AbstractServer {
 		System.out.println("Server has stopped listening for connections.");
 	}
 
+	
 	public static int Start(int port) {
 		if (DataBaseController.Connect() == false) {
 			return 1;
 		}
-
 		EchoServer sv = new EchoServer(port);
 		try {
 			sv.listen(); // Start listening for connections
