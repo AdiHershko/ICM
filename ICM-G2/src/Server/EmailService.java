@@ -32,7 +32,7 @@ public class EmailService {
 		prop.put("mail.smtp.starttls.enable", "true");
 		prop.put("mail.smtp.host", SMTP_SERVER); // optional, defined in SMTPTransport
 		prop.put("mail.smtp.auth", "true");
-		prop.put("mail.smtp.port", "587"); // default port 25
+		prop.put("mail.smtp.port", "587"); // default port 587
 		Session session = Session.getInstance(prop, null);
 		Message msg = new MimeMessage(session);
 		try {
