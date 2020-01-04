@@ -110,21 +110,46 @@ public class RequestSettingsController {
 
 	@FXML
 	public void editAssesment() {
+		if (currentRequest.getCurrentStage()==Enums.RequestStageENUM.Initialization)
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER,
 				currentRequest, assesmentAppointerText.getText()));
+		else {
+			Platform.runLater(() -> {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setContentText("Request is already past the initialization stage!.");
+				alert.show();
+			});
+
+		}
 		assesmentAppointerText.setEditable(false);
 	}
 
 	@FXML
 	public void editExecutioner() {
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER,
+		if (currentRequest.getCurrentStage()==Enums.RequestStageENUM.Examaning)
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER,
 				currentRequest.getId(), executionAppointerText.getText()));
+		else {
+			Platform.runLater(() -> {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setContentText("Request is already past the examaning stage!.");
+				alert.show();
+			});
+		}
 	}
 
 	@FXML
 	public void editTester() {
+		if (currentRequest.getCurrentStage()==Enums.RequestStageENUM.Execution)
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITTESTER,
 				currentRequest.getId(), testerAppointedText.getText()));
+		else {
+			Platform.runLater(() -> {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setContentText("Request is already past the execution stage!.");
+				alert.show();
+			});
+		}
 	}
 
 	@FXML
