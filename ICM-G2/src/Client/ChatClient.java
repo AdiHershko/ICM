@@ -315,6 +315,11 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 				break;
+			case CannotUpdateStage:
+				Platform.runLater(()->{
+				RequestsScreenController._ins.cannotUpdateStage();
+				});
+				break;
 			default:
 				break;
 			}

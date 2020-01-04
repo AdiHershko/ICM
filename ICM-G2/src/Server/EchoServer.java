@@ -97,6 +97,9 @@ public class EchoServer extends AbstractServer {
 			case Freeze:
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 2);
 				return;
+			case UnFreezeRejected:
+				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 3);
+				return;
 			case Unfreeze:
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 0);
 				return;
@@ -108,6 +111,7 @@ public class EchoServer extends AbstractServer {
 			case declineRequest:
 				DataBaseController.changeReqToClosed(Integer.parseInt(CSMsg.getMsg()));
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 3);
+				DataBaseController.changeToRejected(Integer.parseInt(CSMsg.getMsg()));
 				return;
 			case SearchUser:
 				String[] temp = (String[]) CSMsg.getArray();
@@ -206,7 +210,14 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case UpdateStage:
-				DataBaseController.ChangeRequestStage(CSMsg.getId(), true);
+				boolean tmp = DataBaseController.ChangeRequestStage(CSMsg.getId(), true);
+				if (tmp==false) {
+					try {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CannotUpdateStage));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 				break;
 			case downStage:
 				DataBaseController.ChangeRequestStage(CSMsg.getId(), false);
