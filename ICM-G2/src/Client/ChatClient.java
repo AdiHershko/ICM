@@ -310,6 +310,7 @@ public class ChatClient extends AbstractClient {
 			break;
 			case ASKFOREXTENSION:
 				Platform.runLater(()->{
+					RequestsScreenController._ins.closeExtraWindowExt();
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("Asked for new date");
 					alert.show();

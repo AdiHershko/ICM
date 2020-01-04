@@ -375,6 +375,7 @@ public class EchoServer extends AbstractServer {
 				break;
 			case ASKFOREXTENSION:
 				DataBaseController.changeExtendedDate(CSMsg.getRequest(), CSMsg.getMsg());
+				DataBaseController.extensionMessage(CSMsg.getRequest());
 				try{
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ASKFOREXTENSION));
 				} catch(Exception e) {

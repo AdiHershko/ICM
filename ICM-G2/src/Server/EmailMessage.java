@@ -2,6 +2,8 @@ package Server;
 
 import java.util.ArrayList;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 import org.joda.time.DateTime;
 
 import Common.Enums;
@@ -115,7 +117,7 @@ public class EmailMessage {
 				+ new DateTime(currentStage.getPlannedDueDate()).toString("dd/MM/yyyy")
 				+ "\n";
 		body += "Asked exteneded due date: "
-				+ new DateTime(currentStage.getExtendedDueDate()).toString("dd/MM/yyyy")
+				+ currentStage.getExtendedDueDate()
 				+ "\n";
 		body += "Extension reason:\n"+currentStage.getExtensionAsk();
 		body += "\nCopy sent to the manager.\n";

@@ -94,6 +94,7 @@ public class ExtensionRequestController {
 		} catch (IllegalArgumentException e) {return; }
 		int currstageNum = Enums.RequestStageENUM.getRequestStageENUMByEnum(Main.currentRequest.getCurrentStage());
 		Main.currentRequest.getStages()[currstageNum].setExtensionAsk(descText.getText());
+		Main.currentRequest.getStages()[currstageNum].setExtendedDueDate(temp);
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.ASKFOREXTENSION,Main.currentRequest,temp));
 	}
 }

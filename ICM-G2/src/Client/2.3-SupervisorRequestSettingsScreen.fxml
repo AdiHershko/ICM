@@ -55,7 +55,7 @@
       <Button layoutX="587.0" layoutY="377.0" mnemonicParsing="false" onAction="#approveExecution" text="Approve Extension" />
       <Label layoutX="303.0" layoutY="381.0" text="Extension Due Date:" />
       <TextField fx:id="executionExtenstionDateText" layoutX="428.0" layoutY="377.0" />
-      <Button layoutX="712.0" layoutY="377.0" mnemonicParsing="false" onAction="#declineAssesment" text="Decline Extension" />
+      <Button layoutX="712.0" layoutY="377.0" mnemonicParsing="false" onAction="#declineExecution" text="Decline Extension" />
       <Label layoutX="17.0" layoutY="400.0" text="Tester Stage:" textFill="#007c9c">
          <font>
             <Font size="20.0" />
@@ -67,7 +67,7 @@
       <Button layoutX="587.0" layoutY="461.0" mnemonicParsing="false" onAction="#approveTest" text="Approve Extension" />
       <Label layoutX="303.0" layoutY="467.0" text="Extension Due Date:" />
       <TextField fx:id="testerExtensionDateText" layoutX="428.0" layoutY="463.0" />
-      <Button layoutX="712.0" layoutY="461.0" mnemonicParsing="false" onAction="#declineAssesment" text="Decline Extension" />
+      <Button layoutX="712.0" layoutY="461.0" mnemonicParsing="false" onAction="#declineTest" text="Decline Extension" />
       <Button fx:id="doneButton" layoutX="408.0" layoutY="497.0" mnemonicParsing="false" onAction="#doneButtonAction" prefHeight="29.0" prefWidth="41.0" text="Exit" />
       <Label fx:id="requestIDLabel" layoutX="78.0" layoutY="82.0" text="ID_num" />
       <Label layoutX="18.0" layoutY="443.0" text="Appointed:" />

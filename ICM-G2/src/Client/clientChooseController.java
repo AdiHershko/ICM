@@ -25,30 +25,37 @@ import javafx.stage.Stage;
 public class clientChooseController {
 
 	ChatClient client;
-    @FXML
-    private Pane pane;
+	@FXML
+	private Pane pane;
 
-    @FXML
-    private Pane loginPane;
+	@FXML
+	private Pane loginPane;
 
-    @FXML
-    private RadioButton localRB;
+	@FXML
+	private RadioButton localRB;
 
-    @FXML
-    private ToggleGroup yahav;
+	@FXML
+	private ToggleGroup yahav;
 
-    @FXML
-    private RadioButton remoteRB;
+	@FXML
+	private RadioButton remoteRB;
 
-    @FXML
-    private TextField IPTextBox;
+	@FXML
+	private TextField IPTextBox;
 
-    @FXML
-    private Button ClientConnect;
+	@FXML
+	private Button ClientConnect;
 
-    @FXML
-    void connectToServer(ActionEvent event) {
-    	boolean isconnected = false;
+	static clientChooseController _ins;
+	public void initialize() {
+
+		
+		ClientConnect.setDefaultButton(true);
+	}
+
+	@FXML
+	void connectToServer(ActionEvent event) {
+		boolean isconnected = false;
 		try {
 			if (localRB.isSelected()) {
 				client = new ChatClient("localhost", ChatClient.DEFAULT_PORT);
@@ -82,6 +89,5 @@ public class clientChooseController {
 		}
 
 	}
-    
 
 }

@@ -631,6 +631,11 @@ public class RequestsScreenController {
 		tableView.getSelectionModel().select(index);
 
 	}
+	public void closeExtraWindowExt() {
+		newWindow.close();
+		RefreshTable();
+		tableView.getSelectionModel().select(index);
+	}
 
 	public void showUploadedFiles(Request r) {
 		new Thread(new Runnable() {
@@ -1038,6 +1043,7 @@ public class RequestsScreenController {
 			newWindow.show();
 		}
 	}
+	
 
 	public void dateAlertRefresh() {
 		Alert alert = new Alert(AlertType.INFORMATION);
