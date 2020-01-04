@@ -44,9 +44,8 @@ public class EmailService {
 			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getReciever(), false));
 
 			// CC
-			if (mail.getCC() != null) {
-				msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(mail.getCC(), false));
-			}
+			for(String cc : mail.getCC())
+				msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse(cc, false));
 
 			// subject
 			msg.setSubject(mail.getSubject());

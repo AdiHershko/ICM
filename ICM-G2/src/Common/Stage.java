@@ -14,6 +14,7 @@ public class Stage implements Serializable{
 	private String extendedDueDate;
 	private String actualDate;
 	private String ReportFailure;
+	private String extensionAsk;
 	private Boolean isApproved;
 	private Boolean isExtended;
 	private ArrayList<String> stageMembers;
@@ -91,6 +92,14 @@ public class Stage implements Serializable{
 
 	public void setActualDate(String actualDate) {
 		this.actualDate = actualDate;
+	}
+
+	public String getExtensionAsk() {
+		return extensionAsk;
+	}
+
+	public void setExtensionAsk(String extensionAsk) {
+		this.extensionAsk = extensionAsk;
 	}
 
 }

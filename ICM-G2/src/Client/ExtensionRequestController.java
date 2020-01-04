@@ -64,10 +64,6 @@ public class ExtensionRequestController {
 	}
 
 
-
-
-
-
 	@FXML
 	public void submitRequest(){ //add message to supervisor to show description
 		String temp;
@@ -75,7 +71,7 @@ public class ExtensionRequestController {
 		if(descText.getText().equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
-			alert.setContentText("must explain extension!");
+			alert.setContentText("Must explain extension!");
 			alert.showAndWait();
 			return;
 		}
@@ -96,6 +92,8 @@ public class ExtensionRequestController {
 		try {
 			temp=(datePicker.getValue()).format(df);
 		} catch (IllegalArgumentException e) {return; }
+		int currstageNum = Enums.RequestStageENUM.getRequestStageENUMByEnum(Main.currentRequest.getCurrentStage());
+		Main.currentRequest.getStages()[currstageNum].setExtensionAsk(descText.getText());
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.ASKFOREXTENSION,Main.currentRequest,temp));
 	}
 }

@@ -949,32 +949,92 @@ public class DataBaseController {
 				DateTime plannedDate = new DateTime(currentStage.getPlannedDueDate());
 				DateTime check24 = new DateTime();
 				check24 = check24.plusDays(1);
-				if (plannedDate.isBefore(check24)) {
+				if (plannedDate.isBefore(check24) && !plannedDate.isBefore(new DateTime()) && r.getStatus() == Enums.RequestStatus.Active) {
 					User receiver = SearchUser(currentStage.getStageMembers().get(1));
 					EmailMessage toSend = new EmailMessage(r, receiver);
 					toSend.build24hStageMsg();
-					addAndSendMessage(toSend);
+					sendMessage(toSend, true);
 				}
 			}
 		}
 	}
 	
 	public static void autoMessageExceptions(ObservableList<Request> list) {
-		
+		String supervisorMail = getSupervisorMail();
+		String managerMail = getManagerMail();
+		for(Request r : list) {
+			int currstageNum = Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage());
+			Stage currentStage = r.getStages()[currstageNum];
+			if (currentStage.getPlannedDueDate() != null) {
+				DateTime plannedDate = new DateTime(currentStage.getPlannedDueDate());
+				if (plannedDate.isBefore(new DateTime()) && r.getStatus() == Enums.RequestStatus.Active){
+					User receiver = SearchUser(currentStage.getStageMembers().get(1));
+					EmailMessage toSend = new EmailMessage(r, receiver);
+					toSend.buildExceptionMsg();
+					toSend.addToCC(supervisorMail);
+					toSend.addToCC(managerMail);
+					sendMessage(toSend, true);
+				}
+			}
+		}
 	}
 	
-	public static void addAndSendMessage(EmailMessage m) {
-		String query = "insert into Messages (Messages.RequestID, Messages.Title, Messages.Details, Messages.Receiver) values (?,?,?,?)";
-		PreparedStatement statement = null;
+	public static String getSupervisorMail() {
+		String query = "select Users.Mail from Users where Role=4";
+		ResultSet rs = null;
+		PreparedStatement statement;
 		try {
 			statement = c.prepareStatement(query);
-			statement.setInt(1, m.getRequest().getId());
-			statement.setString(2, m.getSubject());
-			statement.setString(3, m.getBody());
-			statement.setString(4, m.getReceiverUser().getUsername());
-			statement.execute();
+			rs = statement.executeQuery();
 		} catch (SQLException e) {
-			return;
+			e.printStackTrace();
+		}
+
+		try {
+			if (rs.next()) {
+				return rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static String getManagerMail() {
+		String query = "select Users.Mail from Users where Role=5";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			if (rs.next()) {
+				return rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static void sendMessage(EmailMessage m, boolean checkSent) {
+		if (checkSent) {
+			String query = "insert into Messages (Messages.RequestID, Messages.Title, Messages.Details, Messages.Receiver) values (?,?,?,?)";
+			PreparedStatement statement = null;
+			try {
+				statement = c.prepareStatement(query);
+				statement.setInt(1, m.getRequest().getId());
+				statement.setString(2, m.getSubject());
+				statement.setString(3, m.getBody());
+				statement.setString(4, m.getReceiverUser().getUsername());
+				statement.execute();
+			} catch (SQLException e) {
+				return;
+			}
 		}
 		emailService.sendEmail(m);
 	}
