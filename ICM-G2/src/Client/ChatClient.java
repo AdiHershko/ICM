@@ -125,7 +125,7 @@ public class ChatClient extends AbstractClient {
 					RequestsScreenController._ins.getTableView().setItems(l);
 					}
 				});
-
+				RequestsScreenController.lock=false;
 				return;
 			case NewRequestID:
 				RequestsScreenController.waitForNewRequest = true;
@@ -289,7 +289,7 @@ public class ChatClient extends AbstractClient {
 			case SETASSESMENTDATE:
 				Platform.runLater(()->{
 					RequestsScreenController._ins.dateAlertRefresh();
-					
+
 				});
 				break;
 			case APPROVEASSEXTENSION:

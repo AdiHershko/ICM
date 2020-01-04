@@ -13,6 +13,7 @@ import java.util.List;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Enums.SystemENUM;
+import Server.ServerConsole;
 import Common.Report;
 import Common.Request;
 import javafx.application.Platform;
@@ -33,6 +34,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -53,6 +55,8 @@ public class RequestsScreenController {
 	public static int saveOrSub = 0;
 	private int index;
 	private int id = -1;
+	public static boolean lock;
+	private ImageView loadinganim;
 	@FXML
 	private Button addFilesButton;
 	@FXML
@@ -173,9 +177,19 @@ public class RequestsScreenController {
 	private Button searchButton;
 	@FXML
 	private CheckBox unActiveCheckBox;
+	@FXML
+	private Pane mainRequestPane;
 
 	public void initialize() {
 		_ins = this;
+		lock=false;
+		loadinganim = new ImageView("loading.gif");
+		loadinganim.setX(mainRequestPane.getWidth()/2+400);
+		loadinganim.setY(mainRequestPane.getHeight()/2);
+		loadinganim.setScaleX(0.2);
+		loadinganim.setScaleY(0.2);
+		loadinganim.setVisible(false);
+		Platform.runLater(()->mainRequestPane.getChildren().add(loadinganim));
 		if (Main.currentUser.getRole() == Enums.Role.College)
 			CollegeUserUnderTablePane1.setVisible(true);
 
@@ -198,6 +212,27 @@ public class RequestsScreenController {
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
+					}
+				}
+
+			}
+		}.start();
+		new Thread(){
+			public void run(){
+				while (true)
+				{
+					if (lock){
+					//	Platform.runLater(()->Main.root.getChildren().add(loadinganim));
+						loadinganim.setVisible(true);
+						while(lock)
+						{
+							try{
+								Thread.sleep(100);
+							}catch(InterruptedException e) { }
+						}
+						loadinganim.setVisible(false);
+					//	Platform.runLater(()->mainRequestPane.getChildren().remove(loadinganim));
+						System.out.println("out");
 					}
 				}
 
@@ -349,7 +384,7 @@ public class RequestsScreenController {
 	}
 
 	public void RefreshTable() {
-
+		lock=true;
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
 					Main.currentUser.getUsername(), id, isSearch, unActive));
@@ -363,7 +398,6 @@ public class RequestsScreenController {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHIS,
 					Main.currentUser.getUsername(), id, isSearch, unActive));
 		}
-
 	}
 
 	@FXML
@@ -1043,7 +1077,7 @@ public class RequestsScreenController {
 			newWindow.show();
 		}
 	}
-	
+
 
 	public void dateAlertRefresh() {
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -1061,5 +1095,11 @@ public class RequestsScreenController {
 		tableView.getSelectionModel().select(index);
 		showRequest();
 	}
+
+	public static void setLock(boolean con)
+	{
+		lock=con;
+	}
+
 
 }

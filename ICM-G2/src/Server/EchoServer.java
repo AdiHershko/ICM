@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 import Client.LoginScreenController;
+import Client.RequestsScreenController;
 import Common.Request;
 import Common.User;
 import javafx.application.Platform;
@@ -397,7 +398,7 @@ public class EchoServer extends AbstractServer {
 		System.out.println("Server has stopped listening for connections.");
 	}
 
-	
+
 	public static int Start(int port) {
 		if (DataBaseController.Connect() == false) {
 			return 1;

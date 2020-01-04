@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	Stage stage;
-	Pane root;
+	static Pane root;
 	clientChooseController c;
 	public static ChatClient client;
 	static User currentUser;

@@ -45,7 +45,7 @@ public class ServerChooseController {
 	private ChoiceBox<String> choiceBox = new ChoiceBox<String>();
 
 	public void initialize(){
-		loadinganim = new ImageView("Server\\loading.gif");
+		loadinganim = new ImageView("loading.gif");
 	}
 
 	// getters and setters

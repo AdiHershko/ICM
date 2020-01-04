@@ -129,34 +129,26 @@ public class RequestSettingsController {
 
 	@FXML
 	public void editExecutioner() {
-		if (currentRequest.getCurrentStage()==Enums.RequestStageENUM.Examaning)
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER,
-				currentRequest.getId(), executionAppointerText.getText()));
-		else {
-			Platform.runLater(() -> {
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setContentText("Request is already past the examaning stage!.");
-				alert.show();
-			});
-		}
+				currentRequest, executionAppointerText.getText()));
 	}
 
 	@FXML
 	public void editTester() {
-		if (currentRequest.getCurrentStage()==Enums.RequestStageENUM.Execution)
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITTESTER,
-				currentRequest.getId(), testerAppointedText.getText()));
-		else {
-			Platform.runLater(() -> {
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setContentText("Request is already past the execution stage!.");
-				alert.show();
-			});
+				currentRequest, testerAppointedText.getText()));
 		}
-	}
+
 
 	@FXML
 	public void doneButtonAction() {
+		if (executionAppointerText.getText().equals(""))
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setContentText("Please appoint executioner");
+			alert.show();
+			return;
+		}
 		RequestsScreenController._ins.RefreshTable();
 		Window window = doneButton.getScene().getWindow();
 		if (window instanceof Stage)
