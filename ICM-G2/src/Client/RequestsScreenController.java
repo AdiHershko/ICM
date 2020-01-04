@@ -56,6 +56,8 @@ public class RequestsScreenController {
 	@FXML
 	private Button addFilesButton;
 	@FXML
+	private Button executionSetTime;
+	@FXML
 	private Button logoutButton;
 	@FXML
 	private Button setDueDateBTN;
@@ -395,6 +397,7 @@ public class RequestsScreenController {
 				if (temp != null) {
 					temp = new DateTime(temp).toString("dd/MM/yyyy");
 					setDueDateBTN.setVisible(false);
+					executionSetTime.setVisible(false);
 					if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
 						setDueTime1.setEditable(false);
 						setDueTime1.setText(temp);
@@ -605,6 +608,14 @@ public class RequestsScreenController {
 	}
 
 	public void AssessmentReportPage() {
+		if(setDueTime1.getText().equals("")) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setContentText("must set time stage before starting stage!");
+			alert.showAndWait();
+			return;
+		}
+
 		int temp = tableView.getSelectionModel().getSelectedItem().getId();
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SearchReport, temp));
 	}
@@ -687,19 +698,20 @@ public class RequestsScreenController {
 	@FXML
 	void FreezeUnfreeze(ActionEvent event) {
 		boolean frozen = false, unfrozen = false;
-		if (r.getStatus()==Enums.RequestStatus.Active||r.getStatus()==Enums.RequestStatus.Rejected) {
+		if (r.getStatus() == Enums.RequestStatus.Active || r.getStatus() == Enums.RequestStatus.Rejected) {
 			frozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
 		}
-		else if(r.getStatus()==Enums.RequestStatus.Frozen && r.getStages()[5].getReportFailure() == null) {
+		else if (r.getStatus() == Enums.RequestStatus.Frozen && r.getStages()[5].getReportFailure() == null) {
 			unfrozen = true;
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
 		}
 		else if (r.getStatus() == Enums.RequestStatus.Frozen) {
 			unfrozen = true;
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UnFreezeRejected, "" + r.getId()));
+			Main.client.handleMessageFromClientUI(
+					new ClientServerMessage(Enums.MessageEnum.UnFreezeRejected, "" + r.getId()));
 		}
-		
+
 		RefreshTable();
 		if (frozen) {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -761,6 +773,15 @@ public class RequestsScreenController {
 
 	@FXML
 	void ApproveStageBtn(ActionEvent event) {
+		if (r.getCurrentStage() == Enums.RequestStageENUM.Execution) {
+			if (dueDate.getText().equals("")) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERROR");
+				alert.setContentText("must set time stage before ending stage!");
+				alert.showAndWait();
+				return;
+			}
+		}
 		if (r.getCurrentStage() == Enums.RequestStageENUM.Examaning && r.getStages()[4].getStageMembers().size() < 2) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Missing tester");
@@ -768,6 +789,7 @@ public class RequestsScreenController {
 			alert.setContentText("You need to appoint a tester before entering next stage");
 			alert.show();
 		}
+
 		else {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 			RefreshTable();
@@ -973,6 +995,24 @@ public class RequestsScreenController {
 			return;
 
 		}
+		if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
+			if (setDueTime1.getText().equals("")) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERROR");
+				alert.setContentText("must set time stage before asking for extension!!");
+				alert.showAndWait();
+				return;
+			}
+		}
+		else {
+			if (dueDate.getText().equals("")) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERROR");
+				alert.setContentText("must set time stage before asking for extension!!");
+				alert.showAndWait();
+				return;
+			}
+		}
 		DateTime dt = new DateTime(
 				r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())]
 						.getPlannedDueDate());
@@ -1007,7 +1047,7 @@ public class RequestsScreenController {
 		tableView.getSelectionModel().select(index);
 		showRequest();
 	}
-	
+
 	public void cannotUpdateStage() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("Can't update stage.\nNobody is appointed for next stage.\nMessage sent to supervisor.");
