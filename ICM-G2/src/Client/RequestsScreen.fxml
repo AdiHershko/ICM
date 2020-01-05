@@ -52,7 +52,7 @@
                            <children>
                               <Button fx:id="DeclineRequestBtn" layoutX="554.0" layoutY="34.0" mnemonicParsing="false" onAction="#DeclineRequest" text="Decline request" />
                               <Button fx:id="AskMoreDataBtn" layoutX="427.0" layoutY="34.0" mnemonicParsing="false" onAction="#AskMoreData" text="Ask for more data" />
-                              <Label layoutX="14.0" layoutY="74.0" text="Appoint tester:" />
+                              <Label fx:id="AppointTesterLabl" layoutX="14.0" layoutY="74.0" text="Appoint tester:" />
                               <Button fx:id="SaveTesterApointBtn" layoutX="257.0" layoutY="68.0" mnemonicParsing="false" onAction="#SaveTesterApoint" text="Save" />
                               <Button fx:id="ViewReportBtn" layoutX="224.0" layoutY="34.0" mnemonicParsing="false" onAction="#ViewReport" text="View Report" />
                               <ChoiceBox fx:id="testerCB" layoutX="99.0" layoutY="70.0" prefWidth="150.0" />

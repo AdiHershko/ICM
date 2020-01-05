@@ -220,7 +220,7 @@ public class ChatClient extends AbstractClient {
 				break;
 			case COUNTCOMMITEEMEMBERS:
 				int members=(((ClientServerMessage)msg).getId());
-				if (members<3){
+				if (members<Enums.numberOfCommitteeMember){
 					ISUsersScreenController._ins.setCanEdit(true);
 					ISUsersScreenController._ins.setSemaphore(false);
 					return;

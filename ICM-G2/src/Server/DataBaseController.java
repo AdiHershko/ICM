@@ -665,10 +665,6 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (newMembers.equals("")) {
-			// TODO send message to supervisor
-			return false;
-		}
 
 		// setting current stage ActudalDate
 		query = "update Stages set ActualDate='" + (new DateTime()).toString() + "' where RequestID=" + id

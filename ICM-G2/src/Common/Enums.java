@@ -5,17 +5,16 @@ public class Enums {
 	public final int serverPort = 5555;
 
 	public final static int numberOfStages = 6;
+	public final static int numberOfCommitteeMember = 2;
 
 	public enum MessageEnum {
-		CONNECT, SearchUser, LoginFail, loginGood, DISCONNECT, UPLOAD, UPLOADFINISH, GETOBLIST,
-		UpdateStage, CreateRequest, NewRequestID, REFRESHMAN, CreateReport, GETUSERFILES, STAGESSCREEN, SearchReport,
-		UpdateStatus, Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers,
-		ADDISUSER, GETISUSER, UPDATEISUSER, CHECKSUPERVISOREXIST, COUNTCOMMITEEMEMBERS, CHECKCHAIRMANEXIST,
-		declineRequest, logOut, tryingToLogSameTime,EDITASSESMENTER,EDITEXECUTIONER, TesterRep,SETASSESMENTDATE,APPROVEASSEXTENSION,
-		SETEXAMDATE,SETEXECMDATE,SETTESTDATE,REFRESHCOLLEGE,REFRESHIS,EDITTESTER,ASKFOREXTENSION,
-		CannotUpdateStage,UnFreezeRejected;
-
-
+		CONNECT, SearchUser, LoginFail, loginGood, DISCONNECT, UPLOAD, UPLOADFINISH, GETOBLIST, UpdateStage,
+		CreateRequest, NewRequestID, REFRESHMAN, CreateReport, GETUSERFILES, STAGESSCREEN, SearchReport, UpdateStatus,
+		Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers, ADDISUSER,
+		GETISUSER, UPDATEISUSER, CHECKSUPERVISOREXIST, COUNTCOMMITEEMEMBERS, CHECKCHAIRMANEXIST, declineRequest, logOut,
+		tryingToLogSameTime, EDITASSESMENTER, EDITEXECUTIONER, TesterRep, SETASSESMENTDATE, APPROVEASSEXTENSION,
+		SETEXAMDATE, SETEXECMDATE, SETTESTDATE, REFRESHCOLLEGE, REFRESHIS, EDITTESTER, ASKFOREXTENSION,
+		CannotUpdateStage, UnFreezeRejected;
 
 	}
 

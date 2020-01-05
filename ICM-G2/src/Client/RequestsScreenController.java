@@ -94,6 +94,8 @@ public class RequestsScreenController {
 	@FXML
 	private Label userNameLabel;
 	@FXML
+	private Label AppointTesterLabl;
+	@FXML
 	private Pane AssesmentMakerPane1;
 	@FXML
 	private Pane CollegeUserUnderTablePane1;
@@ -480,7 +482,23 @@ public class RequestsScreenController {
 		case Examaning:
 			StageManagersPane1.setVisible(true);
 			ComittePane1.setVisible(true);
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetComitte));
+			if (Main.currentUser.getRole() == Enums.Role.CommitteMember) {
+				DeclineRequestBtn.setVisible(false);
+				AskMoreDataBtn.setVisible(false);
+				AppointTesterLabl.setVisible(false);
+				SaveTesterApointBtn.setVisible(false);
+				testerCB.setVisible(false);
+				ApproveStageBtn.setVisible(false);
+			}
+			else {
+				Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetComitte));
+				DeclineRequestBtn.setVisible(true);
+				AskMoreDataBtn.setVisible(true);
+				AppointTesterLabl.setVisible(true);
+				SaveTesterApointBtn.setVisible(true);
+				testerCB.setVisible(true);
+				ApproveStageBtn.setVisible(true);
+			}
 			break;
 		case Execution:
 			StageManagersPane1.setVisible(true);
