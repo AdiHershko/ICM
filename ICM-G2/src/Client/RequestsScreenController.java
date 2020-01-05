@@ -5,9 +5,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+
+//import org.joda.time.format.DateTimeFormat;
+//import org.joda.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import Common.ClientServerMessage;
@@ -28,6 +33,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,6 +44,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 public class RequestsScreenController {
 	public static Stage tmp_newWindow;
@@ -60,6 +67,10 @@ public class RequestsScreenController {
 	private ImageView loadinganim;
 	@FXML
 	private Button addFilesButton;
+	@FXML
+	private DatePicker datePickerAss;
+	@FXML
+	private DatePicker DatePickerExec;
 	@FXML
 	private Button executionSetTime;
 	@FXML
@@ -184,8 +195,44 @@ public class RequestsScreenController {
 	private Pane mainRequestPane;
 
 	public void initialize() {
+		datePickerAss.setConverter(new StringConverter<LocalDate>() {
+			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			@Override
+			public String toString(LocalDate localDate) {
+				if (localDate == null)
+					return "";
+				return dateTimeFormatter.format(localDate);
+			}
+
+			@Override
+			public LocalDate fromString(String dateString) {
+				if (dateString == null || dateString.trim().isEmpty()) {
+					return null;
+				}
+				return LocalDate.parse(dateString, dateTimeFormatter);
+			}
+		});
 		_ins = this;
 		lock = false;
+		DatePickerExec.setConverter(new StringConverter<LocalDate>() {
+			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			@Override
+			public String toString(LocalDate localDate) {
+				if (localDate == null)
+					return "";
+				return dateTimeFormatter.format(localDate);
+			}
+
+			@Override
+			public LocalDate fromString(String dateString) {
+				if (dateString == null || dateString.trim().isEmpty()) {
+					return null;
+				}
+				return LocalDate.parse(dateString, dateTimeFormatter);
+			}
+		});
 		loadinganim = new ImageView("loading.gif");
 		loadinganim.setX(mainRequestPane.getWidth() / 2 + 400);
 		loadinganim.setY(mainRequestPane.getHeight() / 2);
@@ -447,13 +494,28 @@ public class RequestsScreenController {
 					setDueDateBTN.setVisible(false);
 					executionSetTime.setVisible(false);
 					if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
+						datePickerAss.setVisible(false);
+						setDueTime1.setVisible(true);
 						setDueTime1.setEditable(false);
 						setDueTime1.setText(temp);
 					}
 					else {
+						DatePickerExec.setVisible(false);
+						dueDate.setVisible(true);
 						dueDate.setEditable(false);
 						dueDate.setText(temp);
 					}
+				}
+				else {
+					if(r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
+						setDueTime1.setVisible(false);
+						datePickerAss.setVisible(true);
+					}
+					if(r.getCurrentStage() == Enums.RequestStageENUM.Execution) {
+						dueDate.setVisible(false);
+						DatePickerExec.setVisible(true);
+					}
+					
 				}
 			}
 			timeCreatedLabel.setText("Creation time: " + r.getDate().toString("dd/MM/yyyy hh:mm a"));
@@ -981,10 +1043,12 @@ public class RequestsScreenController {
 
 	@FXML
 	public void setAssDueTime(ActionEvent event) {
+		org.joda.time.format.DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		DateTime dt;
+		String temp;
 		index = tableView.getSelectionModel().getSelectedIndex();
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-		DateTime date = null;
-		if (setDueTime1.getText().equals("")) {
+		java.time.format.DateTimeFormatter df = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		if (datePickerAss.getValue() == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
 			alert.setContentText("must fill due time!");
@@ -992,37 +1056,31 @@ public class RequestsScreenController {
 			return;
 		}
 		else {
-			try {
-				date = dtf.parseDateTime(setDueTime1.getText());
-			} catch (Exception e) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("ERROR");
-				alert.setContentText("must fill due date like this:\ndd/MM/yyyy");
-				alert.showAndWait();
-				return;
-			}
-			if (date.isBeforeNow()) {
+			if (datePickerAss.getValue().isBefore(LocalDate.now())) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
 				alert.setContentText("due date too soon!");
 				alert.showAndWait();
 				return;
 			}
-			if (date != null) {
-				if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Assesment) {
-					Main.client.handleMessageFromClientUI(
-							new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE, r.getId(), date.toString()));
-				}
+			temp = (datePickerAss.getValue()).format(df);
+			dt = dtf.parseDateTime(temp);
+			if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Assesment) {
+				Main.client.handleMessageFromClientUI(
+						new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE, r.getId(), dt.toString()));
 			}
+
 		}
 	}
 
 	@FXML
 	public void setExecDueTime(ActionEvent event) {
+		org.joda.time.format.DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		DateTime dt;
+		String temp;
 		index = tableView.getSelectionModel().getSelectedIndex();
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-		DateTime date = null;
-		if (dueDate.getText().equals("")) {
+		java.time.format.DateTimeFormatter df = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		if (DatePickerExec.getValue() == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
 			alert.setContentText("must fill due time!");
@@ -1030,30 +1088,20 @@ public class RequestsScreenController {
 			return;
 		}
 		else {
-			try {
-				date = dtf.parseDateTime(dueDate.getText());
-			} catch (Exception e) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("ERROR");
-				alert.setContentText("must fill due date like this:\ndd/MM/yyyy");
-				alert.showAndWait();
-				return;
-			}
-			if (date.isBeforeNow()) {
+			if (DatePickerExec.getValue().isBefore(LocalDate.now())) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
 				alert.setContentText("due date too soon!");
 				alert.showAndWait();
 				return;
 			}
-			if (date != null) {
-				if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Execution) {
-					Main.client.handleMessageFromClientUI(
-							new ClientServerMessage(Enums.MessageEnum.SETEXECMDATE, r.getId(), date.toString()));
-				}
-
+			temp = (DatePickerExec.getValue()).format(df);
+			dt = dtf.parseDateTime(temp);
+			if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Execution) {
+				Main.client.handleMessageFromClientUI(
+						new ClientServerMessage(Enums.MessageEnum.SETEXECMDATE, r.getId(), dt.toString()));
 			}
-			RefreshTable();
+
 		}
 	}
 

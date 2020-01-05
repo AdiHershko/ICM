@@ -65,7 +65,7 @@ public class ExtensionRequestController {
 
 
 	@FXML
-	public void submitRequest(){ //add message to supervisor to show description
+	public void submitRequest(){ 
 		String temp;
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		if(descText.getText().equals("")) {
