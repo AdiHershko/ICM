@@ -142,14 +142,18 @@ public class RequestSettingsController {
 
 	@FXML
 	public void doneButtonAction() {
-		if (executionAppointerText.getText().equals(""))
+		if (executionAppointerText.getText().equals("")||assesmentAppointerText.getText().equals(""))
 		{
 			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setContentText("Please appoint executioner");
+			alert.setContentText("Please appoint executioner and assementor");
 			alert.show();
 			return;
 		}
 		RequestsScreenController._ins.RefreshTable();
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage,currentRequest.getId()));
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setContentText("Initialization stage finished");
+		alert.showAndWait();
 		Window window = doneButton.getScene().getWindow();
 		if (window instanceof Stage)
 			((Stage) window).close();

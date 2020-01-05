@@ -224,7 +224,6 @@ public class RequestsScreenController {
 				while (true)
 				{
 					if (lock){
-					//	Platform.runLater(()->Main.root.getChildren().add(loadinganim));
 						loadinganim.setVisible(true);
 						while(lock)
 						{
@@ -233,8 +232,6 @@ public class RequestsScreenController {
 							}catch(InterruptedException e) { }
 						}
 						loadinganim.setVisible(false);
-					//	Platform.runLater(()->mainRequestPane.getChildren().remove(loadinganim));
-						System.out.println("out");
 					}
 				}
 

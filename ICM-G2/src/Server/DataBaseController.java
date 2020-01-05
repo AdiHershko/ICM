@@ -126,8 +126,8 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (Enums.RequestStageENUM.getRequestStageENUMByEnum(req.getCurrentStage()) == 0)
-			ChangeRequestStage(req.getId(), true);
+	//	if (Enums.RequestStageENUM.getRequestStageENUMByEnum(req.getCurrentStage()) == 0)
+		//	ChangeRequestStage(req.getId(), true);
 		updateLogChangeStageHandler(req.getId(), stage, id);
 	}
 
