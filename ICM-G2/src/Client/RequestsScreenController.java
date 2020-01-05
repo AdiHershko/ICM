@@ -55,6 +55,7 @@ public class RequestsScreenController {
 	public static int saveOrSub = 0;
 	private int index;
 	private int id = -1;
+	public static int maxid=-1;
 	public static boolean lock;
 	private ImageView loadinganim;
 	@FXML
@@ -313,8 +314,23 @@ public class RequestsScreenController {
 			System.out.println("Error reading file!");
 		}
 		try {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer,
-					tableView.getSelectionModel().getSelectedItem()));
+			if (tableView.getSelectionModel().getSelectedItem()==null)
+			{
+				Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID));
+				while (maxid==-1)
+				{
+					try{
+						Thread.sleep(100);
+					}catch(InterruptedException e) { }
+				}
+				Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer,
+						maxid+1));
+			}
+			else {
+				Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer,
+					tableView.getSelectionModel().getSelectedItem().getId()));
+			}
+			filePathTextField.setText("");
 		} catch (Exception e) {
 			return;
 		}
@@ -342,7 +358,7 @@ public class RequestsScreenController {
 		}
 		try {
 			Main.client.handleMessageFromClientUI(
-					new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer, r));
+					new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer, r.getId()));
 		} catch (Exception e) {
 			return;
 		}
@@ -585,6 +601,7 @@ public class RequestsScreenController {
 	void openNewRequestPane(ActionEvent event) {
 		disableAllRequestPans();
 		choiceBox.getSelectionModel().clearSelection();
+		tableView.getSelectionModel().clearSelection();
 		GeneralViewRequest1.setVisible(true);
 		CUserOpenRequest1.setVisible(true);
 		descArea.setEditable(true);
@@ -632,7 +649,6 @@ public class RequestsScreenController {
 		r.setId(newRequestID);
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("New request created! \n Request ID: " + r.getId());
-		uploadFileToServer_NewRequest(r);
 		alert.showAndWait();
 		RefreshTable();
 		disableAllRequestPans();

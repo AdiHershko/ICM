@@ -1082,4 +1082,20 @@ public class DataBaseController {
 		}
 		emailService.sendEmail(m);
 	}
+
+	public static int getMaxRequestID(){
+		String query = "select max(ID) from Requests";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+			if (rs.next())
+				return rs.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+
+	}
 }

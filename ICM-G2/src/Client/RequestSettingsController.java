@@ -154,6 +154,7 @@ public class RequestSettingsController {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("Initialization stage finished");
 		alert.showAndWait();
+		RequestsScreenController._ins.RefreshTable();
 		Window window = doneButton.getScene().getWindow();
 		if (window instanceof Stage)
 			((Stage) window).close();

@@ -117,11 +117,11 @@ public class ClientServerMessage implements Serializable {
 		this.report = report;
 	}
 
-	public ClientServerMessage(MessageEnum type, String fileName,byte[] buffer,Request request) {
+	public ClientServerMessage(MessageEnum type, String fileName,byte[] buffer,int reqid) {
 		this.type = type;
 		this.fileName=fileName;
 		this.buffer=buffer;
-		this.request=request;
+		this.id=reqid;
 	}
 
 	public ClientServerMessage(MessageEnum type, boolean sucess) {

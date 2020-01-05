@@ -151,8 +151,8 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case UPLOAD:
-				new File("src\\Server\\" + CSMsg.getRequest().getId()).mkdir();
-				String path = "src\\Server\\" + CSMsg.getRequest().getId();
+				new File("src\\Server\\" + CSMsg.getId()).mkdir();
+				String path = "src\\Server\\" + CSMsg.getId();
 				File f = new File(path + "\\" + CSMsg.getFileName());
 				OutputStream os = null;
 				boolean sucess = false;
@@ -381,6 +381,15 @@ public class EchoServer extends AbstractServer {
 				try{
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ASKFOREXTENSION));
 				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case GETMAXREQID:
+				int maxid= DataBaseController.getMaxRequestID();
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID,maxid));
+				}catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 				break;

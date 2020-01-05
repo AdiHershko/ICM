@@ -321,6 +321,20 @@ public class ChatClient extends AbstractClient {
 				RequestsScreenController._ins.cannotUpdateStage();
 				});
 				break;
+			case GETMAXREQID:
+				if ((((ClientServerMessage)msg).getId())==-1)
+				{
+					Platform.runLater(new Runnable(){
+						public void run(){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setContentText("Cannot fetch maxid");
+							alert.show();
+						}
+					});
+					return;
+				}
+				RequestsScreenController.maxid=((ClientServerMessage)msg).getId();
+				break;
 			default:
 				break;
 			}
