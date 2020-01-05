@@ -150,14 +150,17 @@ public class RequestSettingsController {
 			return;
 		}
 		RequestsScreenController._ins.RefreshTable();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage,currentRequest.getId()));
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setContentText("Initialization stage finished");
-		alert.showAndWait();
+		if(currentRequest.getCurrentStage() == Enums.RequestStageENUM.Initialization) {
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage,currentRequest.getId()));
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setContentText("Initialization stage finished");
+			alert.showAndWait();
+			RequestsScreenController._ins.RefreshTable();
+			RequestsScreenController._ins.unVisibleRequestPane();
+		}
 		Window window = doneButton.getScene().getWindow();
 		if (window instanceof Stage)
 			((Stage) window).close();
-
 	}
 
 	@FXML

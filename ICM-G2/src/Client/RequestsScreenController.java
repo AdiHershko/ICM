@@ -665,7 +665,6 @@ public class RequestsScreenController {
 				return;
 			}
 		}
-
 		int temp = tableView.getSelectionModel().getSelectedItem().getId();
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SearchReport, temp));
 	}
