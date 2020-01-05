@@ -184,14 +184,14 @@ public class RequestsScreenController {
 
 	public void initialize() {
 		_ins = this;
-		lock=false;
+		lock = false;
 		loadinganim = new ImageView("loading.gif");
-		loadinganim.setX(mainRequestPane.getWidth()/2+400);
-		loadinganim.setY(mainRequestPane.getHeight()/2);
+		loadinganim.setX(mainRequestPane.getWidth() / 2 + 400);
+		loadinganim.setY(mainRequestPane.getHeight() / 2);
 		loadinganim.setScaleX(0.2);
 		loadinganim.setScaleY(0.2);
 		loadinganim.setVisible(false);
-		Platform.runLater(()->mainRequestPane.getChildren().add(loadinganim));
+		Platform.runLater(() -> mainRequestPane.getChildren().add(loadinganim));
 		if (Main.currentUser.getRole() == Enums.Role.College)
 			CollegeUserUnderTablePane1.setVisible(true);
 
@@ -219,17 +219,16 @@ public class RequestsScreenController {
 
 			}
 		}.start();
-		new Thread(){
-			public void run(){
-				while (true)
-				{
-					if (lock){
+		new Thread() {
+			public void run() {
+				while (true) {
+					if (lock) {
 						loadinganim.setVisible(true);
-						while(lock)
-						{
-							try{
+						while (lock) {
+							try {
 								Thread.sleep(100);
-							}catch(InterruptedException e) { }
+							} catch (InterruptedException e) {
+							}
 						}
 						loadinganim.setVisible(false);
 					}
@@ -383,7 +382,7 @@ public class RequestsScreenController {
 	}
 
 	public void RefreshTable() {
-		lock=true;
+		lock = true;
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
 					Main.currentUser.getUsername(), id, isSearch, unActive));
@@ -657,12 +656,14 @@ public class RequestsScreenController {
 	}
 
 	public void AssessmentReportPage() {
-		if(setDueTime1.getText().equals("")) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("ERROR");
-			alert.setContentText("must set time stage before starting stage!");
-			alert.showAndWait();
-			return;
+		if (Main.currentUser.getRole() != Enums.Role.Supervisor) {
+			if (setDueTime1.getText().equals("")) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERROR");
+				alert.setContentText("must set time stage before starting stage!");
+				alert.showAndWait();
+				return;
+			}
 		}
 
 		int temp = tableView.getSelectionModel().getSelectedItem().getId();
@@ -680,6 +681,7 @@ public class RequestsScreenController {
 		tableView.getSelectionModel().select(index);
 
 	}
+
 	public void closeExtraWindowExt() {
 		newWindow.close();
 		RefreshTable();
@@ -1002,6 +1004,7 @@ public class RequestsScreenController {
 
 	@FXML
 	public void setExecDueTime(ActionEvent event) {
+		index = tableView.getSelectionModel().getSelectedIndex();
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime date = null;
 		if (dueDate.getText().equals("")) {
@@ -1093,7 +1096,6 @@ public class RequestsScreenController {
 		}
 	}
 
-
 	public void dateAlertRefresh() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("Date updated");
@@ -1111,10 +1113,8 @@ public class RequestsScreenController {
 		showRequest();
 	}
 
-	public static void setLock(boolean con)
-	{
-		lock=con;
+	public static void setLock(boolean con) {
+		lock = con;
 	}
-
 
 }
