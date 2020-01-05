@@ -122,12 +122,11 @@ public class DataBaseController {
 		try {
 			st = c.prepareStatement("update Stages set Member='," + id + ",' where StageName=" + stage
 					+ " and RequestID=" + req.getId());
+			System.out.println(st.toString());
 			st.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	//	if (Enums.RequestStageENUM.getRequestStageENUMByEnum(req.getCurrentStage()) == 0)
-		//	ChangeRequestStage(req.getId(), true);
 		updateLogChangeStageHandler(req.getId(), stage, id);
 	}
 
@@ -178,7 +177,7 @@ public class DataBaseController {
 		try {
 			statement = c.prepareStatement(query);
 			statement.setString(1, Msg[0]);
-			statement.setInt(1, Integer.parseUnsignedInt(Msg[1]));
+			statement.setInt(2, Integer.parseUnsignedInt(Msg[1]));
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1017,7 +1016,7 @@ public class DataBaseController {
 					toSend.buildExceptionMsg();
 					toSend.addToCC(supervisorMail);
 					toSend.addToCC(managerMail);
-					sendMessage(toSend, false);
+					sendMessage(toSend, true);
 				}
 			}
 		}
