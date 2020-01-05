@@ -29,15 +29,16 @@ public class EmailService {
 		FROM = "icm2020g02@gmail.com";
 		new Thread(){
 			public void run(){
-				ImageView loading = new ImageView("loading.gif"); //change gif
-				Platform.runLater(()->ServerConsole.root.getChildren().add(loading));
-				loading.setVisible(false);
 
 			while (true)
 			{
-				loading.setVisible(true);
+				Platform.runLater(()->{
+					ServerChooseController._ins.getLoadingAnim().setVisible(true);
+					ServerChooseController._ins.getSendingMessagesLabel().setVisible(true);
+				});
 				DataBaseController.genAutoMessages();
-				loading.setVisible(false);
+				ServerChooseController._ins.getLoadingAnim().setVisible(false);
+				ServerChooseController._ins.getSendingMessagesLabel().setVisible(false);
 				try {
 					Thread.sleep(1800000);
 				} catch(InterruptedException e){

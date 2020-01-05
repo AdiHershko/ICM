@@ -21,6 +21,7 @@ public class Main extends Application {
 	public static ChatClient client;
 	static User currentUser;
 	static Request currentRequest;
+	static Main _ins;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -34,13 +35,14 @@ public class Main extends Application {
 			e.printStackTrace();
 			return;
 		}
-
+		_ins=this;
 		Scene s = new Scene(root);
 		stage.setScene(s);
 		stage.setTitle("Client connection");
 		stage.setResizable(false);
 		stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.jpg")));
 		stage.show();
+		getHostServices();
 
 		stage.setOnCloseRequest(e -> {
 			try {

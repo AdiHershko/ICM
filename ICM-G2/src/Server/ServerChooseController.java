@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -16,6 +17,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class ServerChooseController {
 
+	static ServerChooseController _ins;
 	public static boolean loading=false;
 	public static boolean connected = false;
 	private ImageView loadinganim;
@@ -43,8 +45,13 @@ public class ServerChooseController {
 	private Button connectbtn;
 	@FXML
 	private ChoiceBox<String> choiceBox = new ChoiceBox<String>();
+	@FXML
+	private Label sendingMessagesLabel;
+	@FXML
+	private ImageView loadingAnim;
 
 	public void initialize(){
+		_ins=this;
 		loadinganim = new ImageView("loading.gif");
 	}
 
@@ -225,6 +232,22 @@ public class ServerChooseController {
 
 		});
 
+	}
+
+	public Label getSendingMessagesLabel() {
+		return sendingMessagesLabel;
+	}
+
+	public void setSendingMessagesLabel(Label sendingMessagesLabel) {
+		this.sendingMessagesLabel = sendingMessagesLabel;
+	}
+
+	public ImageView getLoadingAnim() {
+		return loadingAnim;
+	}
+
+	public void setLoadingAnim(ImageView loadingAnim) {
+		this.loadingAnim = loadingAnim;
 	}
 
 }

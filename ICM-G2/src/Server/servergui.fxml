@@ -82,5 +82,11 @@
             <Image url="@logo.jpg" />
          </image>
       </ImageView>
+      <ImageView fx:id="loadingAnim" fitHeight="25.0" fitWidth="16.0" layoutX="770.0" layoutY="408.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@loading.gif" />
+         </image>
+      </ImageView>
+      <Label fx:id="sendingMessagesLabel" layoutX="666.0" layoutY="407.0" text="Sending messages" visible="false" />
    </children>
 </Pane>

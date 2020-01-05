@@ -1,5 +1,6 @@
 package Server;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -209,6 +210,26 @@ public class EchoServer extends AbstractServer {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES, strings));
 				} catch (IOException e) {
 					return;
+				}
+				break;
+			case GETFILEFROMSERVER:
+				File file = new File("src\\Server\\"+CSMsg.getId()+"\\"+CSMsg.getMsg());
+				InputStream is = null;
+				BufferedInputStream bis = null;
+				byte[] buffer = null;
+				try {
+					is = new FileInputStream(file.getPath());
+					buffer = new byte[(int) file.length()];
+					bis = new BufferedInputStream(is);
+					bis.read(buffer, 0, buffer.length);
+				} catch (IOException e) {
+					System.out.println("Error reading file!");
+				}
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETFILEFROMSERVER, file.getName(), buffer,
+							CSMsg.getId()));
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 				break;
 			case UpdateStage:

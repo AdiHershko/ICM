@@ -194,6 +194,8 @@ public class RequestsScreenController {
 	private CheckBox unActiveCheckBox;
 	@FXML
 	private Pane mainRequestPane;
+	@FXML
+	private Button viewFilesButton;
 
 	public void initialize() {
 		datePickerAss.setConverter(new StringConverter<LocalDate>() {
@@ -790,7 +792,7 @@ public class RequestsScreenController {
 				filesPaths = new ArrayList<String>();
 			}
 		}).start();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES, r));
+		//Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES, r));
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
@@ -1199,6 +1201,23 @@ public class RequestsScreenController {
 		alert.showAndWait();
 		tableView.getSelectionModel().select(index);
 		showRequest();
+	}
+
+	@FXML
+	public void viewFiles(){
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("ShowFilesScreen.fxml"));
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		Scene filesView = new Scene(root);
+		newWindow.setTitle("User files");
+		newWindow.setScene(filesView);
+		newWindow.setResizable(false);
+		newWindow.show();
+
 	}
 
 	public static void setLock(boolean con) {

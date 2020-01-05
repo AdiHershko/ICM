@@ -4,14 +4,21 @@
 
 package Client;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+
+import com.sun.glass.ui.Application;
 
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Report;
 import Common.Request;
 import Common.User;
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -144,6 +151,17 @@ public class ChatClient extends AbstractClient {
 			case GETUSERFILES:
 				ArrayList<String> arr = (ArrayList<String>) ((ClientServerMessage)msg).getL();
 				RequestsScreenController._ins.setFilePaths(arr);
+				arr.remove(0); // removing folder path
+				for (String s : arr) // THE MOST ARABIC CODE I HAVE EVER WRITTEN
+				{
+					char[] ch = s.toCharArray();
+					for (int i = 0; i < ch.length; i++)
+						if (ch[i] == '\\')
+							ch[i] = '/';
+					String str = String.valueOf(ch);
+					String[] str2 = str.split("/");
+					ShowFilesScreenController._ins.getFileListView().getItems().add(str2[str2.length-1]);
+				}
 				return;
 			case ComitteList:
 				RequestsScreenController._ins.loadComitteeMembers(((ClientServerMessage) msg).getL());
@@ -334,6 +352,28 @@ public class ChatClient extends AbstractClient {
 					return;
 				}
 				RequestsScreenController.maxid=((ClientServerMessage)msg).getId();
+				break;
+			case GETFILEFROMSERVER:
+				ClientServerMessage CSMsg = (ClientServerMessage)msg;
+				File f = new File("src\\Client"+((ClientServerMessage) msg).getFileName());
+				OutputStream os = null;
+				try {
+					os = new FileOutputStream(f);
+					os.write(CSMsg.getBuffer());
+				} catch (FileNotFoundException e) {
+					System.out.println("cant find file");
+				} catch (IOException e) {
+					System.out.println("Cannot write to file");
+				} finally {
+					try {
+						HostServices hostServices = Main._ins.getHostServices();
+						hostServices.showDocument(f.getAbsolutePath());
+						os.close();
+
+					} catch (Exception e) {
+					}
+					//f.delete(); TODO: MAKE IT DELETE TEMP FILE MATAISHEU
+				}
 				break;
 			default:
 				break;
