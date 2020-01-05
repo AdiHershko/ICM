@@ -173,6 +173,18 @@ public class EchoServer extends AbstractServer {
 
 				}
 				break;
+			case GETMAXREQID:
+				int maxid= DataBaseController.getMaxRequestID();
+				File check = new File("src\\Server\\"+(maxid+1));
+				if (check.exists())
+					deleteDirectory(check);
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID,maxid));
+				}catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				break;
 			case CreateRequest:
 				r = CSMsg.getRequest();
 				int id = DataBaseController.CreateNewRequest(r);
@@ -384,15 +396,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case GETMAXREQID:
-				int maxid= DataBaseController.getMaxRequestID();
-				try{
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID,maxid));
-				}catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-				break;
+
 			default:
 				break;
 			}
@@ -406,6 +410,16 @@ public class EchoServer extends AbstractServer {
 
 	protected void serverStopped() {
 		System.out.println("Server has stopped listening for connections.");
+	}
+
+	private void deleteDirectory(File directoryToBeDeleted) {
+	    File[] allContents = directoryToBeDeleted.listFiles();
+	    if (allContents != null) {
+	        for (File file : allContents) {
+	            deleteDirectory(file);
+	        }
+	    }
+	    directoryToBeDeleted.delete();
 	}
 
 

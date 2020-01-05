@@ -64,6 +64,7 @@ public class RequestsScreenController {
 	private int id = -1;
 	public static int maxid=-1;
 	public static boolean lock;
+	private boolean isUploading=false;
 	private ImageView loadinganim;
 	@FXML
 	private Button addFilesButton;
@@ -347,6 +348,7 @@ public class RequestsScreenController {
 	public void uploadFileToServer() {
 		if (filePathTextField.getText() == "")
 			return;
+		isUploading=true;
 		File f = new File(filePathTextField.getText());
 		InputStream is = null;
 		BufferedInputStream bis = null;
@@ -515,7 +517,7 @@ public class RequestsScreenController {
 						dueDate.setVisible(false);
 						DatePickerExec.setVisible(true);
 					}
-					
+
 				}
 			}
 			timeCreatedLabel.setText("Creation time: " + r.getDate().toString("dd/MM/yyyy hh:mm a"));
@@ -676,7 +678,8 @@ public class RequestsScreenController {
 
 	@FXML
 	void submitNewRequest(ActionEvent event) {
-
+		if (!isUploading)
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID)); //to delete folder of unfinished request
 		if (descArea.getText().equals("") || changeArea.getText().equals("") || reasonArea.getText().equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
@@ -713,6 +716,7 @@ public class RequestsScreenController {
 		alert.showAndWait();
 		RefreshTable();
 		disableAllRequestPans();
+		isUploading=false;
 	}
 
 	public void openAssessmentReportFunc(Report r) {
