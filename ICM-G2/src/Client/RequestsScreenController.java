@@ -863,8 +863,8 @@ public class RequestsScreenController {
 
 		else {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
-			RefreshTable();
 			unVisibleRequestPane();
+			RefreshTable();
 		}
 	}
 
