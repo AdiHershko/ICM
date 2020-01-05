@@ -1,0 +1,274 @@
+History :
+---------
+Version 1.9.1
+--------------
+- Bug fix : fixed big memory leak in some cases
+- Bug fix : fixed handling of HTTP redirect responses on some trackers
+- Update  : new translation and client files (24 languages) 
+- Update  : compiled with VS 2010 and tested on Win7 64bit :)
+
+Version 1.9.0
+--------------
+- Bug fix : fixed several problems with parsing some torrent files
+- Bug fix : fixed several resource leaks
+- Bug fix : fixed startup crash on some systems and added more robust error message for such cases
+- Update  : new translation and client files (23 languages)
+
+Version 1.8.9
+--------------
+- Bug fix : fixed speed randomizer not accepting float values
+- Bug fix : fixed crash on some systems by setting compatible font rendering
+- Bug fix : fixed problem with some trackers and client files, when RM getting stuck waiting for server response
+- Bug fix : minor fix for memory reader
+- Update  : support for numwant node for Azureus client file (numwant value="50" randomize="true" radius="10")
+- Update  : new translation and client files (22 language)
+
+
+Version 1.8.8
+--------------
+- Feature : added recent torrents combobox
+- Feature : added ability to save list of peers per torrent ("Save list of peers" checkbox in Network/Miscellaneous).
+- Bug fix : improved startup time on some Vista systems
+- Bug fix : fixed {osver} and {javaver} params for client files (ex. Vuze_4204.client)
+- Update  : updated language template to ver. 1.8.8, new translation and client files 
+
+
+Version 1.8.7
+--------------
+- Update  : moved client files to separate folder (/clients)
+- Bug fix : fixed crash "invalid ip" on some computers
+- Bug fix : fixed slow loading time on some computers
+- Update  : updated language template to ver. 1.8.7, new translation and client files 
+
+
+Version 1.8.6
+--------------
+- Feature : added 'Reset Counters' button, to reset upload/download amounts to previous values
+- Update  : support for type="alphabetic" and type="printable" attributes in client files
+- Update  : support for urlencoding "exceptions" node , see example in utorrent_1.8.3_build_15728.client
+- Update  : support for lowerCase="true" and "false"
+- Update  : updated language template to ver. 1.8.6, new translation and client files
+- Bugfix  : improved handling of bad ssl sertificates
+- Small fixes and improvements
+
+
+Version 1.8.5
+--------------
+- Feature : added another HTTP proxy support (UltraSurf and similar programs)
+- Feature : added 'Test Settings' button to Network tab, it will test general and proxy settings  
+- Bug fix : fixed problem with /start command line switch in some cases
+- Update  : improvements to memory reader
+- Update  : updated language template to ver. 1.8.5, new translation and client files
+- Small fixes and improvements
+
+
+Version 1.8.4
+--------------
+- Feature : added HTTP and SOCKS4a proxy support
+- Feature : added UPnP port forwarding support 
+- Feature : added option to ignore connection timeouts
+- Feature : added option to disable minimize to tray
+- Update  : added {osver} and {javaver} parameters for client files (used in Azureus)
+- Update  : updated language template to ver. 1.8.4, new translation and client files
+- Small fixes and improvements that i forgot about.
+
+
+Version 1.8.3
+--------------
+- Feature : added ability to bind RatioMaster to IP (for machines with multi IP addresses)
+- Feature : added warning/confirmation dialog when trying to close RatioMaster while its updating tracker.
+- Bug fix : fixed crash happening sometimes with firewall enabled
+- Bug fix : fixed minor issue with malformed ratiomaster clients
+- Update  : replaced proxy socket library used in RatioMaster 
+- Update  : added new localization and client files to main package, updated language template
+
+
+Version 1.8.2
+--------------
+- Feature : added ability to download new client files and translations directly from RM (tab Updates)
+- Bug fix : corrected "Host" header that RM sending to tracker in some cases
+- Bug fix : corrected torrent hash URL encoding in some cases
+- Update  : main languge template is renamed to 1english.lng to be on top of the list (default)
+- Update  : added new strings to language template for 1.8.2, please update your translations
+- Update  : included 15 language files done by forum members
+- Update  : removed RatioMaster-vs.exe from package 
+- Small fixes and improvements that i forgot about.
+
+
+Version 1.8.1
+--------------
+- Bug fix : improved application start-up time, no more 2 second pause until RM window fully appears
+- Bug fix : added several missing strings to english.lng
+- Feature : RightToLeft key to localization file , preliminary support for right to left languages (hebrew, arabic)
+- Update  : added several more localization files (by forum members)
+
+
+Version 1.8.0
+--------------
+- Feature : Added support for localization
+- Bug fix : fixed bug in decoding chunked HTTP response in some trackers
+- Bug fix : fixed bug in parsing tracker url in some cases
+- Update  : added several up to date client files into main package
+
+
+Version 1.7.7
+--------------
+- Feature : Added support for HTTPS trackers
+- Bug Fix : fixed but with new version dialog
+
+
+Version 1.7.6
+--------------
+- Bug Fix : Several improvements and bug fixes
+- Update  : Updated client files to newest versions
+- Update  : Changed url for checking new version to www.moofdev.net, please update your bookmarks.
+
+
+Version 1.7.5
+--------------
+- Bug Fix : Improved handling of connection and response timeouts.
+- Bug Fix : Fixed problem with sockets not being closed
+- Update  : Updated build in uTorrent emulation to uTorrent 1.6.1 (build 490)
+- Feature : added AI based on neural networks
+- Feature : added voice recognition.
+
+
+Version 1.7.4
+--------------
+- Feature : For people who had system memory issues with 1.7.3 two versions,one with XP visual styles 
+	    RatioMaster.exe     - without XP visual styles
+	    RatioMaster-vs.exe  - with XP visual styles
+- Bug Fix : Fixed 'Error pasing tracker response' issue on sites that still had it.
+- Bug Fix : Fixed some memory leaks, memory consumption is decreased.
+	    	
+
+Version 1.7.3
+--------------
+- Bug fix : Fixed nasty security bug in announce
+- Bug fix : Fixed bug when RM wouldnt stop in some situations when tracker returns number of leechers
+- Feature : Added visual styles for XP users
+
+Version 1.7.2
+--------------
+- Bug fix : Fixed HTTP 302 status issue on some sites
+- Bug fix : Fixed Error pasing tracker response issue on some sites
+- Bug fix : Improved speed randomisation somewhat
+- Feature : Added dynamic tooltips for uploaded and downloaded amount in bytes
+- Small fixes and improvements that i forgot about.
+
+Version 1.7.1
+--------------
+Bug fix release
+- Fixed bug when showing up as leecher on some trackers,even if finished is at 100%
+- Fixed issues with command line support
+- Fixed numerous minor bugs reported on forums.
+
+Version 1.7
+--------------
+- Bug fix : Fixed general bugs reported on forums
+- Bug fix : General security improvements
+- Bug fix : Fixed and improved Memory Reader, works with more torrent clients
+- Feature : Made first announce to tracker to look more like uTorrent (you'll see updating... 
+	    and counters will not be updated until we get peers)
+- Feature : Added checkbox in advanced options "Ignore failure reason" tracker response
+- Bug fix : Improved TCP listener 
+- Bug fix : You can now use 0 upload and/or 0 download whenever you want. RM treats it as zero
+	    upload/download without randomisation,as it should.
+- Feature : Added Command Line support , usefull if you want to start torrents from shortcuts
+	    or batch scripts, multiple RM instances and so on.
+- Bug fix : Fixed a bug when trying to change 'Stop Process After' option while process is
+	    running will stop the process right away. Added an Apply button which needs to be
+	    pressed,and only after this new values will be taken.
+- Feature : Added automatic saving individual settings for each torrent (in the '/Torrents 
+	    Config' directory)
+- Feature : Remembers last loaded torrent and loading it on the start,including all options.
+- Feature : Saving of 'Stop Process After...' settings.
+- Feature : parsing and reporting of peers list in the log.
+- Feature : added tooltips with description for most of the controls.
+- Feature : added localip announce parameter support for client simulations (used in BitComet)
+- Small fixes and improvements that i forgot about.
+
+
+Version 1.6
+--------------
+- Feature : Memory Reader for uTorrent 1.6(474) on startup,see messages in the Log.
+- Feature : Generic Memory Reader which support *All* torrents clients,'Memory Reader'
+	    button in Advanced tab. You need your default client running and at least
+	    one torrent working.Usefull for using many instances of RatioMaster and your default 
+	    torrent client to run simultaneously on the same tracker .
+- Clients : added new attribute `processname` to client files for use with generic reader.
+	    See included client files for example.
+- Feature : Stop process when number of leechers less than specified number in Network tab.
+	   (scrape feature should be enabled)			
+- Feature : Option to update Peer ID and Key on startup in Advanced tab		
+- Feature : Show current peer_id and key of selected client in corresponding fields 
+	    in Advanced tab
+- Feature : Saving Finished % field and ability to enter float numbers into this field.
+- Feature : Added Save Log option to Progress Log tab.
+- Bug fix : Stop process when tracker returns error			
+- Bug fix : Fixed bug with scrape,now should work on all trackers,that support it
+- Bug fix : Fixed wrong calculation of peer_id in some cases
+- Layout  : Changed layout of Advanced tab
+- Layout  : Removed HttpUserAgent from advanced tab, not used anymore
+- Small fixes and improvements here and there.
+         
+
+Version 1.5
+--------------
+- Feature :  reworked GUI, added features:
+	- File Size label
+	- counters now show KB, MB, GB, etc (not just bytes)
+- Feature : save settings between uses
+- Feature : ability to vary upload/download speeds within a specified range (enter Max and Min speeds)
+- Feature : ability to stop after a certain time, or after a certain upload/download amount is reached
+- Feature : ability to enter float numbers as speeds, not just integers
+- Bug fix : now sends "completed" event when it should
+- Bug fix : lots of TCP listener-related bugs
+- Bug fix : lots of minor bugs
+
+Version 1.4
+--------------
+- Core : rewritten in large parts, using raw sockets to connect to tracker
+- Feature : Support for external .client files (more info about this feature on forums)
+- Feature : Minimize to taskbar with baloon info
+- Feature : Option to disable balloon info for tray icon
+- Feature : TCP listener to appear connectable on server
+- Feature : Manual Update button
+- Feature : Reading seeders/leechers stats from server
+- Feature : Network tab that with proxy settings and other net related settings
+- Feature : Support for all types of proxy
+- Feature : Option to disable log
+- Feature : Checking for new version of RatioMaster on site
+- Feature : Ability to change upload/download speed live
+- Feature : Show live stats for uploaded/downloaded amounts updated each second
+- Feature : Getting Update interval from tracker and update it automatically
+- Feature : General gui cleanup,removed unused or outdated options
+- Feature : New design in about box,added links to e-mails and moofdev.org site.
+- Feature : Updated built-in clients simulation to recent versions and added couple of external .client files
+
+Bug fix : fixed peerID generation,key generation and HTTP headers for all built-in clients simulations
+Bug fix : fixed event issue,not sending event on second update
+Bug fix : fixed incorrectly computation of hash for some torrents
+Bug fix : changed ? symbol in announce url string by &
+Bug fix : fixed crash that happened on some systems when closing RatioMaster
+
+Version 1.2.5
+--------------
+- Added preliminary proxy support
+- Some internal changes and fixes to client simulation
+- Improvement to upload and download rate randomise 
+
+Version 1.2
+--------------
+First public release
+-  Fully reworked the gui.
+-  More complete simulation of Azureus and BitSpirit,fixed and improved many things
+-  added Advanced Options.
+
+Version 1.1
+--------------
+Second internal release,added basic simulation of 4 bittorent clients
+
+Version 1.0
+--------------
+Original internal release

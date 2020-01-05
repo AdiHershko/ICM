@@ -271,7 +271,7 @@ public class RequestsScreenController {
 
 			}
 		}.start();
-	
+
 		choiceBox.getItems().add(SystemENUM.InfoStation);
 		choiceBox.getItems().add(SystemENUM.Moodle);
 		choiceBox.getItems().add(SystemENUM.Library);
@@ -334,7 +334,6 @@ public class RequestsScreenController {
 	public void uploadFileToServer() {
 		if (filePathTextField.getText() == "")
 			return;
-		isUploading=true;
 		File f = new File(filePathTextField.getText());
 		InputStream is = null;
 		BufferedInputStream bis = null;
@@ -350,12 +349,17 @@ public class RequestsScreenController {
 		try {
 			if (tableView.getSelectionModel().getSelectedItem()==null)
 			{
-				Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID));
+				if (isUploading==false)
+				{
+					Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID));
+
 				while (maxid==-1)
 				{
 					try{
 						Thread.sleep(100);
 					}catch(InterruptedException e) { }
+				}
+				isUploading=true;
 				}
 				Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer,
 						maxid+1));
@@ -451,7 +455,7 @@ public class RequestsScreenController {
 					Main.currentUser.getUsername(), id, isSearch, unActive));
 		}
 	}
-	
+
 	public void stopLoading() {
 		loading.interrupt();
 	}
