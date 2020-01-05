@@ -927,6 +927,10 @@ public class RequestsScreenController {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 			unVisibleRequestPane();
 			RefreshTable();
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Stage aproved");
+			alert.setContentText("You chose to confirm stage");
+			alert.show();
 		}
 	}
 
@@ -935,6 +939,10 @@ public class RequestsScreenController {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.downStage, r.getId()));
 		RefreshTable();
 		unVisibleRequestPane();
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Request for more data:");
+		alert.setContentText("Request for more data was sent");
+		alert.show();
 	}
 
 	@FXML
