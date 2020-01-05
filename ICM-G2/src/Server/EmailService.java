@@ -12,6 +12,9 @@ import javax.mail.internet.MimeMessage;
 
 import com.sun.mail.smtp.SMTPTransport;
 
+import javafx.application.Platform;
+import javafx.scene.image.ImageView;
+
 public class EmailService {
 	private static EmailService _ins;
 	private String SMTP_SERVER;
@@ -24,6 +27,25 @@ public class EmailService {
 		USERNAME = "icm2020g02@gmail.com";
 		PASSWORD = "TheBastICMTeam";
 		FROM = "icm2020g02@gmail.com";
+		new Thread(){
+			public void run(){
+				ImageView loading = new ImageView("loading.gif"); //change gif
+				Platform.runLater(()->ServerConsole.root.getChildren().add(loading));
+				loading.setVisible(false);
+
+			while (true)
+			{
+				loading.setVisible(true);
+				DataBaseController.genAutoMessages();
+				loading.setVisible(false);
+				try {
+					Thread.sleep(1800000);
+				} catch(InterruptedException e){
+
+				}
+			}
+		}
+		}.start();
 
 	}
 

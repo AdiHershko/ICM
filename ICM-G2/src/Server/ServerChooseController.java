@@ -183,7 +183,7 @@ public class ServerChooseController {
 					alert.show();
 					});
 					connected = true;
-					DataBaseController.genAutoMessages();
+					EmailService.getInstannce();
 				}
 				while (loading)
 				{
