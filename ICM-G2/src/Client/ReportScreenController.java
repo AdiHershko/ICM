@@ -100,11 +100,11 @@ public class ReportScreenController {
 		report.setDescription(descTXT.getText());
 		report.setLocation(locatinTXT.getText());
 		report.setRequestId(RequestsScreenController.r.getId());
-
+		
 		ClientServerMessage msg = new ClientServerMessage(Enums.MessageEnum.CreateReport, report);
-
+		
 		Main.client.handleMessageFromClientUI(msg);
-
+		RequestsScreenController._ins.closeExtraWindow();
 	}
 
 	public void submitReport() {
@@ -116,10 +116,37 @@ public class ReportScreenController {
 			alert.setContentText("EMPTY REQUIERD FIELDS!");
 			alert.showAndWait();
 		} else {
-			saveReport();
+			report = new Report();
+			if (!(timeTXT.getText().toString().equals(""))) {
+				try {
+					report.setDurationAssesment(Integer.parseInt(timeTXT.getText().toString()));
+				} catch (NumberFormatException e) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("ERROR!");
+					alert.setContentText("Not a number in duration assesment field!");
+					alert.showAndWait();
+					return;
+				}
+			} else {
+				report.setDurationAssesment(-1);
+			}
+
+			report.setConstrains(constrainsTXT.getText());
+			report.setResult(resultTXT.getText());
+			report.setRisks(risksTXT.getText());
+			report.setDescription(descTXT.getText());
+			report.setLocation(locatinTXT.getText());
+			report.setRequestId(RequestsScreenController.r.getId());
+			RequestsScreenController._ins.closeExtraWindowOnly();
+			ClientServerMessage msg = new ClientServerMessage(Enums.MessageEnum.CreateReport, report);
+			
+			Main.client.handleMessageFromClientUI(msg);
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.UpdateStage, report.getRequestId()));
 			RequestsScreenController._ins.unVisibleRequestPane();
+			RequestsScreenController._ins.closeExtraWindowSub();
+			
+			
 		}
 
 	}

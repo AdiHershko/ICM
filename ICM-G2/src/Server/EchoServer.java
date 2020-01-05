@@ -183,16 +183,8 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case CreateReport:
-				int i;
 				Report report1 = CSMsg.getReport();
-				i = DataBaseController.CreateReportForRequest(report1);
-				if (i == 1) {
-					try {
-						client.sendToClient("good");
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				DataBaseController.CreateReportForRequest(report1);
 				break;
 			case GETUSERFILES:
 				Request request = CSMsg.getRequest();

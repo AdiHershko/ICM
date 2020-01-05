@@ -758,6 +758,19 @@ public class RequestsScreenController {
 		tableView.getSelectionModel().select(index);
 
 	}
+	public void closeExtraWindowOnly() {
+		newWindow.close();
+	}
+	public void closeExtraWindowSub() {
+
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Great!");
+		alert.setContentText("Report submitted successfully!");
+		RefreshTable();
+		alert.showAndWait();
+		tableView.getSelectionModel().select(index);
+
+	}
 
 	public void closeExtraWindowExt() {
 		newWindow.close();
