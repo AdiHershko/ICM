@@ -22,7 +22,7 @@ public class ServerConsole extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		_init = this;
-		this.stage = stage;
+		ServerConsole.stage = stage;
 		try { // loading fxml file
 			FXMLLoader load = new FXMLLoader();
 			load.setLocation(getClass().getResource("servergui.fxml"));

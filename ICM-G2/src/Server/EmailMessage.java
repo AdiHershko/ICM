@@ -2,7 +2,6 @@ package Server;
 
 import java.util.ArrayList;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 import org.joda.time.DateTime;
 
@@ -10,7 +9,6 @@ import Common.Enums;
 import Common.Request;
 import Common.Stage;
 import Common.User;
-import Common.Enums.RequestStageENUM;
 
 public class EmailMessage {
 	private String subject;
@@ -126,9 +124,15 @@ public class EmailMessage {
 	
 	public void buildClosingMsg() {
 		reciever = receiverUser.getMail();
-		subject = "Request " + r.getId() + " - closing";
+		subject = "Request " + r.getId() + " - Closing";
 		body = "Hello " + receiverUser.getFirstName() + " " + receiverUser.getLastName();
-		body += ",\nYour request (request ID: "+ r.getId()+") was closed.\nYou can enter the ICM system in order to look at the process, and contact our supervisor (CC-ed to this mail) for more information.\n";
+		if (r.getStatus() == Enums.RequestStatus.Rejected) {
+			body += ",\nYour request (request ID: "+ r.getId()+") was rejected and closed.\n";
+		}
+		else {
+			body += ",\nYour request (request ID: "+ r.getId()+") was closed.\n";
+		}
+		body += "You can enter the ICM system in order to look at the process, and contact our supervisor (CC-ed to this mail) for more information.\n";
 		body += "\nThanks,\nICM, Group 2";
 	}
 }

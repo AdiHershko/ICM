@@ -22,14 +22,12 @@ import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogEvent;
 
 public class ChatClient extends AbstractClient {
 
@@ -133,6 +131,7 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				RequestsScreenController.lock=false;
+				RequestsScreenController._ins.stopLoading();
 				return;
 			case NewRequestID:
 				RequestsScreenController.waitForNewRequest = true;
@@ -266,6 +265,7 @@ public class ChatClient extends AbstractClient {
 					});
 					return;
 				}
+				RequestSettingsController._ins.canExit_Asses=true;
 				Platform.runLater(()->{
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("Assesmentor updated");
@@ -298,6 +298,7 @@ public class ChatClient extends AbstractClient {
 					});
 					return;
 				}
+				RequestSettingsController._ins.canExit_Executor=true;
 				Platform.runLater(()->{
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("Executioner updated");

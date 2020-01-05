@@ -6,7 +6,6 @@ import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Enums.*;
 import Common.User;
-import Server.EchoServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

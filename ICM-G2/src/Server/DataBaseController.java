@@ -18,7 +18,6 @@ import Common.Stage;
 import Common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Report;
 
@@ -122,7 +121,6 @@ public class DataBaseController {
 		try {
 			st = c.prepareStatement("update Stages set Member='," + id + ",' where StageName=" + stage
 					+ " and RequestID=" + req.getId());
-			System.out.println(st.toString());
 			st.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -772,7 +770,7 @@ public class DataBaseController {
 
 	public static String GetRandomISUser() {
 		ArrayList<String> users = new ArrayList<String>();
-		String query = "select * from Users where Role = 1";
+		String query = "select username from Users where Role = 1 or Role = 2 or Role = 3";
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -782,7 +780,7 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		try {
-			if (rs.next()) {
+			while (rs.next()) {
 				try {
 					String tmp = "," + rs.getString(1) + ",";
 					users.add(tmp);
@@ -853,6 +851,7 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		updateLogDenyExtension(r.getId(), stage);
 		return true;
 	}
 
@@ -877,7 +876,7 @@ public class DataBaseController {
 			statement = c.prepareStatement(query);
 			statement.setInt(1, request.getId());
 			statement.setString(2, new DateTime().toString("dd/MM/yyyy HH:mm:ss"));
-			statement.setString(3, "Details");
+			statement.setString(3, "Request details");
 			statement.setString(4, WhatChanged);
 			statement.execute();
 		} catch (SQLException e) {
@@ -924,6 +923,21 @@ public class DataBaseController {
 			statement.setString(2, new DateTime().toString());
 			statement.setString(3, "Stage " + stage + " due date");
 			statement.setString(4, date);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void updateLogDenyExtension(int id, int stage) {
+		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
+		PreparedStatement statement = null;
+		try {
+			statement = c.prepareStatement(query);
+			statement.setInt(1, id);
+			statement.setString(2, new DateTime().toString());
+			statement.setString(3, "Stage extension not apporved");
+			statement.setString(4, "");
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

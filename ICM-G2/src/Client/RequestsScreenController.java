@@ -11,14 +11,11 @@ import java.time.format.DateTimeFormatter;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-//import org.joda.time.format.DateTimeFormat;
-//import org.joda.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Enums.SystemENUM;
-import Server.ServerConsole;
 import Common.Report;
 import Common.Request;
 import javafx.application.Platform;
@@ -66,6 +63,7 @@ public class RequestsScreenController {
 	public static boolean lock;
 	private boolean isUploading=false;
 	private ImageView loadinganim;
+	Thread loading;
 	@FXML
 	private Button addFilesButton;
 	@FXML
@@ -217,7 +215,6 @@ public class RequestsScreenController {
 			}
 		});
 		_ins = this;
-		lock = false;
 		DatePickerExec.setConverter(new StringConverter<LocalDate>() {
 			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -250,10 +247,14 @@ public class RequestsScreenController {
 		RefreshTable();
 		new Thread() {
 			public void run() {
-				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
+				Platform.runLater(new Runnable() // wont work without this shit
+				{
+					public void run() {
+						userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
+						}
+					});
 				while (true) // update time in 0.5s intervals
 				{
-
 					Platform.runLater(new Runnable() // wont work without this shit
 					{
 						public void run() {
@@ -270,24 +271,7 @@ public class RequestsScreenController {
 
 			}
 		}.start();
-		new Thread() {
-			public void run() {
-				while (true) {
-					if (lock) {
-						loadinganim.setVisible(true);
-						while (lock) {
-							try {
-								Thread.sleep(100);
-							} catch (InterruptedException e) {
-							}
-						}
-						loadinganim.setVisible(false);
-					}
-				}
-
-			}
-		}.start();
-
+	
 		choiceBox.getItems().add(SystemENUM.InfoStation);
 		choiceBox.getItems().add(SystemENUM.Moodle);
 		choiceBox.getItems().add(SystemENUM.Library);
@@ -425,18 +409,6 @@ public class RequestsScreenController {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void TableSetup() {
-		/*
-		 * tableView.setRowFactory(tv -> new TableRow<Request>() { //MAKES TABLE UGLY,
-		 * DELETE LATER TODO
-		 *
-		 * @Override public void updateItem(Request item, boolean empty) { if
-		 * (item==null) return; if (item.getIsDenied()==0) { //
-		 * setStyle(".table-row-cell:selected {-fx-selection-bar: red;-fx-background-insets: 0;-fx-background-radius: 1;}"
-		 * );
-		 * setStyle("-fx-selection-background: blue; -fx-selection-bar: red; -fx-selection-bar-non-focused: salmon;"
-		 * ); } else if (item.getIsDenied()==1) {
-		 * setStyle("-fx-background-color: tomato;"); } } });
-		 */
 		TableColumn<Request, Integer> idColumn = new TableColumn<>("Request ID");
 		idColumn.setCellValueFactory(new PropertyValueFactory("id"));
 		TableColumn<Request, String> statusColumn = new TableColumn<>("Status");
@@ -450,6 +422,21 @@ public class RequestsScreenController {
 
 	public void RefreshTable() {
 		lock = true;
+		loading = new Thread() {
+			public void run() {
+				loadinganim.setVisible(true);
+				while (lock) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						lock = false;
+						loadinganim.setVisible(false);
+						return;
+					}
+				}
+			}
+		};
+		loading.start();
 		if (Main.currentUser.getRole() == Enums.Role.College) {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
 					Main.currentUser.getUsername(), id, isSearch, unActive));
@@ -463,6 +450,10 @@ public class RequestsScreenController {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHIS,
 					Main.currentUser.getUsername(), id, isSearch, unActive));
 		}
+	}
+	
+	public void stopLoading() {
+		loading.interrupt();
 	}
 
 	@FXML
@@ -485,7 +476,7 @@ public class RequestsScreenController {
 			if (Main.currentUser.getRole() == Enums.Role.College) {
 				if (temp != null) {
 					temp = new DateTime(temp).toString("dd/MM/yyyy");
-					stageDate1.setText("current stage due date: " + temp);
+					stageDate1.setText("Current stage due date: " + temp);
 				}
 				else {
 					stageDate1.setText("Current stage due date: date not yet updated.");
@@ -946,10 +937,6 @@ public class RequestsScreenController {
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 			unVisibleRequestPane();
 			RefreshTable();
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Stage aproved");
-			alert.setContentText("You chose to confirm stage");
-			alert.show();
 		}
 	}
 
@@ -1059,13 +1046,15 @@ public class RequestsScreenController {
 		window.show();
 	}
 
-	public void reportMsgAndRef() {
+	public void reportMsgAndRef(String[] result) {
+		tmp_newWindow.close();
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.TesterRep, result));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Failure report sent");
 		alert.setContentText("Failure report sent succesfully");
 		alert.showAndWait();
-		_ins.RefreshTable();
-		tmp_newWindow.close();
+		RefreshTable();
+		unVisibleRequestPane();
 	}
 
 	@FXML
@@ -1219,9 +1208,4 @@ public class RequestsScreenController {
 		newWindow.show();
 
 	}
-
-	public static void setLock(boolean con) {
-		lock = con;
-	}
-
 }

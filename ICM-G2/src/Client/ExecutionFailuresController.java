@@ -1,16 +1,11 @@
 package Client;
 
-import Common.ClientServerMessage;
 import Common.Enums;
-import Common.Report;
 import Common.Request;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class ExecutionFailuresController {
@@ -46,9 +41,7 @@ public class ExecutionFailuresController {
 		String[] result= new String[2];
 		result[0]=msgReport;
 		result[1]=""+r.getId();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.TesterRep, result));
-		RequestsScreenController._ins.reportMsgAndRef();
-		RequestsScreenController._ins.unVisibleRequestPane();
+		RequestsScreenController._ins.reportMsgAndRef(result);
 	}
 
 }

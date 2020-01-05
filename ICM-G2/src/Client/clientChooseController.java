@@ -3,7 +3,6 @@ package Client;
 import java.io.IOException;
 
 import Common.ClientServerMessage;
-import Common.Enums;
 import Common.Enums.MessageEnum;
 import Client.ChatClient;
 import javafx.event.ActionEvent;

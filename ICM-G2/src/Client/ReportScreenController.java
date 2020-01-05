@@ -1,18 +1,9 @@
 package Client;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import Common.ClientServerMessage;
 import Common.Enums;
-import Common.Enums.MessageEnum;
 import Common.Report;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,7 +14,6 @@ import javafx.stage.Stage;
 public class ReportScreenController {
 
 	Stage newWindow = new Stage();
-	private Scene reportScene;
 	private Report report;
 	@FXML
 	private TextField locatinTXT;
@@ -139,7 +129,6 @@ public class ReportScreenController {
 			report.setRequestId(RequestsScreenController.r.getId());
 			RequestsScreenController._ins.closeExtraWindowOnly();
 			ClientServerMessage msg = new ClientServerMessage(Enums.MessageEnum.CreateReport, report);
-			
 			Main.client.handleMessageFromClientUI(msg);
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.UpdateStage, report.getRequestId()));

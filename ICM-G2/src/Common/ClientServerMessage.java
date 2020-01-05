@@ -3,11 +3,9 @@ package Common;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import Common.Enums.*;
-import javafx.collections.ObservableList;
 
 public class ClientServerMessage implements Serializable {
 

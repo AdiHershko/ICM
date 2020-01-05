@@ -20,6 +20,8 @@ import javafx.stage.Window;
 
 public class RequestSettingsController {
 	static RequestSettingsController _ins;
+	public boolean canExit_Executor = false;
+	public boolean canExit_Asses = false;
 	Request currentRequest;
 	User currentUser;
 	@FXML
@@ -119,7 +121,7 @@ public class RequestSettingsController {
 		else {
 			Platform.runLater(() -> {
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setContentText("Request is already past the initialization stage!.");
+				alert.setContentText("Request is already past the initialization stage!");
 				alert.show();
 			});
 
@@ -137,15 +139,15 @@ public class RequestSettingsController {
 	public void editTester() {
 		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.EDITTESTER,
 				currentRequest, testerAppointedText.getText()));
-		}
+	}
 
 
 	@FXML
 	public void doneButtonAction() {
-		if (executionAppointerText.getText().equals("")||assesmentAppointerText.getText().equals(""))
+		if ((!canExit_Asses || !canExit_Executor) && currentRequest.getCurrentStage() == Enums.RequestStageENUM.Initialization)
 		{
 			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setContentText("Please appoint executioner and assementor");
+			alert.setContentText("Please appoint/approve executioner and assementor");
 			alert.show();
 			return;
 		}

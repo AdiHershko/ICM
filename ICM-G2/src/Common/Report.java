@@ -1,7 +1,6 @@
 package Common;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Report implements Serializable{
 	private static final long serialVersionUID = -4393026080251453861L;

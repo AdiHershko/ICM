@@ -1,7 +1,6 @@
 package Client;
 
 import java.io.IOException;
-import java.net.URL;
 
 import Common.ClientServerMessage;
 import Common.Enums;

@@ -1,7 +1,6 @@
 package Common;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 import org.joda.time.DateTime;
 
