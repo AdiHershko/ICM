@@ -128,7 +128,7 @@ public class EmailMessage {
 		reciever = receiverUser.getMail();
 		subject = "Request " + r.getId() + " - closing";
 		body = "Hello " + receiverUser.getFirstName() + " " + receiverUser.getLastName();
-		body += "You can enter the ICM in order to look at the process, and contact our supervisor (CC-ed to this mail) for more information.\n";
+		body += ",\nYour request (request ID:"+ r.getId()+") was closed, You can enter the ICM system in order to look at the process, and contact our supervisor (CC-ed to this mail) for more information.\n";
 		body += "\nThanks,\nICM, Group 2";
 	}
 }

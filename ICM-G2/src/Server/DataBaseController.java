@@ -998,6 +998,15 @@ public class DataBaseController {
 		sendMessage(toSend, false);
 	}
 
+	public static void userMessageOfClosing(Request r) {
+		String supervisorMail = getSupervisorMail();
+		User receiver = SearchUser(r.getRequestorID());
+		EmailMessage toSend = new EmailMessage(r, receiver);
+		toSend.buildClosingMsg();
+		toSend.addToCC(supervisorMail);
+		sendMessage(toSend, false);
+	}
+
 	public static void autoMessageExceptions(ObservableList<Request> list) {
 		String supervisorMail = getSupervisorMail();
 		String managerMail = getManagerMail();
@@ -1012,7 +1021,7 @@ public class DataBaseController {
 					toSend.buildExceptionMsg();
 					toSend.addToCC(supervisorMail);
 					toSend.addToCC(managerMail);
-					sendMessage(toSend, true);
+					sendMessage(toSend, false);
 				}
 			}
 		}

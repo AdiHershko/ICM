@@ -90,6 +90,7 @@ public class EchoServer extends AbstractServer {
 					DataBaseController.changeRequestStatus(r.getId(), 1);
 				}
 				DataBaseController.setClosingDate(r.getId());
+				DataBaseController.userMessageOfClosing(r);
 				return;
 			case Freeze:
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 2);
