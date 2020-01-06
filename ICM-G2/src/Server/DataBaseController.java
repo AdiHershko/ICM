@@ -258,6 +258,36 @@ public class DataBaseController {
 		}
 		return o;
 	}
+	
+	public static ObservableList<Request> getRequests1(String query) {
+		ObservableList<Request> o = FXCollections.observableArrayList();
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					Request r = new Request(rs.getInt(1), rs.getString(2),
+							Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
+							rs.getString(6), Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)),
+							Enums.RequestStatus.getStatusByInt(rs.getInt(8)), new DateTime(rs.getString(9)), rs.getString(10),
+							rs.getString(12), rs.getInt(13));
+					
+					o.add(r);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return o;
+	}
 
 	public static ObservableList<Request> getRequestsForCollege(String userName, int id, boolean search,
 			boolean unActive) {
@@ -1168,4 +1198,123 @@ public class DataBaseController {
 		}
 		return list;
 	}
+	
+	public static ObservableList<User> GetUsers(String query) {
+		ObservableList<User> o = FXCollections.observableArrayList();
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					User u = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getString(5), Enums.Role.getRoleENUM(rs.getInt(6)), rs.getInt(7), rs.getString(8),rs.getInt(9));
+					o.add(u);
+				} catch (SQLException e) {
+					e.printStackTrace();
+
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return o;
+
+	}
+	public static ObservableList<Report> getReports(String query) {
+		ObservableList<Report> o = FXCollections.observableArrayList();
+		ResultSet rs = null;
+		PreparedStatement statement=null;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					Report r = new Report(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getString(5), rs.getString(6), rs.getInt(7));
+
+				o.add(r);
+				} catch (SQLException e) {
+					e.printStackTrace();
+
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return o;
+	}
+	
+	public static ObservableList<Common.Stage> getALLRequestStages() {
+		ObservableList<Common.Stage> o = FXCollections.observableArrayList();
+		Stage RequestStages[] = new Stage[Enums.numberOfStages];
+		String query = "select * from Stages";
+		PreparedStatement statement;
+		ResultSet rs = null;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i < Enums.numberOfStages; i++) {
+			RequestStages[i] = new Stage();
+		}
+		try {
+			while (rs.next()) {
+				Stage s = RequestStages[rs.getInt(1)];
+				Enums.RequestStageENUM tmp = Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(1));
+				s.setStageName(tmp);
+				s.setPlannedDueDate(rs.getString(2));
+				s.setIsApproved(rs.getInt(3) == 1);
+				s.setIsExtended(rs.getInt(4) == 1);
+				s.setMember(rs.getString(5));
+				s.setRequestID(rs.getInt(6));
+				s.setActualDate(rs.getString(7));
+				s.setExtendedDueDate(rs.getString(8));
+				s.setReportFailure(rs.getString(9));
+				o.add(s);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return o;
+	}
+	
+	
+	
+	public static ObservableList<User> getAllUsers() {
+		String query;
+		query = "select * from Users";
+		return GetUsers(query);
+	}
+	
+	public static ObservableList<Report> getAllReports() {
+		String query;
+		query = "select * from Reports";
+		return getReports(query);
+	}
+	
+	public static ObservableList<Request> getAllRequests1() {
+		String query;
+		query = "select * from Requests";
+		return getRequests(query);
+	}
+	
+	
+	
+
 }

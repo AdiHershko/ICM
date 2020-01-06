@@ -30,10 +30,7 @@ public class ManagerScreenController {
 	private Button editUsersButton;
 
 	@FXML
-	private Button ViewAllDataUsersButton;
-
-	@FXML
-	private Button ViewAllDataRequestsButton;
+	private Button ViewAllSystemDataButton;
 
 	@FXML
 	private Button statButton;
@@ -161,5 +158,21 @@ public class ManagerScreenController {
 		window.setScene(stats);
 		window.setResizable(false);
 		window.show();
+	}
+	
+	@FXML
+	public void viewAllSystemData(ActionEvent event) {
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("3.3-AllSystemDataScreen.fxml"));
+		} catch (IOException e) {
+			System.out.println("problem");
+		}
+		Scene allSystemData = new Scene(root);
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		window.setScene(allSystemData);
+		window.setResizable(false);
+		window.show();
+
 	}
 }

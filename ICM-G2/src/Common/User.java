@@ -13,7 +13,12 @@ public class User implements Serializable {
 	private String lastName;
 	private String mail;
 	private Role role;
+	private int collegeNum;
+	private String department;
+	private int organization;
+	
 
+	
 	public User(String username, String password, String firstName, String lastName, String mail, Role role) {
 		this.username = username;
 		this.password = password;
@@ -21,6 +26,27 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.mail = mail;
 		this.role = role;
+	}
+	
+	public User(String username, String password, String firstName, String lastName, String mail, Role role,int collegeNum,String department,int organization) {
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.mail = mail;
+		this.role = role;
+		this.collegeNum=collegeNum;
+		this.department=department;
+		this.organization=organization;
+	}
+	
+
+	public int getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(int organization) {
+		this.organization = organization;
 	}
 
 	public String getUsername() {
@@ -70,4 +96,20 @@ public class User implements Serializable {
 	public void setRole(Role iSrole) {
 		role = iSrole;
 	}
+	public int getCollegeNum() {
+		return collegeNum;
+	}
+
+	public void setCollegeNum(int collegeNum) {
+		this.collegeNum = collegeNum;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
 }

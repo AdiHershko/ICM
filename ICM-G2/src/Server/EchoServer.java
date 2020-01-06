@@ -75,6 +75,48 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
+				
+				
+			case GETALLREPORTS:
+				ObservableList<Report> ol3 = FXCollections.observableArrayList();
+				ol3 = DataBaseController.getAllReports();
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETREPORTSLIST, ol3.toArray()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
+				
+			case GETALLREQUESTS:
+				ObservableList<Request> ol4 = FXCollections.observableArrayList();
+				ol4 = DataBaseController.getAllRequests1();
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETREQUESTSLIST, ol4.toArray()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
+				
+			case GETALLSTAGES:
+				ObservableList<Common.Stage> ol5 = FXCollections.observableArrayList();
+				ol5 = DataBaseController.getALLRequestStages();
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETSTAGESLIST, ol5.toArray()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
+			case GETALLUSERS:
+				ObservableList<User> ol6 = FXCollections.observableArrayList();
+				ol6 = DataBaseController.getAllUsers();
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETUSERSLIST, ol6.toArray()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
+				
+				
 			case UpdateRequestDetails:
 				DataBaseController.updateRequestDetails(CSMsg.getRequest());
 				DataBaseController.updateLogRequestDetails(CSMsg.getRequest());

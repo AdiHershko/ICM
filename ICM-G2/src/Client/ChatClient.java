@@ -122,24 +122,75 @@ public class ChatClient extends AbstractClient {
 				return;
 			case GETOBLIST:
 				ObservableList<Request> l = FXCollections.observableArrayList();
-				for (Object o : ((ClientServerMessage)msg).getArray()) {
+				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					l.add((Request) o);
 				}
-				Platform.runLater(new Runnable(){
-					public void run(){
-					RequestsScreenController._ins.getTableView().setItems(l);
+				Platform.runLater(new Runnable() {
+					public void run() {
+						RequestsScreenController._ins.getTableView().setItems(l);
 					}
 				});
-				RequestsScreenController.lock=false;
+				RequestsScreenController.lock = false;
 				RequestsScreenController._ins.stopLoading();
 				return;
+
+			case GETREPORTSLIST:
+				ObservableList<Report> reportsList = FXCollections.observableArrayList();
+				for (Object o : ((ClientServerMessage) msg).getArray()) {
+					reportsList.add((Report) o);
+				}
+				Platform.runLater(new Runnable() {
+					public void run() {
+						AllSystemDataController._ins.getReportsTableView().setItems(reportsList);
+					}
+				});
+
+				return;
+
+			case GETSTAGESLIST:
+				ObservableList<Common.Stage> stagesList = FXCollections.observableArrayList();
+				for (Object o : ((ClientServerMessage) msg).getArray()) {
+					stagesList.add((Common.Stage) o);
+				}
+				Platform.runLater(new Runnable() {
+					public void run() {
+						AllSystemDataController._ins.getStagesTableView().setItems(stagesList);
+					}
+				});
+				return;
+
+			case GETREQUESTSLIST:
+				ObservableList<Request> requestsList = FXCollections.observableArrayList();
+				for (Object o : ((ClientServerMessage) msg).getArray()) {
+					requestsList.add((Request) o);
+				}
+				Platform.runLater(new Runnable() {
+					public void run() {
+						AllSystemDataController._ins.getRequestsTableView().setItems(requestsList);
+					}
+				});
+
+				return;
+
+			case GETUSERSLIST:
+				ObservableList<User> usersList = FXCollections.observableArrayList();
+				for (Object o : ((ClientServerMessage) msg).getArray()) {
+					usersList.add((User) o);
+				}
+				Platform.runLater(new Runnable() {
+					public void run() {
+						AllSystemDataController._ins.getUsersTableView().setItems(usersList);
+					}
+				});
+				return;
+
 			case NewRequestID:
 				RequestsScreenController.waitForNewRequest = true;
 				RequestsScreenController.newRequestID = ((ClientServerMessage) msg).getId();
 
 				return;
 			case UPLOADFINISH:
-				Platform.runLater(new Runnable(){
+				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
 						RequestsScreenController._ins.uploadFileMessage(((ClientServerMessage) msg).isUploadstatus());
@@ -148,7 +199,7 @@ public class ChatClient extends AbstractClient {
 				});
 				return;
 			case GETUSERFILES:
-				ArrayList<String> arr = (ArrayList<String>) ((ClientServerMessage)msg).getL();
+				ArrayList<String> arr = (ArrayList<String>) ((ClientServerMessage) msg).getL();
 				RequestsScreenController._ins.setFilePaths(arr);
 				arr.remove(0); // removing folder path
 				for (String s : arr) // THE MOST ARABIC CODE I HAVE EVER WRITTEN
@@ -159,7 +210,7 @@ public class ChatClient extends AbstractClient {
 							ch[i] = '/';
 					String str = String.valueOf(ch);
 					String[] str2 = str.split("/");
-					ShowFilesScreenController._ins.getFileListView().getItems().add(str2[str2.length-1]);
+					ShowFilesScreenController._ins.getFileListView().getItems().add(str2[str2.length - 1]);
 				}
 				return;
 			case ComitteList:
@@ -173,61 +224,62 @@ public class ChatClient extends AbstractClient {
 				});
 				return;
 			case ADDISUSER:
-				if (((ClientServerMessage)msg).getMsg().equals("GOOD"))
-					Platform.runLater(()->{
+				if (((ClientServerMessage) msg).getMsg().equals("GOOD"))
+					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setContentText("User added");
 						alert.show();
 					});
-				else if (((ClientServerMessage)msg).getMsg().equals("IDEXISTS")) Platform.runLater(()->{
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setContentText("ID already exists");
-					alert.show();
-				});
-				else Platform.runLater(()->{
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setContentText("User was not added");
-					alert.show();
-				});
+				else if (((ClientServerMessage) msg).getMsg().equals("IDEXISTS"))
+					Platform.runLater(() -> {
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("ID already exists");
+						alert.show();
+					});
+				else
+					Platform.runLater(() -> {
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("User was not added");
+						alert.show();
+					});
 				break;
 			case GETISUSER:
-				String[] str = (String[]) (((ClientServerMessage)msg).getArray());
-				if (str==null)
-				{
-					Platform.runLater(()->{
+				String[] str = (String[]) (((ClientServerMessage) msg).getArray());
+				if (str == null) {
+					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setContentText("Could not find user");
 						alert.show();
 					});
 					return;
 				}
-				Platform.runLater(()->{
+				Platform.runLater(() -> {
 					ISUsersScreenController._ins.getPasswordField().setText(str[0]);
 					ISUsersScreenController._ins.getFirstNameField().setText(str[1]);
 					ISUsersScreenController._ins.getLastNameField().setText(str[2]);
 					ISUsersScreenController._ins.getMailField().setText(str[3]);
-					ISUsersScreenController._ins.getRoleChoiceBox().getSelectionModel().select(Enums.Role.getRoleENUM(Integer.parseInt(str[4])));
+					ISUsersScreenController._ins.getRoleChoiceBox().getSelectionModel()
+							.select(Enums.Role.getRoleENUM(Integer.parseInt(str[4])));
 				});
 				return;
 			case UPDATEISUSER:
-				if (((ClientServerMessage)msg).isUploadstatus())
-				{
-					Platform.runLater(()->{
+				if (((ClientServerMessage) msg).isUploadstatus()) {
+					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setContentText("User updated");
 						alert.show();
 					});
 					return;
 				}
-				Platform.runLater(()->{
+				Platform.runLater(() -> {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("User was not updated");
 					alert.show();
 				});
 				break;
 			case CHECKSUPERVISOREXIST:
-				String supervisor=(((ClientServerMessage)msg).getMsg());
-				if (supervisor==null){ //supervisor does not exists
+				String supervisor = (((ClientServerMessage) msg).getMsg());
+				if (supervisor == null) { // supervisor does not exists
 					ISUsersScreenController._ins.setCanEdit(true);
 					ISUsersScreenController._ins.setSemaphore(false);
 					return;
@@ -236,8 +288,8 @@ public class ChatClient extends AbstractClient {
 				ISUsersScreenController._ins.setSemaphore(false);
 				break;
 			case COUNTCOMMITEEMEMBERS:
-				int members=(((ClientServerMessage)msg).getId());
-				if (members<Enums.numberOfCommitteeMember){
+				int members = (((ClientServerMessage) msg).getId());
+				if (members < Enums.numberOfCommitteeMember) {
 					ISUsersScreenController._ins.setCanEdit(true);
 					ISUsersScreenController._ins.setSemaphore(false);
 					return;
@@ -246,8 +298,8 @@ public class ChatClient extends AbstractClient {
 				ISUsersScreenController._ins.setSemaphore(false);
 				break;
 			case CHECKCHAIRMANEXIST:
-				String chairman=(((ClientServerMessage)msg).getMsg());
-				if (chairman==null){
+				String chairman = (((ClientServerMessage) msg).getMsg());
+				if (chairman == null) {
 					ISUsersScreenController._ins.setCanEdit(true);
 					ISUsersScreenController._ins.setSemaphore(false);
 					return;
@@ -256,79 +308,75 @@ public class ChatClient extends AbstractClient {
 				ISUsersScreenController._ins.setSemaphore(false);
 				break;
 			case EDITASSESMENTER:
-				if (!((ClientServerMessage)msg).isUploadstatus())
-				{
-					Platform.runLater(()->{
+				if (!((ClientServerMessage) msg).isUploadstatus()) {
+					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setContentText("Could not find user");
 						alert.show();
 					});
 					return;
 				}
-				RequestSettingsController._ins.canExit_Asses=true;
-				Platform.runLater(()->{
+				RequestSettingsController._ins.canExit_Asses = true;
+				Platform.runLater(() -> {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("Assesmentor updated");
 					alert.show();
 				});
 				break;
 			case EDITTESTER:
-				if (!((ClientServerMessage)msg).isUploadstatus())
-				{
-					Platform.runLater(()->{
+				if (!((ClientServerMessage) msg).isUploadstatus()) {
+					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setContentText("Could not find user");
 						alert.show();
 					});
 					return;
 				}
-				Platform.runLater(()->{
+				Platform.runLater(() -> {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("Tester updated");
 					alert.show();
 				});
 				break;
 			case EDITEXECUTIONER:
-				if (!((ClientServerMessage)msg).isUploadstatus())
-				{
-					Platform.runLater(()->{
+				if (!((ClientServerMessage) msg).isUploadstatus()) {
+					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setContentText("Could not find user");
 						alert.show();
 					});
 					return;
 				}
-				RequestSettingsController._ins.canExit_Executor=true;
-				Platform.runLater(()->{
+				RequestSettingsController._ins.canExit_Executor = true;
+				Platform.runLater(() -> {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("Executioner updated");
 					alert.show();
 				});
 				break;
 			case SETASSESMENTDATE:
-				Platform.runLater(()->{
+				Platform.runLater(() -> {
 					RequestsScreenController._ins.dateAlertRefresh();
 
 				});
 				break;
 			case APPROVEASSEXTENSION:
-				if ((((ClientServerMessage)msg).isUploadstatus()))
-				{
-					Platform.runLater(()->{
+				if ((((ClientServerMessage) msg).isUploadstatus())) {
+					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setContentText("Extension declined");
 						alert.show();
 					});
 					return;
 				}
-				Platform.runLater(()->{
+				Platform.runLater(() -> {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("Extension approved");
 					alert.show();
 				});
-			break;
+				break;
 			case ASKFOREXTENSION:
-				Platform.runLater(()->{
+				Platform.runLater(() -> {
 					RequestsScreenController._ins.closeExtraWindowExt();
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("Asked for new date");
@@ -336,15 +384,14 @@ public class ChatClient extends AbstractClient {
 				});
 				break;
 			case CannotUpdateStage:
-				Platform.runLater(()->{
-				RequestsScreenController._ins.cannotUpdateStage();
+				Platform.runLater(() -> {
+					RequestsScreenController._ins.cannotUpdateStage();
 				});
 				break;
 			case GETMAXREQID:
-				if ((((ClientServerMessage)msg).getId())==-1)
-				{
-					Platform.runLater(new Runnable(){
-						public void run(){
+				if ((((ClientServerMessage) msg).getId()) == -1) {
+					Platform.runLater(new Runnable() {
+						public void run() {
 							Alert alert = new Alert(AlertType.ERROR);
 							alert.setContentText("Cannot fetch maxid");
 							alert.show();
@@ -352,11 +399,11 @@ public class ChatClient extends AbstractClient {
 					});
 					return;
 				}
-				RequestsScreenController.maxid=((ClientServerMessage)msg).getId();
+				RequestsScreenController.maxid = ((ClientServerMessage) msg).getId();
 				break;
 			case GETFILEFROMSERVER:
-				ClientServerMessage CSMsg = (ClientServerMessage)msg;
-				File f = new File("src\\Client"+((ClientServerMessage) msg).getFileName());
+				ClientServerMessage CSMsg = (ClientServerMessage) msg;
+				File f = new File("src\\Client" + ((ClientServerMessage) msg).getFileName());
 				OutputStream os = null;
 				try {
 					os = new FileOutputStream(f);
@@ -376,25 +423,25 @@ public class ChatClient extends AbstractClient {
 				}
 				break;
 			case GetExtensionStat:
-				ManagerStatisticsController._ins.updateExtensions((ArrayList<Double>)((ClientServerMessage)msg).getL());
+				ManagerStatisticsController._ins
+						.updateExtensions((ArrayList<Double>) ((ClientServerMessage) msg).getL());
 				break;
 			default:
 				break;
 			}
 
 		}
-		if (msg instanceof User)
-		{
+		if (msg instanceof User) {
 			Platform.runLater(new Runnable() {
 				public void run() {
-					LoginScreenController._ins.LoginGood((User)msg);
+					LoginScreenController._ins.LoginGood((User) msg);
 				}
 			});
 		}
-		if(msg instanceof Report) {
+		if (msg instanceof Report) {
 			Platform.runLater(new Runnable() {
 				public void run() {
-					RequestsScreenController._ins.openAssessmentReportFunc((Report)msg);
+					RequestsScreenController._ins.openAssessmentReportFunc((Report) msg);
 				}
 			});
 		}

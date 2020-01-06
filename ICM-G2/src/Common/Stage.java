@@ -17,6 +17,11 @@ public class Stage implements Serializable{
 	private Boolean isApproved;
 	private Boolean isExtended;
 	private ArrayList<String> stageMembers;
+	private String member;
+	private int requestID;
+	
+
+
 
 	public Stage() {
 
@@ -99,6 +104,22 @@ public class Stage implements Serializable{
 
 	public void setExtensionAsk(String extensionAsk) {
 		this.extensionAsk = extensionAsk;
+	}
+	
+	public String getMember() {
+		return member;
+	}
+
+	public void setMember(String member) {
+		this.member = member;
+	}
+
+	public int getRequestID() {
+		return requestID;
+	}
+
+	public void setRequestID(int requestID) {
+		this.requestID = requestID;
 	}
 
 }
