@@ -148,8 +148,8 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case UPLOAD:
-				new File("src\\Server\\" + CSMsg.getId()).mkdir();
-				String path = "src\\Server\\" + CSMsg.getId();
+				new File("src\\" + CSMsg.getId()).mkdir();
+				String path = "src\\" + CSMsg.getId();
 				File f = new File(path + "\\" + CSMsg.getFileName());
 				OutputStream os = null;
 				boolean sucess = false;
@@ -172,7 +172,7 @@ public class EchoServer extends AbstractServer {
 				break;
 			case GETMAXREQID:
 				int maxid= DataBaseController.getMaxRequestID();
-				File check = new File("src\\Server\\"+(maxid+1));
+				File check = new File("src\\"+(maxid+1));
 				if (check.exists())
 					deleteDirectory(check);
 				try{
@@ -197,7 +197,7 @@ public class EchoServer extends AbstractServer {
 				break;
 			case GETUSERFILES:
 				Request request = CSMsg.getRequest();
-				try (Stream<Path> paths = Files.walk(Paths.get("src\\Server\\" + request.getId() + "\\"))) {
+				try (Stream<Path> paths = Files.walk(Paths.get("src\\" + request.getId() + "\\"))) {
 					ArrayList<Path> Paths = new ArrayList<>();
 					paths.forEach(Paths::add);
 					ArrayList<String> strings = new ArrayList<>();
@@ -209,7 +209,7 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case GETFILEFROMSERVER:
-				File file = new File("src\\Server\\"+CSMsg.getId()+"\\"+CSMsg.getMsg());
+				File file = new File("src\\"+CSMsg.getId()+"\\"+CSMsg.getMsg());
 				InputStream is = null;
 				BufferedInputStream bis = null;
 				byte[] buffer = null;

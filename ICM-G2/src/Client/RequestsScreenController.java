@@ -62,7 +62,7 @@ public class RequestsScreenController {
 	private int id = -1;
 	public static int maxid=-1;
 	public static boolean lock;
-	private boolean isUploading=false;
+	private boolean isUploading;
 	private ImageView loadinganim;
 	Thread loading;
 	@FXML
@@ -216,6 +216,7 @@ public class RequestsScreenController {
 			}
 		});
 		_ins = this;
+		isUploading=false;
 		DatePickerExec.setConverter(new StringConverter<LocalDate>() {
 			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -716,6 +717,7 @@ public class RequestsScreenController {
 		RefreshTable();
 		disableAllRequestPans();
 		isUploading=false;
+		maxid=-1;
 	}
 
 	public void openAssessmentReportFunc(Report r) {
