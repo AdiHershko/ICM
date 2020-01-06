@@ -40,6 +40,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -377,7 +378,7 @@ public class RequestsScreenController {
 			is.close();
 		} catch (Exception e) {
 		}
-		
+
 	}
 
 	public void uploadFileToServer_NewRequest(Request r) {
@@ -720,6 +721,7 @@ public class RequestsScreenController {
 	public void openAssessmentReportFunc(Report r) {
 		reportOfRequest = r;
 		Parent root = null;
+		newWindow=new Stage();
 		index = tableView.getSelectionModel().getSelectedIndex();
 		try {
 			root = FXMLLoader.load(getClass().getResource("2.2-ReportScreen.fxml"));
@@ -730,7 +732,10 @@ public class RequestsScreenController {
 		report = new Scene(root);
 		newWindow.setTitle("Report");
 		newWindow.setScene(report);
+		newWindow.initOwner((Stage) (openAssessmentReportB.getScene().getWindow()));
+		newWindow.initModality(Modality.WINDOW_MODAL);
 		newWindow.setResizable(false);
+		newWindow.setOnCloseRequest(e->newWindow.close());
 		newWindow.show();
 
 	}
@@ -828,6 +833,8 @@ public class RequestsScreenController {
 		Stage window = new Stage();
 		window.setScene(requests);
 		window.setResizable(false);
+		window.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+		window.initModality(Modality.WINDOW_MODAL);
 		window.show();
 	}
 
@@ -988,6 +995,8 @@ public class RequestsScreenController {
 				newWindow.setScene(s);
 				newWindow.setTitle("Execution Failures Report");
 				newWindow.setResizable(false);
+				newWindow.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+				newWindow.initModality(Modality.WINDOW_MODAL);
 				tmp_newWindow = newWindow;
 				newWindow.show();
 			}
@@ -1022,6 +1031,7 @@ public class RequestsScreenController {
 	void viewFailureReport(ActionEvent event) {
 		Parent root = null;
 		index = tableView.getSelectionModel().getSelectedIndex();
+		newWindow = new Stage();
 		try {
 			root = FXMLLoader.load(getClass().getResource("2.1-ExecutionFailures.fxml"));
 		} catch (IOException e) {
@@ -1032,6 +1042,8 @@ public class RequestsScreenController {
 		newWindow.setTitle("Execution Failures Report");
 		newWindow.setScene(report);
 		newWindow.setResizable(false);
+		newWindow.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+		newWindow.initModality(Modality.WINDOW_MODAL);
 		tmp_newWindow = newWindow;
 		newWindow.show();
 	}
@@ -1173,8 +1185,11 @@ public class RequestsScreenController {
 				e.printStackTrace();
 			}
 			extensionScene = new Scene(root);
+			newWindow = new Stage();
 			newWindow.setTitle("Ask for extension");
 			newWindow.setScene(extensionScene);
+			newWindow.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+			newWindow.initModality(Modality.WINDOW_MODAL);
 			newWindow.setResizable(false);
 			newWindow.show();
 		}

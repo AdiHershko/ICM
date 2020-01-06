@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ManagerScreenController {
@@ -82,6 +83,7 @@ public class ManagerScreenController {
 	@FXML
     void openCreateUser(ActionEvent event) {
 		Parent root = null;
+		newWindow=new Stage();
 		try {
 			root = FXMLLoader.load(getClass().getResource("3.1-AddISUsersScreen.fxml"));
 		} catch (IOException e) {
@@ -92,12 +94,15 @@ public class ManagerScreenController {
 		newWindow.setTitle("Create IS User");
 		newWindow.setScene(ISUsers);
 		newWindow.setResizable(false);
+		newWindow.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+		newWindow.initModality(Modality.WINDOW_MODAL);
 		newWindow.show();
     }
 
     @FXML
     void openEditUser(ActionEvent event) {
 		Parent root = null;
+		newWindow=new Stage();
 		try {
 			root = FXMLLoader.load(getClass().getResource("3.1-AddISUsersScreen.fxml"));
 		} catch (IOException e) {
@@ -107,6 +112,8 @@ public class ManagerScreenController {
 		ISUsersScreenController._ins.enableFindBtn();
 		newWindow.setTitle("Edit IS User");
 		newWindow.setScene(ISUsers);
+		newWindow.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+		newWindow.initModality(Modality.WINDOW_MODAL);
 		newWindow.setResizable(false);
 		newWindow.show();
     }

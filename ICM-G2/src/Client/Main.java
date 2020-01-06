@@ -21,6 +21,7 @@ public class Main extends Application {
 	static User currentUser;
 	static Request currentRequest;
 	static Main _ins;
+	static Scene s;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -35,7 +36,7 @@ public class Main extends Application {
 			return;
 		}
 		_ins=this;
-		Scene s = new Scene(root);
+		s = new Scene(root);
 		stage.setScene(s);
 		stage.setTitle("Client connection");
 		stage.setResizable(false);
