@@ -245,10 +245,17 @@ public class AllSystemDataController {
 			e.printStackTrace();
 		}
 		Scene manager = new Scene(root);
-		javafx.stage.Stage window = (javafx.stage.Stage) ((Node) event.getSource()).getScene().getWindow();
-		window.setScene(manager);
-		window.setResizable(false);
-		window.show();
+		Platform.runLater(new Runnable() {
+			public void run() {
+				try {
+					javafx.stage.Stage window = (javafx.stage.Stage) ((Node) event.getSource()).getScene().getWindow();
+					window.setScene(manager);
+					window.setResizable(false);
+					window.show();
+				} catch (Exception e) {
+				}
+			}
+		});	
 	}
 
 	public TableView<Common.Stage> getStagesTableView() {

@@ -7,9 +7,12 @@ import org.joda.time.DateTime;
 
 import Common.ClientServerMessage;
 import Common.Enums;
+import Common.FrequencyDeviation;
+import Common.Request;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +23,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -114,6 +120,21 @@ public class ManagerStatisticsController {
 
 	@FXML
 	private Label delaysFD;
+	
+	@FXML
+	public TableView<FrequencyDeviation> extensionsTable;
+
+    public TableView<FrequencyDeviation> getExtensionsTable() {
+		return extensionsTable;
+	}
+
+	public void setExtensionsTable(TableView<FrequencyDeviation> extensionsTable) {
+		this.extensionsTable = extensionsTable;
+	}
+
+
+	@FXML
+    public TableView<FrequencyDeviation> addonsTable;
 
 	public void initialize() {
 		_ins = this;
@@ -143,6 +164,7 @@ public class ManagerStatisticsController {
 		reportChoiceBox.getItems().add("Performance Report");
 		reportChoiceBox.getItems().add("Delays Report");
 		reportChoiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> changePane());
+		setTables();
 	}
 
 	public void changePane() {
@@ -157,6 +179,7 @@ public class ManagerStatisticsController {
 			periodReportDate.setVisible(false);
 			performance.setVisible(true);
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat));
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq));
 			break;
 		case "Delays Report":
 			periodReportDate.setVisible(false);
@@ -203,7 +226,6 @@ public class ManagerStatisticsController {
 	}
 
 	public void updateExtensions(ArrayList<Double> l) {
-		System.out.println(l);
 		Platform.runLater(new Runnable() {
 			public void run() {
 				extensionTotalLabel.setText(String.format("Total duration: %.0f", l.get(0)));
@@ -213,4 +235,21 @@ public class ManagerStatisticsController {
 		});
 	}
 	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void setTables() {
+		TableColumn<FrequencyDeviation, Double> valueC = new TableColumn<>("Value");
+		valueC.setCellValueFactory(new PropertyValueFactory("value"));
+		TableColumn<FrequencyDeviation, Integer> freqC = new TableColumn<>("Frequency");
+		freqC.setCellValueFactory(new PropertyValueFactory("freq"));
+		extensionsTable.getColumns().addAll(valueC, freqC);
+		valueC.setPrefWidth(50);
+		
+		TableColumn<FrequencyDeviation, Double> valueC2 = new TableColumn<>("Value");
+		valueC.setCellValueFactory(new PropertyValueFactory("value"));
+		TableColumn<FrequencyDeviation, Integer> freqC2 = new TableColumn<>("Frequency");
+		freqC.setCellValueFactory(new PropertyValueFactory("freq"));
+		addonsTable.getColumns().addAll(valueC2, freqC2);
+		valueC2.setMinWidth(50);
+	}
 }

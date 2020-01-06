@@ -20,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.ClientServerMessage;
 import Common.Enums;
+import Common.FrequencyDeviation;
 import Common.Report;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -457,6 +458,14 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
+			case GetExtensionFreq:
+				ArrayList<Double> extFreq = DataBaseController.getExtensionDurations();
+				ObservableList<FrequencyDeviation> resultOL = c.freqDeviation(extFreq);
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq, resultOL.toArray()));
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
 			default:
 				break;
 			}

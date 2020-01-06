@@ -3,6 +3,10 @@ package Server;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import Common.FrequencyDeviation;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Calculator {
 	private static Calculator _ins;
 
@@ -40,13 +44,27 @@ public class Calculator {
 		tmp = Math.sqrt(tmp);
 		return tmp;
 	}
-	
-	public ArrayList<Double> calcAll(ArrayList<Double> list){
+
+	public ArrayList<Double> calcAll(ArrayList<Double> list) {
 		ArrayList<Double> all = new ArrayList<Double>();
 		all.add((double) sum(list));
 		all.add(median(list));
 		all.add(standardDeviation(list));
 		return all;
+	}
+
+	public ObservableList<FrequencyDeviation> freqDeviation(ArrayList<Double> list) {
+		ArrayList<Double> values = new ArrayList<Double>();
+		for (Double i : list) {
+			if (!values.contains(i))
+				values.add(i);
+		}
+		ObservableList<FrequencyDeviation> res = FXCollections.observableArrayList();
+		for (int i = 0; i < values.size(); i++) {
+			FrequencyDeviation f = new FrequencyDeviation(values.get(i),Collections.frequency(list, values.get(i)));
+			res.add(f);
+		}
+		return res;
 	}
 
 }

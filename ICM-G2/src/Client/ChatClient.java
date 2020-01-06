@@ -15,6 +15,7 @@ import com.sun.glass.ui.Application;
 
 import Common.ClientServerMessage;
 import Common.Enums;
+import Common.FrequencyDeviation;
 import Common.Report;
 import Common.Request;
 import Common.User;
@@ -425,6 +426,13 @@ public class ChatClient extends AbstractClient {
 			case GetExtensionStat:
 				ManagerStatisticsController._ins
 						.updateExtensions((ArrayList<Double>) ((ClientServerMessage) msg).getL());
+				break;
+			case GetExtensionFreq:
+				ObservableList<FrequencyDeviation> res = FXCollections.observableArrayList();
+				for (Object o : ((ClientServerMessage)msg).getArray()) {
+					res.add((FrequencyDeviation) o);
+				}
+				ManagerStatisticsController._ins.getExtensionsTable().setItems(res);
 				break;
 			default:
 				break;
