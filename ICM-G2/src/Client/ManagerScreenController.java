@@ -148,4 +148,18 @@ public class ManagerScreenController {
 		window.setResizable(false);
 		window.show();
 	}
+	@FXML
+	public void openStats(ActionEvent event) throws IOException{
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("3.2-ManagerStatistics.fxml"));
+		} catch (IOException e) {
+			System.out.println("problem");
+		}
+		Scene stats = new Scene(root);
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		window.setScene(stats);
+		window.setResizable(false);
+		window.show();
+	}
 }

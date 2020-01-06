@@ -33,7 +33,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="statButton" layoutX="472.0" layoutY="214.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="240.0" text="System Statistics">
+      <Button fx:id="statButton" layoutX="472.0" layoutY="214.0" mnemonicParsing="false" onAction="#openStats" prefHeight="20.0" prefWidth="240.0" text="System Statistics">
          <font>
             <Font size="15.0" />
          </font>
