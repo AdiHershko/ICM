@@ -510,6 +510,8 @@ public class RequestsScreenController {
 				}
 				else {
 					setDueDateBTN.setVisible(true);
+					dueDate.setText("");
+					setDueTime1.setText("");
 					if(r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
 						setDueTime1.setVisible(false);
 						datePickerAss.setVisible(true);
