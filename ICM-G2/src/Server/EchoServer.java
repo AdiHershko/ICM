@@ -26,6 +26,7 @@ import ocsf.server.ConnectionToClient;
 
 public class EchoServer extends AbstractServer {
 	final private static int DEFAULT_PORT = 5555;
+	Calculator c = new Calculator();
 	public static int getDefaultPort() {
 		return DEFAULT_PORT;
 	}
@@ -405,7 +406,15 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-
+			case GetExtensionStat:
+				ArrayList<Double> ext = DataBaseController.getExtensionDurations();
+				ArrayList<Double> resultList = c.calcAll(ext);
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat, resultList));
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				break;
 			default:
 				break;
 			}
@@ -431,7 +440,6 @@ public class EchoServer extends AbstractServer {
 	    directoryToBeDeleted.delete();
 	}
 
-
 	public static int Start(int port) {
 		if (DataBaseController.Connect() == false) {
 			return 1;
@@ -445,4 +453,5 @@ public class EchoServer extends AbstractServer {
 		}
 		return 0;
 	}
+	
 }

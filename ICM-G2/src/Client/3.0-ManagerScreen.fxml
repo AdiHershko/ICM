@@ -23,12 +23,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="ViewAllDataUsersButton" layoutX="472.0" layoutY="478.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="240.0" text="View All Data - System Users">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
-      <Button fx:id="ViewAllDataRequestsButton" layoutX="472.0" layoutY="172.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="240.0" text="View All Data - System Requests">
+      <Button fx:id="ViewAllDataRequestsButton" layoutX="472.0" layoutY="172.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="240.0" text="View All System Data">
          <font>
             <Font size="15.0" />
          </font>

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -836,6 +837,7 @@ public class DataBaseController {
 			statement = c.prepareStatement(query);
 			statement.execute(query);
 			if (r.getIsDenied() == 0) {
+				calculateDateDiv(r,stage);
 				query = "update Stages set isExtended=1,isApproved=1, PlannedDueDate=ExtendedDueDate where RequestID="
 						+ r.getId() + " and StageName=" + stage;
 				statement.execute(query);
@@ -855,6 +857,33 @@ public class DataBaseController {
 		return true;
 	}
 
+	public static void calculateDateDiv(Request r, int stage) {
+		PreparedStatement statement;
+		ResultSet rs = null;
+		String query;
+		DateTime originalDueDate = null;
+		DateTime newDueDate = null;
+		try {
+			query = "select PlannedDueDate,ExtendedDueDate from Stages where RequestID=" + r.getId() +" and StageName=" + stage;
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+			rs.next();
+			originalDueDate = new DateTime(rs.getString(1));
+			newDueDate = new DateTime(rs.getString(2));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Duration dur = new Duration(originalDueDate, newDueDate);
+		long diff = dur.getStandardDays();
+		try {
+			query = "update Stages set DaysOfExtension="+diff+" where RequestID=" + r.getId() +" and StageName=" + stage;
+			statement = c.prepareStatement(query);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void DisconnectUser(String UserID) {
 		String query = "update Users set isLoggedIn=0 where username ='" + UserID + "'";
 		PreparedStatement statement = null;
@@ -1110,5 +1139,33 @@ public class DataBaseController {
 		}
 		return -1;
 
+	}
+	
+	public static ArrayList<Double> getExtensionDurations(){
+		ResultSet rs = null;
+		PreparedStatement statement;
+		String query;
+		ArrayList<Double> list = new ArrayList<Double>();
+		try {
+			query = "SELECT DaysOfExtension FROM Stages"; 
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					Double tmp = (double) rs.getInt(1);
+					if (tmp != 0)
+						list.add(tmp);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

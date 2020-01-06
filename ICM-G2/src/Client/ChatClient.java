@@ -373,8 +373,10 @@ public class ChatClient extends AbstractClient {
 
 					} catch (Exception e) {
 					}
-					//f.delete(); TODO: MAKE IT DELETE TEMP FILE MATAISHEU
 				}
+				break;
+			case GetExtensionStat:
+				ManagerStatisticsController._ins.updateExtensions((ArrayList<Double>)((ClientServerMessage)msg).getL());
 				break;
 			default:
 				break;

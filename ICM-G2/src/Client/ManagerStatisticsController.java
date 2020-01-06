@@ -1,9 +1,13 @@
 package Client;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import org.joda.time.DateTime;
 
 import Common.ClientServerMessage;
 import Common.Enums;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -113,11 +117,31 @@ public class ManagerStatisticsController {
 
 	public void initialize() {
 		_ins = this;
+		new Thread() {
+			public void run() {
+				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
+				while (true) // update time in 0.5s intervals
+				{
+
+					Platform.runLater(new Runnable() // wont work without this shit
+					{
+						public void run() {
+							DateTime dt = new DateTime();
+							dateLabel.setText(dt.toString("dd/MM/yyyy hh:mm:ss a" + " |"));
+							dt = null; // for garbage collection
+						}
+					});
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+					}
+				}
+
+			}
+		}.start();
 		reportChoiceBox.getItems().add("Period Report");
 		reportChoiceBox.getItems().add("Performance Report");
 		reportChoiceBox.getItems().add("Delays Report");
-		reportChoiceBox.setValue("Period Report");
-		periodReportDate.setVisible(true);
 		reportChoiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> changePane());
 	}
 
@@ -132,6 +156,7 @@ public class ManagerStatisticsController {
 			delaysPane.setVisible(false);
 			periodReportDate.setVisible(false);
 			performance.setVisible(true);
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat));
 			break;
 		case "Delays Report":
 			periodReportDate.setVisible(false);
@@ -177,4 +202,15 @@ public class ManagerStatisticsController {
 		window.show();
 	}
 
+	public void updateExtensions(ArrayList<Double> l) {
+		System.out.println(l);
+		Platform.runLater(new Runnable() {
+			public void run() {
+				extensionTotalLabel.setText(String.format("Total duration: %.0f", l.get(0)));
+				extensionMedianLabel.setText(String.format("Median: %.1f", l.get(1)));
+				extensionSDLabel.setText(String.format("Standard Deviation: %g", l.get(2)));
+			}
+		});
+	}
+	
 }
