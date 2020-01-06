@@ -377,6 +377,7 @@ public class RequestsScreenController {
 			is.close();
 		} catch (Exception e) {
 		}
+		
 	}
 
 	public void uploadFileToServer_NewRequest(Request r) {
