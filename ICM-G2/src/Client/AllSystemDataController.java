@@ -1,16 +1,10 @@
 package Client;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.joda.time.DateTime;
 
 import Common.ClientServerMessage;
 import Common.Enums;
-import Common.Enums.RequestStageENUM;
-import Common.Enums.RequestStatus;
 import Common.Report;
 import Common.Request;
 import Common.User;
@@ -27,7 +21,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 public class AllSystemDataController {
 	public static AllSystemDataController _ins;
@@ -91,7 +84,6 @@ public class AllSystemDataController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void reportsTableSetup() {
 		TableColumn<Report, Integer> idColumn = new TableColumn<>("Request ID");
-	//	idColumn.setCellValueFactory(new PropertyValueFactory("requestID"));
 		idColumn.setCellValueFactory(new PropertyValueFactory<Report, Integer>("requestID"));
 		TableColumn<Report, String> descriptionColumn = new TableColumn<>("Description");
 		descriptionColumn.setCellValueFactory(new PropertyValueFactory("description"));
@@ -107,19 +99,14 @@ public class AllSystemDataController {
 		durationColumn.setCellValueFactory(new PropertyValueFactory("duration"));
 		reportsTableView.getColumns().addAll(idColumn, descriptionColumn, resultColumn, locationColumn,
 				constraintsColumn, risksColumn, durationColumn);
-		for (TableColumn<Report, ?> col : reportsTableView.getColumns()) {
-			col.setMinWidth(95);
-
-		}
-
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void requestsTableSetup() {
 		TableColumn<Request, Integer> idColumn = new TableColumn<>("Request ID");
-		idColumn.setCellValueFactory(new PropertyValueFactory("requestID"));
+		idColumn.setCellValueFactory(new PropertyValueFactory("id"));
 		TableColumn<Request, String> requestorColumn = new TableColumn<>("Requestor");
-		requestorColumn.setCellValueFactory(new PropertyValueFactory("requestor"));
+		requestorColumn.setCellValueFactory(new PropertyValueFactory("requestorID"));
 		TableColumn<Request, Enums.SystemENUM> systemColumn = new TableColumn<>("System");
 		systemColumn.setCellValueFactory(new PropertyValueFactory("system"));
 		TableColumn<Request, String> descriptionColumn = new TableColumn<>("Description");
@@ -146,9 +133,6 @@ public class AllSystemDataController {
 		requestsTableView.getColumns().addAll(idColumn, requestorColumn, systemColumn, descriptionColumn, changeColumn,
 				changeReasonColumn, stageColumn, statusColumn, dateColumn, connectColumn, filePathColumn,
 				currentHandlersColumn, isDeniedColumn);
-		for (TableColumn<Request, ?> col : requestsTableView.getColumns())
-			col.setMinWidth(95);
-
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -173,8 +157,6 @@ public class AllSystemDataController {
 		reportFailureColumn.setCellValueFactory(new PropertyValueFactory("reportFailure"));
 		stagesTableView.getColumns().addAll(stageColumn, planeedDueDateColumn, isApprovedColumn, isExtendedColumn,
 				memberColumn, requestIDColumn, actualDateColumn, extendedDueDateColumn, reportFailureColumn);
-		for (TableColumn<Common.Stage, ?> col : stagesTableView.getColumns())
-			col.setMinWidth(95);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -197,9 +179,6 @@ public class AllSystemDataController {
 		departmentColumn.setCellValueFactory(new PropertyValueFactory("department"));
 		usersTableView.getColumns().addAll(userNameColumn, passwordColumn, firstNameColumn, lastNameColumn, emailColumn,
 				roleColumn, collegeNumColumn, departmentColumn);
-		for (TableColumn<User, ?> col : usersTableView.getColumns())
-			col.setMinWidth(95);
-
 	}
 
 	@FXML

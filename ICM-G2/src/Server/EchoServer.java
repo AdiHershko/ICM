@@ -89,7 +89,7 @@ public class EchoServer extends AbstractServer {
 				
 			case GETALLREQUESTS:
 				ObservableList<Request> ol4 = FXCollections.observableArrayList();
-				ol4 = DataBaseController.getAllRequests1();
+				ol4 = DataBaseController.getAllRequests();
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETREQUESTSLIST, ol4.toArray()));
 				} catch (IOException e) {

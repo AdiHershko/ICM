@@ -1199,8 +1199,9 @@ public class DataBaseController {
 		return list;
 	}
 	
-	public static ObservableList<User> GetUsers(String query) {
+	public static ObservableList<User> getAllUsers() {
 		ObservableList<User> o = FXCollections.observableArrayList();
+		String query = query = "select * from Users";
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -1228,8 +1229,9 @@ public class DataBaseController {
 		return o;
 
 	}
-	public static ObservableList<Report> getReports(String query) {
+	public static ObservableList<Report> getAllReports() {
 		ObservableList<Report> o = FXCollections.observableArrayList();
+		String query = "select * from Reports";
 		ResultSet rs = null;
 		PreparedStatement statement=null;
 		try {
@@ -1293,28 +1295,10 @@ public class DataBaseController {
 		}
 		return o;
 	}
-	
-	
-	
-	public static ObservableList<User> getAllUsers() {
-		String query;
-		query = "select * from Users";
-		return GetUsers(query);
-	}
-	
-	public static ObservableList<Report> getAllReports() {
-		String query;
-		query = "select * from Reports";
-		return getReports(query);
-	}
-	
-	public static ObservableList<Request> getAllRequests1() {
+
+	public static ObservableList<Request> getAllRequests() {
 		String query;
 		query = "select * from Requests";
 		return getRequests(query);
 	}
-	
-	
-	
-
 }

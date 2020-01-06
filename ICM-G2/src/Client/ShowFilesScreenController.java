@@ -1,7 +1,5 @@
 package Client;
 
-import java.io.File;
-
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Request;
