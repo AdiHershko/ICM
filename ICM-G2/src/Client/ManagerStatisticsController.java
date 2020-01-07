@@ -9,6 +9,7 @@ import Common.ClientServerMessage;
 import Common.Enums;
 import Common.FrequencyDeviation;
 import Common.Request;
+import Common.Enums.SystemENUM;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -105,9 +106,10 @@ public class ManagerStatisticsController {
 
 	@FXML
 	private Pane delaysPane;
-
 	@FXML
-	private ChoiceBox<?> systemCB;
+	private Pane delaysInnerPane;
+	@FXML
+	private ChoiceBox<SystemENUM> systemCB=new ChoiceBox<SystemENUM>();
 
 	@FXML
 	private Label delaysNum;
@@ -160,6 +162,9 @@ public class ManagerStatisticsController {
 
 			}
 		}.start();
+		systemCB.getItems().addAll(SystemENUM.All,SystemENUM.Computers,SystemENUM.InfoStation,SystemENUM.Labs);
+		systemCB.getItems().addAll(SystemENUM.Library,SystemENUM.Moodle,SystemENUM.Site);
+		systemCB.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> changeDelaySystem());
 		reportChoiceBox.getItems().add("Period Report");
 		reportChoiceBox.getItems().add("Performance Report");
 		reportChoiceBox.getItems().add("Delays Report");
@@ -190,7 +195,22 @@ public class ManagerStatisticsController {
 			break;
 		}
 	}
-
+	public void changeDelaySystem() {
+		delaysInnerPane.setVisible(true);
+		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetDelaysStat,systemCB.getValue()));
+	}
+	public void showDelaySystem(ArrayList<Double> l) {
+		if(l.isEmpty()) {
+			delaysNum.setText("Number of delays: 0");
+			delaysMedian.setText("Median: 0");
+			delaysSD.setText("Standard Deviation: 0");
+		}
+		else {
+		delaysNum.setText("Number of delays: "+l.get(0).toString());
+		delaysMedian.setText("Median: "+l.get(1).toString());
+		delaysSD.setText("Standard Deviation: "+l.get(2).toString());
+		}
+	}
 	@FXML
 	void getReport1(ActionEvent event) {
 

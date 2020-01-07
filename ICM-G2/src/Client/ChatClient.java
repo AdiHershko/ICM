@@ -434,6 +434,13 @@ public class ChatClient extends AbstractClient {
 				}
 				ManagerStatisticsController._ins.getExtensionsTable().setItems(res);
 				break;
+			case GetDelaysStat:
+				Platform.runLater(new Runnable(){
+					public void run(){
+						ManagerStatisticsController._ins.showDelaySystem((ArrayList<Double>)((ClientServerMessage)msg).getL());
+					}
+				});
+				
 			default:
 				break;
 			}

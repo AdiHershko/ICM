@@ -26,7 +26,7 @@ public class Calculator {
 	public double median(ArrayList<Double> list) {
 		Collections.sort(list);
 		int size = list.size();
-		if (size % 2 == 0) {
+		if (size % 2 == 1) {
 			return list.get(((size + 1) / 2) - 1);
 		} else {
 			Double tmp1 = list.get((size / 2) - 1);

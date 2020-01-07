@@ -27,6 +27,7 @@ public class ClientServerMessage implements Serializable {
 	private List l;
 	private boolean search;
 	private boolean unActive;
+	private SystemENUM enm;
 
 	public boolean isSearch() {
 		return search;
@@ -54,6 +55,19 @@ public class ClientServerMessage implements Serializable {
 
 	public ClientServerMessage(MessageEnum type) {
 		this.type = type;
+	}
+
+	public SystemENUM getEnm() {
+		return enm;
+	}
+
+	public void setEnm(SystemENUM enm) {
+		this.enm = enm;
+	}
+
+	public ClientServerMessage(MessageEnum type,SystemENUM enm) {
+		this.type = type;
+		this.enm = enm;
 	}
 
 	public ClientServerMessage(User user) {

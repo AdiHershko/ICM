@@ -20,6 +20,7 @@ import Common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.Enums;
+import Common.Enums.SystemENUM;
 import Common.Report;
 
 public class DataBaseController {
@@ -867,7 +868,7 @@ public class DataBaseController {
 			statement = c.prepareStatement(query);
 			statement.execute(query);
 			if (r.getIsDenied() == 0) {
-				calculateDateDiv(r,stage);
+				calculateDateDiv(r, stage);
 				query = "update Stages set isExtended=1,isApproved=1, PlannedDueDate=ExtendedDueDate where RequestID="
 						+ r.getId() + " and StageName=" + stage;
 				statement.execute(query);
@@ -894,7 +895,8 @@ public class DataBaseController {
 		DateTime originalDueDate = null;
 		DateTime newDueDate = null;
 		try {
-			query = "select PlannedDueDate,ExtendedDueDate from Stages where RequestID=" + r.getId() +" and StageName=" + stage;
+			query = "select PlannedDueDate,ExtendedDueDate from Stages where RequestID=" + r.getId() + " and StageName="
+					+ stage;
 			statement = c.prepareStatement(query);
 			rs = statement.executeQuery();
 			rs.next();
@@ -906,14 +908,15 @@ public class DataBaseController {
 		Duration dur = new Duration(originalDueDate, newDueDate);
 		long diff = dur.getStandardDays();
 		try {
-			query = "update Stages set DaysOfExtension="+diff+" where RequestID=" + r.getId() +" and StageName=" + stage;
+			query = "update Stages set DaysOfExtension=" + diff + " where RequestID=" + r.getId() + " and StageName="
+					+ stage;
 			statement = c.prepareStatement(query);
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void DisconnectUser(String UserID) {
 		String query = "update Users set isLoggedIn=0 where username ='" + UserID + "'";
 		PreparedStatement statement = null;
@@ -987,7 +990,7 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void updateLogDenyExtension(int id, int stage) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
 		PreparedStatement statement = null;
@@ -1155,7 +1158,7 @@ public class DataBaseController {
 		emailService.sendEmail(m);
 	}
 
-	public static int getMaxRequestID(){
+	public static int getMaxRequestID() {
 		String query = "select max(ID) from Requests";
 		ResultSet rs = null;
 		PreparedStatement statement;
@@ -1170,14 +1173,14 @@ public class DataBaseController {
 		return -1;
 
 	}
-	
-	public static ArrayList<Double> getExtensionDurations(){
+
+	public static ArrayList<Double> getExtensionDurations() {
 		ResultSet rs = null;
 		PreparedStatement statement;
 		String query;
 		ArrayList<Double> list = new ArrayList<Double>();
 		try {
-			query = "SELECT DaysOfExtension FROM Stages"; 
+			query = "SELECT DaysOfExtension FROM Stages";
 			statement = c.prepareStatement(query);
 			rs = statement.executeQuery();
 		} catch (SQLException e) {
@@ -1300,5 +1303,48 @@ public class DataBaseController {
 		String query;
 		query = "select * from Requests";
 		return getRequests(query);
+	}
+	public static ArrayList<Double> getDelaysDurations(SystemENUM enm) {
+		ResultSet rs = null;
+		PreparedStatement statement;
+		String query;
+		DateTime plenDueDate = null;
+		DateTime realDueDate = null;
+		Duration dur = null;
+		ArrayList<Double> list = new ArrayList<Double>();
+		if (enm == SystemENUM.All) {
+			query = "SELECT Stages.PlannedDueDate,Stages.ActualDate FROM Stages where PlannedDueDate IS NOT NULL ";
+		}
+		else {
+			int i = SystemENUM.getSystemByEnum(enm);
+			query = "SELECT Stages.PlannedDueDate,Stages.ActualDate FROM Stages,Requests where Stages.PlannedDueDate IS NOT NULL "
+					+ "and Stages.RequestID=Requests.ID and Requests.System=" + i;
+		}
+		try {
+
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					plenDueDate = new DateTime(rs.getString(1));
+					realDueDate = new DateTime(rs.getString(2));
+					if (plenDueDate.isBefore(realDueDate)) {
+						dur = new Duration(plenDueDate, realDueDate);
+						long diff = dur.getStandardHours();
+						list.add((double) diff);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(list);
+		return list;
 	}
 }

@@ -16,8 +16,10 @@ public class Enums {
 		SETEXAMDATE, SETEXECMDATE, SETTESTDATE, REFRESHCOLLEGE, REFRESHIS, EDITTESTER, ASKFOREXTENSION,
 		CannotUpdateStage, UnFreezeRejected, GETMAXREQID, GETFILEFROMSERVER, GETALLREPORTS, GETREPORTSLIST,
 		GETALLREQUESTS, GETREQUESTSLIST, GETALLSTAGES, GETSTAGESLIST, GETALLUSERS, GETUSERSLIST, GetExtensionFreq,
-		GetExtensionStat;
+		GetExtensionStat,GetDelaysStat;
 	}
+
+
 
 	public enum RequestStatus {
 		Active, Closed, Frozen, Rejected, RejectedClosed;
@@ -55,7 +57,7 @@ public class Enums {
 	}
 
 	public enum SystemENUM {
-		InfoStation, Moodle, Library, Computers, Labs, Site;
+		All,InfoStation, Moodle, Library, Computers, Labs, Site;
 		public static SystemENUM getSystemByInt(int i) {
 			switch (i) {
 			case 0:

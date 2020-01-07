@@ -28,6 +28,7 @@ import ocsf.server.ConnectionToClient;
 public class EchoServer extends AbstractServer {
 	final private static int DEFAULT_PORT = 5555;
 	Calculator c = new Calculator();
+
 	public static int getDefaultPort() {
 		return DEFAULT_PORT;
 	}
@@ -51,7 +52,8 @@ public class EchoServer extends AbstractServer {
 				return;
 			case REFRESHIS:
 				ObservableList<Request> ol = FXCollections.observableArrayList();
-				ol = DataBaseController.getRequestsForIS(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(), CSMsg.isUnActive());
+				ol = DataBaseController.getRequestsForIS(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(),
+						CSMsg.isUnActive());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol.toArray()));
 				} catch (IOException e) {
@@ -60,7 +62,8 @@ public class EchoServer extends AbstractServer {
 				return;
 			case REFRESHCOLLEGE:
 				ObservableList<Request> ol1 = FXCollections.observableArrayList();
-				ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(), CSMsg.isUnActive());
+				ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(),
+						CSMsg.isUnActive());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETOBLIST, ol1.toArray()));
 				} catch (IOException e) {
@@ -161,11 +164,13 @@ public class EchoServer extends AbstractServer {
 					} catch (IOException e) {
 						System.out.println("Cant send login fail to client!");
 					}
-				} else {
+				}
+				else {
 					try {
 						if (us1.getUsername().equals("")) {
 							client.sendToClient(new ClientServerMessage(Enums.MessageEnum.tryingToLogSameTime));
-						} else {
+						}
+						else {
 							client.sendToClient(us1);
 						}
 					} catch (IOException e) {
@@ -182,7 +187,8 @@ public class EchoServer extends AbstractServer {
 					} catch (IOException e) {
 						System.out.println("Cant send no report to client!");
 					}
-				} else {
+				}
+				else {
 					try {
 
 						client.sendToClient(report);
@@ -215,14 +221,13 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case GETMAXREQID:
-				int maxid= DataBaseController.getMaxRequestID();
-				File check = new File("src\\"+(maxid+1));
+				int maxid = DataBaseController.getMaxRequestID();
+				File check = new File("src\\" + (maxid + 1));
 				if (check.exists())
 					deleteDirectory(check);
-				try{
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID,maxid));
-				}catch (Exception e)
-				{
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID, maxid));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
@@ -253,7 +258,7 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case GETFILEFROMSERVER:
-				File file = new File("src\\"+CSMsg.getId()+"\\"+CSMsg.getMsg());
+				File file = new File("src\\" + CSMsg.getId() + "\\" + CSMsg.getMsg());
 				InputStream is = null;
 				BufferedInputStream bis = null;
 				byte[] buffer = null;
@@ -265,16 +270,16 @@ public class EchoServer extends AbstractServer {
 				} catch (IOException e) {
 					System.out.println("Error reading file!");
 				}
-				try{
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETFILEFROMSERVER, file.getName(), buffer,
-							CSMsg.getId()));
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETFILEFROMSERVER, file.getName(),
+							buffer, CSMsg.getId()));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			case UpdateStage:
 				boolean tmp = DataBaseController.ChangeRequestStage(CSMsg.getId(), true);
-				if (tmp==false) {
+				if (tmp == false) {
 					try {
 						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CannotUpdateStage));
 					} catch (IOException e) {
@@ -350,7 +355,7 @@ public class EchoServer extends AbstractServer {
 				break;
 			case EDITASSESMENTER:
 				String id1 = ((ClientServerMessage) msg).getMsg();
-				if (DataBaseController.getISUser(id1)==null)
+				if (DataBaseController.getISUser(id1) == null)
 					try {
 						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITASSESMENTER, false));
 						return;
@@ -366,7 +371,7 @@ public class EchoServer extends AbstractServer {
 				break;
 			case EDITEXECUTIONER:
 				String id2 = ((ClientServerMessage) msg).getMsg();
-				if (DataBaseController.getISUser(id2)==null)
+				if (DataBaseController.getISUser(id2) == null)
 					try {
 						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITEXECUTIONER, false));
 						return;
@@ -389,7 +394,7 @@ public class EchoServer extends AbstractServer {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				DataBaseController.updateStageMember(id3,CSMsg.getRequest(), 4);
+				DataBaseController.updateStageMember(id3, CSMsg.getRequest(), 4);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.EDITTESTER, true));
 				} catch (Exception e) {
@@ -405,7 +410,7 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case APPROVEASSEXTENSION:
-				boolean isDenied = DataBaseController.setRequestDeny(CSMsg.getRequest(),CSMsg.getStage());
+				boolean isDenied = DataBaseController.setRequestDeny(CSMsg.getRequest(), CSMsg.getStage());
 				try {
 					if (isDenied) {
 						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.APPROVEASSEXTENSION, true));
@@ -443,21 +448,22 @@ public class EchoServer extends AbstractServer {
 			case ASKFOREXTENSION:
 				DataBaseController.changeExtendedDate(CSMsg.getRequest(), CSMsg.getMsg());
 				DataBaseController.extensionMessage(CSMsg.getRequest());
-				try{
+				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ASKFOREXTENSION));
-				} catch(Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			case GetExtensionStat:
 				ArrayList<Double> ext = DataBaseController.getExtensionDurations();
 				ArrayList<Double> resultList = c.calcAll(ext);
-				try{
+				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat, resultList));
-				} catch(Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
+
 			case GetExtensionFreq:
 				ArrayList<Double> extFreq = DataBaseController.getExtensionDurations();
 				ObservableList<FrequencyDeviation> resultOL = c.freqDeviation(extFreq);
@@ -466,6 +472,27 @@ public class EchoServer extends AbstractServer {
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
+				break;
+			case GetDelaysStat:
+				ArrayList<Double> del = DataBaseController.getDelaysDurations(CSMsg.getEnm());
+				if (del.isEmpty()) {
+					try {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetDelaysStat, del));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				else {
+					ArrayList<Double> delResultList = c.calcAll(del);
+					delResultList.add(0, (double) del.size());
+					delResultList.remove(1);
+					try {
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetDelaysStat, delResultList));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				break;
 			default:
 				break;
 			}
@@ -482,13 +509,13 @@ public class EchoServer extends AbstractServer {
 	}
 
 	private void deleteDirectory(File directoryToBeDeleted) {
-	    File[] allContents = directoryToBeDeleted.listFiles();
-	    if (allContents != null) {
-	        for (File file : allContents) {
-	            deleteDirectory(file);
-	        }
-	    }
-	    directoryToBeDeleted.delete();
+		File[] allContents = directoryToBeDeleted.listFiles();
+		if (allContents != null) {
+			for (File file : allContents) {
+				deleteDirectory(file);
+			}
+		}
+		directoryToBeDeleted.delete();
 	}
 
 	public static int Start(int port) {
@@ -504,5 +531,5 @@ public class EchoServer extends AbstractServer {
 		}
 		return 0;
 	}
-	
+
 }
