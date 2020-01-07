@@ -472,6 +472,16 @@ public class ChatClient extends AbstractClient {
 				}
 				ManagerStatisticsController._ins.getDelaysTable().setItems(delRes);
 				break;
+			case GetAddonsStat:
+				ManagerStatisticsController._ins.updateAddons((ArrayList<Double>) ((ClientServerMessage) msg).getL());
+				break;
+			case GetAddonsFreq:
+				ObservableList<FrequencyDeviation> dasfsadf = FXCollections.observableArrayList();
+				for (Object o : ((ClientServerMessage)msg).getArray()) {
+					dasfsadf.add((FrequencyDeviation) o);
+				}
+				ManagerStatisticsController._ins.getAddonsTable().setItems(dasfsadf);
+				break;
 			default:
 				break;
 			}

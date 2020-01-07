@@ -1219,7 +1219,7 @@ public class DataBaseController {
 
 	public static ObservableList<User> getAllUsers() {
 		ObservableList<User> o = FXCollections.observableArrayList();
-		String query = query = "select * from Users";
+		String query = "select * from Users";
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -1319,6 +1319,7 @@ public class DataBaseController {
 		query = "select * from Requests";
 		return getRequests(query);
 	}
+	
 	public static ArrayList<Double> getDelaysDurations(SystemENUM enm) {
 		ResultSet rs = null;
 		PreparedStatement statement;
@@ -1359,7 +1360,26 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(list);
 		return list;
+	}
+	
+	public static ArrayList<Double> getAllAddons(){
+		String query = "select * from Requests";
+		ObservableList<Request> list = getRequests(query);
+		ArrayList<Double> res = new ArrayList<Double>();
+		for (Request r : list) {
+			DateTime openingDate = new DateTime(r.getDate());
+			DateTime closingDate = new DateTime(r.getStages()[5].getPlannedDueDate());
+			Duration dur = new Duration(openingDate, closingDate);
+			int requestduration = (int) dur.getStandardDays();
+			Report rep = SearchReport(r.getId());
+			if (rep != null) {
+				int excpectedDuration = rep.getDurationAssesment();
+				if (requestduration > excpectedDuration) {
+					res.add((double)(requestduration-excpectedDuration));
+				}
+			}
+		}
+		return res;
 	}
 }

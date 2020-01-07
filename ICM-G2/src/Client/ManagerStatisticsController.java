@@ -123,8 +123,11 @@ public class ManagerStatisticsController {
 	@FXML
 	private Label delaysFD;
 
+	
 	@FXML
 	public TableView<FrequencyDeviation> extensionsTable;
+	@FXML
+	public TableView<FrequencyDeviation> addonsTable;
 	@FXML
 	public TableView<FrequencyDeviation> delaysTable;
 
@@ -144,9 +147,14 @@ public class ManagerStatisticsController {
 		this.delaysTable = delaysTable;
 	}
 
-	@FXML
-	public TableView<FrequencyDeviation> addonsTable;
+	public TableView<FrequencyDeviation> getAddonsTable() {
+		return addonsTable;
+	}
 
+	public void setAddonsTable(TableView<FrequencyDeviation> addonsTable) {
+		this.addonsTable = addonsTable;
+	}
+	
 	public void initialize() {
 		_ins = this;
 		new Thread() {
@@ -194,6 +202,8 @@ public class ManagerStatisticsController {
 			performance.setVisible(true);
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat));
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq));
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsStat));
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsFreq));
 			break;
 		case "Delays Report":
 			periodReportDate.setVisible(false);
@@ -219,9 +229,9 @@ public class ManagerStatisticsController {
 			delaysTable.setVisible(false);
 		}
 		else {
-			delaysNum.setText("Number of delays: " + l.get(0).toString());
-			delaysMedian.setText("Median: " + l.get(1).toString());
-			delaysSD.setText("Standard Deviation: " + l.get(2).toString());
+			delaysNum.setText(String.format("Number of delays: %.0f", l.get(0)));
+			delaysMedian.setText(String.format("Median: %.1f", l.get(1)));
+			delaysSD.setText(String.format("Standard Deviation: %g", l.get(2)));
 			Main.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.GetDelaysFreq, systemCB.getValue()));
 			delaysTable.setVisible(true);
@@ -271,6 +281,16 @@ public class ManagerStatisticsController {
 			}
 		});
 	}
+	
+	public void updateAddons(ArrayList<Double> l) {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				addonsTotalLabel.setText(String.format("Total duration: %.0f", l.get(0)));
+				addonsMedianLabel.setText(String.format("Median: %.1f", l.get(1)));
+				addonsSDLabel.setText(String.format("Standard Deviation: %g", l.get(2)));
+			}
+		});
+	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setTables() {
@@ -283,9 +303,9 @@ public class ManagerStatisticsController {
 		freqC.setPrefWidth(100);
 
 		TableColumn<FrequencyDeviation, Double> valueC2 = new TableColumn<>("Value");
-		valueC.setCellValueFactory(new PropertyValueFactory("value"));
+		valueC2.setCellValueFactory(new PropertyValueFactory("value"));
 		TableColumn<FrequencyDeviation, Integer> freqC2 = new TableColumn<>("Frequency");
-		freqC.setCellValueFactory(new PropertyValueFactory("freq"));
+		freqC2.setCellValueFactory(new PropertyValueFactory("freq"));
 		addonsTable.getColumns().addAll(valueC2, freqC2);
 		valueC2.setPrefWidth(50);
 		freqC2.setPrefWidth(100);
