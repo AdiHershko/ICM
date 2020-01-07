@@ -68,12 +68,12 @@
       <Button fx:id="editTesterButton" layoutX="247.0" layoutY="425.0" mnemonicParsing="false" onAction="#editTester" text="Edit" />
       <Button fx:id="editAssesmentButton1" layoutX="245.0" layoutY="154.0" mnemonicParsing="false" onAction="#editAssesment1" text="Edit" />
       <DatePicker fx:id="assesmentDueDateText" layoutX="429.0" layoutY="154.0" />
-      <DatePicker fx:id="assesmentExtensionDateText" layoutX="429.0" layoutY="193.0" />
-      <DatePicker fx:id="examaningExtensionText" layoutX="429.0" layoutY="261.0" />
       <DatePicker fx:id="examaningDueDateText" layoutX="83.0" layoutY="261.0" prefHeight="25.0" prefWidth="156.0" />
       <DatePicker fx:id="executionDueDateText" layoutX="429.0" layoutY="342.0" />
-      <DatePicker fx:id="executionExtenstionDateText" layoutX="429.0" layoutY="377.0" />
       <DatePicker fx:id="testDueDateText" layoutX="429.0" layoutY="428.0" />
-      <DatePicker fx:id="testerExtensionDateText" layoutX="429.0" layoutY="463.0" />
+      <TextField fx:id="assesmentExtensionDateText" layoutX="429.0" layoutY="193.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="examaningExtensionText" layoutX="429.0" layoutY="261.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="executionExtenstionDateText" layoutX="429.0" layoutY="377.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="testerExtensionDateText" layoutX="429.0" layoutY="463.0" prefHeight="25.0" prefWidth="174.0" />
    </children>
 </Pane>

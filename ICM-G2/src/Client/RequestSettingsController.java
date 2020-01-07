@@ -36,15 +36,15 @@ public class RequestSettingsController {
 	@FXML
 	private DatePicker assesmentDueDateText;
 	@FXML
-	private DatePicker assesmentExtensionDateText;
+	private TextField assesmentExtensionDateText;
 	@FXML
-	private DatePicker examaningExtensionText;
+	private TextField examaningExtensionText;
 	@FXML
 	private DatePicker executionDueDateText;
 	@FXML
-	private DatePicker executionExtenstionDateText;
+	private TextField executionExtenstionDateText;
 	@FXML
-	private DatePicker testerExtensionDateText;
+	private TextField testerExtensionDateText;
 	@FXML
 	private Button editAssesmentButton;
 	@FXML
@@ -84,7 +84,7 @@ public class RequestSettingsController {
 		requestIDLabel.setText("" + currentRequest.getId());
 		if (currentRequest.getStages()[1].getPlannedDueDate() != null)
 			getAssesmentDueDateText()
-					.setText(new DateTime(currentRequest.getStages()[1].getPlannedDueDate()).toString("dd/MM/yyyy"));
+					.setPromptText(new DateTime(currentRequest.getStages()[1].getPlannedDueDate()).toString("dd/MM/yyyy"));
 		getAssesmentAppointerText()
 				.setText(currentRequest.getStages()[1].getStageMembers().toString().replaceAll("[^A-Za-z0-9]+", ""));
 		if (currentRequest.getStages()[1].getExtendedDueDate() != null)
@@ -95,10 +95,10 @@ public class RequestSettingsController {
 					.setText(new DateTime(currentRequest.getStages()[2].getExtendedDueDate()).toString("dd/MM/yyyy"));
 		if (currentRequest.getStages()[2].getPlannedDueDate() != null)
 			getExamaningDueDateText()
-					.setText(new DateTime(currentRequest.getStages()[2].getPlannedDueDate()).toString("dd/MM/yyyy"));
+					.setPromptText(new DateTime(currentRequest.getStages()[2].getPlannedDueDate()).toString("dd/MM/yyyy"));
 		if (currentRequest.getStages()[3].getPlannedDueDate() != null)
 			getExecutionDueDateText()
-					.setText(new DateTime(currentRequest.getStages()[3].getPlannedDueDate()).toString("dd/MM/yyyy"));
+					.setPromptText(new DateTime(currentRequest.getStages()[3].getPlannedDueDate()).toString("dd/MM/yyyy"));
 		getExecutionAppointerText()
 				.setText(currentRequest.getStages()[3].getStageMembers().toString().replaceAll("[^A-Za-z0-9]+", ""));
 		if (currentRequest.getStages()[3].getExtendedDueDate() != null)
@@ -106,7 +106,7 @@ public class RequestSettingsController {
 					.setText(new DateTime(currentRequest.getStages()[3].getExtendedDueDate()).toString("dd/MM/yyyy"));
 		if (currentRequest.getStages()[4].getPlannedDueDate() != null)
 			getTestDueDateText()
-					.setText(new DateTime(currentRequest.getStages()[4].getPlannedDueDate()).toString("dd/MM/yyyy"));
+					.setPromptText(new DateTime(currentRequest.getStages()[4].getPlannedDueDate()).toString("dd/MM/yyyy"));
 		getTesterAppointedText()
 				.setText(currentRequest.getStages()[4].getStageMembers().toString().replaceAll("[^A-Za-z0-9]+", ""));
 		if (currentRequest.getStages()[4].getExtendedDueDate() != null)
@@ -168,10 +168,14 @@ public class RequestSettingsController {
 
 	@FXML
 	public void setAssesmentDate() {
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		
+		org.joda.time.format.DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime dt;
+		String temp;
+		java.time.format.DateTimeFormatter df = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		try {
-			dt = dtf.parseDateTime(assesmentDueDateText.getText());
+			temp = (assesmentDueDateText.getValue()).format(df);
+			dt = dtf.parseDateTime(temp);
 		} catch (IllegalArgumentException e) {
 			Platform.runLater(() -> {
 				Alert alert = new Alert(AlertType.INFORMATION);
@@ -254,10 +258,13 @@ public class RequestSettingsController {
 
 	@FXML
 	public void saveExamDate() {
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		org.joda.time.format.DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime dt;
+		String temp;
+		java.time.format.DateTimeFormatter df = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		try {
-			dt = dtf.parseDateTime(examaningDueDateText.getText());
+			temp = (examaningDueDateText.getValue()).format(df);
+			dt = dtf.parseDateTime(temp);
 		} catch (IllegalArgumentException e) {
 			Platform.runLater(() -> {
 				Alert alert = new Alert(AlertType.INFORMATION);
@@ -280,10 +287,13 @@ public class RequestSettingsController {
 
 	@FXML
 	public void setExecDate() {
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		org.joda.time.format.DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime dt;
+		String temp;
+		java.time.format.DateTimeFormatter df = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		try {
-			dt = dtf.parseDateTime(executionDueDateText.getText());
+			temp = (executionDueDateText.getValue()).format(df);
+			dt = dtf.parseDateTime(temp);
 		} catch (IllegalArgumentException e) {
 			Platform.runLater(() -> {
 				Alert alert = new Alert(AlertType.INFORMATION);
@@ -306,10 +316,13 @@ public class RequestSettingsController {
 
 	@FXML
 	public void setTestDate() {
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+		org.joda.time.format.DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime dt;
+		String temp;
+		java.time.format.DateTimeFormatter df = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		try {
-			dt = dtf.parseDateTime(testDueDateText.getText());
+			temp = (testDueDateText.getValue()).format(df);
+			dt = dtf.parseDateTime(temp);
 		} catch (IllegalArgumentException e) {
 			Platform.runLater(() -> {
 				Alert alert = new Alert(AlertType.INFORMATION);
@@ -347,11 +360,11 @@ public class RequestSettingsController {
 		this.assesmentAppointerText = assesmentAppointerText;
 	}
 
-	public TextField getExamaningDueDateText() {
+	public DatePicker getExamaningDueDateText() {
 		return examaningDueDateText;
 	}
 
-	public void setExamaningDueDateText(TextField examaningDueDateText) {
+	public void setExamaningDueDateText(DatePicker examaningDueDateText) {
 		this.examaningDueDateText = examaningDueDateText;
 	}
 
@@ -363,19 +376,19 @@ public class RequestSettingsController {
 		this.executionAppointerText = executionAppointerText;
 	}
 
-	public TextField getTestDueDateText() {
+	public DatePicker getTestDueDateText() {
 		return testDueDateText;
 	}
 
-	public void setTestDueDateText(TextField testDueDateText) {
+	public void setTestDueDateText(DatePicker testDueDateText) {
 		this.testDueDateText = testDueDateText;
 	}
 
-	public TextField getAssesmentDueDateText() {
+	public DatePicker getAssesmentDueDateText() {
 		return assesmentDueDateText;
 	}
 
-	public void setAssesmentDueDateText(TextField assesmentDueDateText) {
+	public void setAssesmentDueDateText(DatePicker assesmentDueDateText) {
 		this.assesmentDueDateText = assesmentDueDateText;
 	}
 
@@ -395,7 +408,7 @@ public class RequestSettingsController {
 		this.examaningExtensionText = examaningExtensionText;
 	}
 
-	public TextField getExecutionDueDateText() {
+	public DatePicker getExecutionDueDateText() {
 		return executionDueDateText;
 	}
 
@@ -407,7 +420,7 @@ public class RequestSettingsController {
 		this.testerAppointedText = testerAppointedText;
 	}
 
-	public void setExecutionDueDateText(TextField executionDueDateText) {
+	public void setExecutionDueDateText(DatePicker executionDueDateText) {
 		this.executionDueDateText = executionDueDateText;
 	}
 
