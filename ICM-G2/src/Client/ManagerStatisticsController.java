@@ -280,13 +280,15 @@ public class ManagerStatisticsController {
 		freqC.setCellValueFactory(new PropertyValueFactory("freq"));
 		extensionsTable.getColumns().addAll(valueC, freqC);
 		valueC.setPrefWidth(50);
+		freqC.setPrefWidth(100);
 
 		TableColumn<FrequencyDeviation, Double> valueC2 = new TableColumn<>("Value");
 		valueC.setCellValueFactory(new PropertyValueFactory("value"));
 		TableColumn<FrequencyDeviation, Integer> freqC2 = new TableColumn<>("Frequency");
 		freqC.setCellValueFactory(new PropertyValueFactory("freq"));
 		addonsTable.getColumns().addAll(valueC2, freqC2);
-		valueC2.setMinWidth(50);
+		valueC2.setPrefWidth(50);
+		freqC2.setPrefWidth(100);
 		
 		TableColumn<FrequencyDeviation, Double> valueC3 = new TableColumn<>("Value");
 		valueC3.setCellValueFactory(new PropertyValueFactory("value"));
@@ -294,5 +296,6 @@ public class ManagerStatisticsController {
 		freqC3.setCellValueFactory(new PropertyValueFactory("freq"));
 		delaysTable.getColumns().addAll(valueC3, freqC3);
 		valueC3.setPrefWidth(50);
+		freqC3.setPrefWidth(100);
 	}
 }

@@ -97,10 +97,10 @@
                   <Label fx:id="stageLabel" layoutX="286.0" layoutY="14.0" text="stage" />
                   <Label fx:id="statusLabel" layoutX="288.0" layoutY="40.0" text="status" />
                   <Label fx:id="timeCreatedLabel" layoutX="388.0" layoutY="14.0" text="Time Created" />
-                  <Label fx:id="uploadedFilesLabel" layoutX="446.0" layoutY="372.0" text="Files Uploaded: none" />
                   <Label fx:id="requestorLabel" layoutX="388.0" layoutY="40.0" text="Requestor:" />
                   <Label fx:id="stageDate1" layoutX="9.0" layoutY="398.0" text="Current Stage Due Date:" />
-                  <Button fx:id="viewFilesButton" layoutX="575.0" layoutY="368.0" mnemonicParsing="false" onAction="#viewFiles" text="View files" />
+                  <Label fx:id="uploadedFilesLabel" layoutX="10.0" layoutY="370.0" text="Files Uploaded: none" />
+                  <Button fx:id="viewFilesButton" layoutX="229.0" layoutY="364.0" mnemonicParsing="false" onAction="#viewFiles" text="View files" />
                </children>
             </Pane>
             <Pane fx:id="CUserOpenRequest1" prefHeight="508.0" prefWidth="870.0" visible="false">

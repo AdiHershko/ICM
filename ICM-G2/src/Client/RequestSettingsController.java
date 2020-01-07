@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -27,23 +28,23 @@ public class RequestSettingsController {
 	@FXML
 	private TextField assesmentAppointerText;
 	@FXML
-	private TextField examaningDueDateText;
+	private DatePicker examaningDueDateText;
 	@FXML
 	private TextField executionAppointerText;
 	@FXML
-	private TextField testDueDateText;
+	private DatePicker testDueDateText;
 	@FXML
-	private TextField assesmentDueDateText;
+	private DatePicker assesmentDueDateText;
 	@FXML
-	private TextField assesmentExtensionDateText;
+	private DatePicker assesmentExtensionDateText;
 	@FXML
-	private TextField examaningExtensionText;
+	private DatePicker examaningExtensionText;
 	@FXML
-	private TextField executionDueDateText;
+	private DatePicker executionDueDateText;
 	@FXML
-	private TextField executionExtenstionDateText;
+	private DatePicker executionExtenstionDateText;
 	@FXML
-	private TextField testerExtensionDateText;
+	private DatePicker testerExtensionDateText;
 	@FXML
 	private Button editAssesmentButton;
 	@FXML
