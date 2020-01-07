@@ -653,6 +653,10 @@ public class DataBaseController {
 		String temp = "";
 		try {
 			PreparedStatement st = null;
+			ResultSet rs=null;
+			st=c.prepareStatement("select Requests.System from Requests where ID="+id);
+			rs=st.executeQuery();
+			rs.next(); //saves the system number
 			String query = "INSERT INTO Stages (Stages.StageName, Stages.isApproved, Stages.isExtended, Stages.Member, Stages.RequestID) Values (?,?,?,?,?)";
 			for (int i = 0; i < Enums.numberOfStages; i++) {
 				Thread.sleep(100);
@@ -663,7 +667,7 @@ public class DataBaseController {
 				if (i == 0 || i == 5)
 					st.setString(4, "," + getSupervisor() + ",");
 				else if (i == 1)
-					st.setString(4, GetRandomISUser());
+					st.setString(4, GetRandomISUser(rs.getInt(1)));
 				else if (i == 2)
 					st.setString(4, GetComitteString());
 				else
@@ -815,9 +819,9 @@ public class DataBaseController {
 		return results;
 	}
 
-	public static String GetRandomISUser() {
+	public static String GetRandomISUser(int system) {
 		ArrayList<String> users = new ArrayList<String>();
-		String query = "select username from Users where Role = 1 or Role = 2 or Role = 3";
+		String query = "select username from Users where (Role = 1 or Role = 2 or Role = 3) and Department LIKE '%"+Enums.SystemENUM.getSystemByInt(system).toString()+"%'";
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -1319,7 +1323,7 @@ public class DataBaseController {
 		query = "select * from Requests";
 		return getRequests(query);
 	}
-	
+
 	public static ArrayList<Double> getDelaysDurations(SystemENUM enm) {
 		ResultSet rs = null;
 		PreparedStatement statement;
@@ -1362,7 +1366,7 @@ public class DataBaseController {
 		}
 		return list;
 	}
-	
+
 	public static ArrayList<Double> getAllAddons(){
 		String query = "select * from Requests";
 		ObservableList<Request> list = getRequests(query);
