@@ -52,6 +52,25 @@
             </Pane>
          </children>
       </Pane>
+      <Pane fx:id="delaysPane" layoutX="97.0" layoutY="168.0" prefHeight="417.0" prefWidth="902.0" visible="false">
+         <children>
+            <Label layoutX="35.0" layoutY="21.0" text="Choose system:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="systemCB" layoutX="139.0" layoutY="19.0" prefWidth="150.0" />
+            <Pane fx:id="delaysInnerPane" layoutX="58.0" layoutY="61.0" prefHeight="329.0" prefWidth="722.0" visible="false">
+               <children>
+                  <TableView fx:id="delaysTable" layoutX="200.0" layoutY="150.0" prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="delaysNum" layoutX="84.0" layoutY="60.0" text="Number of delays:" />
+                  <Label fx:id="delaysMedian" layoutX="138.0" layoutY="90.0" text="Median:" />
+                  <Label fx:id="delaysSD" layoutX="80.0" layoutY="120.0" text="Standard Deviation:" />
+                  <Label fx:id="delaysFD" layoutX="74.0" layoutY="150.0" text="Frequency Deviation:" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
       <Pane fx:id="performance" layoutX="97.0" layoutY="168.0" prefHeight="417.0" prefWidth="902.0" visible="false">
          <children>
             <Label layoutX="166.0" layoutY="27.0" text="Extensions:">
@@ -76,24 +95,6 @@
             <Label layoutX="192.0" layoutY="57.0" text="(in days)" />
             <Label layoutX="587.0" layoutY="57.0" text="(in days)" />
             <TableView fx:id="addonsTable" layoutX="587.0" layoutY="180.0" prefHeight="229.0" prefWidth="150.0" />
-         </children>
-      </Pane>
-      <Pane fx:id="delaysPane" layoutX="97.0" layoutY="168.0" prefHeight="417.0" prefWidth="902.0" visible="false">
-         <children>
-            <Label layoutX="35.0" layoutY="21.0" text="Choose system:">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <ChoiceBox fx:id="systemCB" layoutX="139.0" layoutY="19.0" prefWidth="150.0" />
-            <Pane fx:id="delaysInnerPane" layoutX="58.0" layoutY="61.0" prefHeight="329.0" prefWidth="722.0" visible="false">
-               <children>
-                  <Label fx:id="delaysNum" layoutX="84.0" layoutY="60.0" text="Number of delays:" />
-                  <Label fx:id="delaysMedian" layoutX="138.0" layoutY="90.0" text="Median:" />
-                  <Label fx:id="delaysSD" layoutX="80.0" layoutY="120.0" text="Standard Deviation:" />
-                  <Label fx:id="delaysFD" layoutX="74.0" layoutY="150.0" text="Frequency Deviation:" />
-               </children>
-            </Pane>
          </children>
       </Pane>
    </children>

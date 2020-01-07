@@ -440,7 +440,14 @@ public class ChatClient extends AbstractClient {
 						ManagerStatisticsController._ins.showDelaySystem((ArrayList<Double>)((ClientServerMessage)msg).getL());
 					}
 				});
-				
+				break;
+			case GetDelaysFreq:
+				ObservableList<FrequencyDeviation> delRes = FXCollections.observableArrayList();
+				for (Object o : ((ClientServerMessage)msg).getArray()) {
+					delRes.add((FrequencyDeviation) o);
+				}
+				ManagerStatisticsController._ins.getDelaysTable().setItems(delRes);
+				break;
 			default:
 				break;
 			}

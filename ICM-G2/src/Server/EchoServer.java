@@ -493,6 +493,15 @@ public class EchoServer extends AbstractServer {
 					}
 				}
 				break;
+			case GetDelaysFreq:
+				ArrayList<Double> delFreq = DataBaseController.getDelaysDurations(CSMsg.getEnm());
+				ObservableList<FrequencyDeviation> dekResultOL = c.freqDeviation(delFreq);
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetDelaysFreq, dekResultOL.toArray()));
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				break;
 			default:
 				break;
 			}

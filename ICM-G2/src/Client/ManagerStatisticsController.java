@@ -109,7 +109,7 @@ public class ManagerStatisticsController {
 	@FXML
 	private Pane delaysInnerPane;
 	@FXML
-	private ChoiceBox<SystemENUM> systemCB=new ChoiceBox<SystemENUM>();
+	private ChoiceBox<SystemENUM> systemCB = new ChoiceBox<SystemENUM>();
 
 	@FXML
 	private Label delaysNum;
@@ -122,11 +122,13 @@ public class ManagerStatisticsController {
 
 	@FXML
 	private Label delaysFD;
-	
+
 	@FXML
 	public TableView<FrequencyDeviation> extensionsTable;
+	@FXML
+	public TableView<FrequencyDeviation> delaysTable;
 
-    public TableView<FrequencyDeviation> getExtensionsTable() {
+	public TableView<FrequencyDeviation> getExtensionsTable() {
 		return extensionsTable;
 	}
 
@@ -134,9 +136,16 @@ public class ManagerStatisticsController {
 		this.extensionsTable = extensionsTable;
 	}
 
+	public TableView<FrequencyDeviation> getDelaysTable() {
+		return delaysTable;
+	}
+
+	public void setDelaysTable(TableView<FrequencyDeviation> delaysTable) {
+		this.delaysTable = delaysTable;
+	}
 
 	@FXML
-    public TableView<FrequencyDeviation> addonsTable;
+	public TableView<FrequencyDeviation> addonsTable;
 
 	public void initialize() {
 		_ins = this;
@@ -162,8 +171,8 @@ public class ManagerStatisticsController {
 
 			}
 		}.start();
-		systemCB.getItems().addAll(SystemENUM.All,SystemENUM.Computers,SystemENUM.InfoStation,SystemENUM.Labs);
-		systemCB.getItems().addAll(SystemENUM.Library,SystemENUM.Moodle,SystemENUM.Site);
+		systemCB.getItems().addAll(SystemENUM.All, SystemENUM.Computers, SystemENUM.InfoStation, SystemENUM.Labs);
+		systemCB.getItems().addAll(SystemENUM.Library, SystemENUM.Moodle, SystemENUM.Site);
 		systemCB.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> changeDelaySystem());
 		reportChoiceBox.getItems().add("Period Report");
 		reportChoiceBox.getItems().add("Performance Report");
@@ -195,29 +204,37 @@ public class ManagerStatisticsController {
 			break;
 		}
 	}
+
 	public void changeDelaySystem() {
 		delaysInnerPane.setVisible(true);
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetDelaysStat,systemCB.getValue()));
+		Main.client.handleMessageFromClientUI(
+				new ClientServerMessage(Enums.MessageEnum.GetDelaysStat, systemCB.getValue()));
 	}
+
 	public void showDelaySystem(ArrayList<Double> l) {
-		if(l.isEmpty()) {
+		if (l.isEmpty()) {
 			delaysNum.setText("Number of delays: 0");
 			delaysMedian.setText("Median: 0");
 			delaysSD.setText("Standard Deviation: 0");
+			delaysTable.setVisible(false);
 		}
 		else {
-		delaysNum.setText("Number of delays: "+l.get(0).toString());
-		delaysMedian.setText("Median: "+l.get(1).toString());
-		delaysSD.setText("Standard Deviation: "+l.get(2).toString());
+			delaysNum.setText("Number of delays: " + l.get(0).toString());
+			delaysMedian.setText("Median: " + l.get(1).toString());
+			delaysSD.setText("Standard Deviation: " + l.get(2).toString());
+			Main.client.handleMessageFromClientUI(
+					new ClientServerMessage(Enums.MessageEnum.GetDelaysFreq, systemCB.getValue()));
+			delaysTable.setVisible(true);
 		}
 	}
+
 	@FXML
 	void getReport1(ActionEvent event) {
 
 	}
 
 	@FXML
-	void logout(ActionEvent event) throws IOException{
+	void logout(ActionEvent event) throws IOException {
 		Main.client.handleMessageFromClientUI(
 				new ClientServerMessage(Enums.MessageEnum.logOut, Main.currentUser.getUsername()));
 		Main.currentUser = null;
@@ -254,8 +271,7 @@ public class ManagerStatisticsController {
 			}
 		});
 	}
-	
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setTables() {
 		TableColumn<FrequencyDeviation, Double> valueC = new TableColumn<>("Value");
@@ -264,12 +280,19 @@ public class ManagerStatisticsController {
 		freqC.setCellValueFactory(new PropertyValueFactory("freq"));
 		extensionsTable.getColumns().addAll(valueC, freqC);
 		valueC.setPrefWidth(50);
-		
+
 		TableColumn<FrequencyDeviation, Double> valueC2 = new TableColumn<>("Value");
 		valueC.setCellValueFactory(new PropertyValueFactory("value"));
 		TableColumn<FrequencyDeviation, Integer> freqC2 = new TableColumn<>("Frequency");
 		freqC.setCellValueFactory(new PropertyValueFactory("freq"));
 		addonsTable.getColumns().addAll(valueC2, freqC2);
 		valueC2.setMinWidth(50);
+		
+		TableColumn<FrequencyDeviation, Double> valueC3 = new TableColumn<>("Value");
+		valueC3.setCellValueFactory(new PropertyValueFactory("value"));
+		TableColumn<FrequencyDeviation, Integer> freqC3 = new TableColumn<>("Frequency");
+		freqC3.setCellValueFactory(new PropertyValueFactory("freq"));
+		delaysTable.getColumns().addAll(valueC3, freqC3);
+		valueC3.setPrefWidth(50);
 	}
 }
