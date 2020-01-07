@@ -1,5 +1,7 @@
 package Client;
 
+import java.util.ArrayList;
+
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.User;
@@ -7,6 +9,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -46,6 +49,24 @@ public class ISUsersScreenController {
 
 	@FXML
 	private boolean canedit;
+
+	@FXML
+	private CheckBox infoStationBox;
+
+	@FXML
+	private CheckBox moodleBox;
+
+	@FXML
+	private CheckBox libraryBox;
+
+	@FXML
+	private CheckBox computersBox;
+
+	@FXML
+	private CheckBox labBox;
+
+	@FXML
+	private CheckBox siteBox;
 
 	public void initialize() {
 		_ins = this;
@@ -144,11 +165,21 @@ public class ISUsersScreenController {
 				return;
 			}
 		}
-
+		boolean[] permissions = new boolean[6];
+		ArrayList<CheckBox> boxes = new ArrayList<>();
+		boxes.add(infoStationBox);
+		boxes.add(computersBox);
+		boxes.add(moodleBox);
+		boxes.add(siteBox);
+		boxes.add(labBox);
+		boxes.add(libraryBox);
+		for (int i = 0;i<6;i++)
+			if (boxes.get(i).isSelected())
+				permissions[i]=true;
 		if (isEdit) {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPDATEISUSER, current));
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPDATEISUSER, current,permissions));
 		} else {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.ADDISUSER, current));
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.ADDISUSER, current,permissions));
 		}
 	}
 
@@ -170,6 +201,15 @@ public class ISUsersScreenController {
 		return roleChoiceBox;
 	}
 
+
+	public CheckBox getSiteBox() {
+		return siteBox;
+	}
+
+	public void setSiteBox(CheckBox siteBox) {
+		this.siteBox = siteBox;
+	}
+
 	public TextField getUserIDField() {
 		return userIDField;
 	}
@@ -188,6 +228,50 @@ public class ISUsersScreenController {
 
 	public void setCanEdit(boolean con) {
 		canedit = con;
+	}
+
+	public CheckBox getInfoStationBox() {
+		return infoStationBox;
+	}
+
+	public void setInfoStationBox(CheckBox infoStationBox) {
+		this.infoStationBox = infoStationBox;
+	}
+
+	public CheckBox getMoodleBox() {
+		return moodleBox;
+	}
+
+	public void setMoodleBox(CheckBox moodleBox) {
+		this.moodleBox = moodleBox;
+	}
+
+	public CheckBox getLibraryBox() {
+		return libraryBox;
+	}
+
+	public void setLibraryBox(CheckBox libraryBox) {
+		this.libraryBox = libraryBox;
+	}
+
+	public CheckBox getComputersBox() {
+		return computersBox;
+	}
+
+	public void setComputersBox(CheckBox computersBox) {
+		this.computersBox = computersBox;
+	}
+
+	public CheckBox getLabBox() {
+		return labBox;
+	}
+
+	public void setLabBox(CheckBox labBox) {
+		this.labBox = labBox;
+	}
+
+	public void setRoleChoiceBox(ChoiceBox<Enums.Role> roleChoiceBox) {
+		this.roleChoiceBox = roleChoiceBox;
 	}
 
 }

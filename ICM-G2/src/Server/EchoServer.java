@@ -79,8 +79,8 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-				
-				
+
+
 			case GETALLREPORTS:
 				ObservableList<Report> ol3 = FXCollections.observableArrayList();
 				ol3 = DataBaseController.getAllReports();
@@ -90,7 +90,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-				
+
 			case GETALLREQUESTS:
 				ObservableList<Request> ol4 = FXCollections.observableArrayList();
 				ol4 = DataBaseController.getAllRequests();
@@ -100,7 +100,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-				
+
 			case GETALLSTAGES:
 				ObservableList<Common.Stage> ol5 = FXCollections.observableArrayList();
 				ol5 = DataBaseController.getALLRequestStages();
@@ -119,8 +119,8 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-				
-				
+
+
 			case UpdateRequestDetails:
 				DataBaseController.updateRequestDetails(CSMsg.getRequest());
 				DataBaseController.updateLogRequestDetails(CSMsg.getRequest());
@@ -305,7 +305,7 @@ public class EchoServer extends AbstractServer {
 				DataBaseController.DisconnectUser(CSMsg.getMsg());
 				break;
 			case ADDISUSER:
-				String good = DataBaseController.addISUser(((ClientServerMessage) msg).getUser());
+				String good = DataBaseController.addISUser(((ClientServerMessage) msg).getUser(),CSMsg.getBoolarr());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ADDISUSER, good));
 				} catch (IOException e) {
@@ -321,7 +321,7 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case UPDATEISUSER:
-				boolean result = DataBaseController.updateISUser(((ClientServerMessage) msg).getUser());
+				boolean result = DataBaseController.updateISUser(((ClientServerMessage) msg).getUser(),CSMsg.getBoolarr());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.UPDATEISUSER, result));
 				} catch (Exception e) {

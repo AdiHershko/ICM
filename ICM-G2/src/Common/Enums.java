@@ -75,6 +75,23 @@ public class Enums {
 			}
 			return null;
 		}
+			public static SystemENUM getSystemByString(String s) {
+				switch (s) {
+				case "InfoStation":
+					return InfoStation;
+				case "Moodle":
+					return Moodle;
+				case "Library":
+					return Library;
+				case "Computers":
+					return Computers;
+				case "Labs":
+					return Labs;
+				case "Site":
+					return Site;
+				}
+				return null;
+		}
 
 		public static int getSystemByEnum(SystemENUM i) {
 			switch (i) {
@@ -94,6 +111,7 @@ public class Enums {
 			return -1;
 		}
 	}
+
 
 	public enum RequestStageENUM {
 		Initialization, Assesment, Examaning, Execution, Testing, Closing;

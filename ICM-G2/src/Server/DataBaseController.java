@@ -58,8 +58,8 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static String addISUser(User current) {
-		String query = "insert into Users(Users.username,Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role) values (?,?,?,?,?,?)";
+	public static String addISUser(User current,boolean[] permissions) {
+		String query = "insert into Users(Users.username,Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role,Users.Department) values (?,?,?,?,?,?,?)";
 		PreparedStatement st;
 		try {
 			st = c.prepareStatement(query);
@@ -69,6 +69,13 @@ public class DataBaseController {
 			st.setString(4, current.getLastName());
 			st.setString(5, current.getMail());
 			st.setInt(6, Enums.Role.getRoleByEnum(current.getRole()));
+			String departments=",";
+			for (int i = 0;i<permissions.length;i++)
+				if (permissions[i]==true)
+					departments+=Enums.SystemENUM.getSystemByInt(i).toString()+",";
+			if (departments.equals(","))
+				departments="";
+			st.setString(7, departments);
 			st.execute();
 		} catch (SQLIntegrityConstraintViolationException e) {
 			return "IDEXISTS";
@@ -79,7 +86,7 @@ public class DataBaseController {
 	}
 
 	public static String[] getISUser(String userID) {
-		String query = "select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role from Users where username='"
+		String query = "select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role,Users.Department from Users where username='"
 				+ userID + "' and Users.Role>0";
 		PreparedStatement st;
 		ResultSet rs = null;
@@ -87,21 +94,22 @@ public class DataBaseController {
 		try {
 			st = c.prepareStatement(query);
 			rs = st.executeQuery();
-			res = new String[5];
+			res = new String[6];
 			if (!rs.next()) {
 				return null;
 			}
 			for (int i = 0; i < 4; i++)
 				res[i] = rs.getString(i + 1);
 			res[4] = "" + rs.getInt(5);
+			res[5]=rs.getString(6);
 		} catch (SQLException e) {
 			return null;
 		}
 		return res;
 	}
 
-	public static boolean updateISUser(User current) {
-		String query = "update Users set Password=? ,FirstName=? ,LastName=? ,Mail=? ,Role=? where username=?";
+	public static boolean updateISUser(User current,boolean[] permissions) {
+		String query = "update Users set Password=? ,FirstName=? ,LastName=? ,Mail=? ,Role=? ,Department=? where username=?";
 		PreparedStatement st;
 		try {
 			st = c.prepareStatement(query);
@@ -110,7 +118,14 @@ public class DataBaseController {
 			st.setString(3, current.getLastName());
 			st.setString(4, current.getMail());
 			st.setInt(5, Enums.Role.getRoleByEnum(current.getRole()));
-			st.setString(6, current.getUsername());
+			st.setString(7, current.getUsername());
+			String departments=",";
+			for (int i = 0;i<permissions.length;i++)
+				if (permissions[i]==true)
+					departments+=Enums.SystemENUM.getSystemByInt(i).toString()+",";
+			if (departments.equals(","))
+				departments="";
+			st.setString(6, departments);
 			st.execute();
 		} catch (SQLException e) {
 			return false;
@@ -259,7 +274,7 @@ public class DataBaseController {
 		}
 		return o;
 	}
-	
+
 	public static ObservableList<Request> getRequests1(String query) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
 		ResultSet rs = null;
@@ -278,7 +293,7 @@ public class DataBaseController {
 							rs.getString(6), Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)),
 							Enums.RequestStatus.getStatusByInt(rs.getInt(8)), new DateTime(rs.getString(9)), rs.getString(10),
 							rs.getString(12), rs.getInt(13));
-					
+
 					o.add(r);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -1201,7 +1216,7 @@ public class DataBaseController {
 		}
 		return list;
 	}
-	
+
 	public static ObservableList<User> getAllUsers() {
 		ObservableList<User> o = FXCollections.observableArrayList();
 		String query = query = "select * from Users";
@@ -1262,7 +1277,7 @@ public class DataBaseController {
 		}
 		return o;
 	}
-	
+
 	public static ObservableList<Common.Stage> getALLRequestStages() {
 		ObservableList<Common.Stage> o = FXCollections.observableArrayList();
 		Stage RequestStages[] = new Stage[Enums.numberOfStages];

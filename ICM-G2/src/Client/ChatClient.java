@@ -261,6 +261,30 @@ public class ChatClient extends AbstractClient {
 					ISUsersScreenController._ins.getMailField().setText(str[3]);
 					ISUsersScreenController._ins.getRoleChoiceBox().getSelectionModel()
 							.select(Enums.Role.getRoleENUM(Integer.parseInt(str[4])));
+					String[] perm = str[5].split(",");
+					for (String s : perm){
+						switch(s)
+						{
+						case "InfoStation":
+							ISUsersScreenController._ins.getInfoStationBox().setSelected(true);
+							break;
+						case "Moodle":
+							ISUsersScreenController._ins.getMoodleBox().setSelected(true);
+							break;
+						case "Library":
+							ISUsersScreenController._ins.getLibraryBox().setSelected(true);
+							break;
+						case "Computers":
+							ISUsersScreenController._ins.getComputersBox().setSelected(true);
+							break;
+						case "Labs":
+							ISUsersScreenController._ins.getLabBox().setSelected(true);
+							break;
+						case "Site":
+							ISUsersScreenController._ins.getSiteBox().setSelected(true);
+							break;
+						}
+					}
 				});
 				return;
 			case UPDATEISUSER:

@@ -28,6 +28,7 @@ public class ClientServerMessage implements Serializable {
 	private boolean search;
 	private boolean unActive;
 	private SystemENUM enm;
+	private boolean[] boolarr;
 
 	public boolean isSearch() {
 		return search;
@@ -174,6 +175,12 @@ public class ClientServerMessage implements Serializable {
 		this.type = type;
 		this.user = user;
 	}
+
+	public ClientServerMessage(MessageEnum type, User user,boolean[] boolarr) {
+		this.type = type;
+		this.user = user;
+		this.boolarr=boolarr;
+	}
 	public ClientServerMessage(MessageEnum type, String msg,int id, boolean search,boolean unActive) {
 		this.type = type;
 		this.msg=msg;
@@ -202,6 +209,14 @@ public class ClientServerMessage implements Serializable {
 
 	public BufferedInputStream getBis() {
 		return bis;
+	}
+
+	public boolean[] getBoolarr() {
+		return boolarr;
+	}
+
+	public void setBoolarr(boolean[] boolarr) {
+		this.boolarr = boolarr;
 	}
 
 	public void setBis(BufferedInputStream bis) {
