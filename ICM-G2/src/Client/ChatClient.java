@@ -16,8 +16,10 @@ import com.sun.glass.ui.Application;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.FrequencyDeviation;
+import Common.Message;
 import Common.Report;
 import Common.Request;
+import Common.SupervisorLog;
 import Common.User;
 import javafx.application.HostServices;
 import javafx.application.Platform;
@@ -185,6 +187,30 @@ public class ChatClient extends AbstractClient {
 				});
 				return;
 
+			case GETMESSAGESLIST:
+				ObservableList<Message> messagesList = FXCollections.observableArrayList();
+				for (Object o : ((ClientServerMessage) msg).getArray()) {
+					messagesList.add((Message) o);
+				}
+				Platform.runLater(new Runnable() {
+					public void run() {
+						AllSystemDataController._ins.getMessagesTableView().setItems(messagesList);
+					}
+				});
+				return;
+
+			case GETSUPERVISORLOGLIST:
+				ObservableList<SupervisorLog> supervisorLogList = FXCollections.observableArrayList();
+				for (Object o : ((ClientServerMessage) msg).getArray()) {
+					supervisorLogList.add((SupervisorLog) o);
+				}
+				Platform.runLater(new Runnable() {
+					public void run() {
+						AllSystemDataController._ins.getSupervisorLogTableView().setItems(supervisorLogList);
+					}
+				});
+				return;
+
 			case NewRequestID:
 				RequestsScreenController.waitForNewRequest = true;
 				RequestsScreenController.newRequestID = ((ClientServerMessage) msg).getId();
@@ -262,9 +288,8 @@ public class ChatClient extends AbstractClient {
 					ISUsersScreenController._ins.getRoleChoiceBox().getSelectionModel()
 							.select(Enums.Role.getRoleENUM(Integer.parseInt(str[4])));
 					String[] perm = str[5].split(",");
-					for (String s : perm){
-						switch(s)
-						{
+					for (String s : perm) {
+						switch (s) {
 						case "InfoStation":
 							ISUsersScreenController._ins.getInfoStationBox().setSelected(true);
 							break;
@@ -453,21 +478,22 @@ public class ChatClient extends AbstractClient {
 				break;
 			case GetExtensionFreq:
 				ObservableList<FrequencyDeviation> res = FXCollections.observableArrayList();
-				for (Object o : ((ClientServerMessage)msg).getArray()) {
+				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					res.add((FrequencyDeviation) o);
 				}
 				ManagerStatisticsController._ins.getExtensionsTable().setItems(res);
 				break;
 			case GetDelaysStat:
-				Platform.runLater(new Runnable(){
-					public void run(){
-						ManagerStatisticsController._ins.showDelaySystem((ArrayList<Double>)((ClientServerMessage)msg).getL());
+				Platform.runLater(new Runnable() {
+					public void run() {
+						ManagerStatisticsController._ins
+								.showDelaySystem((ArrayList<Double>) ((ClientServerMessage) msg).getL());
 					}
 				});
 				break;
 			case GetDelaysFreq:
 				ObservableList<FrequencyDeviation> delRes = FXCollections.observableArrayList();
-				for (Object o : ((ClientServerMessage)msg).getArray()) {
+				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					delRes.add((FrequencyDeviation) o);
 				}
 				ManagerStatisticsController._ins.getDelaysTable().setItems(delRes);
@@ -477,7 +503,7 @@ public class ChatClient extends AbstractClient {
 				break;
 			case GetAddonsFreq:
 				ObservableList<FrequencyDeviation> dasfsadf = FXCollections.observableArrayList();
-				for (Object o : ((ClientServerMessage)msg).getArray()) {
+				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					dasfsadf.add((FrequencyDeviation) o);
 				}
 				ManagerStatisticsController._ins.getAddonsTable().setItems(dasfsadf);
