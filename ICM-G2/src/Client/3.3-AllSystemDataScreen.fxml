@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.AllSystemDataController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.AllSystemDataController">
   
 
    <children>
@@ -39,5 +39,9 @@
          </font>
       </Label>
       <Button fx:id="backManagerButton" layoutX="25.0" layoutY="560.0" mnemonicParsing="false" onAction="#managerBack" text="&lt;- Back" />
+      <RadioButton fx:id="messagesRadioButton" layoutX="348.0" layoutY="107.0" mnemonicParsing="false" onAction="#showMessages" text="Messages" toggleGroup="$tg" />
+      <TableView fx:id="messagesTableView" layoutX="19.0" layoutY="132.0" prefHeight="417.0" prefWidth="1163.0" />
+      <RadioButton fx:id="supervisorLogRadioButton" layoutX="431.0" layoutY="107.0" mnemonicParsing="false" onAction="#showSupervisorLog" text="Supervisor Log" toggleGroup="$tg" />
+      <TableView fx:id="supervisorLogTableView" layoutX="19.0" layoutY="133.0" prefHeight="417.0" prefWidth="1163.0" />
    </children>
 </Pane>
