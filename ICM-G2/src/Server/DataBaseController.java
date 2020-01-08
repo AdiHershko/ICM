@@ -16,11 +16,13 @@ import org.joda.time.format.DateTimeFormatter;
 
 import Common.Request;
 import Common.Stage;
+import Common.SupervisorLog;
 import Common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.Enums;
 import Common.Enums.SystemENUM;
+import Common.Message;
 import Common.Report;
 
 public class DataBaseController {
@@ -58,7 +60,7 @@ public class DataBaseController {
 		return true;
 	}
 
-	public static String addISUser(User current,boolean[] permissions) {
+	public static String addISUser(User current, boolean[] permissions) {
 		String query = "insert into Users(Users.username,Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role,Users.Department) values (?,?,?,?,?,?,?)";
 		PreparedStatement st;
 		try {
@@ -69,12 +71,12 @@ public class DataBaseController {
 			st.setString(4, current.getLastName());
 			st.setString(5, current.getMail());
 			st.setInt(6, Enums.Role.getRoleByEnum(current.getRole()));
-			String departments=",";
-			for (int i = 0;i<permissions.length;i++)
-				if (permissions[i]==true)
-					departments+=Enums.SystemENUM.getSystemByInt(i).toString()+",";
+			String departments = ",";
+			for (int i = 0; i < permissions.length; i++)
+				if (permissions[i] == true)
+					departments += Enums.SystemENUM.getSystemByInt(i).toString() + ",";
 			if (departments.equals(","))
-				departments="";
+				departments = "";
 			st.setString(7, departments);
 			st.execute();
 		} catch (SQLIntegrityConstraintViolationException e) {
@@ -101,14 +103,14 @@ public class DataBaseController {
 			for (int i = 0; i < 4; i++)
 				res[i] = rs.getString(i + 1);
 			res[4] = "" + rs.getInt(5);
-			res[5]=rs.getString(6);
+			res[5] = rs.getString(6);
 		} catch (SQLException e) {
 			return null;
 		}
 		return res;
 	}
 
-	public static boolean updateISUser(User current,boolean[] permissions) {
+	public static boolean updateISUser(User current, boolean[] permissions) {
 		String query = "update Users set Password=? ,FirstName=? ,LastName=? ,Mail=? ,Role=? ,Department=? where username=?";
 		PreparedStatement st;
 		try {
@@ -119,12 +121,12 @@ public class DataBaseController {
 			st.setString(4, current.getMail());
 			st.setInt(5, Enums.Role.getRoleByEnum(current.getRole()));
 			st.setString(7, current.getUsername());
-			String departments=",";
-			for (int i = 0;i<permissions.length;i++)
-				if (permissions[i]==true)
-					departments+=Enums.SystemENUM.getSystemByInt(i).toString()+",";
+			String departments = ",";
+			for (int i = 0; i < permissions.length; i++)
+				if (permissions[i] == true)
+					departments += Enums.SystemENUM.getSystemByInt(i).toString() + ",";
 			if (departments.equals(","))
-				departments="";
+				departments = "";
 			st.setString(6, departments);
 			st.execute();
 		} catch (SQLException e) {
@@ -150,8 +152,7 @@ public class DataBaseController {
 		if (search == false) {
 			query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
 					+ ",%'";
-		}
-		else {
+		} else {
 			query = "select * from Requests where currenthandlers LIKE '%," + UserName + ",%'" + "and id=" + id;
 		}
 		return getRequests(query);
@@ -162,8 +163,7 @@ public class DataBaseController {
 		if (search == false) {
 			query = "select * from Requests where (status=0 or status=2 or status=3)";
 			return getRequests(query);
-		}
-		else {
+		} else {
 			query = "select * from Requests where id=" + id;
 			return getRequests(query);
 		}
@@ -291,8 +291,8 @@ public class DataBaseController {
 					Request r = new Request(rs.getInt(1), rs.getString(2),
 							Enums.SystemENUM.getSystemByInt(rs.getInt(3)), rs.getString(4), rs.getString(5),
 							rs.getString(6), Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(7)),
-							Enums.RequestStatus.getStatusByInt(rs.getInt(8)), new DateTime(rs.getString(9)), rs.getString(10),
-							rs.getString(12), rs.getInt(13));
+							Enums.RequestStatus.getStatusByInt(rs.getInt(8)), new DateTime(rs.getString(9)),
+							rs.getString(10), rs.getString(12), rs.getInt(13));
 
 					o.add(r);
 				} catch (SQLException e) {
@@ -404,8 +404,7 @@ public class DataBaseController {
 						query = "update Users set isLoggedIn=1 where username ='" + user + "'";
 						statement = c.prepareStatement(query);
 						statement.execute();
-					}
-					else {
+					} else {
 						us = new User("", "", "", "", "", Enums.Role.getRoleENUM(rs.getInt(6)));
 					}
 				} catch (SQLException e) {
@@ -594,8 +593,7 @@ public class DataBaseController {
 		if (check != null) {
 			query = "UPDATE Reports SET requestID= ?, description = ?, result = ?, location = ?, ";
 			query += "constraints= ?, risks = ?, duration = ?  WHERE requestID = " + String.valueOf(r.getRequestId());
-		}
-		else {
+		} else {
 			query = "INSERT INTO Reports (Reports.requestID, Reports.description, Reports.result, Reports.location, Reports.constraints,"
 					+ "Reports.risks, Reports.duration) Values (?,?,?,?,?,?,?)";
 		}
@@ -653,10 +651,10 @@ public class DataBaseController {
 		String temp = "";
 		try {
 			PreparedStatement st = null;
-			ResultSet rs=null;
-			st=c.prepareStatement("select Requests.System from Requests where ID="+id);
-			rs=st.executeQuery();
-			rs.next(); //saves the system number
+			ResultSet rs = null;
+			st = c.prepareStatement("select Requests.System from Requests where ID=" + id);
+			rs = st.executeQuery();
+			rs.next(); // saves the system number
 			String query = "INSERT INTO Stages (Stages.StageName, Stages.isApproved, Stages.isExtended, Stages.Member, Stages.RequestID) Values (?,?,?,?,?)";
 			for (int i = 0; i < Enums.numberOfStages; i++) {
 				Thread.sleep(100);
@@ -821,7 +819,8 @@ public class DataBaseController {
 
 	public static String GetRandomISUser(int system) {
 		ArrayList<String> users = new ArrayList<String>();
-		String query = "select username from Users where (Role = 1 or Role = 2 or Role = 3) and Department LIKE '%"+Enums.SystemENUM.getSystemByInt(system).toString()+"%'";
+		String query = "select username from Users where (Role = 1 or Role = 2 or Role = 3) and Department LIKE '%"
+				+ Enums.SystemENUM.getSystemByInt(system).toString() + "%'";
 		ResultSet rs = null;
 		PreparedStatement statement;
 		try {
@@ -894,8 +893,7 @@ public class DataBaseController {
 				statement.execute("update Stages set ExtendedDueDate=null where RequestID=" + r.getId()
 						+ " and StageName=" + stage);
 				return false;
-			}
-			else {
+			} else {
 				query = "update Stages set isApproved=0,isExtended=0, ExtendedDueDate=null where RequestID=" + r.getId()
 						+ " and StageName=" + stage;
 				statement.execute(query);
@@ -1236,7 +1234,8 @@ public class DataBaseController {
 			while (rs.next()) {
 				try {
 					User u = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(5), Enums.Role.getRoleENUM(rs.getInt(6)), rs.getInt(7), rs.getString(8),rs.getInt(9));
+							rs.getString(5), Enums.Role.getRoleENUM(rs.getInt(6)), rs.getInt(7), rs.getString(8),
+							rs.getInt(9));
 					o.add(u);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -1251,11 +1250,12 @@ public class DataBaseController {
 		return o;
 
 	}
+
 	public static ObservableList<Report> getAllReports() {
 		ObservableList<Report> o = FXCollections.observableArrayList();
 		String query = "select * from Reports";
 		ResultSet rs = null;
-		PreparedStatement statement=null;
+		PreparedStatement statement = null;
 		try {
 			statement = c.prepareStatement(query);
 			rs = statement.executeQuery(query);
@@ -1268,7 +1268,7 @@ public class DataBaseController {
 					Report r = new Report(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
 							rs.getString(5), rs.getString(6), rs.getInt(7));
 
-				o.add(r);
+					o.add(r);
 				} catch (SQLException e) {
 					e.printStackTrace();
 
@@ -1284,7 +1284,6 @@ public class DataBaseController {
 
 	public static ObservableList<Common.Stage> getALLRequestStages() {
 		ObservableList<Common.Stage> o = FXCollections.observableArrayList();
-		Stage RequestStages[] = new Stage[Enums.numberOfStages];
 		String query = "select * from Stages";
 		PreparedStatement statement;
 		ResultSet rs = null;
@@ -1294,22 +1293,12 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		for (int i = 0; i < Enums.numberOfStages; i++) {
-			RequestStages[i] = new Stage();
-		}
+
 		try {
 			while (rs.next()) {
-				Stage s = RequestStages[rs.getInt(1)];
-				Enums.RequestStageENUM tmp = Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(1));
-				s.setStageName(tmp);
-				s.setPlannedDueDate(rs.getString(2));
-				s.setIsApproved(rs.getInt(3) == 1);
-				s.setIsExtended(rs.getInt(4) == 1);
-				s.setMember(rs.getString(5));
-				s.setRequestID(rs.getInt(6));
-				s.setActualDate(rs.getString(7));
-				s.setExtendedDueDate(rs.getString(8));
-				s.setReportFailure(rs.getString(9));
+				Stage s = new Stage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(1)), rs.getString(2),
+						rs.getBoolean(3), rs.getBoolean(4), rs.getString(5), rs.getInt(6), rs.getString(7),
+						rs.getString(8), rs.getString(9), rs.getInt(10));
 				o.add(s);
 			}
 		} catch (Exception e) {
@@ -1334,8 +1323,7 @@ public class DataBaseController {
 		ArrayList<Double> list = new ArrayList<Double>();
 		if (enm == SystemENUM.All) {
 			query = "SELECT Stages.PlannedDueDate,Stages.ActualDate FROM Stages where PlannedDueDate IS NOT NULL ";
-		}
-		else {
+		} else {
 			int i = SystemENUM.getSystemByEnum(enm);
 			query = "SELECT Stages.PlannedDueDate,Stages.ActualDate FROM Stages,Requests where Stages.PlannedDueDate IS NOT NULL "
 					+ "and Stages.RequestID=Requests.ID and Requests.System=" + i;
@@ -1367,7 +1355,7 @@ public class DataBaseController {
 		return list;
 	}
 
-	public static ArrayList<Double> getAllAddons(){
+	public static ArrayList<Double> getAllAddons() {
 		String query = "select * from Requests";
 		ObservableList<Request> list = getRequests(query);
 		ArrayList<Double> res = new ArrayList<Double>();
@@ -1380,10 +1368,71 @@ public class DataBaseController {
 			if (rep != null) {
 				int excpectedDuration = rep.getDurationAssesment();
 				if (requestduration > excpectedDuration) {
-					res.add((double)(requestduration-excpectedDuration));
+					res.add((double) (requestduration - excpectedDuration));
 				}
 			}
 		}
 		return res;
+	}
+
+	public static ObservableList<Message> getAllMessages() {
+		ObservableList<Message> o = FXCollections.observableArrayList();
+		String query = "select * from Messages";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					Message m = new Message(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+					o.add(m);
+				} catch (SQLException e) {
+					e.printStackTrace();
+
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return o;
+
+	}
+
+	public static ObservableList<SupervisorLog> getSupervisorLog() {
+		ObservableList<SupervisorLog> o = FXCollections.observableArrayList();
+		String query = "select * from SupLog";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					SupervisorLog s = new SupervisorLog(rs.getInt(1), rs.getString(2), rs.getString(3),
+							rs.getString(4));
+					o.add(s);
+				} catch (SQLException e) {
+					e.printStackTrace();
+
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return o;
+
 	}
 }

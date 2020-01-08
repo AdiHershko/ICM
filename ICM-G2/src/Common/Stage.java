@@ -19,6 +19,7 @@ public class Stage implements Serializable{
 	private ArrayList<String> stageMembers;
 	private String member;
 	private int requestID;
+	private int daysOfExtension;
 	
 
 
@@ -32,6 +33,27 @@ public class Stage implements Serializable{
 		this.plannedDueDate = plannedDueDate;
 		this.isApproved = isApproved;
 		this.isExtended = isExtended;
+	}
+	
+	public Stage(RequestStageENUM stageName, String plannedDueDate, Boolean isApproved, Boolean isExtended,String member,int requestID,String actualDate,String extendedDueDate,String ReportFailure,int daysOfExtension) {
+		this.stageName = stageName;
+		this.plannedDueDate = plannedDueDate;
+		this.isApproved = isApproved;
+		this.isExtended = isExtended;
+		this.member=member;
+		this.requestID=requestID;
+		this.actualDate=actualDate;
+		this.extendedDueDate=extendedDueDate;
+		this.ReportFailure=ReportFailure;
+		this.daysOfExtension=daysOfExtension;
+	}
+
+	public int getDaysOfExtension() {
+		return daysOfExtension;
+	}
+
+	public void setDaysOfExtension(int daysOfExtension) {
+		this.daysOfExtension = daysOfExtension;
 	}
 
 	public RequestStageENUM getStageName() {

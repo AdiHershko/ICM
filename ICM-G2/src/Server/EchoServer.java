@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import Common.Request;
+import Common.SupervisorLog;
 import Common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.FrequencyDeviation;
+import Common.Message;
 import Common.Report;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -115,6 +117,27 @@ public class EchoServer extends AbstractServer {
 				ol6 = DataBaseController.getAllUsers();
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETUSERSLIST, ol6.toArray()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
+				
+
+			case GETALLMESSAGES:
+				ObservableList<Message> ol7 = FXCollections.observableArrayList();
+				ol7 = DataBaseController.getAllMessages();
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETMESSAGESLIST, ol7.toArray()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
+
+			case GETSUPERVISORLOG:
+				ObservableList<SupervisorLog> ol8 = FXCollections.observableArrayList();
+				ol8 = DataBaseController.getSupervisorLog();
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETSUPERVISORLOGLIST, ol8.toArray()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
