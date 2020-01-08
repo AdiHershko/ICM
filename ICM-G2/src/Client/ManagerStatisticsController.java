@@ -137,6 +137,8 @@ public class ManagerStatisticsController {
 	private NumberAxis yAxis;
 
 	static XYChart.Series series;
+	static XYChart.Series series1;
+	static XYChart.Series series2;
 
 	@FXML
 	private BarChart addonsGraph;
@@ -179,6 +181,8 @@ public class ManagerStatisticsController {
 	public void initialize() {
 		_ins = this;
 		series = new XYChart.Series<>();
+		series1 = new XYChart.Series<>();
+		series2 = new XYChart.Series<>();
 		new Thread() {
 			public void run() {
 				Platform.runLater(()->userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName()));
@@ -221,7 +225,7 @@ public class ManagerStatisticsController {
 			periodReportDate.setVisible(true);
 			break;
 		case "Performance Report":
-			extensionsGraph.getData().clear();
+		//	extensionsGraph.getData().clear();
 			addonsGraph.getData().clear();
 			delaysPane.setVisible(false);
 			periodReportDate.setVisible(false);
@@ -380,6 +384,22 @@ public class ManagerStatisticsController {
 
 	public void setDelaysGraph(BarChart delaysGraph) {
 		this.delaysGraph = delaysGraph;
+	}
+
+	public static XYChart.Series getSeries1() {
+		return series1;
+	}
+
+	public static void setSeries1(XYChart.Series series1) {
+		ManagerStatisticsController.series1 = series1;
+	}
+
+	public static XYChart.Series getSeries2() {
+		return series2;
+	}
+
+	public static void setSeries2(XYChart.Series series2) {
+		ManagerStatisticsController.series2 = series2;
 	}
 
 
