@@ -20,6 +20,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -123,7 +127,24 @@ public class ManagerStatisticsController {
 	@FXML
 	private Label delaysFD;
 
-	
+	@FXML
+	private BarChart extensionsGraph;
+
+	@FXML
+	private CategoryAxis xAxis;
+
+	@FXML
+	private NumberAxis yAxis;
+
+	static XYChart.Series series;
+
+	@FXML
+	private BarChart addonsGraph;
+
+	@FXML
+	private BarChart delaysGraph;
+
+
 	@FXML
 	public TableView<FrequencyDeviation> extensionsTable;
 	@FXML
@@ -154,12 +175,13 @@ public class ManagerStatisticsController {
 	public void setAddonsTable(TableView<FrequencyDeviation> addonsTable) {
 		this.addonsTable = addonsTable;
 	}
-	
+
 	public void initialize() {
 		_ins = this;
+		series = new XYChart.Series<>();
 		new Thread() {
 			public void run() {
-				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
+				Platform.runLater(()->userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName()));
 				while (true) // update time in 0.5s intervals
 				{
 
@@ -179,6 +201,8 @@ public class ManagerStatisticsController {
 
 			}
 		}.start();
+		ManagerStatisticsController._ins.getExtensionsGraph().getYAxis().setLabel("Frequency");
+		ManagerStatisticsController._ins.getExtensionsGraph().getXAxis().setLabel("Value");
 		systemCB.getItems().addAll(SystemENUM.All, SystemENUM.Computers, SystemENUM.InfoStation, SystemENUM.Labs);
 		systemCB.getItems().addAll(SystemENUM.Library, SystemENUM.Moodle, SystemENUM.Site);
 		systemCB.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> changeDelaySystem());
@@ -197,15 +221,21 @@ public class ManagerStatisticsController {
 			periodReportDate.setVisible(true);
 			break;
 		case "Performance Report":
+			extensionsGraph.getData().clear();
+			addonsGraph.getData().clear();
 			delaysPane.setVisible(false);
 			periodReportDate.setVisible(false);
 			performance.setVisible(true);
+			xAxis.setLabel("Value");
+			yAxis.setLabel("Frequency");
+			extensionsGraph.setTitle("Extensions");
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat));
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq));
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsStat));
 			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsFreq));
 			break;
 		case "Delays Report":
+			delaysGraph.getData().clear();
 			periodReportDate.setVisible(false);
 			performance.setVisible(false);
 			delaysPane.setVisible(true);
@@ -217,6 +247,7 @@ public class ManagerStatisticsController {
 
 	public void changeDelaySystem() {
 		delaysInnerPane.setVisible(true);
+		delaysGraph.getData().clear();
 		Main.client.handleMessageFromClientUI(
 				new ClientServerMessage(Enums.MessageEnum.GetDelaysStat, systemCB.getValue()));
 	}
@@ -281,7 +312,7 @@ public class ManagerStatisticsController {
 			}
 		});
 	}
-	
+
 	public void updateAddons(ArrayList<Double> l) {
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -309,7 +340,7 @@ public class ManagerStatisticsController {
 		addonsTable.getColumns().addAll(valueC2, freqC2);
 		valueC2.setPrefWidth(50);
 		freqC2.setPrefWidth(100);
-		
+
 		TableColumn<FrequencyDeviation, Double> valueC3 = new TableColumn<>("Value");
 		valueC3.setCellValueFactory(new PropertyValueFactory("value"));
 		TableColumn<FrequencyDeviation, Integer> freqC3 = new TableColumn<>("Frequency");
@@ -318,4 +349,39 @@ public class ManagerStatisticsController {
 		valueC3.setPrefWidth(50);
 		freqC3.setPrefWidth(100);
 	}
+
+	public BarChart getExtensionsGraph() {
+		return extensionsGraph;
+	}
+
+	public void setExtensionsGraph(BarChart extensionsGraph) {
+		this.extensionsGraph = extensionsGraph;
+	}
+
+	public XYChart.Series getSeries() {
+		return series;
+	}
+
+	public void setSeries(XYChart.Series series) {
+		this.series = series;
+	}
+
+	public BarChart getAddonsGraph() {
+		return addonsGraph;
+	}
+
+	public void setAddonsGraph(BarChart addonsGraph) {
+		this.addonsGraph = addonsGraph;
+	}
+
+	public BarChart getDelaysGraph() {
+		return delaysGraph;
+	}
+
+	public void setDelaysGraph(BarChart delaysGraph) {
+		this.delaysGraph = delaysGraph;
+	}
+
+
+
 }

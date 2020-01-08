@@ -26,6 +26,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -482,6 +483,16 @@ public class ChatClient extends AbstractClient {
 					res.add((FrequencyDeviation) o);
 				}
 				ManagerStatisticsController._ins.getExtensionsTable().setItems(res);
+
+				Platform.runLater(new Runnable(){
+					public void run(){
+						if (ManagerStatisticsController._ins.getSeries()!=null)
+							ManagerStatisticsController._ins.getSeries().getData().clear();
+						for (FrequencyDeviation fd : res)
+							ManagerStatisticsController._ins.getSeries().getData().add(new XYChart.Data<>(String.format("%.0f",fd.getValue()),fd.getFreq()));
+						ManagerStatisticsController._ins.getExtensionsGraph().getData().add(ManagerStatisticsController._ins.getSeries());
+					}
+				});
 				break;
 			case GetDelaysStat:
 				Platform.runLater(new Runnable() {
@@ -497,6 +508,15 @@ public class ChatClient extends AbstractClient {
 					delRes.add((FrequencyDeviation) o);
 				}
 				ManagerStatisticsController._ins.getDelaysTable().setItems(delRes);
+				Platform.runLater(new Runnable(){
+					public void run(){
+						if (ManagerStatisticsController._ins.getSeries()!=null)
+							ManagerStatisticsController._ins.getSeries().getData().clear();
+						for (FrequencyDeviation fd : delRes)
+							ManagerStatisticsController._ins.getSeries().getData().add(new XYChart.Data<>(String.format("%.0f",fd.getValue()),fd.getFreq()));
+						ManagerStatisticsController._ins.getDelaysGraph().getData().add(ManagerStatisticsController._ins.getSeries());
+					}
+				});
 				break;
 			case GetAddonsStat:
 				ManagerStatisticsController._ins.updateAddons((ArrayList<Double>) ((ClientServerMessage) msg).getL());
@@ -507,6 +527,17 @@ public class ChatClient extends AbstractClient {
 					dasfsadf.add((FrequencyDeviation) o);
 				}
 				ManagerStatisticsController._ins.getAddonsTable().setItems(dasfsadf);
+
+				Platform.runLater(new Runnable(){
+					public void run(){
+						if (ManagerStatisticsController._ins.getSeries()!=null)
+							ManagerStatisticsController._ins.getSeries().getData().clear();
+						for (FrequencyDeviation fd : dasfsadf)
+							ManagerStatisticsController._ins.getSeries().getData().add(new XYChart.Data<>(String.format("%.0f",fd.getValue()),fd.getFreq()));
+						ManagerStatisticsController._ins.getAddonsGraph().getData().add(ManagerStatisticsController._ins.getSeries());
+					}
+				});
+
 				break;
 			default:
 				break;

@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import Common.ClientServerMessage;
 import Common.Enums;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,6 +51,8 @@ public class ManagerScreenController {
 	private Label dateLabel;
 	@FXML
 	private Label userNameLabel;
+
+
 
 	public void initialize() {
 		_ins = this;
@@ -159,7 +162,7 @@ public class ManagerScreenController {
 		window.setResizable(false);
 		window.show();
 	}
-	
+
 	@FXML
 	public void viewAllSystemData(ActionEvent event) {
 		Parent root = null;
@@ -175,4 +178,5 @@ public class ManagerScreenController {
 		window.show();
 
 	}
+
 }
