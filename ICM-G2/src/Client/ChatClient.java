@@ -563,7 +563,7 @@ public class ChatClient extends AbstractClient {
 				ArrayList<Integer> arr12 = (ArrayList<Integer>) ((ClientServerMessage) msg).getL();
 				Platform.runLater(new Runnable() {
 					public void run() {
-						ManagerStatisticsController._ins.showPanes(arr12);
+						ManagerStatisticsController._ins.updatePeropd(arr12);
 					}
 				});
 				return;

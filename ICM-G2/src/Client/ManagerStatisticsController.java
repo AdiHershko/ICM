@@ -150,7 +150,6 @@ public class ManagerStatisticsController {
 	@FXML
 	private BarChart delaysGraph;
 
-
 	@FXML
 	public TableView<FrequencyDeviation> extensionsTable;
 	@FXML
@@ -189,7 +188,8 @@ public class ManagerStatisticsController {
 		series2 = new XYChart.Series<>();
 		new Thread() {
 			public void run() {
-				Platform.runLater(()->userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName()));
+				Platform.runLater(() -> userNameLabel
+						.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName()));
 				while (true) // update time in 0.5s intervals
 				{
 
@@ -227,6 +227,7 @@ public class ManagerStatisticsController {
 			delaysPane.setVisible(false);
 			performance.setVisible(false);
 			periodReportDate.setVisible(true);
+			periodRep.setVisible(false);
 			break;
 		case "Performance Report":
 			addonsGraph.getData().clear();
@@ -265,8 +266,7 @@ public class ManagerStatisticsController {
 			delaysMedian.setText("Median: 0");
 			delaysSD.setText("Standard Deviation: 0");
 			delaysTable.setVisible(false);
-		}
-		else {
+		} else {
 			delaysNum.setText(String.format("Number of delays: %.0f", l.get(0)));
 			delaysMedian.setText(String.format("Median: %.1f", l.get(1)));
 			delaysSD.setText(String.format("Standard Deviation: %g", l.get(2)));
@@ -295,7 +295,7 @@ public class ManagerStatisticsController {
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Wrong input");
-			alert.setContentText("Form date bigger or equal from the end date");
+			alert.setContentText("From date bigger or equal from the end date");
 			alert.showAndWait();
 			return;
 		}
@@ -377,6 +377,19 @@ public class ManagerStatisticsController {
 		freqC3.setPrefWidth(100);
 	}
 
+	public void updatePeropd(ArrayList<Integer> res) {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				openLabel.setText("Open requests: " + res.get(0));
+				freezeLabel.setText("Freezed requests: " + res.get(2));
+				closedLabel.setText("Closed requests: " + res.get(1));
+				rejectedLabel.setText("Rejected requests: " + res.get(3));
+				daysLabel.setText("Number of work days: " + res.get(4));
+				periodRep.setVisible(true);
+			}
+		});
+	}
+
 	public BarChart getExtensionsGraph() {
 		return extensionsGraph;
 	}
@@ -423,18 +436,5 @@ public class ManagerStatisticsController {
 
 	public static void setSeries2(XYChart.Series series2) {
 		ManagerStatisticsController.series2 = series2;
-	}
-
-	public void showPanes(ArrayList<Integer> res) {
-		openLabel.setText("Open requests : " + res.get(0));
-		freezeLabel.setText("Freeze requests : " + res.get(2));
-		closedLabel.setText("Closed requests : " + res.get(1));
-		rejectedLabel.setText("Rejected requests : " + res.get(3));
-		daysLabel.setText("Number of work days : " + res.get(4));
-		ManagerStatisticsController._ins.getperiodRep().setVisible(true);
-	}
-
-	public Pane getperiodRep() {
-		return periodRep;
 	}
 }

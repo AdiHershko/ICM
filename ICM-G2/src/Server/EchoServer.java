@@ -554,44 +554,10 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 			case getPeriodReport:
-				int active = 0, closed = 0, frozen = 0, rejected = 0, rejectedclose = 0;
 				String[] s = (String[]) CSMsg.getArray();
-				DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
-				DateTime dt1 = null, dt2 = null;
+				ArrayList<Integer> peroid = DataBaseController.getActivityData(s);
 				try {
-
-					dt1 = dtf.parseDateTime(s[0]);
-					dt2 = dtf.parseDateTime(s[1]);
-				} catch (IllegalArgumentException e) {
-					return;
-				}
-				ObservableList<Request> olist1 = FXCollections.observableArrayList();
-				olist1 = DataBaseController.getAllTheRequests();
-				int results=DataBaseController.getDurations();
-				for (int i = 0; i < olist1.size(); i++) {
-					if (olist1.get(i).getDate().isAfter(dt1) && olist1.get(i).getDate().isBefore(dt2)) {
-						if (olist1.get(i).getStatus().equals(Enums.RequestStatus.Active))
-							active++;
-						if (olist1.get(i).getStatus().equals(Enums.RequestStatus.Closed))
-							closed++;
-						if (olist1.get(i).getStatus().equals(Enums.RequestStatus.Frozen))
-							frozen++;
-						if (olist1.get(i).getStatus().equals(Enums.RequestStatus.Rejected))
-							rejected++;
-						if (olist1.get(i).getStatus().equals(Enums.RequestStatus.RejectedClosed))
-							rejectedclose++;
-					}
-
-				}
-				ArrayList<Integer> l= new ArrayList<>();
-				l.add(active);
-				l.add(closed);
-				l.add(frozen);
-				int temprej=rejected+rejectedclose;
-				l.add(temprej);
-				l.add(results);
-				try {
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.Statistics, l));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.Statistics, peroid));
 				} catch (IOException e1) {
 					return;
 				}

@@ -1190,14 +1190,13 @@ public class DataBaseController {
 		return -1;
 	}
 
-	public static boolean removeUser(String id)
-	{
-		String query = "delete from Users where username='"+id+"'";
+	public static boolean removeUser(String id) {
+		String query = "delete from Users where username='" + id + "'";
 		PreparedStatement statement;
-		try{
-			statement=c.prepareStatement(query);
+		try {
+			statement = c.prepareStatement(query);
 			statement.execute();
-		} catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -1449,26 +1448,55 @@ public class DataBaseController {
 
 	}
 
-	public static ObservableList<Request> getAllTheRequests() {
-		String query;
-		query = "select * from Requests";
-		return getRequests(query);
+	public static ArrayList<Integer> getActivityData(String[] arr) {
+		int active = 0, closed = 0, frozen = 0, rejected = 0;
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+		DateTime dt1 = null, dt2 = null;
+		try {
+			dt1 = dtf.parseDateTime(arr[0]);
+			dt2 = dtf.parseDateTime(arr[1]);
+		} catch (IllegalArgumentException e) {
+		}
+		String query = "select * from Requests";
+		ObservableList<Request> olist = getRequests(query);
+		for (int i = 0; i < olist.size(); i++) {
+			if (olist.get(i).getDate().isAfter(dt1) && olist.get(i).getDate().isBefore(dt2)) {
+				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Active))
+					active++;
+				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Closed))
+					closed++;
+				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Frozen))
+					frozen++;
+				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Rejected) || olist.get(i).getStatus().equals(Enums.RequestStatus.RejectedClosed))
+					rejected++;
+			}
+
+		}
+		ArrayList<Integer> l = new ArrayList<>();
+		l.add(active);
+		l.add(closed);
+		l.add(frozen);
+		l.add(rejected);
+		int results = DataBaseController.getDurations();
+		l.add(results);
+		return l;
 	}
-	
-	public static int getDurations(){
-		int resultss=0;
-		String query= "select * from Requests";
-		ObservableList<Request> listo =getRequests(query);
-		ArrayList<Integer> res =new ArrayList<>();
-		for(Request r: listo) { 
+
+	public static int getDurations() {
+		int resultss = 0;
+		String query = "select * from Requests";
+		ObservableList<Request> listo = getRequests(query);
+		ArrayList<Integer> res = new ArrayList<>();
+		for (Request r : listo) {
 			DateTime openingDate = new DateTime(r.getDate());
 			DateTime closingDate = new DateTime(r.getStages()[5].getActualDate());
 			Duration dur = new Duration(openingDate, closingDate);
 			int requestduration = (int) dur.getStandardDays();
 			res.add(requestduration);
 		}
-		for(int i=0;i<res.size();i++)
-			resultss+=res.get(i);
+		for (int i = 0; i < res.size(); i++)
+			resultss += res.get(i);
 		return resultss;
 	}
+
 }
