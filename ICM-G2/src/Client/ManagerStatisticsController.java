@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import Common.ClientServerMessage;
 import Common.Enums;
@@ -24,6 +26,8 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -225,7 +229,6 @@ public class ManagerStatisticsController {
 			periodReportDate.setVisible(true);
 			break;
 		case "Performance Report":
-		//	extensionsGraph.getData().clear();
 			addonsGraph.getData().clear();
 			delaysPane.setVisible(false);
 			periodReportDate.setVisible(false);
@@ -275,7 +278,27 @@ public class ManagerStatisticsController {
 
 	@FXML
 	void getReport1(ActionEvent event) {
-
+		String s1 = fromDate.getValue().toString();
+		String s2 = toDate.getValue().toString();
+		String[] s = new String[2];
+		s[0] = s1;
+		s[1] = s2;
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+		DateTime dt1 = null, dt2 = null;
+		try {
+			dt1 = dtf.parseDateTime(s1);
+			dt2 = dtf.parseDateTime(s2);
+		} catch (IllegalArgumentException e) {
+		}
+		if (dt1.isBefore(dt2)) {
+			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getPeriodReport, s));
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Wrong input");
+			alert.setContentText("Form date bigger or equal from the end date");
+			alert.showAndWait();
+			return;
+		}
 	}
 
 	@FXML
@@ -402,6 +425,16 @@ public class ManagerStatisticsController {
 		ManagerStatisticsController.series2 = series2;
 	}
 
+	public void showPanes(ArrayList<Integer> res) {
+		openLabel.setText("Open requests : " + res.get(0));
+		freezeLabel.setText("Freeze requests : " + res.get(2));
+		closedLabel.setText("Closed requests : " + res.get(1));
+		rejectedLabel.setText("Rejected requests : " + res.get(3));
+		daysLabel.setText("Number of work days : " + res.get(4));
+		ManagerStatisticsController._ins.getperiodRep().setVisible(true);
+	}
 
-
+	public Pane getperiodRep() {
+		return periodRep;
+	}
 }

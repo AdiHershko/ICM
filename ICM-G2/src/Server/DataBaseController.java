@@ -1448,4 +1448,27 @@ public class DataBaseController {
 		return o;
 
 	}
+
+	public static ObservableList<Request> getAllTheRequests() {
+		String query;
+		query = "select * from Requests";
+		return getRequests(query);
+	}
+	
+	public static int getDurations(){
+		int resultss=0;
+		String query= "select * from Requests";
+		ObservableList<Request> listo =getRequests(query);
+		ArrayList<Integer> res =new ArrayList<>();
+		for(Request r: listo) { 
+			DateTime openingDate = new DateTime(r.getDate());
+			DateTime closingDate = new DateTime(r.getStages()[5].getActualDate());
+			Duration dur = new Duration(openingDate, closingDate);
+			int requestduration = (int) dur.getStandardDays();
+			res.add(requestduration);
+		}
+		for(int i=0;i<res.size();i++)
+			resultss+=res.get(i);
+		return resultss;
+	}
 }

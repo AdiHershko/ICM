@@ -17,10 +17,8 @@ public class Enums {
 		CannotUpdateStage, UnFreezeRejected, GETMAXREQID, GETFILEFROMSERVER, GETALLREPORTS, GETREPORTSLIST,
 		GETALLREQUESTS, GETREQUESTSLIST, GETALLSTAGES, GETSTAGESLIST, GETALLUSERS, GETUSERSLIST, GetExtensionFreq,
 		GetExtensionStat,GetDelaysStat, GetDelaysFreq, GetAddonsStat, GetAddonsFreq,GETALLMESSAGES,GETSUPERVISORLOG,
-		GETMESSAGESLIST,GETSUPERVISORLOGLIST,REMOVEUSER;
+		GETMESSAGESLIST,GETSUPERVISORLOGLIST,getPeriodReport,Statistics,REMOVEUSER;
 	}
-
-
 
 	public enum RequestStatus {
 		Active, Closed, Frozen, Rejected, RejectedClosed;
@@ -58,7 +56,7 @@ public class Enums {
 	}
 
 	public enum SystemENUM {
-		All,InfoStation, Moodle, Library, Computers, Labs, Site;
+		All, InfoStation, Moodle, Library, Computers, Labs, Site;
 		public static SystemENUM getSystemByInt(int i) {
 			switch (i) {
 			case 0:
@@ -76,22 +74,23 @@ public class Enums {
 			}
 			return null;
 		}
-			public static SystemENUM getSystemByString(String s) {
-				switch (s) {
-				case "InfoStation":
-					return InfoStation;
-				case "Moodle":
-					return Moodle;
-				case "Library":
-					return Library;
-				case "Computers":
-					return Computers;
-				case "Labs":
-					return Labs;
-				case "Site":
-					return Site;
-				}
-				return null;
+
+		public static SystemENUM getSystemByString(String s) {
+			switch (s) {
+			case "InfoStation":
+				return InfoStation;
+			case "Moodle":
+				return Moodle;
+			case "Library":
+				return Library;
+			case "Computers":
+				return Computers;
+			case "Labs":
+				return Labs;
+			case "Site":
+				return Site;
+			}
+			return null;
 		}
 
 		public static int getSystemByEnum(SystemENUM i) {
@@ -112,7 +111,6 @@ public class Enums {
 			return -1;
 		}
 	}
-
 
 	public enum RequestStageENUM {
 		Initialization, Assesment, Examaning, Execution, Testing, Closing;

@@ -47,11 +47,11 @@
             <Button fx:id="getReport1" layoutX="518.0" layoutY="23.0" mnemonicParsing="false" onAction="#getReport1" text="Get Report" />
             <Pane fx:id="periodRep" layoutX="61.0" layoutY="63.0" prefHeight="340.0" prefWidth="806.0" visible="false">
                <children>
-                  <Label fx:id="openLabel" layoutX="234.0" layoutY="64.0" prefHeight="0.0" prefWidth="83.0" text="Open requests:" />
-                  <Label fx:id="freezeLabel" layoutX="222.0" layoutY="94.0" prefHeight="17.0" prefWidth="97.0" text="Freezed requests:" />
-                  <Label fx:id="closedLabel" layoutX="228.0" layoutY="124.0" prefHeight="17.0" prefWidth="90.0" text="Closed requests:" />
-                  <Label fx:id="rejectedLabel" layoutX="217.0" layoutY="154.0" prefHeight="17.0" prefWidth="97.0" text="Rejected requests:" />
-                  <Label fx:id="daysLabel" layoutX="198.0" layoutY="184.0" prefHeight="17.0" prefWidth="121.0" text="Number of work days:" />
+                  <Label fx:id="openLabel" layoutX="234.0" layoutY="64.0" text="Open requests:" />
+                  <Label fx:id="freezeLabel" layoutX="222.0" layoutY="94.0" text="Freezed requests:" />
+                  <Label fx:id="closedLabel" layoutX="228.0" layoutY="124.0" text="Closed requests:" />
+                  <Label fx:id="rejectedLabel" layoutX="217.0" layoutY="154.0" text="Rejected requests:" />
+                  <Label fx:id="daysLabel" layoutX="198.0" layoutY="184.0" text="Number of work days:" />
                </children>
             </Pane>
          </children>

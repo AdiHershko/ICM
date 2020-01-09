@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-import com.sun.glass.ui.Application;
-
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.FrequencyDeviation;
@@ -561,6 +559,14 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				break;
+			case Statistics:
+				ArrayList<Integer> arr12 = (ArrayList<Integer>) ((ClientServerMessage) msg).getL();
+				Platform.runLater(new Runnable() {
+					public void run() {
+						ManagerStatisticsController._ins.showPanes(arr12);
+					}
+				});
+				return;
 			default:
 				break;
 			}
