@@ -1,7 +1,8 @@
-package Client;
+package Client.Controllers;
 
 import java.io.IOException;
 
+import Client.ClientMain;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Enums.*;
@@ -19,23 +20,45 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LoginScreenController.
+ */
 public class LoginScreenController {
-	static LoginScreenController _ins;
 	
+	/** The ins. */
+	public static LoginScreenController _ins;
+
+	/** The event. */
 	private ActionEvent event;
+	
+	/** The login button. */
 	@FXML
 	private Button loginButton;
+	
+	/** The pass TXT. */
 	@FXML
 	private PasswordField passTXT;
+	
+	/** The user TXT. */
 	@FXML
 	private TextField userTXT;
 
+	/**
+	 * Initialize.
+	 */
 	public void initialize() {
-		
+
 		_ins = this;
 		loginButton.setDefaultButton(true);
 	}
 
+	/**
+	 * Move screen.
+	 *
+	 * @param event the event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
 	public void MoveScreen(ActionEvent event) throws IOException {
 		if (userTXT.getText().equals("") || passTXT.getText().equals("")) {
@@ -43,14 +66,16 @@ public class LoginScreenController {
 			alert.setTitle("ERROR!");
 			alert.setContentText("EMPTY USERNAME/PASSOWRD");
 			alert.showAndWait();
-		}
-		else {
+		} else {
 			this.event = event;
-			String temp[] = {userTXT.getText(),passTXT.getText()};
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.SearchUser, temp));
+			String temp[] = { userTXT.getText(), passTXT.getText() };
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.SearchUser, temp));
 		}
 	}
 
+	/**
+	 * Login fail error.
+	 */
 	public void LoginFailError() {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("ERROR!");
@@ -58,6 +83,9 @@ public class LoginScreenController {
 		alert.showAndWait();
 	}
 
+	/**
+	 * Login same time.
+	 */
 	public void LoginSameTime() {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("ERROR!");
@@ -65,19 +93,23 @@ public class LoginScreenController {
 		alert.showAndWait();
 
 	}
-	
+
+	/**
+	 * Login good.
+	 *
+	 * @param user the user
+	 */
 	public void LoginGood(User user) {
-		Main.currentUser = user;
+		ClientMain.currentUser = user;
 		Parent root = null;
 		if (user.getRole() == Enums.Role.Manager) {
 			try {
 				root = FXMLLoader.load(getClass().getResource("3.0-ManagerScreen.fxml"));
 			} catch (IOException e) {
 			}
-		}
-		else {
+		} else {
 			try {
-				root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
+				root = FXMLLoader.load(getClass().getResource("1-RequestsScreen.fxml"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -88,5 +120,5 @@ public class LoginScreenController {
 		window.setResizable(false);
 		window.show();
 	}
-	
+
 }

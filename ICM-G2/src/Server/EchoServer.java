@@ -14,10 +14,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import Common.Request;
 import Common.SupervisorLog;
 import Common.User;
@@ -31,18 +27,42 @@ import Common.Report;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EchoServer.
+ */
 public class EchoServer extends AbstractServer {
+	
+	/** The Constant DEFAULT_PORT. */
 	final private static int DEFAULT_PORT = 5555;
+	
+	/** The c. */
 	Calculator c = new Calculator();
 
+	/**
+	 * Gets the default port.
+	 *
+	 * @return the default port
+	 */
 	public static int getDefaultPort() {
 		return DEFAULT_PORT;
 	}
 
+	/**
+	 * Instantiates a new echo server.
+	 *
+	 * @param port the port
+	 */
 	public EchoServer(int port) {
 		super(port);
 	}
 
+	/**
+	 * Handle message from client.
+	 *
+	 * @param msg the msg
+	 * @param client the client
+	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Request r;
 		if (msg == null)
@@ -569,14 +589,25 @@ public class EchoServer extends AbstractServer {
 
 	}
 
+	/**
+	 * Server started.
+	 */
 	protected void serverStarted() {
 		System.out.println("Server listening for connections on port " + getPort());
 	}
 
+	/**
+	 * Server stopped.
+	 */
 	protected void serverStopped() {
 		System.out.println("Server has stopped listening for connections.");
 	}
 
+	/**
+	 * Delete directory.
+	 *
+	 * @param directoryToBeDeleted the directory to be deleted
+	 */
 	private void deleteDirectory(File directoryToBeDeleted) {
 		File[] allContents = directoryToBeDeleted.listFiles();
 		if (allContents != null) {
@@ -587,6 +618,12 @@ public class EchoServer extends AbstractServer {
 		directoryToBeDeleted.delete();
 	}
 
+	/**
+	 * Start.
+	 *
+	 * @param port the port
+	 * @return the int
+	 */
 	public static int Start(int port) {
 		if (DataBaseController.Connect() == false) {
 			return 1;

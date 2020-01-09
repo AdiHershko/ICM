@@ -2,6 +2,7 @@ package Server;
 
 import java.io.IOException;
 
+import Server.Controllers.ServerChooseController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -11,21 +12,38 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class ServerConsole extends Application {
-	public static ServerConsole _init;
-	static Pane root;
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ServerConsole.
+ */
+public class ServerMain extends Application {
+	
+	/** The init. */
+	public static ServerMain _init;
+	
+	/** The root. */
+	public static Pane root;
+	
+	/** The stage. */
 	static Stage stage;
+	
+	/** The c. */
 	ServerChooseController c;
 
-	//TODO: find common place for css and jpg
 
+	/**
+	 * Start.
+	 *
+	 * @param stage the stage
+	 * @throws Exception the exception
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
 		_init = this;
-		ServerConsole.stage = stage;
+		ServerMain.stage = stage;
 		try { // loading fxml file
 			FXMLLoader load = new FXMLLoader();
-			load.setLocation(getClass().getResource("servergui.fxml"));
+			load.setLocation(getClass().getResource("Controllers/servergui.fxml"));
 			root = load.load();
 			c = load.getController(); // saving controller class
 		} catch (IOException e) {
@@ -40,7 +58,7 @@ public class ServerConsole extends Application {
 		stage.setTitle("ICM Prototype - Server");
 		stage.setResizable(false);
 		stage.show();
-		stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.jpg")));
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("Controllers/logo.jpg")));
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent t) {
@@ -49,6 +67,11 @@ public class ServerConsole extends Application {
 		});
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

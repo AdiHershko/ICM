@@ -22,29 +22,63 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Common.Enums;
 import Common.Enums.SystemENUM;
+import Server.Controllers.ServerChooseController;
 import Common.Message;
 import Common.Report;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DataBaseController.
+ */
 public class DataBaseController {
+	
+	/** The c. */
 	private static Connection c;
+	
+	/** The url. */
 	private static String url = "jdbc:mysql://remotemysql.com:3306/rPTfgnHCnB?useLegacyDatetimeCode=false&serverTimezone=UTC";
+	
+	/** The username. */
 	private static String username = "rPTfgnHCnB";
+	
+	/** The password. */
 	private static String password = "atcFy4mIAf";
 
+	/** The email service. */
 	private static EmailService emailService;
 
+	/**
+	 * Sets the url.
+	 *
+	 * @param url the new url
+	 */
 	public static void setUrl(String url) {
 		DataBaseController.url = url;
 	}
 
+	/**
+	 * Sets the username.
+	 *
+	 * @param username the new username
+	 */
 	public static void setUsername(String username) {
 		DataBaseController.username = username;
 	}
 
+	/**
+	 * Sets the password.
+	 *
+	 * @param password the new password
+	 */
 	public static void setPassword(String password) {
 		DataBaseController.password = password;
 	}
 
+	/**
+	 * Connect.
+	 *
+	 * @return true, if successful
+	 */
 	public static boolean Connect() {
 		System.out.println("Connecting to database...");
 
@@ -60,6 +94,13 @@ public class DataBaseController {
 		return true;
 	}
 
+	/**
+	 * Adds the IS user.
+	 *
+	 * @param current the current
+	 * @param permissions the permissions
+	 * @return the string
+	 */
 	public static String addISUser(User current, boolean[] permissions) {
 		String query = "insert into Users(Users.username,Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role,Users.Department) values (?,?,?,?,?,?,?)";
 		PreparedStatement st;
@@ -87,6 +128,12 @@ public class DataBaseController {
 		return "GOOD";
 	}
 
+	/**
+	 * Gets the checks if is user.
+	 *
+	 * @param userID the user ID
+	 * @return the checks if is user
+	 */
 	public static String[] getISUser(String userID) {
 		String query = "select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role,Users.Department from Users where username='"
 				+ userID + "' and Users.Role>0";
@@ -110,6 +157,13 @@ public class DataBaseController {
 		return res;
 	}
 
+	/**
+	 * Update IS user.
+	 *
+	 * @param current the current
+	 * @param permissions the permissions
+	 * @return true, if successful
+	 */
 	public static boolean updateISUser(User current, boolean[] permissions) {
 		String query = "update Users set Password=? ,FirstName=? ,LastName=? ,Mail=? ,Role=? ,Department=? where username=?";
 		PreparedStatement st;
@@ -135,6 +189,13 @@ public class DataBaseController {
 		return true;
 	}
 
+	/**
+	 * Update stage member.
+	 *
+	 * @param id the id
+	 * @param req the req
+	 * @param stage the stage
+	 */
 	public static void updateStageMember(String id, Request req, int stage) {
 		PreparedStatement st;
 		try {
@@ -147,6 +208,14 @@ public class DataBaseController {
 		updateLogChangeStageHandler(req.getId(), stage, id);
 	}
 
+	/**
+	 * Gets the requests for IS.
+	 *
+	 * @param UserName the user name
+	 * @param id the id
+	 * @param search the search
+	 * @return the requests for IS
+	 */
 	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search) {
 		String query;
 		if (search == false) {
@@ -158,6 +227,13 @@ public class DataBaseController {
 		return getRequests(query);
 	}
 
+	/**
+	 * Gets the requests for manager.
+	 *
+	 * @param id the id
+	 * @param search the search
+	 * @return the requests for manager
+	 */
 	public static ObservableList<Request> getRequestsForManager(int id, boolean search) {
 		String query;
 		if (search == false) {
@@ -170,6 +246,11 @@ public class DataBaseController {
 
 	}
 
+	/**
+	 * Update request details.
+	 *
+	 * @param r the r
+	 */
 	public static void updateRequestDetails(Request r) {
 		String query = "UPDATE Requests SET Description = ?, `Change` = ?, ChangeReason = ?, Connect = ? WHERE ID = ?";
 		PreparedStatement statement = null;
@@ -186,6 +267,11 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Change report failure.
+	 *
+	 * @param Msg the msg
+	 */
 	public static void ChangeReportFailure(String[] Msg) {
 		String query = "UPDATE Stages SET ReportFailure = ? WHERE StageName = '4' and RequestID = ?";
 		PreparedStatement statement = null;
@@ -199,6 +285,11 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Change req to closed.
+	 *
+	 * @param Id the id
+	 */
 	public static void changeReqToClosed(int Id) {
 		String query = "UPDATE Requests SET Stage = 5 WHERE ID =" + Id;
 		PreparedStatement statement = null;
@@ -219,6 +310,11 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Change to rejected.
+	 *
+	 * @param Id the id
+	 */
 	public static void changeToRejected(int Id) {
 		String query = "UPDATE Stages SET `ReportFailure` = 'Rejected' WHERE (`StageName` = '5') and (`RequestID` = '"
 				+ Id + "')";
@@ -231,6 +327,12 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Change request status.
+	 *
+	 * @param id the id
+	 * @param status the status
+	 */
 	public static void changeRequestStatus(int id, int status) {
 		String query = "UPDATE Requests SET Status = " + status + " WHERE ID = " + id;
 		PreparedStatement statement = null;
@@ -243,6 +345,12 @@ public class DataBaseController {
 		updateLogChangeStatus(id, status);
 	}
 
+	/**
+	 * Gets the requests.
+	 *
+	 * @param query the query
+	 * @return the requests
+	 */
 	public static ObservableList<Request> getRequests(String query) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
 		ResultSet rs = null;
@@ -275,6 +383,12 @@ public class DataBaseController {
 		return o;
 	}
 
+	/**
+	 * Gets the requests 1.
+	 *
+	 * @param query the query
+	 * @return the requests 1
+	 */
 	public static ObservableList<Request> getRequests1(String query) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
 		ResultSet rs = null;
@@ -305,6 +419,15 @@ public class DataBaseController {
 		return o;
 	}
 
+	/**
+	 * Gets the requests for college.
+	 *
+	 * @param userName the user name
+	 * @param id the id
+	 * @param search the search
+	 * @param unActive the un active
+	 * @return the requests for college
+	 */
 	public static ObservableList<Request> getRequestsForCollege(String userName, int id, boolean search,
 			boolean unActive) {
 		String query = "select * from Requests where Requestor='" + userName + "'";
@@ -319,6 +442,15 @@ public class DataBaseController {
 
 	}
 
+	/**
+	 * Gets the requests for IS.
+	 *
+	 * @param UserName the user name
+	 * @param id the id
+	 * @param search the search
+	 * @param unActive the un active
+	 * @return the requests for IS
+	 */
 	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search, boolean unActive) {
 		String query = "select * from Requests where currenthandlers LIKE ',%" + UserName + "%,'";
 		if (unActive == false) {
@@ -330,6 +462,14 @@ public class DataBaseController {
 		return getRequests(query);
 	}
 
+	/**
+	 * Gets the requests for manager.
+	 *
+	 * @param id the id
+	 * @param search the search
+	 * @param unActive the un active
+	 * @return the requests for manager
+	 */
 	public static ObservableList<Request> getRequestsForManager(int id, boolean search, boolean unActive) {
 		String query = "select * from Requests";
 		if (unActive == false) {
@@ -345,6 +485,12 @@ public class DataBaseController {
 
 	}
 
+	/**
+	 * Gets the request stages.
+	 *
+	 * @param RequestID the request ID
+	 * @return the request stages
+	 */
 	public static Stage[] getRequestStages(int RequestID) {
 		Stage RequestStages[] = new Stage[Enums.numberOfStages];
 		String query = "select * from Stages where RequestID=" + RequestID;
@@ -382,6 +528,13 @@ public class DataBaseController {
 		return RequestStages;
 	}
 
+	/**
+	 * Search user.
+	 *
+	 * @param user the user
+	 * @param pass the pass
+	 * @return the user
+	 */
 	public static User SearchUser(String user, String pass) {
 		String query = "select * from Users where binary username =? and binary Password =?";
 		ResultSet rs = null;
@@ -398,7 +551,7 @@ public class DataBaseController {
 		try {
 			if (rs.next()) {
 				try {
-					if (rs.getInt(10) == 0 | rs.getInt(10) == 1) {// TODO
+					if (rs.getInt(10) == 0) {
 						us = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
 								rs.getString(5), Enums.Role.getRoleENUM(rs.getInt(6)));
 						query = "update Users set isLoggedIn=1 where username ='" + user + "'";
@@ -418,6 +571,12 @@ public class DataBaseController {
 		return us;
 	}
 
+	/**
+	 * Search user.
+	 *
+	 * @param user the user
+	 * @return the user
+	 */
 	public static User SearchUser(String user) {
 		String query = "select * from Users where binary username =?";
 		ResultSet rs = null;
@@ -442,6 +601,11 @@ public class DataBaseController {
 		return us;
 	}
 
+	/**
+	 * Gets the committe.
+	 *
+	 * @return the array list
+	 */
 	public static ArrayList<String> GetCommitte() {
 		String query = "select username from Users where role=3 or role=2";
 		ResultSet rs = null;
@@ -468,6 +632,12 @@ public class DataBaseController {
 		return Committe;
 	}
 
+	/**
+	 * Search report.
+	 *
+	 * @param id the id
+	 * @return the report
+	 */
 	public static Report SearchReport(int id) {
 		String query = "select * from Reports where requestID=" + String.valueOf(id);
 		ResultSet rs = null;
@@ -495,6 +665,11 @@ public class DataBaseController {
 		return report;
 	}
 
+	/**
+	 * Gets the supervisor.
+	 *
+	 * @return the supervisor
+	 */
 	public static String getSupervisor() {
 		String query = "select Users.username from Users where Role=4";
 		ResultSet rs = null;
@@ -516,6 +691,11 @@ public class DataBaseController {
 		return null;
 	}
 
+	/**
+	 * Gets the supervisor user.
+	 *
+	 * @return the supervisor user
+	 */
 	public static User getSupervisorUser() {
 		String query = "select * from Users where Role=4";
 		ResultSet rs = null;
@@ -544,6 +724,11 @@ public class DataBaseController {
 		return us;
 	}
 
+	/**
+	 * Gets the chairman.
+	 *
+	 * @return the chairman
+	 */
 	public static String getChairman() {
 		String query = "select Users.username from Users where Role=2";
 		ResultSet rs = null;
@@ -566,6 +751,11 @@ public class DataBaseController {
 
 	}
 
+	/**
+	 * Count committe members.
+	 *
+	 * @return the int
+	 */
 	public static int countCommitteMembers() {
 		String query = "select COUNT(*) from Users where Role=3";
 		ResultSet rs = null;
@@ -587,6 +777,12 @@ public class DataBaseController {
 		return -1;
 	}
 
+	/**
+	 * Creates the report for request.
+	 *
+	 * @param r the r
+	 * @return the int
+	 */
 	public static int CreateReportForRequest(Report r) {
 		Report check = SearchReport(r.getRequestId());
 		String query;
@@ -617,6 +813,12 @@ public class DataBaseController {
 
 	}
 
+	/**
+	 * Creates the new request.
+	 *
+	 * @param r the r
+	 * @return the int
+	 */
 	public static int CreateNewRequest(Request r) {
 		String temp = getSupervisor();
 		PreparedStatement st = null;
@@ -647,6 +849,11 @@ public class DataBaseController {
 		return id;
 	}
 
+	/**
+	 * Creates the stages DB.
+	 *
+	 * @param id the id
+	 */
 	public static void CreateStagesDB(int id) {
 		String temp = "";
 		try {
@@ -678,6 +885,13 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Change request stage.
+	 *
+	 * @param id the id
+	 * @param Up the up
+	 * @return true, if successful
+	 */
 	public static boolean ChangeRequestStage(int id, boolean Up) {
 		String query, newMembers = null;
 		ResultSet rs;
@@ -759,6 +973,13 @@ public class DataBaseController {
 		return true;
 	}
 
+	/**
+	 * Appoint stage handlers.
+	 *
+	 * @param id the id
+	 * @param stage the stage
+	 * @param handlers the handlers
+	 */
 	public static void AppointStageHandlers(int id, int stage, String handlers) {
 		String query = "update Stages set Member='," + handlers + ",' where RequestID=" + id + " and StageName="
 				+ stage;
@@ -772,6 +993,11 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Gets the comitte string.
+	 *
+	 * @return the string
+	 */
 	public static String GetComitteString() {
 		String results = "";
 		String query = "select * from Users where Role = 2";
@@ -817,6 +1043,12 @@ public class DataBaseController {
 		return results;
 	}
 
+	/**
+	 * Gets the random IS user.
+	 *
+	 * @param system the system
+	 * @return the string
+	 */
 	public static String GetRandomISUser(int system) {
 		ArrayList<String> users = new ArrayList<String>();
 		String query = "select username from Users where (Role = 1 or Role = 2 or Role = 3) and Department LIKE '%"
@@ -846,6 +1078,12 @@ public class DataBaseController {
 		return users.get(rand.nextInt(users.size()));
 	}
 
+	/**
+	 * Checks if is request denied.
+	 *
+	 * @param requestID the request ID
+	 * @return true, if is request denied
+	 */
 	public static boolean isRequestDenied(int requestID) {
 		String query = "SELECT isDenied from Requests where ID=" + requestID;
 		ResultSet rs = null;
@@ -866,6 +1104,13 @@ public class DataBaseController {
 		return false;
 	}
 
+	/**
+	 * Sets the date.
+	 *
+	 * @param requestID the request ID
+	 * @param stage the stage
+	 * @param date the date
+	 */
 	public static void setDate(int requestID, int stage, String date) {
 		String query = "update Stages set PlannedDueDate='" + date + "' where StageName=" + stage + " and RequestID="
 				+ requestID;
@@ -879,6 +1124,13 @@ public class DataBaseController {
 		updateLogChangeStageDate(requestID, stage, date);
 	}
 
+	/**
+	 * Sets the request deny.
+	 *
+	 * @param r the r
+	 * @param stage the stage
+	 * @return true, if successful
+	 */
 	public static boolean setRequestDeny(Request r, int stage) {
 		String query = "update Requests set isDenied=" + r.getIsDenied() + " where ID=" + r.getId();
 		PreparedStatement statement;
@@ -905,6 +1157,12 @@ public class DataBaseController {
 		return true;
 	}
 
+	/**
+	 * Calculate date div.
+	 *
+	 * @param r the r
+	 * @param stage the stage
+	 */
 	public static void calculateDateDiv(Request r, int stage) {
 		PreparedStatement statement;
 		ResultSet rs = null;
@@ -934,6 +1192,11 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Disconnect user.
+	 *
+	 * @param UserID the user ID
+	 */
 	public static void DisconnectUser(String UserID) {
 		String query = "update Users set isLoggedIn=0 where username ='" + UserID + "'";
 		PreparedStatement statement = null;
@@ -946,6 +1209,11 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Update log request details.
+	 *
+	 * @param request the request
+	 */
 	public static void updateLogRequestDetails(Request request) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
 		String WhatChanged = request.getDescription() + "||" + request.getChanges() + "||" + request.getChangeReason()
@@ -963,6 +1231,12 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Update log change status.
+	 *
+	 * @param id the id
+	 * @param status the status
+	 */
 	public static void updateLogChangeStatus(int id, int status) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
 		PreparedStatement statement = null;
@@ -978,6 +1252,13 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Update log change stage handler.
+	 *
+	 * @param id the id
+	 * @param stage the stage
+	 * @param member the member
+	 */
 	public static void updateLogChangeStageHandler(int id, int stage, String member) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
 		PreparedStatement statement = null;
@@ -993,6 +1274,13 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Update log change stage date.
+	 *
+	 * @param id the id
+	 * @param stage the stage
+	 * @param date the date
+	 */
 	public static void updateLogChangeStageDate(int id, int stage, String date) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
 		PreparedStatement statement = null;
@@ -1008,6 +1296,12 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Update log deny extension.
+	 *
+	 * @param id the id
+	 * @param stage the stage
+	 */
 	public static void updateLogDenyExtension(int id, int stage) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
 		PreparedStatement statement = null;
@@ -1023,6 +1317,12 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Change extended date.
+	 *
+	 * @param r the r
+	 * @param date the date
+	 */
 	public static void changeExtendedDate(Request r, String date) {
 		DateTime dt;
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
@@ -1038,6 +1338,11 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Sets the closing date.
+	 *
+	 * @param id the new closing date
+	 */
 	public static void setClosingDate(int id) {
 		String query = "update Stages set ActualDate='" + (new DateTime()).toString() + "' where RequestID=" + id
 				+ " and StageName=5";
@@ -1051,6 +1356,9 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Gen auto messages.
+	 */
 	public static void genAutoMessages() {
 		String query = "select * from Requests";
 		ObservableList<Request> list = getRequests(query);
@@ -1058,6 +1366,11 @@ public class DataBaseController {
 		autoMessageExceptions(list);
 	}
 
+	/**
+	 * Auto message 24 h due date.
+	 *
+	 * @param list the list
+	 */
 	public static void autoMessage24hDueDate(ObservableList<Request> list) {
 		for (Request r : list) {
 			int currstageNum = Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage());
@@ -1077,6 +1390,11 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Extension message.
+	 *
+	 * @param r the r
+	 */
 	public static void extensionMessage(Request r) {
 		String managerMail = getManagerMail();
 		User receiver = getSupervisorUser();
@@ -1086,6 +1404,11 @@ public class DataBaseController {
 		sendMessage(toSend, false);
 	}
 
+	/**
+	 * User message of closing.
+	 *
+	 * @param r the r
+	 */
 	public static void userMessageOfClosing(Request r) {
 		String supervisorMail = getSupervisorMail();
 		User receiver = SearchUser(r.getRequestorID());
@@ -1095,6 +1418,11 @@ public class DataBaseController {
 		sendMessage(toSend, false);
 	}
 
+	/**
+	 * Auto message exceptions.
+	 *
+	 * @param list the list
+	 */
 	public static void autoMessageExceptions(ObservableList<Request> list) {
 		String supervisorMail = getSupervisorMail();
 		String managerMail = getManagerMail();
@@ -1115,6 +1443,11 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Gets the supervisor mail.
+	 *
+	 * @return the supervisor mail
+	 */
 	public static String getSupervisorMail() {
 		String query = "select Users.Mail from Users where Role=4";
 		ResultSet rs = null;
@@ -1136,6 +1469,11 @@ public class DataBaseController {
 		return null;
 	}
 
+	/**
+	 * Gets the manager mail.
+	 *
+	 * @return the manager mail
+	 */
 	public static String getManagerMail() {
 		String query = "select Users.Mail from Users where Role=5";
 		ResultSet rs = null;
@@ -1157,6 +1495,12 @@ public class DataBaseController {
 		return null;
 	}
 
+	/**
+	 * Send message.
+	 *
+	 * @param m the m
+	 * @param checkSent the check sent
+	 */
 	public static void sendMessage(EmailMessage m, boolean checkSent) {
 		if (checkSent) {
 			String query = "insert into Messages (Messages.RequestID, Messages.Title, Messages.Details, Messages.Receiver) values (?,?,?,?)";
@@ -1175,6 +1519,11 @@ public class DataBaseController {
 		emailService.sendEmail(m);
 	}
 
+	/**
+	 * Gets the max request ID.
+	 *
+	 * @return the max request ID
+	 */
 	public static int getMaxRequestID() {
 		String query = "select max(ID) from Requests";
 		ResultSet rs = null;
@@ -1190,6 +1539,12 @@ public class DataBaseController {
 		return -1;
 	}
 
+	/**
+	 * Removes the user.
+	 *
+	 * @param id the id
+	 * @return true, if successful
+	 */
 	public static boolean removeUser(String id) {
 		String query = "delete from Users where username='" + id + "'";
 		PreparedStatement statement;
@@ -1203,6 +1558,11 @@ public class DataBaseController {
 		return true;
 	}
 
+	/**
+	 * Gets the extension durations.
+	 *
+	 * @return the extension durations
+	 */
 	public static ArrayList<Double> getExtensionDurations() {
 		ResultSet rs = null;
 		PreparedStatement statement;
@@ -1231,6 +1591,11 @@ public class DataBaseController {
 		return list;
 	}
 
+	/**
+	 * Gets the all users.
+	 *
+	 * @return the all users
+	 */
 	public static ObservableList<User> getAllUsers() {
 		ObservableList<User> o = FXCollections.observableArrayList();
 		String query = "select * from Users";
@@ -1263,6 +1628,11 @@ public class DataBaseController {
 
 	}
 
+	/**
+	 * Gets the all reports.
+	 *
+	 * @return the all reports
+	 */
 	public static ObservableList<Report> getAllReports() {
 		ObservableList<Report> o = FXCollections.observableArrayList();
 		String query = "select * from Reports";
@@ -1294,6 +1664,11 @@ public class DataBaseController {
 		return o;
 	}
 
+	/**
+	 * Gets the ALL request stages.
+	 *
+	 * @return the ALL request stages
+	 */
 	public static ObservableList<Common.Stage> getALLRequestStages() {
 		ObservableList<Common.Stage> o = FXCollections.observableArrayList();
 		String query = "select * from Stages";
@@ -1319,12 +1694,23 @@ public class DataBaseController {
 		return o;
 	}
 
+	/**
+	 * Gets the all requests.
+	 *
+	 * @return the all requests
+	 */
 	public static ObservableList<Request> getAllRequests() {
 		String query;
 		query = "select * from Requests";
 		return getRequests(query);
 	}
 
+	/**
+	 * Gets the delays durations.
+	 *
+	 * @param enm the enm
+	 * @return the delays durations
+	 */
 	public static ArrayList<Double> getDelaysDurations(SystemENUM enm) {
 		ResultSet rs = null;
 		PreparedStatement statement;
@@ -1367,6 +1753,11 @@ public class DataBaseController {
 		return list;
 	}
 
+	/**
+	 * Gets the all addons.
+	 *
+	 * @return the all addons
+	 */
 	public static ArrayList<Double> getAllAddons() {
 		String query = "select * from Requests";
 		ObservableList<Request> list = getRequests(query);
@@ -1387,6 +1778,11 @@ public class DataBaseController {
 		return res;
 	}
 
+	/**
+	 * Gets the all messages.
+	 *
+	 * @return the all messages
+	 */
 	public static ObservableList<Message> getAllMessages() {
 		ObservableList<Message> o = FXCollections.observableArrayList();
 		String query = "select * from Messages";
@@ -1417,6 +1813,11 @@ public class DataBaseController {
 
 	}
 
+	/**
+	 * Gets the supervisor log.
+	 *
+	 * @return the supervisor log
+	 */
 	public static ObservableList<SupervisorLog> getSupervisorLog() {
 		ObservableList<SupervisorLog> o = FXCollections.observableArrayList();
 		String query = "select * from SupLog";
@@ -1448,6 +1849,12 @@ public class DataBaseController {
 
 	}
 
+	/**
+	 * Gets the activity data.
+	 *
+	 * @param arr the arr
+	 * @return the activity data
+	 */
 	public static ArrayList<Integer> getActivityData(String[] arr) {
 		int active = 0, closed = 0, frozen = 0, rejected = 0;
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -1467,7 +1874,8 @@ public class DataBaseController {
 					closed++;
 				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Frozen))
 					frozen++;
-				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Rejected) || olist.get(i).getStatus().equals(Enums.RequestStatus.RejectedClosed))
+				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Rejected)
+						|| olist.get(i).getStatus().equals(Enums.RequestStatus.RejectedClosed))
 					rejected++;
 			}
 
@@ -1482,6 +1890,11 @@ public class DataBaseController {
 		return l;
 	}
 
+	/**
+	 * Gets the durations.
+	 *
+	 * @return the durations
+	 */
 	public static int getDurations() {
 		int resultss = 0;
 		String query = "select * from Requests";

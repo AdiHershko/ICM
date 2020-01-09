@@ -2,6 +2,7 @@ package Client;
 
 import java.io.IOException;
 
+import Client.Controllers.ClientChooseController;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Request;
@@ -13,41 +14,68 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ClientMain.
+ */
+public class ClientMain extends Application {
+	
+	/** The stage. */
 	Stage stage;
+	
+	/** The root. */
 	static Pane root;
-	clientChooseController c;
+	
+	/** The c. */
+	ClientChooseController c;
+	
+	/** The client. */
 	public static ChatClient client;
-	static User currentUser;
-	static Request currentRequest;
-	static Main _ins;
-	static Scene s;
+	
+	/** The current user. */
+	public static User currentUser;
+	
+	/** The current request. */
+	public static Request currentRequest;
+	
+	/** The ins. */
+	public static ClientMain _ins;
+	
+	/** The s. */
+	public static Scene s;
 
+	/**
+	 * Start.
+	 *
+	 * @param stage the stage
+	 * @throws Exception the exception
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
 		try { // loading fxml file
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("ClientEntrance.fxml"));
+			loader.setLocation(getClass().getResource("Controllers/0-ClientEntrance.fxml"));
 			root = loader.load();
 			c = loader.getController(); // saving controller class
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
 		}
-		_ins=this;
+		_ins = this;
 		s = new Scene(root);
 		stage.setScene(s);
 		stage.setTitle("Client connection");
 		stage.setResizable(false);
-		stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.jpg")));
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("Controllers/logo.jpg")));
 		stage.show();
 		getHostServices();
 
 		stage.setOnCloseRequest(e -> {
 			try {
 				if (currentUser != null) {
-					client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.logOut, currentUser.getUsername()));
+					client.handleMessageFromClientUI(
+							new ClientServerMessage(Enums.MessageEnum.logOut, currentUser.getUsername()));
 					client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.DISCONNECT));
 				}
 			} catch (Exception e1) {
@@ -58,6 +86,11 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

@@ -1,5 +1,6 @@
-package Client;
+package Client.Controllers;
 
+import Client.ClientMain;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Report;
@@ -11,35 +12,60 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ReportScreenController.
+ */
 public class ReportScreenController {
 
+	/** The new window. */
 	Stage newWindow = new Stage();
+	
+	/** The report. */
 	private Report report;
+	
+	/** The locatin TXT. */
 	@FXML
 	private TextField locatinTXT;
+	
+	/** The I dlabel. */
 	@FXML
 	private Label IDlabel;
+	
+	/** The desc TXT. */
 	@FXML
 	private TextField descTXT;
 
+	/** The result TXT. */
 	@FXML
 	private TextField resultTXT;
 
+	/** The constrains TXT. */
 	@FXML
 	private TextField constrainsTXT;
 
+	/** The risks TXT. */
 	@FXML
 	private TextField risksTXT;
 
+	/** The time TXT. */
 	@FXML
 	private TextField timeTXT;
 
+	/** The Submit report button. */
 	@FXML
 	private Button SubmitReportButton;
+	
+	/** The Save report button. */
 	@FXML
 	private Button SaveReportButton;
-	static ReportScreenController _ins;
+	
+	/** The ins. */
+	public static ReportScreenController _ins;
 
+	/**
+	 * Initialize.
+	 */
 	public void initialize() {
 		_ins = this;
 		IDlabel.setText(String.valueOf(RequestsScreenController.r.getId()));
@@ -53,8 +79,9 @@ public class ReportScreenController {
 		} else {
 			timeTXT.setText(String.valueOf(RequestsScreenController.reportOfRequest.getDurationAssesment()));
 		}
-		if (RequestsScreenController.r.getCurrentStage() != Enums.RequestStageENUM.Assesment && Main.currentUser.getRole() != Enums.Role.Manager
-				&& Main.currentUser.getRole() != Enums.Role.Supervisor) {
+		if (RequestsScreenController.r.getCurrentStage() != Enums.RequestStageENUM.Assesment
+				&& ClientMain.currentUser.getRole() != Enums.Role.Manager
+				&& ClientMain.currentUser.getRole() != Enums.Role.Supervisor) {
 			SubmitReportButton.setVisible(false);
 			SaveReportButton.setVisible(false);
 			descTXT.setEditable(false);
@@ -67,6 +94,9 @@ public class ReportScreenController {
 
 	}
 
+	/**
+	 * Save report.
+	 */
 	public void saveReport() {
 
 		report = new Report();
@@ -90,13 +120,16 @@ public class ReportScreenController {
 		report.setDescription(descTXT.getText());
 		report.setLocation(locatinTXT.getText());
 		report.setRequestId(RequestsScreenController.r.getId());
-		
+
 		ClientServerMessage msg = new ClientServerMessage(Enums.MessageEnum.CreateReport, report);
-		
-		Main.client.handleMessageFromClientUI(msg);
+
+		ClientMain.client.handleMessageFromClientUI(msg);
 		RequestsScreenController._ins.closeExtraWindow();
 	}
 
+	/**
+	 * Submit report.
+	 */
 	public void submitReport() {
 		if (risksTXT.getText().equals("") || timeTXT.getText().equals("") || resultTXT.getText().equals("")
 				|| constrainsTXT.getText().equals("") || descTXT.getText().equals("")
@@ -129,16 +162,14 @@ public class ReportScreenController {
 			report.setRequestId(RequestsScreenController.r.getId());
 			RequestsScreenController._ins.closeExtraWindowOnly();
 			ClientServerMessage msg = new ClientServerMessage(Enums.MessageEnum.CreateReport, report);
-			Main.client.handleMessageFromClientUI(msg);
-			Main.client.handleMessageFromClientUI(
+			ClientMain.client.handleMessageFromClientUI(msg);
+			ClientMain.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.UpdateStage, report.getRequestId()));
 			RequestsScreenController._ins.unVisibleRequestPane();
 			RequestsScreenController._ins.closeExtraWindowSub();
-			
-			
+
 		}
 
 	}
 
-	
 }

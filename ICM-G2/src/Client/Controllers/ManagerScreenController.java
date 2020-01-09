@@ -1,13 +1,13 @@
-package Client;
+package Client.Controllers;
 
 import java.io.IOException;
 
 import org.joda.time.DateTime;
 
+import Client.ClientMain;
 import Common.ClientServerMessage;
 import Common.Enums;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,46 +19,73 @@ import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ManagerScreenController.
+ */
 public class ManagerScreenController {
-	static ManagerScreenController _ins;
+	
+	/** The ins. */
+	public static ManagerScreenController _ins;
+	
+	/** The IS users. */
 	private Scene ISUsers;
+	
+	/** The new window. */
 	Stage newWindow = new Stage();
+	
+	/** The event. */
 	ActionEvent event;
+	
+	/** The create user button. */
 	@FXML
 	private Button createUserButton;
 
+	/** The edit users button. */
 	@FXML
 	private Button editUsersButton;
 
+	/** The View all system data button. */
 	@FXML
 	private Button ViewAllSystemDataButton;
 
+	/** The stat button. */
 	@FXML
 	private Button statButton;
 
+	/** The requests button. */
 	@FXML
 	private Button requestsButton;
 
+	/** The time date txt. */
 	@FXML
 	private Label timeDateTxt;
 
+	/** The user TXT. */
 	@FXML
 	private Label userTXT;
 
+	/** The logout button. */
 	@FXML
 	private Button logoutButton;
+	
+	/** The date label. */
 	@FXML
 	private Label dateLabel;
+	
+	/** The user name label. */
 	@FXML
 	private Label userNameLabel;
 
-
-
+	/**
+	 * Initialize.
+	 */
 	public void initialize() {
 		_ins = this;
 		new Thread() {
 			public void run() {
-				Platform.runLater(()->userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName()));
+				Platform.runLater(() -> userNameLabel
+						.setText(ClientMain.currentUser.getFirstName() + " " + ClientMain.currentUser.getLastName()));
 				while (true) // update time in 0.5s intervals
 				{
 
@@ -80,10 +107,15 @@ public class ManagerScreenController {
 		}.start();
 	}
 
+	/**
+	 * Open create user.
+	 *
+	 * @param event the event
+	 */
 	@FXML
-    void openCreateUser(ActionEvent event) {
+	void openCreateUser(ActionEvent event) {
 		Parent root = null;
-		newWindow=new Stage();
+		newWindow = new Stage();
 		try {
 			root = FXMLLoader.load(getClass().getResource("3.1-AddISUsersScreen.fxml"));
 		} catch (IOException e) {
@@ -97,12 +129,17 @@ public class ManagerScreenController {
 		newWindow.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
 		newWindow.initModality(Modality.WINDOW_MODAL);
 		newWindow.show();
-    }
+	}
 
-    @FXML
-    void openEditUser(ActionEvent event) {
+	/**
+	 * Open edit user.
+	 *
+	 * @param event the event
+	 */
+	@FXML
+	void openEditUser(ActionEvent event) {
 		Parent root = null;
-		newWindow=new Stage();
+		newWindow = new Stage();
 		try {
 			root = FXMLLoader.load(getClass().getResource("3.1-AddISUsersScreen.fxml"));
 		} catch (IOException e) {
@@ -116,15 +153,21 @@ public class ManagerScreenController {
 		newWindow.initModality(Modality.WINDOW_MODAL);
 		newWindow.setResizable(false);
 		newWindow.show();
-    }
+	}
 
+	/**
+	 * Logout.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void logout(ActionEvent event) {
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.logOut, Main.currentUser.getUsername()));
-		Main.currentUser = null;
+		ClientMain.client.handleMessageFromClientUI(
+				new ClientServerMessage(Enums.MessageEnum.logOut, ClientMain.currentUser.getUsername()));
+		ClientMain.currentUser = null;
 		Parent root = null;
 		try {
-			root = FXMLLoader.load(getClass().getResource("loginScreen.fxml"));
+			root = FXMLLoader.load(getClass().getResource("0.1-loginScreen.fxml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -135,10 +178,16 @@ public class ManagerScreenController {
 		window.show();
 	}
 
+	/**
+	 * Request btn.
+	 *
+	 * @param event the event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void requestBtn(ActionEvent event) throws IOException {
 		Parent root = null;
 		try {
-			root = FXMLLoader.load(getClass().getResource("RequestsScreen.fxml"));
+			root = FXMLLoader.load(getClass().getResource("1-RequestsScreen.fxml"));
 		} catch (IOException e) {
 			System.out.println("problem");
 		}
@@ -148,8 +197,15 @@ public class ManagerScreenController {
 		window.setResizable(false);
 		window.show();
 	}
+
+	/**
+	 * Open stats.
+	 *
+	 * @param event the event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
-	public void openStats(ActionEvent event) throws IOException{
+	public void openStats(ActionEvent event) throws IOException {
 		Parent root = null;
 		try {
 			root = FXMLLoader.load(getClass().getResource("3.2-ManagerStatistics.fxml"));
@@ -163,6 +219,11 @@ public class ManagerScreenController {
 		window.show();
 	}
 
+	/**
+	 * View all system data.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void viewAllSystemData(ActionEvent event) {
 		Parent root = null;

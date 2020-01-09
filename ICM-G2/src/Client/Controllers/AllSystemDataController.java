@@ -1,8 +1,9 @@
-package Client;
+package Client.Controllers;
 
 import java.io.IOException;
 import org.joda.time.DateTime;
 
+import Client.ClientMain;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.Message;
@@ -24,39 +25,79 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+// TODO: Auto-generated Javadoc
+//       Log-out btn
+/**
+ * The Class AllSystemDataController.
+ */
 public class AllSystemDataController {
+	
+	/** The ins. */
 	public static AllSystemDataController _ins;
+	
+	/** The back manager button. */
 	@FXML
 	private Button backManagerButton;
+	
+	/** The date and time label. */
 	@FXML
 	private Label dateAndTimeLabel;
+	
+	/** The user name label. */
 	@FXML
 	private Label userNameLabel;
+	
+	/** The reports radio. */
 	@FXML
 	private RadioButton reportsRadio;
+	
+	/** The reports table view. */
 	@FXML
 	private TableView<Report> reportsTableView;
+	
+	/** The requests table view. */
 	@FXML
 	private TableView<Request> requestsTableView;
+	
+	/** The stages table view. */
 	@FXML
 	private TableView<Common.Stage> stagesTableView;
+	
+	/** The users table view. */
 	@FXML
 	private TableView<User> usersTableView;
+	
+	/** The requests radio. */
 	@FXML
 	private RadioButton requestsRadio;
+	
+	/** The stages radio. */
 	@FXML
 	private RadioButton stagesRadio;
+	
+	/** The users radio. */
 	@FXML
 	private RadioButton usersRadio;
+	
+	/** The messages radio button. */
 	@FXML
 	private RadioButton messagesRadioButton;
+	
+	/** The messages table view. */
 	@FXML
 	private TableView<Message> messagesTableView;
+	
+	/** The supervisor log radio button. */
 	@FXML
 	private RadioButton supervisorLogRadioButton;
+	
+	/** The supervisor log table view. */
 	@FXML
 	private TableView<SupervisorLog> supervisorLogTableView;
 
+	/**
+	 * Initialize.
+	 */
 	public void initialize() {
 		_ins = this;
 		reportsTableSetup();
@@ -74,7 +115,7 @@ public class AllSystemDataController {
 
 		new Thread() {
 			public void run() {
-				userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
+				userNameLabel.setText(ClientMain.currentUser.getFirstName() + " " + ClientMain.currentUser.getLastName());
 				while (true) // update time in 0.5s intervals
 				{
 
@@ -96,6 +137,9 @@ public class AllSystemDataController {
 		}.start();
 	}
 
+	/**
+	 * Reports table setup.
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void reportsTableSetup() {
 		TableColumn<Report, Integer> idColumn = new TableColumn<>("Request ID");
@@ -119,6 +163,9 @@ public class AllSystemDataController {
 			col.setMinWidth(250);
 	}
 
+	/**
+	 * Requests table setup.
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void requestsTableSetup() {
 		TableColumn<Request, Integer> idColumn = new TableColumn<>("Request ID");
@@ -155,6 +202,9 @@ public class AllSystemDataController {
 
 	}
 
+	/**
+	 * Stages table setup.
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void stagesTableSetup() {
 		TableColumn<Common.Stage, String> stageColumn = new TableColumn<>("Stage Name");
@@ -186,6 +236,9 @@ public class AllSystemDataController {
 
 	}
 
+	/**
+	 * Users table setup.
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void usersTableSetup() {
 
@@ -212,6 +265,9 @@ public class AllSystemDataController {
 			col.setMinWidth(250);
 	}
 
+	/**
+	 * Messages table setup.
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void messagesTableSetup() {
 
@@ -229,6 +285,9 @@ public class AllSystemDataController {
 			col.setMinWidth(250);
 	}
 
+	/**
+	 * Supervisor log table setup.
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void supervisorLogTableSetup() {
 
@@ -247,6 +306,11 @@ public class AllSystemDataController {
 
 	}
 
+	/**
+	 * Show reports.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void showReports(ActionEvent event) {
 		if (reportsRadio.isSelected()) {
@@ -260,10 +324,15 @@ public class AllSystemDataController {
 		} else {
 			reportsTableView.setVisible(false);
 		}
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETALLREPORTS));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETALLREPORTS));
 
 	}
 
+	/**
+	 * Show requests.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void showRequests(ActionEvent event) {
 		if (requestsRadio.isSelected()) {
@@ -277,10 +346,15 @@ public class AllSystemDataController {
 		} else {
 			requestsTableView.setVisible(false);
 		}
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETALLREQUESTS));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETALLREQUESTS));
 
 	}
 
+	/**
+	 * Show stages.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void showStages(ActionEvent event) {
 		if (stagesRadio.isSelected()) {
@@ -294,9 +368,14 @@ public class AllSystemDataController {
 		} else {
 			stagesTableView.setVisible(false);
 		}
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETALLSTAGES));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETALLSTAGES));
 	}
 
+	/**
+	 * Show users.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void showUsers(ActionEvent event) {
 		if (usersRadio.isSelected()) {
@@ -309,10 +388,15 @@ public class AllSystemDataController {
 		} else {
 			usersTableView.setVisible(false);
 		}
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETALLUSERS));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETALLUSERS));
 
 	}
 
+	/**
+	 * Show messages.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void showMessages(ActionEvent event) {
 		if (messagesRadioButton.isSelected()) {
@@ -326,10 +410,15 @@ public class AllSystemDataController {
 			messagesTableView.setVisible(false);
 		}
 
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETALLMESSAGES));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETALLMESSAGES));
 
 	}
 
+	/**
+	 * Show supervisor log.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void showSupervisorLog(ActionEvent event) {
 		if (supervisorLogRadioButton.isSelected()) {
@@ -342,9 +431,14 @@ public class AllSystemDataController {
 		} else {
 			supervisorLogTableView.setVisible(false);
 		}
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETSUPERVISORLOG));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETSUPERVISORLOG));
 	}
 
+	/**
+	 * Manager back.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void managerBack(ActionEvent event) {
 		Parent root = null;
@@ -364,53 +458,113 @@ public class AllSystemDataController {
 				} catch (Exception e) {
 				}
 			}
-		});	
+		});
 	}
 
+	/**
+	 * Gets the stages table view.
+	 *
+	 * @return the stages table view
+	 */
 	public TableView<Common.Stage> getStagesTableView() {
 		return stagesTableView;
 	}
 
+	/**
+	 * Sets the stages table view.
+	 *
+	 * @param stagesTableView the new stages table view
+	 */
 	public void setStagesTableView(TableView<Common.Stage> stagesTableView) {
 		this.stagesTableView = stagesTableView;
 	}
 
+	/**
+	 * Gets the reports table view.
+	 *
+	 * @return the reports table view
+	 */
 	public TableView<Report> getReportsTableView() {
 		return reportsTableView;
 	}
 
+	/**
+	 * Sets the reports table view.
+	 *
+	 * @param reportsTableView the new reports table view
+	 */
 	public void setReportsTableView(TableView<Report> reportsTableView) {
 		this.reportsTableView = reportsTableView;
 	}
 
+	/**
+	 * Gets the requests table view.
+	 *
+	 * @return the requests table view
+	 */
 	public TableView<Request> getRequestsTableView() {
 		return requestsTableView;
 	}
 
+	/**
+	 * Sets the requests table view.
+	 *
+	 * @param requestsTableView the new requests table view
+	 */
 	public void setRequestsTableView(TableView<Request> requestsTableView) {
 		this.requestsTableView = requestsTableView;
 	}
 
+	/**
+	 * Gets the users table view.
+	 *
+	 * @return the users table view
+	 */
 	public TableView<User> getUsersTableView() {
 		return usersTableView;
 	}
 
+	/**
+	 * Sets the users table view.
+	 *
+	 * @param usersTableView the new users table view
+	 */
 	public void setUsersTableView(TableView<User> usersTableView) {
 		this.usersTableView = usersTableView;
 	}
 
+	/**
+	 * Gets the messages table view.
+	 *
+	 * @return the messages table view
+	 */
 	public TableView<Message> getMessagesTableView() {
 		return messagesTableView;
 	}
 
+	/**
+	 * Sets the messages table view.
+	 *
+	 * @param messagesTableView the new messages table view
+	 */
 	public void setMessagesTableView(TableView<Message> messagesTableView) {
 		this.messagesTableView = messagesTableView;
 	}
 
+	/**
+	 * Gets the supervisor log table view.
+	 *
+	 * @return the supervisor log table view
+	 */
 	public TableView<SupervisorLog> getSupervisorLogTableView() {
 		return supervisorLogTableView;
 	}
 
+	/**
+	 * Sets the supervisor log table view.
+	 *
+	 * @param supervisorLogTableView the new supervisor log table view
+	 */
 	public void setSupervisorLogTableView(TableView<SupervisorLog> supervisorLogTableView) {
 		this.supervisorLogTableView = supervisorLogTableView;
 	}

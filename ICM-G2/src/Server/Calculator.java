@@ -7,15 +7,32 @@ import Common.FrequencyDeviation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Calculator.
+ */
 public class Calculator {
+	
+	/** The ins. */
 	private static Calculator _ins;
 
+	/**
+	 * Gets the instannce.
+	 *
+	 * @return the instannce
+	 */
 	public static Calculator getInstannce() {
 		if (_ins == null)
 			_ins = new Calculator();
 		return _ins;
 	}
 
+	/**
+	 * Sum.
+	 *
+	 * @param list the list
+	 * @return the double
+	 */
 	public Double sum(ArrayList<Double> list) {
 		Double sum = (double) 0;
 		for (Double i : list)
@@ -23,6 +40,12 @@ public class Calculator {
 		return sum;
 	}
 
+	/**
+	 * Median.
+	 *
+	 * @param list the list
+	 * @return the double
+	 */
 	public double median(ArrayList<Double> list) {
 		Collections.sort(list);
 		int size = list.size();
@@ -35,6 +58,12 @@ public class Calculator {
 		}
 	}
 
+	/**
+	 * Standard deviation.
+	 *
+	 * @param list the list
+	 * @return the double
+	 */
 	public double standardDeviation(ArrayList<Double> list) {
 		double avg = ((double) sum(list)) / list.size();
 		double tmp = 0;
@@ -45,6 +74,12 @@ public class Calculator {
 		return tmp;
 	}
 
+	/**
+	 * Calc all.
+	 *
+	 * @param list the list
+	 * @return the array list
+	 */
 	public ArrayList<Double> calcAll(ArrayList<Double> list) {
 		ArrayList<Double> all = new ArrayList<Double>();
 		all.add((double) sum(list));
@@ -53,6 +88,12 @@ public class Calculator {
 		return all;
 	}
 
+	/**
+	 * Freq deviation.
+	 *
+	 * @param list the list
+	 * @return the observable list
+	 */
 	public ObservableList<FrequencyDeviation> freqDeviation(ArrayList<Double> list) {
 		ArrayList<Double> values = new ArrayList<Double>();
 		for (Double i : list) {
@@ -62,7 +103,7 @@ public class Calculator {
 		Collections.sort(values);
 		ObservableList<FrequencyDeviation> res = FXCollections.observableArrayList();
 		for (int i = 0; i < values.size(); i++) {
-			FrequencyDeviation f = new FrequencyDeviation(values.get(i),Collections.frequency(list, values.get(i)));
+			FrequencyDeviation f = new FrequencyDeviation(values.get(i), Collections.frequency(list, values.get(i)));
 			res.add(f);
 		}
 		return res;

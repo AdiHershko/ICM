@@ -1,4 +1,4 @@
-package Client;
+package Client.Controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,15 +7,12 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import Client.ClientMain;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.FrequencyDeviation;
-import Common.Request;
 import Common.Enums.SystemENUM;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,149 +35,237 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ManagerStatisticsController.
+ */
 public class ManagerStatisticsController {
-	static ManagerStatisticsController _ins;
+	
+	/** The ins. */
+	public static ManagerStatisticsController _ins;
+	
+	/** The date label. */
 	@FXML
 	private Label dateLabel;
 
+	/** The user name label. */
 	@FXML
 	private Label userNameLabel;
 
+	/** The logout button. */
 	@FXML
 	private Button logoutButton;
 
+	/** The report choice box. */
 	@FXML
 	private ChoiceBox<String> reportChoiceBox = new ChoiceBox<String>();
 
+	/** The manager back btn. */
 	@FXML
 	private Button managerBackBtn;
 
+	/** The period report date. */
 	@FXML
 	private Pane periodReportDate;
 
+	/** The from date. */
 	@FXML
 	private DatePicker fromDate;
 
+	/** The to date. */
 	@FXML
 	private DatePicker toDate;
 
+	/** The get report 1. */
 	@FXML
 	private Button getReport1;
 
+	/** The period rep. */
 	@FXML
 	private Pane periodRep;
 
+	/** The open label. */
 	@FXML
 	private Label openLabel;
 
+	/** The freeze label. */
 	@FXML
 	private Label freezeLabel;
 
+	/** The closed label. */
 	@FXML
 	private Label closedLabel;
 
+	/** The rejected label. */
 	@FXML
 	private Label rejectedLabel;
 
+	/** The days label. */
 	@FXML
 	private Label daysLabel;
 
+	/** The performance. */
 	@FXML
 	private Pane performance;
 
+	/** The extension total label. */
 	@FXML
 	private Label extensionTotalLabel;
 
+	/** The extension median label. */
 	@FXML
 	private Label extensionMedianLabel;
 
+	/** The extension SD label. */
 	@FXML
 	private Label extensionSDLabel;
 
+	/** The extension FD label. */
 	@FXML
 	private Label extensionFDLabel;
 
+	/** The addons total label. */
 	@FXML
 	private Label addonsTotalLabel;
 
+	/** The addons median label. */
 	@FXML
 	private Label addonsMedianLabel;
 
+	/** The addons SD label. */
 	@FXML
 	private Label addonsSDLabel;
 
+	/** The addons FD label. */
 	@FXML
 	private Label addonsFDLabel;
 
+	/** The delays pane. */
 	@FXML
 	private Pane delaysPane;
+	
+	/** The delays inner pane. */
 	@FXML
 	private Pane delaysInnerPane;
+	
+	/** The system CB. */
 	@FXML
 	private ChoiceBox<SystemENUM> systemCB = new ChoiceBox<SystemENUM>();
 
+	/** The delays num. */
 	@FXML
 	private Label delaysNum;
 
+	/** The delays median. */
 	@FXML
 	private Label delaysMedian;
 
+	/** The delays SD. */
 	@FXML
 	private Label delaysSD;
 
+	/** The delays FD. */
 	@FXML
 	private Label delaysFD;
 
+	/** The extensions graph. */
 	@FXML
 	private BarChart extensionsGraph;
 
+	/** The x axis. */
 	@FXML
 	private CategoryAxis xAxis;
 
+	/** The y axis. */
 	@FXML
 	private NumberAxis yAxis;
 
+	/** The series. */
 	static XYChart.Series series;
+	
+	/** The series 1. */
 	static XYChart.Series series1;
+	
+	/** The series 2. */
 	static XYChart.Series series2;
 
+	/** The addons graph. */
 	@FXML
 	private BarChart addonsGraph;
 
+	/** The delays graph. */
 	@FXML
 	private BarChart delaysGraph;
 
+	/** The extensions table. */
 	@FXML
 	public TableView<FrequencyDeviation> extensionsTable;
+	
+	/** The addons table. */
 	@FXML
 	public TableView<FrequencyDeviation> addonsTable;
+	
+	/** The delays table. */
 	@FXML
 	public TableView<FrequencyDeviation> delaysTable;
 
+	/**
+	 * Gets the extensions table.
+	 *
+	 * @return the extensions table
+	 */
 	public TableView<FrequencyDeviation> getExtensionsTable() {
 		return extensionsTable;
 	}
 
+	/**
+	 * Sets the extensions table.
+	 *
+	 * @param extensionsTable the new extensions table
+	 */
 	public void setExtensionsTable(TableView<FrequencyDeviation> extensionsTable) {
 		this.extensionsTable = extensionsTable;
 	}
 
+	/**
+	 * Gets the delays table.
+	 *
+	 * @return the delays table
+	 */
 	public TableView<FrequencyDeviation> getDelaysTable() {
 		return delaysTable;
 	}
 
+	/**
+	 * Sets the delays table.
+	 *
+	 * @param delaysTable the new delays table
+	 */
 	public void setDelaysTable(TableView<FrequencyDeviation> delaysTable) {
 		this.delaysTable = delaysTable;
 	}
 
+	/**
+	 * Gets the addons table.
+	 *
+	 * @return the addons table
+	 */
 	public TableView<FrequencyDeviation> getAddonsTable() {
 		return addonsTable;
 	}
 
+	/**
+	 * Sets the addons table.
+	 *
+	 * @param addonsTable the new addons table
+	 */
 	public void setAddonsTable(TableView<FrequencyDeviation> addonsTable) {
 		this.addonsTable = addonsTable;
 	}
 
+	/**
+	 * Initialize.
+	 */
 	public void initialize() {
 		_ins = this;
 		series = new XYChart.Series<>();
@@ -189,7 +274,7 @@ public class ManagerStatisticsController {
 		new Thread() {
 			public void run() {
 				Platform.runLater(() -> userNameLabel
-						.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName()));
+						.setText(ClientMain.currentUser.getFirstName() + " " + ClientMain.currentUser.getLastName()));
 				while (true) // update time in 0.5s intervals
 				{
 
@@ -221,6 +306,9 @@ public class ManagerStatisticsController {
 		setTables();
 	}
 
+	/**
+	 * Change pane.
+	 */
 	public void changePane() {
 		switch (reportChoiceBox.getValue().toString()) {
 		case "Period Report":
@@ -237,10 +325,10 @@ public class ManagerStatisticsController {
 			xAxis.setLabel("Value");
 			yAxis.setLabel("Frequency");
 			extensionsGraph.setTitle("Extensions");
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat));
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq));
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsStat));
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsFreq));
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat));
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq));
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsStat));
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsFreq));
 			break;
 		case "Delays Report":
 			delaysGraph.getData().clear();
@@ -253,13 +341,21 @@ public class ManagerStatisticsController {
 		}
 	}
 
+	/**
+	 * Change delay system.
+	 */
 	public void changeDelaySystem() {
 		delaysInnerPane.setVisible(true);
 		delaysGraph.getData().clear();
-		Main.client.handleMessageFromClientUI(
+		ClientMain.client.handleMessageFromClientUI(
 				new ClientServerMessage(Enums.MessageEnum.GetDelaysStat, systemCB.getValue()));
 	}
 
+	/**
+	 * Show delay system.
+	 *
+	 * @param l the l
+	 */
 	public void showDelaySystem(ArrayList<Double> l) {
 		if (l.isEmpty()) {
 			delaysNum.setText("Number of delays: 0");
@@ -270,12 +366,18 @@ public class ManagerStatisticsController {
 			delaysNum.setText(String.format("Number of delays: %.0f", l.get(0)));
 			delaysMedian.setText(String.format("Median: %.1f", l.get(1)));
 			delaysSD.setText(String.format("Standard Deviation: %g", l.get(2)));
-			Main.client.handleMessageFromClientUI(
+			ClientMain.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.GetDelaysFreq, systemCB.getValue()));
 			delaysTable.setVisible(true);
 		}
 	}
 
+	/**
+	 * Gets the report 1.
+	 *
+	 * @param event the event
+	 * @return the report 1
+	 */
 	@FXML
 	void getReport1(ActionEvent event) {
 		String s1 = fromDate.getValue().toString();
@@ -291,7 +393,7 @@ public class ManagerStatisticsController {
 		} catch (IllegalArgumentException e) {
 		}
 		if (dt1.isBefore(dt2)) {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getPeriodReport, s));
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getPeriodReport, s));
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Wrong input");
@@ -301,13 +403,19 @@ public class ManagerStatisticsController {
 		}
 	}
 
+	/**
+	 * Logout.
+	 *
+	 * @param event the event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
 	void logout(ActionEvent event) throws IOException {
-		Main.client.handleMessageFromClientUI(
-				new ClientServerMessage(Enums.MessageEnum.logOut, Main.currentUser.getUsername()));
-		Main.currentUser = null;
+		ClientMain.client.handleMessageFromClientUI(
+				new ClientServerMessage(Enums.MessageEnum.logOut, ClientMain.currentUser.getUsername()));
+		ClientMain.currentUser = null;
 		Parent root = null;
-		root = FXMLLoader.load(getClass().getResource("loginScreen.fxml"));
+		root = FXMLLoader.load(getClass().getResource("0.1-loginScreen.fxml"));
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setResizable(false);
@@ -315,6 +423,11 @@ public class ManagerStatisticsController {
 		window.show();
 	}
 
+	/**
+	 * Manager back.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void managerBack(ActionEvent event) {
 		Parent root = null;
@@ -330,6 +443,11 @@ public class ManagerStatisticsController {
 		window.show();
 	}
 
+	/**
+	 * Update extensions.
+	 *
+	 * @param l the l
+	 */
 	public void updateExtensions(ArrayList<Double> l) {
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -340,6 +458,11 @@ public class ManagerStatisticsController {
 		});
 	}
 
+	/**
+	 * Update addons.
+	 *
+	 * @param l the l
+	 */
 	public void updateAddons(ArrayList<Double> l) {
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -350,6 +473,9 @@ public class ManagerStatisticsController {
 		});
 	}
 
+	/**
+	 * Sets the tables.
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setTables() {
 		TableColumn<FrequencyDeviation, Double> valueC = new TableColumn<>("Value");
@@ -377,6 +503,11 @@ public class ManagerStatisticsController {
 		freqC3.setPrefWidth(100);
 	}
 
+	/**
+	 * Update peropd.
+	 *
+	 * @param res the res
+	 */
 	public void updatePeropd(ArrayList<Integer> res) {
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -390,50 +521,110 @@ public class ManagerStatisticsController {
 		});
 	}
 
+	/**
+	 * Gets the extensions graph.
+	 *
+	 * @return the extensions graph
+	 */
 	public BarChart getExtensionsGraph() {
 		return extensionsGraph;
 	}
 
+	/**
+	 * Sets the extensions graph.
+	 *
+	 * @param extensionsGraph the new extensions graph
+	 */
 	public void setExtensionsGraph(BarChart extensionsGraph) {
 		this.extensionsGraph = extensionsGraph;
 	}
 
+	/**
+	 * Gets the series.
+	 *
+	 * @return the series
+	 */
 	public XYChart.Series getSeries() {
 		return series;
 	}
 
+	/**
+	 * Sets the series.
+	 *
+	 * @param series the new series
+	 */
 	public void setSeries(XYChart.Series series) {
 		this.series = series;
 	}
 
+	/**
+	 * Gets the addons graph.
+	 *
+	 * @return the addons graph
+	 */
 	public BarChart getAddonsGraph() {
 		return addonsGraph;
 	}
 
+	/**
+	 * Sets the addons graph.
+	 *
+	 * @param addonsGraph the new addons graph
+	 */
 	public void setAddonsGraph(BarChart addonsGraph) {
 		this.addonsGraph = addonsGraph;
 	}
 
+	/**
+	 * Gets the delays graph.
+	 *
+	 * @return the delays graph
+	 */
 	public BarChart getDelaysGraph() {
 		return delaysGraph;
 	}
 
+	/**
+	 * Sets the delays graph.
+	 *
+	 * @param delaysGraph the new delays graph
+	 */
 	public void setDelaysGraph(BarChart delaysGraph) {
 		this.delaysGraph = delaysGraph;
 	}
 
+	/**
+	 * Gets the series 1.
+	 *
+	 * @return the series 1
+	 */
 	public static XYChart.Series getSeries1() {
 		return series1;
 	}
 
+	/**
+	 * Sets the series 1.
+	 *
+	 * @param series1 the new series 1
+	 */
 	public static void setSeries1(XYChart.Series series1) {
 		ManagerStatisticsController.series1 = series1;
 	}
 
+	/**
+	 * Gets the series 2.
+	 *
+	 * @return the series 2
+	 */
 	public static XYChart.Series getSeries2() {
 		return series2;
 	}
 
+	/**
+	 * Sets the series 2.
+	 *
+	 * @param series2 the new series 2
+	 */
 	public static void setSeries2(XYChart.Series series2) {
 		ManagerStatisticsController.series2 = series2;
 	}

@@ -1,4 +1,4 @@
-package Client;
+package Client.Controllers;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+
+import Client.ClientMain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,158 +46,335 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RequestsScreenController.
+ */
 public class RequestsScreenController {
+	
+	/** The tmp new window. */
 	public static Stage tmp_newWindow;
+	
+	/** The ins. */
 	public static RequestsScreenController _ins;
+	
+	/** The wait for new request. */
 	public static boolean waitForNewRequest;
+	
+	/** The un active. */
 	private boolean unActive;
+	
+	/** The is search. */
 	private boolean isSearch;
+	
+	/** The new request ID. */
 	public static int newRequestID;
+	
+	/** The r. */
 	public static Request r;
+	
+	/** The files paths. */
 	private ArrayList<String> filesPaths = new ArrayList<String>();
+	
+	/** The report. */
 	private Scene report;
+	
+	/** The report of request. */
 	public static Report reportOfRequest;
+	
+	/** The extension scene. */
 	private Scene extensionScene;
+	
+	/** The new window. */
 	Stage newWindow = new Stage();
+	
+	/** The save or sub. */
 	public static int saveOrSub = 0;
+	
+	/** The index. */
 	private int index;
+	
+	/** The id. */
 	private int id = -1;
-	public static int maxid=-1;
+	
+	/** The maxid. */
+	public static int maxid = -1;
+	
+	/** The lock. */
 	public static boolean lock;
+	
+	/** The is uploading. */
 	private boolean isUploading;
+	
+	/** The loadinganim. */
 	private ImageView loadinganim;
+	
+	/** The loading. */
 	Thread loading;
+	
+	/** The add files button. */
 	@FXML
 	private Button addFilesButton;
+	
+	/** The date picker ass. */
 	@FXML
 	private DatePicker datePickerAss;
+	
+	/** The Date picker exec. */
 	@FXML
 	private DatePicker DatePickerExec;
+	
+	/** The execution set time. */
 	@FXML
 	private Button executionSetTime;
+	
+	/** The logout button. */
 	@FXML
 	private Button logoutButton;
+	
+	/** The set due date BTN. */
 	@FXML
 	private Button setDueDateBTN;
+	
+	/** The table view. */
 	@FXML
 	private TableView<Request> tableView;
+	
+	/** The General view request 1. */
 	@FXML
 	private Pane GeneralViewRequest1;
+	
+	/** The desc area. */
 	@FXML
 	private TextArea descArea;
+	
+	/** The change area. */
 	@FXML
 	private TextArea changeArea;
+	
+	/** The reason area. */
 	@FXML
 	private TextArea reasonArea;
+	
+	/** The comments area. */
 	@FXML
 	private TextArea commentsArea;
+	
+	/** The User views request 1. */
 	@FXML
 	private Pane UserViewsRequest1;
+	
+	/** The request ID label. */
 	@FXML
 	private Label requestIDLabel;
+	
+	/** The system label. */
 	@FXML
 	private Label systemLabel;
+	
+	/** The stage label. */
 	@FXML
 	private Label stageLabel;
+	
+	/** The status label. */
 	@FXML
 	private Label statusLabel;
+	
+	/** The date label. */
 	@FXML
 	private Label dateLabel;
+	
+	/** The requestor label. */
 	@FXML
 	private Label requestorLabel;
+	
+	/** The user name label. */
 	@FXML
 	private Label userNameLabel;
+	
+	/** The Appoint tester labl. */
 	@FXML
 	private Label AppointTesterLabl;
+	
+	/** The Assesment maker pane 1. */
 	@FXML
 	private Pane AssesmentMakerPane1;
+	
+	/** The College user under table pane 1. */
 	@FXML
 	private Pane CollegeUserUnderTablePane1;
+	
+	/** The Stage managers pane 1. */
 	@FXML
 	private Pane StageManagersPane1;
+	
+	/** The Stage managers 1. */
 	@FXML
 	private Button StageManagers1;
+	
+	/** The Executioner failure. */
 	@FXML
 	private Pane ExecutionerFailure;
+	
+	/** The Comitte pane 1. */
 	@FXML
 	private Pane ComittePane1;
+	
+	/** The Tester pane 1. */
 	@FXML
 	private Pane TesterPane1;
+	
+	/** The Supervisor pane 1. */
 	@FXML
 	private Pane SupervisorPane1;
+	
+	/** The C user open request 1. */
 	@FXML
 	private Pane CUserOpenRequest1;
+	
+	/** The file path text field. */
 	@FXML
 	private TextField filePathTextField;
+	
+	/** The upload file button. */
 	@FXML
 	private Button uploadFileButton;
+	
+	/** The open assessment report B. */
 	@FXML
 	private Button openAssessmentReportB;
+	
+	/** The open assessment report B 1. */
 	@FXML
 	private Button openAssessmentReportB1;
+	
+	/** The Failure report btn. */
 	@FXML
 	private Button FailureReportBtn;
+	
+	/** The Failure report btn 1. */
 	@FXML
 	private Button FailureReportBtn1;
+	
+	/** The Decline request btn. */
 	@FXML
 	private Button DeclineRequestBtn;
+	
+	/** The Ask more data btn. */
 	@FXML
 	private Button AskMoreDataBtn;
+	
+	/** The Teste appoint field. */
 	@FXML
 	private TextField TesteAppointField;
+	
+	/** The extension reason. */
 	@FXML
 	private TextField extensionReason;
+	
+	/** The Save tester apoint btn. */
 	@FXML
 	private Button SaveTesterApointBtn;
+	
+	/** The View report btn. */
 	@FXML
 	private Button ViewReportBtn;
+	
+	/** The Report failure btn. */
 	@FXML
 	private Button ReportFailureBtn;
+	
+	/** The Approve stage btn. */
 	@FXML
 	private Button ApproveStageBtn;
+	
+	/** The submit btn. */
 	@FXML
 	private Button submitBtn;
+	
+	/** The due date. */
 	@FXML
 	private TextField dueDate;
+	
+	/** The set due time 1. */
 	@FXML
 	private TextField setDueTime1;
+	
+	/** The extention ask btn. */
 	@FXML
 	private Button extentionAskBtn;
+	
+	/** The choice box. */
 	@FXML
 	private ChoiceBox<SystemENUM> choiceBox = new ChoiceBox<SystemENUM>();
+	
+	/** The time created label. */
 	@FXML
 	private Label timeCreatedLabel;
+	
+	/** The stage date 1. */
 	@FXML
 	private Label stageDate1;
+	
+	/** The uploaded files label. */
 	@FXML
 	private Label uploadedFilesLabel;
+	
+	/** The stages settings button. */
 	@FXML
 	private Button stagesSettingsButton;
+	
+	/** The save btn. */
 	@FXML
 	private Button saveBtn;
+	
+	/** The edit btn. */
 	@FXML
 	private Button editBtn;
+	
+	/** The change status. */
 	@FXML
 	private Button changeStatus;
+	
+	/** The freeze unfreeze. */
 	@FXML
 	private Button freezeUnfreeze;
+	
+	/** The manager back btn. */
 	@FXML
 	private Button managerBackBtn;
+	
+	/** The tester CB. */
 	@FXML
 	private ChoiceBox<String> testerCB = new ChoiceBox<String>();
+	
+	/** The exectuion report. */
 	@FXML
 	private TextField exectuionReport;
+	
+	/** The search field. */
 	@FXML
 	private TextField searchField;
+	
+	/** The search button. */
 	@FXML
 	private Button searchButton;
+	
+	/** The un active check box. */
 	@FXML
 	private CheckBox unActiveCheckBox;
+	
+	/** The main request pane. */
 	@FXML
 	private Pane mainRequestPane;
+	
+	/** The view files button. */
 	@FXML
 	private Button viewFilesButton;
 
+	/**
+	 * Initialize.
+	 */
 	public void initialize() {
 		datePickerAss.setConverter(new StringConverter<LocalDate>() {
 			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -216,7 +395,7 @@ public class RequestsScreenController {
 			}
 		});
 		_ins = this;
-		isUploading=false;
+		isUploading = false;
 		DatePickerExec.setConverter(new StringConverter<LocalDate>() {
 			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -242,7 +421,7 @@ public class RequestsScreenController {
 		loadinganim.setScaleY(0.2);
 		loadinganim.setVisible(false);
 		Platform.runLater(() -> mainRequestPane.getChildren().add(loadinganim));
-		if (Main.currentUser.getRole() == Enums.Role.College)
+		if (ClientMain.currentUser.getRole() == Enums.Role.College)
 			CollegeUserUnderTablePane1.setVisible(true);
 
 		TableSetup();
@@ -252,9 +431,9 @@ public class RequestsScreenController {
 				Platform.runLater(new Runnable() // wont work without this shit
 				{
 					public void run() {
-						userNameLabel.setText(Main.currentUser.getFirstName() + " " + Main.currentUser.getLastName());
-						}
-					});
+						userNameLabel.setText(ClientMain.currentUser.getFirstName() + " " + ClientMain.currentUser.getLastName());
+					}
+				});
 				while (true) // update time in 0.5s intervals
 				{
 					Platform.runLater(new Runnable() // wont work without this shit
@@ -281,21 +460,24 @@ public class RequestsScreenController {
 		choiceBox.getItems().add(SystemENUM.Labs);
 		choiceBox.getItems().add(SystemENUM.Site);
 
-		if (Main.currentUser.getRole() == Enums.Role.Manager) {
+		if (ClientMain.currentUser.getRole() == Enums.Role.Manager) {
 			managerBackBtn.setVisible(true);
-		}
-		else {
+		} else {
 			managerBackBtn.setVisible(false);
 		}
 	}
 
+	/**
+	 * Search.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void search(ActionEvent event) {
 		String textFromUser = searchField.getText();
 		if (textFromUser.equals("")) {
 			isSearch = false;
-		}
-		else {
+		} else {
 			try {
 				id = Integer.parseUnsignedInt(textFromUser);
 				isSearch = true;
@@ -311,17 +493,26 @@ public class RequestsScreenController {
 		RefreshTable();
 	}
 
+	/**
+	 * Show unactive.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void showUnactive(ActionEvent event) {
 		if (unActiveCheckBox.isSelected()) {
 			unActive = true;
-		}
-		else {
+		} else {
 			unActive = false;
 		}
 		RefreshTable();
 	}
 
+	/**
+	 * Adds the files.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void addFiles(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
@@ -332,6 +523,9 @@ public class RequestsScreenController {
 			filePathTextField.setText(f.getPath());
 	}
 
+	/**
+	 * Upload file to server.
+	 */
 	@FXML
 	public void uploadFileToServer() {
 		if (filePathTextField.getText() == "")
@@ -349,26 +543,23 @@ public class RequestsScreenController {
 			System.out.println("Error reading file!");
 		}
 		try {
-			if (tableView.getSelectionModel().getSelectedItem()==null)
-			{
-				if (isUploading==false)
-				{
-					Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID));
+			if (tableView.getSelectionModel().getSelectedItem() == null) {
+				if (isUploading == false) {
+					ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID));
 
-				while (maxid==-1)
-				{
-					try{
-						Thread.sleep(100);
-					}catch(InterruptedException e) { }
+					while (maxid == -1) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+						}
+					}
+					isUploading = true;
 				}
-				isUploading=true;
-				}
-				Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer,
-						maxid+1));
-			}
-			else {
-				Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer,
-					tableView.getSelectionModel().getSelectedItem().getId()));
+				ClientMain.client.handleMessageFromClientUI(
+						new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer, maxid + 1));
+			} else {
+				ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(),
+						buffer, tableView.getSelectionModel().getSelectedItem().getId()));
 			}
 			filePathTextField.setText("");
 		} catch (Exception e) {
@@ -382,6 +573,11 @@ public class RequestsScreenController {
 
 	}
 
+	/**
+	 * Upload file to server new request.
+	 *
+	 * @param r the r
+	 */
 	public void uploadFileToServer_NewRequest(Request r) {
 		if (filePathTextField.getText().equals(""))
 			return;
@@ -398,7 +594,7 @@ public class RequestsScreenController {
 			System.out.println("Error reading file!");
 		}
 		try {
-			Main.client.handleMessageFromClientUI(
+			ClientMain.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer, r.getId()));
 		} catch (Exception e) {
 			return;
@@ -410,10 +606,18 @@ public class RequestsScreenController {
 		}
 	}
 
+	/**
+	 * Gets the table view.
+	 *
+	 * @return the table view
+	 */
 	public TableView<Request> getTableView() {
 		return tableView;
 	}
 
+	/**
+	 * Table setup.
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void TableSetup() {
 		TableColumn<Request, Integer> idColumn = new TableColumn<>("Request ID");
@@ -427,6 +631,9 @@ public class RequestsScreenController {
 			col.setMinWidth(95);
 	}
 
+	/**
+	 * Refresh table.
+	 */
 	public void RefreshTable() {
 		lock = true;
 		loading = new Thread() {
@@ -444,25 +651,29 @@ public class RequestsScreenController {
 			}
 		};
 		loading.start();
-		if (Main.currentUser.getRole() == Enums.Role.College) {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
-					Main.currentUser.getUsername(), id, isSearch, unActive));
-		}
-		else if (Main.currentUser.getRole() == Enums.Role.Manager
-				|| Main.currentUser.getRole() == Enums.Role.Supervisor) {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN,
-					Main.currentUser.getUsername(), id, isSearch, unActive));
-		}
-		else {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHIS,
-					Main.currentUser.getUsername(), id, isSearch, unActive));
+		if (ClientMain.currentUser.getRole() == Enums.Role.College) {
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHCOLLEGE,
+					ClientMain.currentUser.getUsername(), id, isSearch, unActive));
+		} else if (ClientMain.currentUser.getRole() == Enums.Role.Manager
+				|| ClientMain.currentUser.getRole() == Enums.Role.Supervisor) {
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHMAN,
+					ClientMain.currentUser.getUsername(), id, isSearch, unActive));
+		} else {
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REFRESHIS,
+					ClientMain.currentUser.getUsername(), id, isSearch, unActive));
 		}
 	}
 
+	/**
+	 * Stop loading.
+	 */
 	public void stopLoading() {
 		loading.interrupt();
 	}
 
+	/**
+	 * Show request.
+	 */
 	@FXML
 	public void showRequest() {
 		try {
@@ -470,7 +681,7 @@ public class RequestsScreenController {
 			r = tableView.getSelectionModel().getSelectedItem();
 			if (r == null)
 				return;
-			Main.currentRequest = r;
+			ClientMain.currentRequest = r;
 			GeneralViewRequest1.setVisible(true);
 			UserViewsRequest1.setVisible(true);
 			descArea.setText(r.getDescription());
@@ -480,16 +691,14 @@ public class RequestsScreenController {
 			requestIDLabel.setText("" + r.getId());
 			String temp = r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage())]
 					.getPlannedDueDate();
-			if (Main.currentUser.getRole() == Enums.Role.College) {
+			if (ClientMain.currentUser.getRole() == Enums.Role.College) {
 				if (temp != null) {
 					temp = new DateTime(temp).toString("dd/MM/yyyy");
 					stageDate1.setText("Current stage due date: " + temp);
-				}
-				else {
+				} else {
 					stageDate1.setText("Current stage due date: date not yet updated.");
 				}
-			}
-			else {
+			} else {
 				stageDate1.setVisible(false);
 				if (temp != null) {
 					temp = new DateTime(temp).toString("dd/MM/yyyy");
@@ -500,23 +709,21 @@ public class RequestsScreenController {
 						setDueTime1.setVisible(true);
 						setDueTime1.setEditable(false);
 						setDueTime1.setText(temp);
-					}
-					else {
+					} else {
 						DatePickerExec.setVisible(false);
 						dueDate.setVisible(true);
 						dueDate.setEditable(false);
 						dueDate.setText(temp);
 					}
-				}
-				else {
+				} else {
 					setDueDateBTN.setVisible(true);
 					dueDate.setText("");
 					setDueTime1.setText("");
-					if(r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
+					if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
 						setDueTime1.setVisible(false);
 						datePickerAss.setVisible(true);
 					}
-					if(r.getCurrentStage() == Enums.RequestStageENUM.Execution) {
+					if (r.getCurrentStage() == Enums.RequestStageENUM.Execution) {
 						dueDate.setVisible(false);
 						DatePickerExec.setVisible(true);
 					}
@@ -531,8 +738,8 @@ public class RequestsScreenController {
 			filePathTextField.setText("");
 			uploadedFilesLabel.setText("Uploaded files: none");
 			showUploadedFiles(r);
-			if (Main.currentUser.getRole() == Enums.Role.Supervisor
-					|| Main.currentUser.getRole() == Enums.Role.Manager) {
+			if (ClientMain.currentUser.getRole() == Enums.Role.Supervisor
+					|| ClientMain.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
 				if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Closing
 						&& (r.getStatus() == Enums.RequestStatus.Active
@@ -544,8 +751,7 @@ public class RequestsScreenController {
 					FailureReportBtn1.setVisible(false);
 				else
 					FailureReportBtn1.setVisible(true);
-			}
-			else if (Main.currentUser.getRole() != Enums.Role.College) {
+			} else if (ClientMain.currentUser.getRole() != Enums.Role.College) {
 				showRequestByStage(r);
 			}
 
@@ -553,6 +759,11 @@ public class RequestsScreenController {
 		}
 	}
 
+	/**
+	 * Show request by stage.
+	 *
+	 * @param r the r
+	 */
 	public void showRequestByStage(Request r) {
 		switch (r.getCurrentStage()) {
 		case Assesment:
@@ -561,16 +772,15 @@ public class RequestsScreenController {
 		case Examaning:
 			StageManagersPane1.setVisible(true);
 			ComittePane1.setVisible(true);
-			if (Main.currentUser.getRole() == Enums.Role.CommitteMember) {
+			if (ClientMain.currentUser.getRole() == Enums.Role.CommitteMember) {
 				DeclineRequestBtn.setVisible(false);
 				AskMoreDataBtn.setVisible(false);
 				AppointTesterLabl.setVisible(false);
 				SaveTesterApointBtn.setVisible(false);
 				testerCB.setVisible(false);
 				ApproveStageBtn.setVisible(false);
-			}
-			else {
-				Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetComitte));
+			} else {
+				ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetComitte));
 				DeclineRequestBtn.setVisible(true);
 				AskMoreDataBtn.setVisible(true);
 				AppointTesterLabl.setVisible(true);
@@ -596,6 +806,11 @@ public class RequestsScreenController {
 		}
 	}
 
+	/**
+	 * Load comittee members.
+	 *
+	 * @param committe the committe
+	 */
 	public void loadComitteeMembers(List<String> committe) {
 		if (testerCB.getItems().isEmpty()) {
 			for (String s : committe) {
@@ -613,6 +828,9 @@ public class RequestsScreenController {
 		testerCB.setVisible(true);
 	}
 
+	/**
+	 * Disable all request pans.
+	 */
 	public void disableAllRequestPans() {
 		GeneralViewRequest1.setVisible(false);
 		UserViewsRequest1.setVisible(false);
@@ -634,14 +852,18 @@ public class RequestsScreenController {
 		commentsArea.clear();
 	}
 
+	/**
+	 * Upload file message.
+	 *
+	 * @param status the status
+	 */
 	public void uploadFileMessage(boolean status) {
 		if (status) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Upload finished");
 			alert.setContentText("Upload finished succesfully");
 			alert.showAndWait();
-		}
-		else {
+		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Upload failed");
 			alert.setContentText("Could not upload file to server");
@@ -649,13 +871,19 @@ public class RequestsScreenController {
 		}
 	}
 
+	/**
+	 * Logout.
+	 *
+	 * @param event the event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
 	public void logout(ActionEvent event) throws IOException {
-		Main.client.handleMessageFromClientUI(
-				new ClientServerMessage(Enums.MessageEnum.logOut, Main.currentUser.getUsername()));
-		Main.currentUser = null;
+		ClientMain.client.handleMessageFromClientUI(
+				new ClientServerMessage(Enums.MessageEnum.logOut, ClientMain.currentUser.getUsername()));
+		ClientMain.currentUser = null;
 		Parent root = null;
-		root = FXMLLoader.load(getClass().getResource("loginScreen.fxml"));
+		root = FXMLLoader.load(getClass().getResource("0.1-loginScreen.fxml"));
 		Scene requests = new Scene(root);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setResizable(false);
@@ -663,6 +891,11 @@ public class RequestsScreenController {
 		window.show();
 	}
 
+	/**
+	 * Open new request pane.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void openNewRequestPane(ActionEvent event) {
 		disableAllRequestPans();
@@ -679,10 +912,18 @@ public class RequestsScreenController {
 		addFilesButton.setVisible(true);
 	}
 
+	/**
+	 * Submit new request.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void submitNewRequest(ActionEvent event) {
 		if (!isUploading)
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID)); //to delete folder of unfinished request
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID)); // to delete
+																											// folder of
+																											// unfinished
+																											// request
 		if (descArea.getText().equals("") || changeArea.getText().equals("") || reasonArea.getText().equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
@@ -701,11 +942,11 @@ public class RequestsScreenController {
 		String changes = changeArea.getText();
 		String changeReason = reasonArea.getText();
 		SystemENUM system = choiceBox.getValue();
-		Request r = new Request(0, Main.currentUser.getUsername(), system, description, changes, changeReason,
+		Request r = new Request(0, ClientMain.currentUser.getUsername(), system, description, changes, changeReason,
 				new DateTime());
 		String comments = commentsArea.getText();
 		r.setComments(comments);
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CreateRequest, r));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CreateRequest, r));
 		waitForNewRequest = false;
 		try {
 			while (waitForNewRequest == false) {
@@ -719,14 +960,19 @@ public class RequestsScreenController {
 		alert.showAndWait();
 		RefreshTable();
 		disableAllRequestPans();
-		isUploading=false;
-		maxid=-1;
+		isUploading = false;
+		maxid = -1;
 	}
 
+	/**
+	 * Open assessment report func.
+	 *
+	 * @param r the r
+	 */
 	public void openAssessmentReportFunc(Report r) {
 		reportOfRequest = r;
 		Parent root = null;
-		newWindow=new Stage();
+		newWindow = new Stage();
 		index = tableView.getSelectionModel().getSelectedIndex();
 		try {
 			root = FXMLLoader.load(getClass().getResource("2.2-ReportScreen.fxml"));
@@ -740,13 +986,16 @@ public class RequestsScreenController {
 		newWindow.initOwner((Stage) (openAssessmentReportB.getScene().getWindow()));
 		newWindow.initModality(Modality.WINDOW_MODAL);
 		newWindow.setResizable(false);
-		newWindow.setOnCloseRequest(e->newWindow.close());
+		newWindow.setOnCloseRequest(e -> newWindow.close());
 		newWindow.show();
 
 	}
 
+	/**
+	 * Assessment report page.
+	 */
 	public void AssessmentReportPage() {
-		if (Main.currentUser.getRole() != Enums.Role.Supervisor) {
+		if (ClientMain.currentUser.getRole() != Enums.Role.Supervisor) {
 			if (setDueTime1.getText().equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
@@ -756,9 +1005,12 @@ public class RequestsScreenController {
 			}
 		}
 		int temp = tableView.getSelectionModel().getSelectedItem().getId();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SearchReport, temp));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SearchReport, temp));
 	}
 
+	/**
+	 * Close extra window.
+	 */
 	public void closeExtraWindow() {
 
 		newWindow.close();
@@ -770,9 +1022,17 @@ public class RequestsScreenController {
 		tableView.getSelectionModel().select(index);
 
 	}
+
+	/**
+	 * Close extra window only.
+	 */
 	public void closeExtraWindowOnly() {
 		newWindow.close();
 	}
+
+	/**
+	 * Close extra window sub.
+	 */
 	public void closeExtraWindowSub() {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -784,12 +1044,20 @@ public class RequestsScreenController {
 
 	}
 
+	/**
+	 * Close extra window ext.
+	 */
 	public void closeExtraWindowExt() {
 		newWindow.close();
 		RefreshTable();
 		tableView.getSelectionModel().select(index);
 	}
 
+	/**
+	 * Show uploaded files.
+	 *
+	 * @param r the r
+	 */
 	public void showUploadedFiles(Request r) {
 		new Thread(new Runnable() {
 
@@ -798,7 +1066,8 @@ public class RequestsScreenController {
 				filesPaths = new ArrayList<String>();
 			}
 		}).start();
-		//Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETUSERFILES, r));
+		// Main.client.handleMessageFromClientUI(new
+		// ClientServerMessage(Enums.MessageEnum.GETUSERFILES, r));
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
@@ -823,10 +1092,20 @@ public class RequestsScreenController {
 		}
 	}
 
+	/**
+	 * Sets the file paths.
+	 *
+	 * @param filePaths the new file paths
+	 */
 	public void setFilePaths(ArrayList<String> filePaths) {
 		this.filesPaths = filePaths;
 	}
 
+	/**
+	 * Stage settings screen.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void stageSettingsScreen(ActionEvent event) {
 		Parent root = null;
@@ -843,9 +1122,14 @@ public class RequestsScreenController {
 		window.show();
 	}
 
+	/**
+	 * Status change.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void statusChange(ActionEvent event) {
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, r));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, r));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Confirm!");
 		alert.setHeaderText("Request closed!");
@@ -855,20 +1139,23 @@ public class RequestsScreenController {
 		unVisibleRequestPane();
 	}
 
+	/**
+	 * Freeze unfreeze.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void FreezeUnfreeze(ActionEvent event) {
 		boolean frozen = false, unfrozen = false;
 		if (r.getStatus() == Enums.RequestStatus.Active || r.getStatus() == Enums.RequestStatus.Rejected) {
 			frozen = true;
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
-		}
-		else if (r.getStatus() == Enums.RequestStatus.Frozen && r.getStages()[5].getReportFailure() == null) {
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
+		} else if (r.getStatus() == Enums.RequestStatus.Frozen && r.getStages()[5].getReportFailure() == null) {
 			unfrozen = true;
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
-		}
-		else if (r.getStatus() == Enums.RequestStatus.Frozen) {
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
+		} else if (r.getStatus() == Enums.RequestStatus.Frozen) {
 			unfrozen = true;
-			Main.client.handleMessageFromClientUI(
+			ClientMain.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.UnFreezeRejected, "" + r.getId()));
 		}
 
@@ -892,6 +1179,11 @@ public class RequestsScreenController {
 		return;
 	}
 
+	/**
+	 * Save changes.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void saveChanges(ActionEvent event) {
 		descArea.setEditable(false);
@@ -902,7 +1194,7 @@ public class RequestsScreenController {
 		r.setChanges(changeArea.getText());
 		r.setChangeReason(reasonArea.getText());
 		r.setComments(commentsArea.getText());
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateRequestDetails, r));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateRequestDetails, r));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Edited!");
 		alert.setHeaderText("Request edited!");
@@ -912,6 +1204,11 @@ public class RequestsScreenController {
 
 	}
 
+	/**
+	 * Edits the changes.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void editChanges(ActionEvent event) {
 		descArea.setEditable(true);
@@ -926,11 +1223,19 @@ public class RequestsScreenController {
 
 	}
 
+	/**
+	 * Un visible request pane.
+	 */
 	public void unVisibleRequestPane() {
 		GeneralViewRequest1.setVisible(false);
 		disableAllRequestPans();
 	}
 
+	/**
+	 * Approve stage btn.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void ApproveStageBtn(ActionEvent event) {
 		if (r.getCurrentStage() == Enums.RequestStageENUM.Execution) {
@@ -951,15 +1256,20 @@ public class RequestsScreenController {
 		}
 
 		else {
-			Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 			unVisibleRequestPane();
 			RefreshTable();
 		}
 	}
 
+	/**
+	 * Ask more data.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void AskMoreData(ActionEvent event) {
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.downStage, r.getId()));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.downStage, r.getId()));
 		RefreshTable();
 		unVisibleRequestPane();
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -968,9 +1278,14 @@ public class RequestsScreenController {
 		alert.show();
 	}
 
+	/**
+	 * Decline request.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void DeclineRequest(ActionEvent event) {
-		Main.client
+		ClientMain.client
 				.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.declineRequest, "" + r.getId()));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Request declined!");
@@ -981,6 +1296,12 @@ public class RequestsScreenController {
 		unVisibleRequestPane();
 	}
 
+	/**
+	 * Report failure.
+	 *
+	 * @param event the event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
 	void ReportFailure(ActionEvent event) throws IOException {
 		Platform.runLater(new Runnable() {
@@ -1008,6 +1329,11 @@ public class RequestsScreenController {
 		});
 	}
 
+	/**
+	 * Save tester apoint.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void SaveTesterApoint(ActionEvent event) {
 		if (testerCB.getSelectionModel().isEmpty()) {
@@ -1019,7 +1345,7 @@ public class RequestsScreenController {
 		}
 		String tester = testerCB.getValue();
 		r.getStages()[4].getStageMembers().add(tester);
-		Main.client.handleMessageFromClientUI(
+		ClientMain.client.handleMessageFromClientUI(
 				new ClientServerMessage(Enums.MessageEnum.AppointStageHandlers, r.getId(), 4, tester));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Confirm tester");
@@ -1027,11 +1353,21 @@ public class RequestsScreenController {
 		alert.show();
 	}
 
+	/**
+	 * View report.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void ViewReport(ActionEvent event) {
 		AssessmentReportPage();
 	}
 
+	/**
+	 * View failure report.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void viewFailureReport(ActionEvent event) {
 		Parent root = null;
@@ -1053,6 +1389,11 @@ public class RequestsScreenController {
 		newWindow.show();
 	}
 
+	/**
+	 * Manager back.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void managerBack(ActionEvent event) {
 		Parent root = null;
@@ -1068,9 +1409,14 @@ public class RequestsScreenController {
 		window.show();
 	}
 
+	/**
+	 * Report msg and ref.
+	 *
+	 * @param result the result
+	 */
 	public void reportMsgAndRef(String[] result) {
 		tmp_newWindow.close();
-		Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.TesterRep, result));
+		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.TesterRep, result));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Failure report sent");
 		alert.setContentText("Failure report sent succesfully");
@@ -1079,6 +1425,11 @@ public class RequestsScreenController {
 		unVisibleRequestPane();
 	}
 
+	/**
+	 * Sets the ass due time.
+	 *
+	 * @param event the new ass due time
+	 */
 	@FXML
 	public void setAssDueTime(ActionEvent event) {
 		org.joda.time.format.DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
@@ -1092,8 +1443,7 @@ public class RequestsScreenController {
 			alert.setContentText("must fill due time!");
 			alert.showAndWait();
 			return;
-		}
-		else {
+		} else {
 			if (datePickerAss.getValue().isBefore(LocalDate.now())) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
@@ -1104,13 +1454,18 @@ public class RequestsScreenController {
 			temp = (datePickerAss.getValue()).format(df);
 			dt = dtf.parseDateTime(temp);
 			if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Assesment) {
-				Main.client.handleMessageFromClientUI(
+				ClientMain.client.handleMessageFromClientUI(
 						new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE, r.getId(), dt.toString()));
 			}
 
 		}
 	}
 
+	/**
+	 * Sets the exec due time.
+	 *
+	 * @param event the new exec due time
+	 */
 	@FXML
 	public void setExecDueTime(ActionEvent event) {
 		org.joda.time.format.DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
@@ -1124,8 +1479,7 @@ public class RequestsScreenController {
 			alert.setContentText("must fill due time!");
 			alert.showAndWait();
 			return;
-		}
-		else {
+		} else {
 			if (DatePickerExec.getValue().isBefore(LocalDate.now())) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
@@ -1136,13 +1490,18 @@ public class RequestsScreenController {
 			temp = (DatePickerExec.getValue()).format(df);
 			dt = dtf.parseDateTime(temp);
 			if (r.getCurrentStageEnum() == Enums.RequestStageENUM.Execution) {
-				Main.client.handleMessageFromClientUI(
+				ClientMain.client.handleMessageFromClientUI(
 						new ClientServerMessage(Enums.MessageEnum.SETEXECMDATE, r.getId(), dt.toString()));
 			}
 
 		}
 	}
 
+	/**
+	 * Extention ask.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void extentionAsk(ActionEvent event) {
 		if (r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())].getIsExtended()) {
@@ -1161,8 +1520,7 @@ public class RequestsScreenController {
 				alert.showAndWait();
 				return;
 			}
-		}
-		else {
+		} else {
 			if (dueDate.getText().equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
@@ -1180,12 +1538,11 @@ public class RequestsScreenController {
 			alert.setContentText("can't ask for extension more than 3 days to due date!");
 			alert.showAndWait();
 			return;
-		}
-		else {
+		} else {
 
 			Parent root = null;
 			try {
-				root = FXMLLoader.load(getClass().getResource("ExtensionRequest.fxml"));
+				root = FXMLLoader.load(getClass().getResource("1.1-ExtensionRequest.fxml"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -1200,6 +1557,9 @@ public class RequestsScreenController {
 		}
 	}
 
+	/**
+	 * Date alert refresh.
+	 */
 	public void dateAlertRefresh() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("Date updated");
@@ -1209,6 +1569,9 @@ public class RequestsScreenController {
 		showRequest();
 	}
 
+	/**
+	 * Cannot update stage.
+	 */
 	public void cannotUpdateStage() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText("Can't update stage.\nNobody is appointed for next stage.\nMessage sent to supervisor.");
@@ -1217,11 +1580,14 @@ public class RequestsScreenController {
 		showRequest();
 	}
 
+	/**
+	 * View files.
+	 */
 	@FXML
-	public void viewFiles(){
+	public void viewFiles() {
 		Parent root = null;
 		try {
-			root = FXMLLoader.load(getClass().getResource("ShowFilesScreen.fxml"));
+			root = FXMLLoader.load(getClass().getResource("1.2-ShowFilesScreen.fxml"));
 		} catch (IOException e) {
 
 			e.printStackTrace();

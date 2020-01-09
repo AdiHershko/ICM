@@ -1,7 +1,3 @@
-// This file contains material supporting section 3.7 of the textbook:
-// "Object Oriented Software Engineering" and is issued under the open-source
-// license found at www.lloseng.com
-
 package Client;
 
 import java.io.File;
@@ -11,6 +7,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import Client.Controllers.AllSystemDataController;
+import Client.Controllers.ISUsersScreenController;
+import Client.Controllers.LoginScreenController;
+import Client.Controllers.ManagerStatisticsController;
+import Client.Controllers.RequestSettingsController;
+import Client.Controllers.RequestsScreenController;
+import Client.Controllers.ShowFilesScreenController;
 import Common.ClientServerMessage;
 import Common.Enums;
 import Common.FrequencyDeviation;
@@ -31,13 +34,31 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ChatClient.
+ */
 public class ChatClient extends AbstractClient {
 
+	/** The Constant DEFAULT_PORT. */
 	final public static int DEFAULT_PORT = 5555;
+	
+	/** The no connection. */
 	Dialog<Boolean> noConnection = new Dialog<>();
+	
+	/** The close button. */
 	Node closeButton;
+	
+	/** The no connection alert. */
 	Alert noConnectionAlert;
 
+	/**
+	 * Instantiates a new chat client.
+	 *
+	 * @param host the host
+	 * @param port the port
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public ChatClient(String host, int port) throws IOException {
 		super(host, port); // Call the superclass constructor
 		openConnection();
@@ -103,6 +124,11 @@ public class ChatClient extends AbstractClient {
 		// -------------------------------------------------
 	}
 
+	/**
+	 * Handle message from server.
+	 *
+	 * @param msg the msg
+	 */
 	public void handleMessageFromServer(Object msg) {
 		if (msg == null)
 			return;
@@ -287,27 +313,29 @@ public class ChatClient extends AbstractClient {
 					ISUsersScreenController._ins.getMailField().setText(str[3]);
 					ISUsersScreenController._ins.getRoleChoiceBox().getSelectionModel()
 							.select(Enums.Role.getRoleENUM(Integer.parseInt(str[4])));
-					String[] perm = str[5].split(",");
-					for (String s : perm) {
-						switch (s) {
-						case "InfoStation":
-							ISUsersScreenController._ins.getInfoStationBox().setSelected(true);
-							break;
-						case "Moodle":
-							ISUsersScreenController._ins.getMoodleBox().setSelected(true);
-							break;
-						case "Library":
-							ISUsersScreenController._ins.getLibraryBox().setSelected(true);
-							break;
-						case "Computers":
-							ISUsersScreenController._ins.getComputersBox().setSelected(true);
-							break;
-						case "Labs":
-							ISUsersScreenController._ins.getLabBox().setSelected(true);
-							break;
-						case "Site":
-							ISUsersScreenController._ins.getSiteBox().setSelected(true);
-							break;
+					if (str[5] != null) {
+						String[] perm = str[5].split(",");
+						for (String s : perm) {
+							switch (s) {
+							case "InfoStation":
+								ISUsersScreenController._ins.getInfoStationBox().setSelected(true);
+								break;
+							case "Moodle":
+								ISUsersScreenController._ins.getMoodleBox().setSelected(true);
+								break;
+							case "Library":
+								ISUsersScreenController._ins.getLibraryBox().setSelected(true);
+								break;
+							case "Computers":
+								ISUsersScreenController._ins.getComputersBox().setSelected(true);
+								break;
+							case "Labs":
+								ISUsersScreenController._ins.getLabBox().setSelected(true);
+								break;
+							case "Site":
+								ISUsersScreenController._ins.getSiteBox().setSelected(true);
+								break;
+							}
 						}
 					}
 				});
@@ -464,7 +492,7 @@ public class ChatClient extends AbstractClient {
 					System.out.println("Cannot write to file");
 				} finally {
 					try {
-						HostServices hostServices = Main._ins.getHostServices();
+						HostServices hostServices = ClientMain._ins.getHostServices();
 						hostServices.showDocument(f.getAbsolutePath());
 						os.close();
 
@@ -483,14 +511,16 @@ public class ChatClient extends AbstractClient {
 				}
 				ManagerStatisticsController._ins.getExtensionsTable().setItems(res);
 
-				Platform.runLater(new Runnable(){
-					public void run(){
-						if (ManagerStatisticsController._ins.getSeries()!=null)
+				Platform.runLater(new Runnable() {
+					public void run() {
+						if (ManagerStatisticsController._ins.getSeries() != null)
 							ManagerStatisticsController._ins.getSeries().getData().clear();
 						ManagerStatisticsController._ins.getExtensionsGraph().getData().clear();
 						for (FrequencyDeviation fd : res)
-							ManagerStatisticsController._ins.getSeries().getData().add(new XYChart.Data<>(String.format("%.0f",fd.getValue()),fd.getFreq()));
-						ManagerStatisticsController._ins.getExtensionsGraph().getData().add(ManagerStatisticsController._ins.getSeries());
+							ManagerStatisticsController._ins.getSeries().getData()
+									.add(new XYChart.Data<>(String.format("%.0f", fd.getValue()), fd.getFreq()));
+						ManagerStatisticsController._ins.getExtensionsGraph().getData()
+								.add(ManagerStatisticsController._ins.getSeries());
 					}
 				});
 				break;
@@ -508,13 +538,15 @@ public class ChatClient extends AbstractClient {
 					delRes.add((FrequencyDeviation) o);
 				}
 				ManagerStatisticsController._ins.getDelaysTable().setItems(delRes);
-				Platform.runLater(new Runnable(){
-					public void run(){
-						if (ManagerStatisticsController._ins.getSeries1()!=null)
+				Platform.runLater(new Runnable() {
+					public void run() {
+						if (ManagerStatisticsController._ins.getSeries1() != null)
 							ManagerStatisticsController._ins.getSeries1().getData().clear();
 						for (FrequencyDeviation fd : delRes)
-							ManagerStatisticsController._ins.getSeries1().getData().add(new XYChart.Data<>(String.format("%.0f",fd.getValue()),fd.getFreq()));
-						ManagerStatisticsController._ins.getDelaysGraph().getData().add(ManagerStatisticsController._ins.getSeries1());
+							ManagerStatisticsController._ins.getSeries1().getData()
+									.add(new XYChart.Data<>(String.format("%.0f", fd.getValue()), fd.getFreq()));
+						ManagerStatisticsController._ins.getDelaysGraph().getData()
+								.add(ManagerStatisticsController._ins.getSeries1());
 					}
 				});
 				break;
@@ -528,22 +560,23 @@ public class ChatClient extends AbstractClient {
 				}
 				ManagerStatisticsController._ins.getAddonsTable().setItems(dasfsadf);
 
-				Platform.runLater(new Runnable(){
-					public void run(){
-						if (ManagerStatisticsController._ins.getSeries2()!=null)
+				Platform.runLater(new Runnable() {
+					public void run() {
+						if (ManagerStatisticsController._ins.getSeries2() != null)
 							ManagerStatisticsController._ins.getSeries2().getData().clear();
 						for (FrequencyDeviation fd : dasfsadf)
-							ManagerStatisticsController._ins.getSeries2().getData().add(new XYChart.Data<>(String.format("%.0f",fd.getValue()),fd.getFreq()));
-						ManagerStatisticsController._ins.getAddonsGraph().getData().add(ManagerStatisticsController._ins.getSeries2());
+							ManagerStatisticsController._ins.getSeries2().getData()
+									.add(new XYChart.Data<>(String.format("%.0f", fd.getValue()), fd.getFreq()));
+						ManagerStatisticsController._ins.getAddonsGraph().getData()
+								.add(ManagerStatisticsController._ins.getSeries2());
 					}
 				});
 
 				break;
 			case REMOVEUSER:
-				if (((ClientServerMessage)msg).isUploadstatus())
-				{
-					Platform.runLater(new Runnable(){
-						public void run(){
+				if (((ClientServerMessage) msg).isUploadstatus()) {
+					Platform.runLater(new Runnable() {
+						public void run() {
 							Alert alert = new Alert(AlertType.INFORMATION);
 							alert.setContentText("User deleted succesfully");
 							alert.show();
@@ -551,8 +584,8 @@ public class ChatClient extends AbstractClient {
 					});
 					return;
 				}
-				Platform.runLater(new Runnable(){
-					public void run(){
+				Platform.runLater(new Runnable() {
+					public void run() {
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setContentText("User was not deleted succesfully");
 						alert.show();
@@ -589,6 +622,11 @@ public class ChatClient extends AbstractClient {
 
 	}
 
+	/**
+	 * Handle message from client UI.
+	 *
+	 * @param message the message
+	 */
 	public void handleMessageFromClientUI(Object message) {
 		try {
 			sendToServer(message);
@@ -600,6 +638,9 @@ public class ChatClient extends AbstractClient {
 		}
 	}
 
+	/**
+	 * Quit.
+	 */
 	public void quit() {
 		try {
 			closeConnection();
