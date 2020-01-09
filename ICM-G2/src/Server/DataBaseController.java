@@ -1374,7 +1374,7 @@ public class DataBaseController {
 		ArrayList<Double> res = new ArrayList<Double>();
 		for (Request r : list) {
 			DateTime openingDate = new DateTime(r.getDate());
-			DateTime closingDate = new DateTime(r.getStages()[5].getPlannedDueDate());
+			DateTime closingDate = new DateTime(r.getStages()[5].getActualDate());
 			Duration dur = new Duration(openingDate, closingDate);
 			int requestduration = (int) dur.getStandardDays();
 			Report rep = SearchReport(r.getId());

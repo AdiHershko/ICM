@@ -59,6 +59,7 @@ public class Calculator {
 			if (!values.contains(i))
 				values.add(i);
 		}
+		Collections.sort(values);
 		ObservableList<FrequencyDeviation> res = FXCollections.observableArrayList();
 		for (int i = 0; i < values.size(); i++) {
 			FrequencyDeviation f = new FrequencyDeviation(values.get(i),Collections.frequency(list, values.get(i)));
