@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="392.0" stylesheets="@application-nobg.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.ISUsersScreenController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="392.0" stylesheets="@application-nobg.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.ISUsersScreenController">
    <children>
-      <TextField fx:id="userIDField" layoutX="67.0" layoutY="86.0" prefHeight="25.0" prefWidth="250.0" />
-      <Button fx:id="FindBtn" layoutX="323.0" layoutY="84.0" mnemonicParsing="false" onAction="#findUserFunction" text="Find" />
+      <TextField fx:id="userIDField" layoutX="67.0" layoutY="86.0" prefHeight="25.0" prefWidth="189.0" />
+      <Button fx:id="FindBtn" layoutX="260.0" layoutY="84.0" mnemonicParsing="false" onAction="#findUserFunction" text="Find" />
       <TextField fx:id="firstNameField" layoutX="67.0" layoutY="119.0" prefHeight="25.0" prefWidth="290.0" />
       <TextField fx:id="lastNameField" layoutX="67.0" layoutY="152.0" prefHeight="25.0" prefWidth="290.0" />
       <TextField fx:id="mailField" layoutX="67.0" layoutY="185.0" prefHeight="25.0" prefWidth="290.0" />
@@ -37,5 +37,6 @@
       <CheckBox fx:id="labBox" layoutX="158.0" layoutY="292.0" mnemonicParsing="false" text="Lab" />
       <CheckBox fx:id="siteBox" layoutX="249.0" layoutY="292.0" mnemonicParsing="false" text="Site" />
       <Label layoutX="3.0" layoutY="259.0" text="In charge of:" />
+      <Button fx:id="removeUserButton" layoutX="306.0" layoutY="84.0" mnemonicParsing="false" onAction="#removeUser" text="Remove" visible="false" />
    </children>
 </Pane>

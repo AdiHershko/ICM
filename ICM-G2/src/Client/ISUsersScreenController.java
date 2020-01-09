@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
@@ -68,6 +69,9 @@ public class ISUsersScreenController {
 	@FXML
 	private CheckBox siteBox;
 
+	@FXML
+	private Button removeUserButton;
+
 	public void initialize() {
 		_ins = this;
 		FindBtn.setVisible(false);
@@ -85,6 +89,7 @@ public class ISUsersScreenController {
 
 	@FXML
 	void findUserFunction(ActionEvent event) {
+		removeUserButton.setVisible(true);
 		isEdit = true;
 		Main.client
 				.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETISUSER, userIDField.getText()));
@@ -145,6 +150,7 @@ public class ISUsersScreenController {
 				});
 				return;
 			}
+			removeUserButton.setVisible(false);
 		}
 
 		if (roleChoiceBox.getSelectionModel().getSelectedItem() == Enums.Role.CommitteChairman) {
@@ -187,6 +193,18 @@ public class ISUsersScreenController {
 		return !mailField.getText().equals("") && !lastNameField.getText().equals("")
 				&& roleChoiceBox.getSelectionModel().getSelectedItem() != null && !userIDField.getText().equals("")
 				&& !firstNameField.getText().equals("") && !passwordField.getText().equals("");
+	}
+
+	@FXML
+	public void removeUser(){
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to remove user " + userIDField.getText()+ " from the system?", ButtonType.YES, ButtonType.NO);
+		alert.showAndWait();
+		if (alert.getResult() == ButtonType.YES) {
+		    Main.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.REMOVEUSER,userIDField.getText()));
+		    ISUsersScreenController._ins.getRemoveUserButton().setVisible(false);
+		}
+
+
 	}
 
 	public TextField getMailField() {
@@ -273,5 +291,15 @@ public class ISUsersScreenController {
 	public void setRoleChoiceBox(ChoiceBox<Enums.Role> roleChoiceBox) {
 		this.roleChoiceBox = roleChoiceBox;
 	}
+
+	public Button getRemoveUserButton() {
+		return removeUserButton;
+	}
+
+	public void setRemoveUserButton(Button removeUserButton) {
+		this.removeUserButton = removeUserButton;
+	}
+
+
 
 }

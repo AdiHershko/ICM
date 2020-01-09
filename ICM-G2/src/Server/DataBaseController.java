@@ -1188,7 +1188,20 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		return -1;
+	}
 
+	public static boolean removeUser(String id)
+	{
+		String query = "delete from Users where username='"+id+"'";
+		PreparedStatement statement;
+		try{
+			statement=c.prepareStatement(query);
+			statement.execute();
+		} catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	public static ArrayList<Double> getExtensionDurations() {

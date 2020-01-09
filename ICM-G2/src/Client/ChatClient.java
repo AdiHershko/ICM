@@ -278,6 +278,7 @@ public class ChatClient extends AbstractClient {
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setContentText("Could not find user");
 						alert.show();
+						ISUsersScreenController._ins.getRemoveUserButton().setVisible(false);
 					});
 					return;
 				}
@@ -539,6 +540,26 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 
+				break;
+			case REMOVEUSER:
+				if (((ClientServerMessage)msg).isUploadstatus())
+				{
+					Platform.runLater(new Runnable(){
+						public void run(){
+							Alert alert = new Alert(AlertType.INFORMATION);
+							alert.setContentText("User deleted succesfully");
+							alert.show();
+						}
+					});
+					return;
+				}
+				Platform.runLater(new Runnable(){
+					public void run(){
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("User was not deleted succesfully");
+						alert.show();
+					}
+				});
 				break;
 			default:
 				break;

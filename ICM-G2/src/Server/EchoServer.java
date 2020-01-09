@@ -121,7 +121,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-				
+
 
 			case GETALLMESSAGES:
 				ObservableList<Message> ol7 = FXCollections.observableArrayList();
@@ -539,6 +539,14 @@ public class EchoServer extends AbstractServer {
 				try{
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetAddonsFreq, addResultOL.toArray()));
 				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case REMOVEUSER:
+				boolean removed = DataBaseController.removeUser(CSMsg.getMsg());
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.REMOVEUSER,removed));
+				}catch(Exception e){
 					e.printStackTrace();
 				}
 				break;
