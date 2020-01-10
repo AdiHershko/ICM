@@ -12,9 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ReportScreenController.
+ * Controller for 2.2-ReportScreen.fxml
  */
 public class ReportScreenController {
 
@@ -24,15 +24,15 @@ public class ReportScreenController {
 	/** The report. */
 	private Report report;
 	
-	/** The locatin TXT. */
+	/** The location TXT field. */
 	@FXML
 	private TextField locatinTXT;
 	
-	/** The I dlabel. */
+	/** The ID label. */
 	@FXML
 	private Label IDlabel;
 	
-	/** The desc TXT. */
+	/** The description TXT. */
 	@FXML
 	private TextField descTXT;
 
@@ -64,7 +64,7 @@ public class ReportScreenController {
 	public static ReportScreenController _ins;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 		_ins = this;
@@ -95,7 +95,7 @@ public class ReportScreenController {
 	}
 
 	/**
-	 * Save report.
+	 * Save report button function.
 	 */
 	public void saveReport() {
 
@@ -106,7 +106,7 @@ public class ReportScreenController {
 			} catch (NumberFormatException e) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR!");
-				alert.setContentText("Not a number in duration assesment field!");
+				alert.setContentText("Not a number in duration assesment field.");
 				alert.showAndWait();
 				return;
 			}
@@ -128,7 +128,7 @@ public class ReportScreenController {
 	}
 
 	/**
-	 * Submit report.
+	 * Submit report button function.
 	 */
 	public void submitReport() {
 		if (risksTXT.getText().equals("") || timeTXT.getText().equals("") || resultTXT.getText().equals("")
@@ -136,7 +136,7 @@ public class ReportScreenController {
 				|| locatinTXT.getText().equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
-			alert.setContentText("EMPTY REQUIERD FIELDS!");
+			alert.setContentText("Required fields are missing.");
 			alert.showAndWait();
 		} else {
 			report = new Report();
@@ -151,7 +151,7 @@ public class ReportScreenController {
 					return;
 				}
 			} else {
-				report.setDurationAssesment(-1);
+				report.setDurationAssesment(-1);//-1 is the default value for missing duration
 			}
 
 			report.setConstrains(constrainsTXT.getText());

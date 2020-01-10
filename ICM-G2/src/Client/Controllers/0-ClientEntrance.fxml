@@ -17,13 +17,13 @@
          <children>
             <RadioButton fx:id="localRB" layoutX="51.0" layoutY="407.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="252.0" selected="true" text="localhost (using port 5555)">
                <toggleGroup>
-                  <ToggleGroup fx:id="yahav" />
+                  <ToggleGroup fx:id="tg" />
                </toggleGroup>
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="remoteRB" layoutX="51.0" layoutY="444.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="145.0" text="Other server:" toggleGroup="$yahav">
+            <RadioButton fx:id="remoteRB" layoutX="51.0" layoutY="444.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="145.0" text="Other server:" toggleGroup="$tg">
                <font>
                   <Font size="18.0" />
                </font></RadioButton>

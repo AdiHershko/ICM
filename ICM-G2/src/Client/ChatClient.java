@@ -34,29 +34,29 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ChatClient.
+ * The Class ChatClient. Handles the server connection from the server side, and
+ * the server messages.
  */
 public class ChatClient extends AbstractClient {
 
 	/** The Constant DEFAULT_PORT. */
 	final public static int DEFAULT_PORT = 5555;
-	
-	/** The no connection. */
+
+	/** The no connection dialog. */
 	Dialog<Boolean> noConnection = new Dialog<>();
-	
+
 	/** The close button. */
 	Node closeButton;
-	
+
 	/** The no connection alert. */
 	Alert noConnectionAlert;
 
 	/**
 	 * Instantiates a new chat client.
 	 *
-	 * @param host the host
-	 * @param port the port
+	 * @param host the server host
+	 * @param port the server port
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public ChatClient(String host, int port) throws IOException {
@@ -127,28 +127,28 @@ public class ChatClient extends AbstractClient {
 	/**
 	 * Handle message from server.
 	 *
-	 * @param msg the msg
+	 * @param msg the server msg
 	 */
 	public void handleMessageFromServer(Object msg) {
 		if (msg == null)
 			return;
-		if (msg instanceof Object[]) {
+		if (msg instanceof Object[]) {// if an array of requests
 			ObservableList<Request> l = FXCollections.observableArrayList();
 			for (Object o : (Object[]) msg) {
 				l.add((Request) o);
 			}
 			RequestsScreenController._ins.getTableView().setItems(l);
 		}
-		if (msg instanceof ClientServerMessage) {
+		if (msg instanceof ClientServerMessage) {// if uses ours ClientServerMessage class
 			switch (((ClientServerMessage) msg).getType()) {
-			case LoginFail:
+			case LoginFail:// if the login failed
 				Platform.runLater(new Runnable() {
 					public void run() {
 						LoginScreenController._ins.LoginFailError();
 					}
 				});
 				return;
-			case GETOBLIST:
+			case GETOBLIST:// if requests Observable List
 				ObservableList<Request> l = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					l.add((Request) o);
@@ -162,7 +162,7 @@ public class ChatClient extends AbstractClient {
 				RequestsScreenController._ins.stopLoading();
 				return;
 
-			case GETREPORTSLIST:
+			case GETREPORTSLIST:// if reports Observable List
 				ObservableList<Report> reportsList = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					reportsList.add((Report) o);
@@ -175,7 +175,7 @@ public class ChatClient extends AbstractClient {
 
 				return;
 
-			case GETSTAGESLIST:
+			case GETSTAGESLIST:// if stages Observable List
 				ObservableList<Common.Stage> stagesList = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					stagesList.add((Common.Stage) o);
@@ -187,7 +187,7 @@ public class ChatClient extends AbstractClient {
 				});
 				return;
 
-			case GETREQUESTSLIST:
+			case GETREQUESTSLIST:// if manager requests Observable List
 				ObservableList<Request> requestsList = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					requestsList.add((Request) o);
@@ -200,7 +200,7 @@ public class ChatClient extends AbstractClient {
 
 				return;
 
-			case GETUSERSLIST:
+			case GETUSERSLIST:// if manager users Observable List
 				ObservableList<User> usersList = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					usersList.add((User) o);
@@ -212,7 +212,7 @@ public class ChatClient extends AbstractClient {
 				});
 				return;
 
-			case GETMESSAGESLIST:
+			case GETMESSAGESLIST:// if manager messages Observable List
 				ObservableList<Message> messagesList = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					messagesList.add((Message) o);
@@ -224,7 +224,7 @@ public class ChatClient extends AbstractClient {
 				});
 				return;
 
-			case GETSUPERVISORLOGLIST:
+			case GETSUPERVISORLOGLIST:// if manager supervisor log Observable List
 				ObservableList<SupervisorLog> supervisorLogList = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					supervisorLogList.add((SupervisorLog) o);
@@ -236,12 +236,12 @@ public class ChatClient extends AbstractClient {
 				});
 				return;
 
-			case NewRequestID:
+			case NewRequestID:// if new request ID
 				RequestsScreenController.waitForNewRequest = true;
 				RequestsScreenController.newRequestID = ((ClientServerMessage) msg).getId();
 
 				return;
-			case UPLOADFINISH:
+			case UPLOADFINISH:// if upload file finish
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
@@ -250,7 +250,7 @@ public class ChatClient extends AbstractClient {
 
 				});
 				return;
-			case GETUSERFILES:
+			case GETUSERFILES:// if got the request files
 				ArrayList<String> arr = (ArrayList<String>) ((ClientServerMessage) msg).getL();
 				RequestsScreenController._ins.setFilePaths(arr);
 				arr.remove(0); // removing folder path
@@ -265,17 +265,17 @@ public class ChatClient extends AbstractClient {
 					ShowFilesScreenController._ins.getFileListView().getItems().add(str2[str2.length - 1]);
 				}
 				return;
-			case ComitteList:
+			case ComitteList:// if committee members list
 				RequestsScreenController._ins.loadComitteeMembers(((ClientServerMessage) msg).getL());
 				break;
-			case tryingToLogSameTime:
+			case tryingToLogSameTime:// if user already logged in
 				Platform.runLater(new Runnable() {
 					public void run() {
 						LoginScreenController._ins.LoginSameTime();
 					}
 				});
 				return;
-			case ADDISUSER:
+			case ADDISUSER:// if response to "add user"
 				if (((ClientServerMessage) msg).getMsg().equals("GOOD"))
 					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -295,7 +295,7 @@ public class ChatClient extends AbstractClient {
 						alert.show();
 					});
 				break;
-			case GETISUSER:
+			case GETISUSER:// if got the user for edit
 				String[] str = (String[]) (((ClientServerMessage) msg).getArray());
 				if (str == null) {
 					Platform.runLater(() -> {
@@ -340,7 +340,7 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				return;
-			case UPDATEISUSER:
+			case UPDATEISUSER:// if edited the user
 				if (((ClientServerMessage) msg).isUploadstatus()) {
 					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -355,7 +355,7 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 				break;
-			case CHECKSUPERVISOREXIST:
+			case CHECKSUPERVISOREXIST:// if response for supervisor check
 				String supervisor = (((ClientServerMessage) msg).getMsg());
 				if (supervisor == null) { // supervisor does not exists
 					ISUsersScreenController._ins.setCanEdit(true);
@@ -365,7 +365,7 @@ public class ChatClient extends AbstractClient {
 				ISUsersScreenController._ins.setCanEdit(false);
 				ISUsersScreenController._ins.setSemaphore(false);
 				break;
-			case COUNTCOMMITEEMEMBERS:
+			case COUNTCOMMITEEMEMBERS:// if response for committee check check
 				int members = (((ClientServerMessage) msg).getId());
 				if (members < Enums.numberOfCommitteeMember) {
 					ISUsersScreenController._ins.setCanEdit(true);
@@ -375,7 +375,7 @@ public class ChatClient extends AbstractClient {
 				ISUsersScreenController._ins.setCanEdit(false);
 				ISUsersScreenController._ins.setSemaphore(false);
 				break;
-			case CHECKCHAIRMANEXIST:
+			case CHECKCHAIRMANEXIST:// if response for committee chairman check
 				String chairman = (((ClientServerMessage) msg).getMsg());
 				if (chairman == null) {
 					ISUsersScreenController._ins.setCanEdit(true);
@@ -385,7 +385,7 @@ public class ChatClient extends AbstractClient {
 				ISUsersScreenController._ins.setCanEdit(false);
 				ISUsersScreenController._ins.setSemaphore(false);
 				break;
-			case EDITASSESMENTER:
+			case EDITASSESMENTER:// if response for edit assessment in request
 				if (!((ClientServerMessage) msg).isUploadstatus()) {
 					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -401,7 +401,7 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 				break;
-			case EDITTESTER:
+			case EDITTESTER:// if response for edit tester in request
 				if (!((ClientServerMessage) msg).isUploadstatus()) {
 					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -416,7 +416,7 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 				break;
-			case EDITEXECUTIONER:
+			case EDITEXECUTIONER:// if response for edit executioner in request
 				if (!((ClientServerMessage) msg).isUploadstatus()) {
 					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -432,13 +432,12 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 				break;
-			case SETASSESMENTDATE:
+			case SETASSESMENTDATE:// if response for set assessment date
 				Platform.runLater(() -> {
 					RequestsScreenController._ins.dateAlertRefresh();
-
 				});
 				break;
-			case APPROVEASSEXTENSION:
+			case APPROVEASSEXTENSION:// if response for extension approval
 				if ((((ClientServerMessage) msg).isUploadstatus())) {
 					Platform.runLater(() -> {
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -453,7 +452,7 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 				break;
-			case ASKFOREXTENSION:
+			case ASKFOREXTENSION:// if response for extension ask
 				Platform.runLater(() -> {
 					RequestsScreenController._ins.closeExtraWindowExt();
 					Alert alert = new Alert(AlertType.INFORMATION);
@@ -461,12 +460,12 @@ public class ChatClient extends AbstractClient {
 					alert.show();
 				});
 				break;
-			case CannotUpdateStage:
+			case CannotUpdateStage:// if can't update stage
 				Platform.runLater(() -> {
 					RequestsScreenController._ins.cannotUpdateStage();
 				});
 				break;
-			case GETMAXREQID:
+			case GETMAXREQID:// if max id response
 				if ((((ClientServerMessage) msg).getId()) == -1) {
 					Platform.runLater(new Runnable() {
 						public void run() {
@@ -479,7 +478,7 @@ public class ChatClient extends AbstractClient {
 				}
 				RequestsScreenController.maxid = ((ClientServerMessage) msg).getId();
 				break;
-			case GETFILEFROMSERVER:
+			case GETFILEFROMSERVER:// if gets files frome server
 				ClientServerMessage CSMsg = (ClientServerMessage) msg;
 				File f = new File("src\\Client" + ((ClientServerMessage) msg).getFileName());
 				OutputStream os = null;
@@ -500,11 +499,11 @@ public class ChatClient extends AbstractClient {
 					}
 				}
 				break;
-			case GetExtensionStat:
+			case GetExtensionStat:// if response for extension statistics
 				ManagerStatisticsController._ins
 						.updateExtensions((ArrayList<Double>) ((ClientServerMessage) msg).getL());
 				break;
-			case GetExtensionFreq:
+			case GetExtensionFreq:// if response for extension frequency 
 				ObservableList<FrequencyDeviation> res = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					res.add((FrequencyDeviation) o);
@@ -524,7 +523,7 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				break;
-			case GetDelaysStat:
+			case GetDelaysStat:// if response for delays statistics
 				Platform.runLater(new Runnable() {
 					public void run() {
 						ManagerStatisticsController._ins
@@ -532,7 +531,7 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				break;
-			case GetDelaysFreq:
+			case GetDelaysFreq:// if response for extension frequency
 				ObservableList<FrequencyDeviation> delRes = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					delRes.add((FrequencyDeviation) o);
@@ -550,10 +549,10 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				break;
-			case GetAddonsStat:
+			case GetAddonsStat:// if response for addons statistics
 				ManagerStatisticsController._ins.updateAddons((ArrayList<Double>) ((ClientServerMessage) msg).getL());
 				break;
-			case GetAddonsFreq:
+			case GetAddonsFreq:// if response for addons frequency
 				ObservableList<FrequencyDeviation> dasfsadf = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					dasfsadf.add((FrequencyDeviation) o);
@@ -573,7 +572,7 @@ public class ChatClient extends AbstractClient {
 				});
 
 				break;
-			case REMOVEUSER:
+			case REMOVEUSER:// if response for user removale request
 				if (((ClientServerMessage) msg).isUploadstatus()) {
 					Platform.runLater(new Runnable() {
 						public void run() {
@@ -592,7 +591,7 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				break;
-			case Statistics:
+			case Statistics:// if response for activity period statistics
 				ArrayList<Integer> arr12 = (ArrayList<Integer>) ((ClientServerMessage) msg).getL();
 				Platform.runLater(new Runnable() {
 					public void run() {
@@ -605,14 +604,14 @@ public class ChatClient extends AbstractClient {
 			}
 
 		}
-		if (msg instanceof User) {
+		if (msg instanceof User) {// if an instance of user, means login successfully 
 			Platform.runLater(new Runnable() {
 				public void run() {
 					LoginScreenController._ins.LoginGood((User) msg);
 				}
 			});
 		}
-		if (msg instanceof Report) {
+		if (msg instanceof Report) {// if an instance of report 
 			Platform.runLater(new Runnable() {
 				public void run() {
 					RequestsScreenController._ins.openAssessmentReportFunc((Report) msg);
@@ -623,7 +622,7 @@ public class ChatClient extends AbstractClient {
 	}
 
 	/**
-	 * Handle message from client UI.
+	 * Handle message from client UI, sent to the server
 	 *
 	 * @param message the message
 	 */
@@ -639,7 +638,7 @@ public class ChatClient extends AbstractClient {
 	}
 
 	/**
-	 * Quit.
+	 * Quit and close the client and the connection.
 	 */
 	public void quit() {
 		try {

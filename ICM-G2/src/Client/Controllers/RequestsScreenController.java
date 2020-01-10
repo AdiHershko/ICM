@@ -46,9 +46,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RequestsScreenController.
+ * Controller for 1-RequestsScreen.fxml (the main screen)
  */
 public class RequestsScreenController {
 	
@@ -58,28 +58,28 @@ public class RequestsScreenController {
 	/** The ins. */
 	public static RequestsScreenController _ins;
 	
-	/** The wait for new request. */
+	/** The wait for new request boolean. */
 	public static boolean waitForNewRequest;
 	
-	/** The un active. */
+	/** The un-active boolean. */
 	private boolean unActive;
 	
-	/** The is search. */
+	/** The is search boolean. */
 	private boolean isSearch;
 	
 	/** The new request ID. */
 	public static int newRequestID;
 	
-	/** The r. */
+	/** The current request. */
 	public static Request r;
 	
 	/** The files paths. */
 	private ArrayList<String> filesPaths = new ArrayList<String>();
 	
-	/** The report. */
+	/** The report scene. */
 	private Scene report;
 	
-	/** The report of request. */
+	/** The request report. */
 	public static Report reportOfRequest;
 	
 	/** The extension scene. */
@@ -88,16 +88,16 @@ public class RequestsScreenController {
 	/** The new window. */
 	Stage newWindow = new Stage();
 	
-	/** The save or sub. */
+	/** The save or sub files int. */
 	public static int saveOrSub = 0;
 	
-	/** The index. */
+	/** The index (in the table). */
 	private int index;
 	
 	/** The id. */
 	private int id = -1;
 	
-	/** The maxid. */
+	/** The max request id. */
 	public static int maxid = -1;
 	
 	/** The lock. */
@@ -106,10 +106,10 @@ public class RequestsScreenController {
 	/** The is uploading. */
 	private boolean isUploading;
 	
-	/** The loadinganim. */
+	/** The loadingan image. */
 	private ImageView loadinganim;
 	
-	/** The loading. */
+	/** The loading thread. */
 	Thread loading;
 	
 	/** The add files button. */
@@ -120,7 +120,7 @@ public class RequestsScreenController {
 	@FXML
 	private DatePicker datePickerAss;
 	
-	/** The Date picker exec. */
+	/** The Date picker for exceution. */
 	@FXML
 	private DatePicker DatePickerExec;
 	
@@ -144,7 +144,7 @@ public class RequestsScreenController {
 	@FXML
 	private Pane GeneralViewRequest1;
 	
-	/** The desc area. */
+	/** The description area. */
 	@FXML
 	private TextArea descArea;
 	
@@ -184,7 +184,7 @@ public class RequestsScreenController {
 	@FXML
 	private Label dateLabel;
 	
-	/** The requestor label. */
+	/** The requester label. */
 	@FXML
 	private Label requestorLabel;
 	
@@ -192,23 +192,23 @@ public class RequestsScreenController {
 	@FXML
 	private Label userNameLabel;
 	
-	/** The Appoint tester labl. */
+	/** The Appoint tester label. */
 	@FXML
 	private Label AppointTesterLabl;
 	
-	/** The Assesment maker pane 1. */
+	/** The Assessment maker pane. */
 	@FXML
 	private Pane AssesmentMakerPane1;
 	
-	/** The College user under table pane 1. */
+	/** The College user under table pane. */
 	@FXML
 	private Pane CollegeUserUnderTablePane1;
 	
-	/** The Stage managers pane 1. */
+	/** The Stage managers pane. */
 	@FXML
 	private Pane StageManagersPane1;
 	
-	/** The Stage managers 1. */
+	/** The Stage managers. */
 	@FXML
 	private Button StageManagers1;
 	
@@ -216,19 +216,19 @@ public class RequestsScreenController {
 	@FXML
 	private Pane ExecutionerFailure;
 	
-	/** The Comitte pane 1. */
+	/** The Committee pane. */
 	@FXML
 	private Pane ComittePane1;
 	
-	/** The Tester pane 1. */
+	/** The Tester pane. */
 	@FXML
 	private Pane TesterPane1;
 	
-	/** The Supervisor pane 1. */
+	/** The Supervisor pane. */
 	@FXML
 	private Pane SupervisorPane1;
 	
-	/** The C user open request 1. */
+	/** The C user open request. */
 	@FXML
 	private Pane CUserOpenRequest1;
 	
@@ -240,31 +240,31 @@ public class RequestsScreenController {
 	@FXML
 	private Button uploadFileButton;
 	
-	/** The open assessment report B. */
+	/** The open assessment report Button for assesment. */
 	@FXML
 	private Button openAssessmentReportB;
 	
-	/** The open assessment report B 1. */
+	/** The open assessment report Button for other member. */
 	@FXML
 	private Button openAssessmentReportB1;
 	
-	/** The Failure report btn. */
+	/** The Failure report button. */
 	@FXML
 	private Button FailureReportBtn;
 	
-	/** The Failure report btn 1. */
+	/** The Failure report button for supervisor. */
 	@FXML
 	private Button FailureReportBtn1;
 	
-	/** The Decline request btn. */
+	/** The Decline request button for committed. */
 	@FXML
 	private Button DeclineRequestBtn;
 	
-	/** The Ask more data btn. */
+	/** The Ask more data button. */
 	@FXML
 	private Button AskMoreDataBtn;
 	
-	/** The Teste appoint field. */
+	/** The Tester appoint field. */
 	@FXML
 	private TextField TesteAppointField;
 	
@@ -272,23 +272,23 @@ public class RequestsScreenController {
 	@FXML
 	private TextField extensionReason;
 	
-	/** The Save tester apoint btn. */
+	/** The Save tester appoint button. */
 	@FXML
 	private Button SaveTesterApointBtn;
 	
-	/** The View report btn. */
+	/** The View report button. */
 	@FXML
 	private Button ViewReportBtn;
 	
-	/** The Report failure btn. */
+	/** The Report failure button. */
 	@FXML
 	private Button ReportFailureBtn;
 	
-	/** The Approve stage btn. */
+	/** The Approve stage button. */
 	@FXML
 	private Button ApproveStageBtn;
 	
-	/** The submit btn. */
+	/** The submit button. */
 	@FXML
 	private Button submitBtn;
 	
@@ -296,11 +296,11 @@ public class RequestsScreenController {
 	@FXML
 	private TextField dueDate;
 	
-	/** The set due time 1. */
+	/** The set due time text field for request members. */
 	@FXML
 	private TextField setDueTime1;
 	
-	/** The extention ask btn. */
+	/** The extension ask button. */
 	@FXML
 	private Button extentionAskBtn;
 	
@@ -324,11 +324,11 @@ public class RequestsScreenController {
 	@FXML
 	private Button stagesSettingsButton;
 	
-	/** The save btn. */
+	/** The save report button. */
 	@FXML
 	private Button saveBtn;
 	
-	/** The edit btn. */
+	/** The edit button. */
 	@FXML
 	private Button editBtn;
 	
@@ -336,19 +336,19 @@ public class RequestsScreenController {
 	@FXML
 	private Button changeStatus;
 	
-	/** The freeze unfreeze. */
+	/** The freeze/unfreeze button. */
 	@FXML
 	private Button freezeUnfreeze;
 	
-	/** The manager back btn. */
+	/** The manager back button. */
 	@FXML
 	private Button managerBackBtn;
 	
-	/** The tester CB. */
+	/** The tester ChoiceBox. */
 	@FXML
 	private ChoiceBox<String> testerCB = new ChoiceBox<String>();
 	
-	/** The exectuion report. */
+	/** The execution report text field. */
 	@FXML
 	private TextField exectuionReport;
 	
@@ -360,7 +360,7 @@ public class RequestsScreenController {
 	@FXML
 	private Button searchButton;
 	
-	/** The un active check box. */
+	/** The un-active check box. */
 	@FXML
 	private CheckBox unActiveCheckBox;
 	
@@ -373,7 +373,7 @@ public class RequestsScreenController {
 	private Button viewFilesButton;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 		datePickerAss.setConverter(new StringConverter<LocalDate>() {
@@ -428,7 +428,7 @@ public class RequestsScreenController {
 		RefreshTable();
 		new Thread() {
 			public void run() {
-				Platform.runLater(new Runnable() // wont work without this shit
+				Platform.runLater(new Runnable()
 				{
 					public void run() {
 						userNameLabel.setText(ClientMain.currentUser.getFirstName() + " " + ClientMain.currentUser.getLastName());
@@ -436,7 +436,7 @@ public class RequestsScreenController {
 				});
 				while (true) // update time in 0.5s intervals
 				{
-					Platform.runLater(new Runnable() // wont work without this shit
+					Platform.runLater(new Runnable()
 					{
 						public void run() {
 							DateTime dt = new DateTime();
@@ -468,9 +468,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Search.
+	 * Search button function.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	public void search(ActionEvent event) {
@@ -494,9 +494,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Show unactive.
+	 * Show unactive requests button.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	public void showUnactive(ActionEvent event) {
@@ -509,9 +509,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Adds the files.
+	 * Adds the files button.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	public void addFiles(ActionEvent event) {
@@ -524,7 +524,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Upload file to server.
+	 * Upload file to server button.
 	 */
 	@FXML
 	public void uploadFileToServer() {
@@ -574,7 +574,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Upload file to server new request.
+	 * Upload file to server for a new request.
 	 *
 	 * @param r the r
 	 */
@@ -591,7 +591,7 @@ public class RequestsScreenController {
 			bis = new BufferedInputStream(is);
 			bis.read(buffer, 0, buffer.length);
 		} catch (IOException e) {
-			System.out.println("Error reading file!");
+			System.out.println("Error reading file.\nTry uploading again.");
 		}
 		try {
 			ClientMain.client.handleMessageFromClientUI(
@@ -672,7 +672,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Show request.
+	 * Show request (after click from table).
 	 */
 	@FXML
 	public void showRequest() {
@@ -760,7 +760,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Show request by stage.
+	 * Show request by stage, for IS users.
 	 *
 	 * @param r the r
 	 */
@@ -807,9 +807,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Load comittee members.
+	 * Load committee members for choice box.
 	 *
-	 * @param committe the committe
+	 * @param committe the committee list
 	 */
 	public void loadComitteeMembers(List<String> committe) {
 		if (testerCB.getItems().isEmpty()) {
@@ -853,7 +853,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Upload file message.
+	 * Upload file message pop.
 	 *
 	 * @param status the status
 	 */
@@ -872,9 +872,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Logout.
+	 * Logout button.
 	 *
-	 * @param event the event
+	 * @param event the mouse event
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@FXML
@@ -892,9 +892,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Open new request pane.
+	 * Open new request pane (for college users)
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void openNewRequestPane(ActionEvent event) {
@@ -913,17 +913,14 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Submit new request.
+	 * Submit new request button.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void submitNewRequest(ActionEvent event) {
-		if (!isUploading)
-			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID)); // to delete
-																											// folder of
-																											// unfinished
-																											// request
+		if (!isUploading)// to delete folder of unfinished request
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETMAXREQID));
 		if (descArea.getText().equals("") || changeArea.getText().equals("") || reasonArea.getText().equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR!");
@@ -965,7 +962,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Open assessment report func.
+	 * Open assessment report function.
 	 *
 	 * @param r the r
 	 */
@@ -992,14 +989,14 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Assessment report page.
+	 * Assessment report page open.
 	 */
 	public void AssessmentReportPage() {
 		if (ClientMain.currentUser.getRole() != Enums.Role.Supervisor) {
 			if (setDueTime1.getText().equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
-				alert.setContentText("must set time stage before starting stage!");
+				alert.setContentText("You must set time stage before starting stage.");
 				alert.showAndWait();
 				return;
 			}
@@ -1009,7 +1006,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Close extra window.
+	 * Close extra window open.
 	 */
 	public void closeExtraWindow() {
 
@@ -1024,19 +1021,18 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Close extra window only.
+	 * Close extra only window.
 	 */
 	public void closeExtraWindowOnly() {
 		newWindow.close();
 	}
 
 	/**
-	 * Close extra window sub.
+	 * Close extra window for submitted report.
 	 */
 	public void closeExtraWindowSub() {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Great!");
 		alert.setContentText("Report submitted successfully!");
 		RefreshTable();
 		alert.showAndWait();
@@ -1045,7 +1041,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Close extra window ext.
+	 * Close extra window externally.
 	 */
 	public void closeExtraWindowExt() {
 		newWindow.close();
@@ -1056,7 +1052,7 @@ public class RequestsScreenController {
 	/**
 	 * Show uploaded files.
 	 *
-	 * @param r the r
+	 * @param r the request
 	 */
 	public void showUploadedFiles(Request r) {
 		new Thread(new Runnable() {
@@ -1066,8 +1062,6 @@ public class RequestsScreenController {
 				filesPaths = new ArrayList<String>();
 			}
 		}).start();
-		// Main.client.handleMessageFromClientUI(new
-		// ClientServerMessage(Enums.MessageEnum.GETUSERFILES, r));
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
@@ -1079,7 +1073,7 @@ public class RequestsScreenController {
 		}
 		filesPaths.remove(0); // removing folder path
 		uploadedFilesLabel.setText("Uploaded files: ");
-		for (String s : filesPaths) // THE MOST ARABIC CODE I HAVE EVER WRITTEN
+		for (String s : filesPaths) // change file path /\
 		{
 			char[] ch = s.toCharArray();
 			for (int i = 0; i < ch.length; i++)
@@ -1104,7 +1098,7 @@ public class RequestsScreenController {
 	/**
 	 * Stage settings screen.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	public void stageSettingsScreen(ActionEvent event) {
@@ -1125,13 +1119,12 @@ public class RequestsScreenController {
 	/**
 	 * Status change.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void statusChange(ActionEvent event) {
 		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStatus, r));
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Confirm!");
 		alert.setHeaderText("Request closed!");
 		alert.setContentText("Request number " + r.getId() + " closed");
 		alert.show();
@@ -1140,9 +1133,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Freeze unfreeze.
+	 * Freeze/unfreeze button.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void FreezeUnfreeze(ActionEvent event) {
@@ -1162,15 +1155,13 @@ public class RequestsScreenController {
 		RefreshTable();
 		if (frozen) {
 			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Confirm!");
-			alert.setHeaderText("Changed to Frozen!");
+			alert.setHeaderText("Changed to Frozen");
 			alert.setContentText("Request number " + r.getId() + " changed to frozen");
 			alert.show();
 		}
 		if (unfrozen) {
 			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Confirm!");
-			alert.setHeaderText("Changed to Active!");
+			alert.setHeaderText("Changed to Active");
 			alert.setContentText("Request number " + r.getId() + " changed to unfrozen");
 			alert.show();
 		}
@@ -1180,9 +1171,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Save changes.
+	 * Save supervisor changes.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void saveChanges(ActionEvent event) {
@@ -1207,7 +1198,7 @@ public class RequestsScreenController {
 	/**
 	 * Edits the changes.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void editChanges(ActionEvent event) {
@@ -1224,7 +1215,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Un visible request pane.
+	 * Unvisible request pane (after refresh mostly).
 	 */
 	public void unVisibleRequestPane() {
 		GeneralViewRequest1.setVisible(false);
@@ -1232,9 +1223,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Approve stage btn.
+	 * Approve stage button.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void ApproveStageBtn(ActionEvent event) {
@@ -1265,7 +1256,7 @@ public class RequestsScreenController {
 	/**
 	 * Ask more data.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void AskMoreData(ActionEvent event) {
@@ -1281,7 +1272,7 @@ public class RequestsScreenController {
 	/**
 	 * Decline request.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void DeclineRequest(ActionEvent event) {
@@ -1297,9 +1288,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Report failure.
+	 * Report failure (testing stage).
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@FXML
@@ -1330,9 +1321,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Save tester apoint.
+	 * Save tester appoint.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void SaveTesterApoint(ActionEvent event) {
@@ -1354,9 +1345,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * View report.
+	 * View assesment report.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void ViewReport(ActionEvent event) {
@@ -1366,7 +1357,7 @@ public class RequestsScreenController {
 	/**
 	 * View failure report.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void viewFailureReport(ActionEvent event) {
@@ -1390,9 +1381,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Manager back.
+	 * Manager back button (to the manager screen).
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void managerBack(ActionEvent event) {
@@ -1410,25 +1401,25 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Report msg and ref.
+	 * Report massage and refresh table.
 	 *
-	 * @param result the result
+	 * @param result the result of the failure report
 	 */
 	public void reportMsgAndRef(String[] result) {
 		tmp_newWindow.close();
 		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.TesterRep, result));
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Failure report sent");
-		alert.setContentText("Failure report sent succesfully");
+		alert.setContentText("Failure report sent succesfully.");
 		alert.showAndWait();
 		RefreshTable();
 		unVisibleRequestPane();
 	}
 
 	/**
-	 * Sets the ass due time.
+	 * Sets the assessment due time.
 	 *
-	 * @param event the new ass due time
+	 * @param event the new assessment due time
 	 */
 	@FXML
 	public void setAssDueTime(ActionEvent event) {
@@ -1462,9 +1453,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Sets the exec due time.
+	 * Sets the execution due time.
 	 *
-	 * @param event the new exec due time
+	 * @param event the new execution due time
 	 */
 	@FXML
 	public void setExecDueTime(ActionEvent event) {
@@ -1498,9 +1489,9 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Extention ask.
+	 * Extension ask.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void extentionAsk(ActionEvent event) {
@@ -1558,7 +1549,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Date alert refresh.
+	 * Date alert and refresh.
 	 */
 	public void dateAlertRefresh() {
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -1570,7 +1561,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * Cannot update stage.
+	 * Cannot update stage alert.
 	 */
 	public void cannotUpdateStage() {
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -1581,7 +1572,7 @@ public class RequestsScreenController {
 	}
 
 	/**
-	 * View files.
+	 * View files page.
 	 */
 	@FXML
 	public void viewFiles() {

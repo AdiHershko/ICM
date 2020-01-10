@@ -19,9 +19,9 @@ import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ManagerScreenController.
+ * The Class ManagerScreenController:
+ * Controller for 3.0-ManagerScreen.fxml
  */
 public class ManagerScreenController {
 	
@@ -49,7 +49,7 @@ public class ManagerScreenController {
 	@FXML
 	private Button ViewAllSystemDataButton;
 
-	/** The stat button. */
+	/** The statistics button. */
 	@FXML
 	private Button statButton;
 
@@ -57,7 +57,7 @@ public class ManagerScreenController {
 	@FXML
 	private Button requestsButton;
 
-	/** The time date txt. */
+	/** The time date text label. */
 	@FXML
 	private Label timeDateTxt;
 
@@ -78,7 +78,7 @@ public class ManagerScreenController {
 	private Label userNameLabel;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 		_ins = this;
@@ -89,7 +89,7 @@ public class ManagerScreenController {
 				while (true) // update time in 0.5s intervals
 				{
 
-					Platform.runLater(new Runnable() // wont work without this shit
+					Platform.runLater(new Runnable()
 					{
 						public void run() {
 							DateTime dt = new DateTime();
@@ -108,7 +108,7 @@ public class ManagerScreenController {
 	}
 
 	/**
-	 * Open create user.
+	 * Open create user screen.
 	 *
 	 * @param event the event
 	 */
@@ -132,7 +132,7 @@ public class ManagerScreenController {
 	}
 
 	/**
-	 * Open edit user.
+	 * Open edit user screen.
 	 *
 	 * @param event the event
 	 */
@@ -156,7 +156,7 @@ public class ManagerScreenController {
 	}
 
 	/**
-	 * Logout.
+	 * Logout button function.
 	 *
 	 * @param event the event
 	 */
@@ -179,7 +179,7 @@ public class ManagerScreenController {
 	}
 
 	/**
-	 * Request btn.
+	 * Request button function.
 	 *
 	 * @param event the event
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -199,7 +199,7 @@ public class ManagerScreenController {
 	}
 
 	/**
-	 * Open stats.
+	 * Open statistics window.
 	 *
 	 * @param event the event
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -220,7 +220,7 @@ public class ManagerScreenController {
 	}
 
 	/**
-	 * View all system data.
+	 * Opens view all system data window.
 	 *
 	 * @param event the event
 	 */

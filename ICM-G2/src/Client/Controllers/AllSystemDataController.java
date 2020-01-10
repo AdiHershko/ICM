@@ -25,10 +25,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-// TODO: Auto-generated Javadoc
-//       Log-out btn
+// TODO: Log-out btn
 /**
- * The Class AllSystemDataController.
+ * The Class AllSystemDataController:
+ * Controller for 3.3-AllSystemDataScreen.fxml.
  */
 public class AllSystemDataController {
 	
@@ -67,15 +67,15 @@ public class AllSystemDataController {
 	@FXML
 	private TableView<User> usersTableView;
 	
-	/** The requests radio. */
+	/** The requests radio button. */
 	@FXML
 	private RadioButton requestsRadio;
 	
-	/** The stages radio. */
+	/** The stages radio button. */
 	@FXML
 	private RadioButton stagesRadio;
 	
-	/** The users radio. */
+	/** The users radio button. */
 	@FXML
 	private RadioButton usersRadio;
 	
@@ -96,7 +96,7 @@ public class AllSystemDataController {
 	private TableView<SupervisorLog> supervisorLogTableView;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 		_ins = this;
@@ -119,7 +119,7 @@ public class AllSystemDataController {
 				while (true) // update time in 0.5s intervals
 				{
 
-					Platform.runLater(new Runnable() // wont work without this shit
+					Platform.runLater(new Runnable()
 					{
 						public void run() {
 							DateTime dt = new DateTime();
@@ -307,9 +307,9 @@ public class AllSystemDataController {
 	}
 
 	/**
-	 * Show reports.
+	 * Show reports table.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void showReports(ActionEvent event) {
@@ -329,7 +329,7 @@ public class AllSystemDataController {
 	}
 
 	/**
-	 * Show requests.
+	 * Show requests table.
 	 *
 	 * @param event the event
 	 */
@@ -351,7 +351,7 @@ public class AllSystemDataController {
 	}
 
 	/**
-	 * Show stages.
+	 * Show stages table.
 	 *
 	 * @param event the event
 	 */
@@ -372,7 +372,7 @@ public class AllSystemDataController {
 	}
 
 	/**
-	 * Show users.
+	 * Show users table.
 	 *
 	 * @param event the event
 	 */
@@ -393,7 +393,7 @@ public class AllSystemDataController {
 	}
 
 	/**
-	 * Show messages.
+	 * Show messages table.
 	 *
 	 * @param event the event
 	 */
@@ -415,7 +415,7 @@ public class AllSystemDataController {
 	}
 
 	/**
-	 * Show supervisor log.
+	 * Show supervisor log table.
 	 *
 	 * @param event the event
 	 */
@@ -435,9 +435,9 @@ public class AllSystemDataController {
 	}
 
 	/**
-	 * Manager back.
+	 * Manager back button function.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void managerBack(ActionEvent event) {

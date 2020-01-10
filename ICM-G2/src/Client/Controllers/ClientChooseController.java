@@ -22,9 +22,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ClientChooseController.
+ * The Class ClientChooseController:
+ * Controller for 0-ClientEntrance.fxml.
  */
 public class ClientChooseController {
 
@@ -43,9 +43,9 @@ public class ClientChooseController {
 	@FXML
 	private RadioButton localRB;
 
-	/** The yahav. */
+	/** The toggle group. */
 	@FXML
-	private ToggleGroup yahav;
+	private ToggleGroup tg;
 
 	/** The remote RB. */
 	@FXML
@@ -63,7 +63,7 @@ public class ClientChooseController {
 	public static ClientChooseController _ins;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 
@@ -73,7 +73,7 @@ public class ClientChooseController {
 	/**
 	 * Connect to server.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void connectToServer(ActionEvent event) {

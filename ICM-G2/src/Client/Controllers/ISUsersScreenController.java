@@ -18,16 +18,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ISUsersScreenController.
+ * The Class ISUsersScreenController:
+ * Controller for 3.1-AddISUsersScreen.fxml
  */
 public class ISUsersScreenController {
 
 	/** The ins. */
 	public static ISUsersScreenController _ins;
-	
-	/** The is edit. */
+
+	/** The is editable boolean. */
 	static boolean isEdit = false;
 
 	/** The mail field. */
@@ -46,11 +46,11 @@ public class ISUsersScreenController {
 	@FXML
 	private TextField userIDField;
 
-	/** The Find btn. */
+	/** The Find button. */
 	@FXML
 	private Button FindBtn;
 
-	/** The save btn. */
+	/** The save button. */
 	@FXML
 	private Button saveBtn;
 
@@ -61,12 +61,12 @@ public class ISUsersScreenController {
 	/** The password field. */
 	@FXML
 	private PasswordField passwordField;
-	
+
 	/** The semaphore. */
 	@FXML
 	private boolean semaphore;
 
-	/** The canedit. */
+	/** The can edit boolean, after the user details loads. */
 	@FXML
 	private boolean canedit;
 
@@ -99,7 +99,7 @@ public class ISUsersScreenController {
 	private Button removeUserButton;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 		_ins = this;
@@ -113,14 +113,14 @@ public class ISUsersScreenController {
 	}
 
 	/**
-	 * Enable find btn.
+	 * Enable find button.
 	 */
 	public void enableFindBtn() {
 		FindBtn.setVisible(true);
 	}
 
 	/**
-	 * Find user function.
+	 * Find user button function.
 	 *
 	 * @param event the event
 	 */
@@ -133,7 +133,7 @@ public class ISUsersScreenController {
 	}
 
 	/**
-	 * Save user.
+	 * Save user button function.
 	 *
 	 * @param event the event
 	 */
@@ -157,7 +157,8 @@ public class ISUsersScreenController {
 		User current = new User(userIDField.getText(), passwordField.getText(), firstNameField.getText(),
 				lastNameField.getText(), mailField.getText(), roleChoiceBox.getSelectionModel().getSelectedItem());
 		if (roleChoiceBox.getSelectionModel().getSelectedItem() == Enums.Role.Supervisor) {
-			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CHECKSUPERVISOREXIST));
+			ClientMain.client
+					.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CHECKSUPERVISOREXIST));
 			semaphore = true;
 			while (semaphore) {
 				try {
@@ -176,7 +177,8 @@ public class ISUsersScreenController {
 		}
 
 		if (roleChoiceBox.getSelectionModel().getSelectedItem() == Enums.Role.CommitteMember) {
-			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.COUNTCOMMITEEMEMBERS));
+			ClientMain.client
+					.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.COUNTCOMMITEEMEMBERS));
 			semaphore = true;
 			while (semaphore) {
 				try {
@@ -234,7 +236,7 @@ public class ISUsersScreenController {
 	}
 
 	/**
-	 * All fields filled.
+	 * Check if all fields are filled.
 	 *
 	 * @return true, if successful
 	 */
@@ -245,7 +247,7 @@ public class ISUsersScreenController {
 	}
 
 	/**
-	 * Removes the user.
+	 * Removes the user button function.
 	 */
 	@FXML
 	public void removeUser() {
@@ -343,7 +345,7 @@ public class ISUsersScreenController {
 	}
 
 	/**
-	 * Sets the can edit.
+	 * Sets the can edit boolean.
 	 *
 	 * @param con the new can edit
 	 */

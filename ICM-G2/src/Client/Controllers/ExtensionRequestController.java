@@ -15,13 +15,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.StringConverter;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ExtensionRequestController.
+ * Controller for 1.1-ExtensionRequest.fxml
  */
 public class ExtensionRequestController {
 
-	/** The desc text. */
+	/** The description text. */
 	@FXML
 	private TextArea descText;
 
@@ -33,12 +33,12 @@ public class ExtensionRequestController {
 	@FXML
 	private DatePicker datePicker;
 
-	/** The req ID label. */
+	/** The request ID label. */
 	@FXML
 	private Label reqIDLabel;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml
 	 */
 	public void initialize() {
 		datePicker.setConverter(new StringConverter<LocalDate>() {
@@ -64,7 +64,7 @@ public class ExtensionRequestController {
 	}
 
 	/**
-	 * Submit request.
+	 * Submit extension request button function
 	 */
 	@FXML
 	public void submitRequest() {

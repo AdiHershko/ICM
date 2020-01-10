@@ -14,9 +14,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ClientMain.
+ * The client main feature, opening first stage.
  */
 public class ClientMain extends Application {
 	
@@ -38,17 +38,17 @@ public class ClientMain extends Application {
 	/** The current request. */
 	public static Request currentRequest;
 	
-	/** The ins. */
+	/** The main ins. */
 	public static ClientMain _ins;
 	
-	/** The s. */
+	/** The scene. */
 	public static Scene s;
 
 	/**
 	 * Start.
 	 *
-	 * @param stage the stage
-	 * @throws Exception the exception
+	 * @param stage the stage to open
+	 * @throws Exception
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -89,7 +89,7 @@ public class ClientMain extends Application {
 	/**
 	 * The main method.
 	 *
-	 * @param args the arguments
+	 * @param args the main arguments
 	 */
 	public static void main(String[] args) {
 		launch(args);

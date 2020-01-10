@@ -35,9 +35,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
+// TODO: Add loading
 /**
- * The Class ManagerStatisticsController.
+ * The Class ManagerStatisticsController:
+ * Controller for 3.2-ManagerStatistics.fxml.
  */
 public class ManagerStatisticsController {
 	
@@ -60,27 +61,27 @@ public class ManagerStatisticsController {
 	@FXML
 	private ChoiceBox<String> reportChoiceBox = new ChoiceBox<String>();
 
-	/** The manager back btn. */
+	/** The manager back button. */
 	@FXML
 	private Button managerBackBtn;
 
-	/** The period report date. */
+	/** The period report date pane. */
 	@FXML
 	private Pane periodReportDate;
 
-	/** The from date. */
+	/** The from date in periodic report. */
 	@FXML
 	private DatePicker fromDate;
 
-	/** The to date. */
+	/** The to date in periodic report. */
 	@FXML
 	private DatePicker toDate;
 
-	/** The get report 1. */
+	/** The get first report (periodic activity) button. */
 	@FXML
 	private Button getReport1;
 
-	/** The period rep. */
+	/** The period report pane. */
 	@FXML
 	private Pane periodRep;
 
@@ -104,7 +105,7 @@ public class ManagerStatisticsController {
 	@FXML
 	private Label daysLabel;
 
-	/** The performance. */
+	/** The performance report pane. */
 	@FXML
 	private Pane performance;
 
@@ -148,11 +149,11 @@ public class ManagerStatisticsController {
 	@FXML
 	private Pane delaysInnerPane;
 	
-	/** The system CB. */
+	/** The system ChoiceBox for delays report. */
 	@FXML
 	private ChoiceBox<SystemENUM> systemCB = new ChoiceBox<SystemENUM>();
 
-	/** The delays num. */
+	/** The delays number. */
 	@FXML
 	private Label delaysNum;
 
@@ -180,13 +181,13 @@ public class ManagerStatisticsController {
 	@FXML
 	private NumberAxis yAxis;
 
-	/** The series. */
+	/** The series for the graph. */
 	static XYChart.Series series;
 	
-	/** The series 1. */
+	/** The first series for the graph. */
 	static XYChart.Series series1;
 	
-	/** The series 2. */
+	/** The second series for the graph. */
 	static XYChart.Series series2;
 
 	/** The addons graph. */
@@ -264,7 +265,7 @@ public class ManagerStatisticsController {
 	}
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 		_ins = this;
@@ -278,7 +279,7 @@ public class ManagerStatisticsController {
 				while (true) // update time in 0.5s intervals
 				{
 
-					Platform.runLater(new Runnable() // wont work without this shit
+					Platform.runLater(new Runnable()
 					{
 						public void run() {
 							DateTime dt = new DateTime();
@@ -307,7 +308,7 @@ public class ManagerStatisticsController {
 	}
 
 	/**
-	 * Change pane.
+	 * Change pane from the report choice box.
 	 */
 	public void changePane() {
 		switch (reportChoiceBox.getValue().toString()) {
@@ -342,7 +343,7 @@ public class ManagerStatisticsController {
 	}
 
 	/**
-	 * Change delay system.
+	 * Change delay statistics.
 	 */
 	public void changeDelaySystem() {
 		delaysInnerPane.setVisible(true);
@@ -352,9 +353,9 @@ public class ManagerStatisticsController {
 	}
 
 	/**
-	 * Show delay system.
+	 * Show delay for a system.
 	 *
-	 * @param l the l
+	 * @param l the list of data
 	 */
 	public void showDelaySystem(ArrayList<Double> l) {
 		if (l.isEmpty()) {
@@ -373,10 +374,9 @@ public class ManagerStatisticsController {
 	}
 
 	/**
-	 * Gets the report 1.
+	 * Gets the activity periodic report.
 	 *
-	 * @param event the event
-	 * @return the report 1
+	 * @param event the mouse click
 	 */
 	@FXML
 	void getReport1(ActionEvent event) {
@@ -404,9 +404,9 @@ public class ManagerStatisticsController {
 	}
 
 	/**
-	 * Logout.
+	 * Logout button.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@FXML
@@ -424,9 +424,9 @@ public class ManagerStatisticsController {
 	}
 
 	/**
-	 * Manager back.
+	 * Manager back button.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void managerBack(ActionEvent event) {
@@ -444,9 +444,9 @@ public class ManagerStatisticsController {
 	}
 
 	/**
-	 * Update extensions.
+	 * Update extensions labels.
 	 *
-	 * @param l the l
+	 * @param l the list
 	 */
 	public void updateExtensions(ArrayList<Double> l) {
 		Platform.runLater(new Runnable() {
@@ -459,9 +459,9 @@ public class ManagerStatisticsController {
 	}
 
 	/**
-	 * Update addons.
+	 * Update addons labels.
 	 *
-	 * @param l the l
+	 * @param l the list
 	 */
 	public void updateAddons(ArrayList<Double> l) {
 		Platform.runLater(new Runnable() {
@@ -504,7 +504,7 @@ public class ManagerStatisticsController {
 	}
 
 	/**
-	 * Update peropd.
+	 * Update periodic report labels.
 	 *
 	 * @param res the res
 	 */

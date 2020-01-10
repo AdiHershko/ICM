@@ -8,9 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ShowFilesScreenController.
+ * Controller for 1.2-ShowFilesScreen.fxml
  */
 public class ShowFilesScreenController {
 
@@ -25,11 +25,11 @@ public class ShowFilesScreenController {
 	/** The ins. */
 	public static ShowFilesScreenController _ins;
 
-	/** The r. */
+	/** The request. */
 	private Request r;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 		_ins = this;

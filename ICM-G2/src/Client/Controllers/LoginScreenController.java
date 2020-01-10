@@ -20,32 +20,32 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LoginScreenController.
+ * Controller for 0.1-loginScreen.fxml
  */
 public class LoginScreenController {
 	
 	/** The ins. */
 	public static LoginScreenController _ins;
 
-	/** The event. */
+	/** The mouse click event. */
 	private ActionEvent event;
 	
 	/** The login button. */
 	@FXML
 	private Button loginButton;
 	
-	/** The pass TXT. */
+	/** The password TXT. */
 	@FXML
 	private PasswordField passTXT;
 	
-	/** The user TXT. */
+	/** The user name TXT. */
 	@FXML
 	private TextField userTXT;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 
@@ -54,9 +54,9 @@ public class LoginScreenController {
 	}
 
 	/**
-	 * Move screen.
+	 * Move to the next screen.
 	 *
-	 * @param event the event
+	 * @param event the clicking event
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@FXML
@@ -97,7 +97,7 @@ public class LoginScreenController {
 	/**
 	 * Login good.
 	 *
-	 * @param user the user
+	 * @param user the logged in user
 	 */
 	public void LoginGood(User user) {
 		ClientMain.currentUser = user;

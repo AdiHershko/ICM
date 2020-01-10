@@ -9,9 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ExecutionFailuresController.
+ * The Class ExecutionFailuresController:
+ * Controller for 2.1-ExecutionFailures.fxml
  */
 public class ExecutionFailuresController {
 	
@@ -24,11 +24,11 @@ public class ExecutionFailuresController {
 	/** The r. */
 	private Request r;
 	
-	/** The exectuion report. */
+	/** The execution report. */
 	@FXML
 	private TextField exectuionReport;
 	
-	/** The submit btn. */
+	/** The submit button. */
 	@FXML
 	private Button submitBtn;
 	
@@ -37,7 +37,7 @@ public class ExecutionFailuresController {
 	private Label IdLabel;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 		_ins = this;
@@ -57,7 +57,7 @@ public class ExecutionFailuresController {
 	}
 
 	/**
-	 * Submit text field.
+	 * Submit text fields for the failure reports.
 	 */
 	public void submitTextField() {
 		String msgReport = exectuionReport.getText();

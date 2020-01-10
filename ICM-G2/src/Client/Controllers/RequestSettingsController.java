@@ -18,19 +18,19 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RequestSettingsController.
+ * Controllers 2.3-SupervisorRequestSettingsScreen.fxml
  */
 public class RequestSettingsController {
 	
 	/** The ins. */
 	public static RequestSettingsController _ins;
 	
-	/** The can exit executor. */
+	/** The can exit executor boolean (when set). */
 	public boolean canExit_Executor = false;
 	
-	/** The can exit asses. */
+	/** The can exit assessment (when set). */
 	public boolean canExit_Asses = false;
 	
 	/** The current request. */
@@ -39,11 +39,11 @@ public class RequestSettingsController {
 	/** The current user. */
 	User currentUser;
 	
-	/** The assesment appointer text. */
+	/** The assessment appointer text. */
 	@FXML
 	private TextField assesmentAppointerText;
 	
-	/** The examaning due date text. */
+	/** The examining due date text. */
 	@FXML
 	private DatePicker examaningDueDateText;
 	
@@ -55,15 +55,15 @@ public class RequestSettingsController {
 	@FXML
 	private DatePicker testDueDateText;
 	
-	/** The assesment due date text. */
+	/** The assessment due date text. */
 	@FXML
 	private DatePicker assesmentDueDateText;
 	
-	/** The assesment extension date text. */
+	/** The assessment extension date text. */
 	@FXML
 	private TextField assesmentExtensionDateText;
 	
-	/** The examaning extension text. */
+	/** The examining extension text. */
 	@FXML
 	private TextField examaningExtensionText;
 	
@@ -71,7 +71,7 @@ public class RequestSettingsController {
 	@FXML
 	private DatePicker executionDueDateText;
 	
-	/** The execution extenstion date text. */
+	/** The execution extension date text. */
 	@FXML
 	private TextField executionExtenstionDateText;
 	
@@ -79,7 +79,7 @@ public class RequestSettingsController {
 	@FXML
 	private TextField testerExtensionDateText;
 	
-	/** The edit assesment button. */
+	/** The edit assessment button. */
 	@FXML
 	private Button editAssesmentButton;
 	
@@ -91,15 +91,15 @@ public class RequestSettingsController {
 	@FXML
 	private Button doneButton;
 	
-	/** The set assesment date button. */
+	/** The set assessment date button. */
 	@FXML
 	private Button setAssesmentDateButton;
 	
-	/** The approve assesment button. */
+	/** The approve assessment button. */
 	@FXML
 	private Button approveAssesmentButton;
 	
-	/** The decline assesment button. */
+	/** The decline assessment button. */
 	@FXML
 	private Button declineAssesmentButton;
 	
@@ -107,7 +107,7 @@ public class RequestSettingsController {
 	@FXML
 	private Button saveExamDateButton;
 	
-	/** The set exec date button. */
+	/** The set execution date button. */
 	@FXML
 	private Button setExecDateButton;
 	
@@ -123,12 +123,12 @@ public class RequestSettingsController {
 	@FXML
 	private Button editTesterButton;
 	
-	/** The edit assesment button 1. */
+	/** The edit assessment button 1. */
 	@FXML
 	private Button editAssesmentButton1;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 		_ins = this;
@@ -141,7 +141,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Sets the screen.
+	 * Sets the screen with all the request data.
 	 */
 	public void setScreen() {
 		requestIDLabel.setText("" + currentRequest.getId());
@@ -178,7 +178,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Edits the assesment.
+	 * Edits the assessment appoint.
 	 */
 	@FXML
 	public void editAssesment() {
@@ -188,7 +188,7 @@ public class RequestSettingsController {
 		else {
 			Platform.runLater(() -> {
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setContentText("Request is already past the initialization stage!");
+				alert.setContentText("Request is already past the initialization stage.");
 				alert.show();
 			});
 
@@ -197,7 +197,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Edits the executioner.
+	 * Edits the executioner appoint.
 	 */
 	@FXML
 	public void editExecutioner() {
@@ -206,7 +206,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Edits the tester.
+	 * Edits the tester appoint.
 	 */
 	@FXML
 	public void editTester() {
@@ -242,7 +242,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Sets the assesment date.
+	 * Sets the assessment date.
 	 */
 	@FXML
 	public void setAssesmentDate() {
@@ -275,7 +275,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Approve assesment.
+	 * Approve assessment appointee.
 	 */
 	@FXML
 	public void approveAssesment() {
@@ -285,7 +285,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Decline assesment.
+	 * Decline assessment extension.
 	 */
 	@FXML
 	public void declineAssesment() {
@@ -295,7 +295,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Approve examaning.
+	 * Approve examining extension.
 	 */
 	@FXML
 	public void approveExamaning() {
@@ -305,7 +305,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Decline examaning.
+	 * Decline examining extension.
 	 */
 	@FXML
 	public void declineExamaning() {
@@ -315,7 +315,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Approve execution.
+	 * Approve execution extension.
 	 */
 	@FXML
 	public void approveExecution() {
@@ -325,7 +325,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Decline execution.
+	 * Decline execution extension.
 	 */
 	@FXML
 	public void declineExecution() {
@@ -335,7 +335,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Approve test.
+	 * Approve test extension.
 	 */
 	@FXML
 	public void approveTest() {
@@ -345,7 +345,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Decline test.
+	 * Decline testextension .
 	 */
 	@FXML
 	public void declineTest() {
@@ -355,7 +355,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Edits the assesment 1.
+	 * Edits the assessment appointee.
 	 */
 	@FXML
 	public void editAssesment1() {
@@ -363,10 +363,10 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Sets the denied.
+	 * Sets the denied extension request.
 	 *
-	 * @param isDenied the is denied
-	 * @param stage the stage
+	 * @param isDenied if denied
+	 * @param stage the stage num
 	 */
 	private void setDenied(int isDenied, int stage) {
 		currentRequest.setIsDenied(isDenied);
@@ -375,7 +375,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Save exam date.
+	 * Save examining date.
 	 */
 	@FXML
 	public void saveExamDate() {
@@ -407,7 +407,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Sets the exec date.
+	 * Sets the execution date.
 	 */
 	@FXML
 	public void setExecDate() {
@@ -439,7 +439,7 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Sets the test date.
+	 * Sets the testing date.
 	 */
 	@FXML
 	public void setTestDate() {
@@ -490,36 +490,36 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Gets the assesment appointer text.
+	 * Gets the assessment appointer text.
 	 *
-	 * @return the assesment appointer text
+	 * @return the assessment appointer text
 	 */
 	public TextField getAssesmentAppointerText() {
 		return assesmentAppointerText;
 	}
 
 	/**
-	 * Sets the assesment appointer text.
+	 * Sets the assessment appointer text.
 	 *
-	 * @param assesmentAppointerText the new assesment appointer text
+	 * @param assesmentAppointerText the new assessment appointer text
 	 */
 	public void setAssesmentAppointerText(TextField assesmentAppointerText) {
 		this.assesmentAppointerText = assesmentAppointerText;
 	}
 
 	/**
-	 * Gets the examaning due date text.
+	 * Gets the examining due date text.
 	 *
-	 * @return the examaning due date text
+	 * @return the examining due date text
 	 */
 	public DatePicker getExamaningDueDateText() {
 		return examaningDueDateText;
 	}
 
 	/**
-	 * Sets the examaning due date text.
+	 * Sets the examining due date text.
 	 *
-	 * @param examaningDueDateText the new examaning due date text
+	 * @param examaningDueDateText the new examining due date text
 	 */
 	public void setExamaningDueDateText(DatePicker examaningDueDateText) {
 		this.examaningDueDateText = examaningDueDateText;
@@ -562,54 +562,54 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Gets the assesment due date text.
+	 * Gets the assessment due date text.
 	 *
-	 * @return the assesment due date text
+	 * @return the assessment due date text
 	 */
 	public DatePicker getAssesmentDueDateText() {
 		return assesmentDueDateText;
 	}
 
 	/**
-	 * Sets the assesment due date text.
+	 * Sets the assessment due date text.
 	 *
-	 * @param assesmentDueDateText the new assesment due date text
+	 * @param assesmentDueDateText the new assessment due date text
 	 */
 	public void setAssesmentDueDateText(DatePicker assesmentDueDateText) {
 		this.assesmentDueDateText = assesmentDueDateText;
 	}
 
 	/**
-	 * Gets the assesment extension date text.
+	 * Gets the assessment extension date text.
 	 *
-	 * @return the assesment extension date text
+	 * @return the assessment extension date text
 	 */
 	public TextField getAssesmentExtensionDateText() {
 		return assesmentExtensionDateText;
 	}
 
 	/**
-	 * Sets the assesment extension date text.
+	 * Sets the assessment extension date text.
 	 *
-	 * @param assesmentExtensionDateText the new assesment extension date text
+	 * @param assesmentExtensionDateText the new assessment extension date text
 	 */
 	public void setAssesmentExtensionDateText(TextField assesmentExtensionDateText) {
 		this.assesmentExtensionDateText = assesmentExtensionDateText;
 	}
 
 	/**
-	 * Gets the examaning extension text.
+	 * Gets the examining extension text.
 	 *
-	 * @return the examaning extension text
+	 * @return the examining extension text
 	 */
 	public TextField getExamaningExtensionText() {
 		return examaningExtensionText;
 	}
 
 	/**
-	 * Sets the examaning extension text.
+	 * Sets the examining extension text.
 	 *
-	 * @param examaningExtensionText the new examaning extension text
+	 * @param examaningExtensionText the new examining extension text
 	 */
 	public void setexamaningExtensionText(TextField examaningExtensionText) {
 		this.examaningExtensionText = examaningExtensionText;
@@ -652,18 +652,18 @@ public class RequestSettingsController {
 	}
 
 	/**
-	 * Gets the execution extenstion date text.
+	 * Gets the execution extension date text.
 	 *
-	 * @return the execution extenstion date text
+	 * @return the execution extension date text
 	 */
 	public TextField getExecutionExtenstionDateText() {
 		return executionExtenstionDateText;
 	}
 
 	/**
-	 * Sets the execution extenstion date text.
+	 * Sets the execution extension date text.
 	 *
-	 * @param executionExtenstionDateText the new execution extenstion date text
+	 * @param executionExtenstionDateText the new execution extension date text
 	 */
 	public void setExecutionExtenstionDateText(TextField executionExtenstionDateText) {
 		this.executionExtenstionDateText = executionExtenstionDateText;
