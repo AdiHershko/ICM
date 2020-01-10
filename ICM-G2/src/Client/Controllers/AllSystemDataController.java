@@ -24,8 +24,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
-// TODO: Log-out btn
 /**
  * The Class AllSystemDataController:
  * Controller for 3.3-AllSystemDataScreen.fxml.
@@ -95,6 +95,10 @@ public class AllSystemDataController {
 	@FXML
 	private TableView<SupervisorLog> supervisorLogTableView;
 
+	/** The logout button. */
+	@FXML
+	private Button logoutButton;
+	
 	/**
 	 * Initialize the fxml.
 	 */
@@ -568,5 +572,24 @@ public class AllSystemDataController {
 	public void setSupervisorLogTableView(TableView<SupervisorLog> supervisorLogTableView) {
 		this.supervisorLogTableView = supervisorLogTableView;
 	}
-
+	
+	/**
+	 * Logout button.
+	 *
+	 * @param event the mouse click
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	@FXML
+	void logout(ActionEvent event) throws IOException {
+		ClientMain.client.handleMessageFromClientUI(
+				new ClientServerMessage(Enums.MessageEnum.logOut, ClientMain.currentUser.getUsername()));
+		ClientMain.currentUser = null;
+		Parent root = null;
+		root = FXMLLoader.load(getClass().getResource("0.1-loginScreen.fxml"));
+		Scene requests = new Scene(root);
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		window.setResizable(false);
+		window.setScene(requests);
+		window.show();
+	}
 }

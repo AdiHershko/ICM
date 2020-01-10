@@ -35,7 +35,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-// TODO: Add loading
 /**
  * The Class ManagerStatisticsController:
  * Controller for 3.2-ManagerStatistics.fxml.

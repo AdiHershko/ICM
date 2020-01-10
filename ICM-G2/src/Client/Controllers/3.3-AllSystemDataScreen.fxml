@@ -43,5 +43,6 @@
       <TableView fx:id="messagesTableView" layoutX="19.0" layoutY="132.0" prefHeight="417.0" prefWidth="1163.0" />
       <RadioButton fx:id="supervisorLogRadioButton" layoutX="431.0" layoutY="107.0" mnemonicParsing="false" onAction="#showSupervisorLog" text="Supervisor Log" toggleGroup="$tg" />
       <TableView fx:id="supervisorLogTableView" layoutX="19.0" layoutY="133.0" prefHeight="417.0" prefWidth="1163.0" />
+      <Button fx:id="logoutButton" layoutX="1130.0" layoutY="10.0" mnemonicParsing="false" onAction="#logout" text="Log Out" />
    </children>
 </Pane>

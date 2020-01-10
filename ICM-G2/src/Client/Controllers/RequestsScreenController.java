@@ -731,7 +731,7 @@ public class RequestsScreenController {
 				}
 			}
 			timeCreatedLabel.setText("Creation time: " + r.getDate().toString("dd/MM/yyyy hh:mm a"));
-			requestorLabel.setText("Requestor: " + r.getRequestorID());
+			requestorLabel.setText("Requester: " + r.getRequestorID());
 			systemLabel.setText(r.getSystem().toString());
 			stageLabel.setText(r.getCurrentStage().toString());
 			statusLabel.setText(r.getStatus().toString());
@@ -964,7 +964,7 @@ public class RequestsScreenController {
 	/**
 	 * Open assessment report function.
 	 *
-	 * @param r the r
+	 * @param r the report
 	 */
 	public void openAssessmentReportFunc(Report r) {
 		reportOfRequest = r;
@@ -992,7 +992,7 @@ public class RequestsScreenController {
 	 * Assessment report page open.
 	 */
 	public void AssessmentReportPage() {
-		if (ClientMain.currentUser.getRole() != Enums.Role.Supervisor) {
+		if (ClientMain.currentUser.getRole() != Enums.Role.Supervisor && ClientMain.currentUser.getRole() != Enums.Role.Manager) {
 			if (setDueTime1.getText().equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
