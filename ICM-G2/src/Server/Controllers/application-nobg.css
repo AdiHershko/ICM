@@ -1,6 +1,5 @@
 .root {
-    -fx-background-image: url("bg.jpg");
-	-fx-background-size: stretch;
+	-fx-background-color: #FFFFFF;
 }
 
 .button {
@@ -13,6 +12,7 @@
 	-fx-border-radius: 30;
 	-fx-effect: dropshadow(three-pass-box , rgba(0.6,0.6,0.6,0.6) , 3, 0.0 , 1 , 1);
 }
+
 .button:hover{
 	-fx-background-color: #CCCCF4;
 
