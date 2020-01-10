@@ -26,9 +26,9 @@ import Server.Controllers.ServerChooseController;
 import Common.Message;
 import Common.Report;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DataBaseController.
+ * Handles all the SQL Data Base queries and functions.
  */
 public class DataBaseController {
 	
@@ -97,9 +97,9 @@ public class DataBaseController {
 	/**
 	 * Adds the IS user.
 	 *
-	 * @param current the current
-	 * @param permissions the permissions
-	 * @return the string
+	 * @param current the current user
+	 * @param permissions the permissions he has
+	 * @return the answer string
 	 */
 	public static String addISUser(User current, boolean[] permissions) {
 		String query = "insert into Users(Users.username,Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role,Users.Department) values (?,?,?,?,?,?,?)";
@@ -129,10 +129,10 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the checks if is user.
+	 * Gets the IS user.
 	 *
 	 * @param userID the user ID
-	 * @return the checks if is user
+	 * @return the users
 	 */
 	public static String[] getISUser(String userID) {
 		String query = "select Users.Password,Users.FirstName,Users.LastName,Users.Mail,Users.Role,Users.Department from Users where username='"
@@ -160,8 +160,8 @@ public class DataBaseController {
 	/**
 	 * Update IS user.
 	 *
-	 * @param current the current
-	 * @param permissions the permissions
+	 * @param current the current user
+	 * @param permissions the new permissions
 	 * @return true, if successful
 	 */
 	public static boolean updateISUser(User current, boolean[] permissions) {
@@ -192,9 +192,9 @@ public class DataBaseController {
 	/**
 	 * Update stage member.
 	 *
-	 * @param id the id
-	 * @param req the req
-	 * @param stage the stage
+	 * @param id the user id
+	 * @param req the request
+	 * @param stage the stage to update
 	 */
 	public static void updateStageMember(String id, Request req, int stage) {
 		PreparedStatement st;
@@ -209,47 +209,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the requests for IS.
-	 *
-	 * @param UserName the user name
-	 * @param id the id
-	 * @param search the search
-	 * @return the requests for IS
-	 */
-	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search) {
-		String query;
-		if (search == false) {
-			query = "select * from Requests where (status=0 or status=2) and currenthandlers LIKE '%," + UserName
-					+ ",%'";
-		} else {
-			query = "select * from Requests where currenthandlers LIKE '%," + UserName + ",%'" + "and id=" + id;
-		}
-		return getRequests(query);
-	}
-
-	/**
-	 * Gets the requests for manager.
-	 *
-	 * @param id the id
-	 * @param search the search
-	 * @return the requests for manager
-	 */
-	public static ObservableList<Request> getRequestsForManager(int id, boolean search) {
-		String query;
-		if (search == false) {
-			query = "select * from Requests where (status=0 or status=2 or status=3)";
-			return getRequests(query);
-		} else {
-			query = "select * from Requests where id=" + id;
-			return getRequests(query);
-		}
-
-	}
-
-	/**
 	 * Update request details.
 	 *
-	 * @param r the r
+	 * @param r the request
 	 */
 	public static void updateRequestDetails(Request r) {
 		String query = "UPDATE Requests SET Description = ?, `Change` = ?, ChangeReason = ?, Connect = ? WHERE ID = ?";
@@ -270,7 +232,7 @@ public class DataBaseController {
 	/**
 	 * Change report failure.
 	 *
-	 * @param Msg the msg
+	 * @param Msg the message
 	 */
 	public static void ChangeReportFailure(String[] Msg) {
 		String query = "UPDATE Stages SET ReportFailure = ? WHERE StageName = '4' and RequestID = ?";
@@ -286,9 +248,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Change req to closed.
+	 * Change request to closed.
 	 *
-	 * @param Id the id
+	 * @param id the request id
 	 */
 	public static void changeReqToClosed(int Id) {
 		String query = "UPDATE Requests SET Stage = 5 WHERE ID =" + Id;
@@ -311,9 +273,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Change to rejected.
+	 * Change request to rejected.
 	 *
-	 * @param Id the id
+	 * @param id the request id
 	 */
 	public static void changeToRejected(int Id) {
 		String query = "UPDATE Stages SET `ReportFailure` = 'Rejected' WHERE (`StageName` = '5') and (`RequestID` = '"
@@ -330,8 +292,8 @@ public class DataBaseController {
 	/**
 	 * Change request status.
 	 *
-	 * @param id the id
-	 * @param status the status
+	 * @param id the request id
+	 * @param status the request status
 	 */
 	public static void changeRequestStatus(int id, int status) {
 		String query = "UPDATE Requests SET Status = " + status + " WHERE ID = " + id;
@@ -349,7 +311,7 @@ public class DataBaseController {
 	 * Gets the requests.
 	 *
 	 * @param query the query
-	 * @return the requests
+	 * @return the requests observable list
 	 */
 	public static ObservableList<Request> getRequests(String query) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
@@ -384,10 +346,10 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the requests 1.
+	 * Gets the requests with all data (for manager screen).
 	 *
 	 * @param query the query
-	 * @return the requests 1
+	 * @return the requests observable list
 	 */
 	public static ObservableList<Request> getRequests1(String query) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
@@ -423,8 +385,8 @@ public class DataBaseController {
 	 * Gets the requests for college.
 	 *
 	 * @param userName the user name
-	 * @param id the id
-	 * @param search the search
+	 * @param id the request id
+	 * @param search if search is active
 	 * @param unActive the un active
 	 * @return the requests for college
 	 */
@@ -446,9 +408,9 @@ public class DataBaseController {
 	 * Gets the requests for IS.
 	 *
 	 * @param UserName the user name
-	 * @param id the id
-	 * @param search the search
-	 * @param unActive the un active
+	 * @param id the request id
+	 * @param search if search is active
+	 * @param unActive the un-active boolean
 	 * @return the requests for IS
 	 */
 	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search, boolean unActive) {
@@ -465,9 +427,9 @@ public class DataBaseController {
 	/**
 	 * Gets the requests for manager.
 	 *
-	 * @param id the id
-	 * @param search the search
-	 * @param unActive the un active
+	 * @param id the request id
+	 * @param search if search is active
+	 * @param unActive the un-active boolean
 	 * @return the requests for manager
 	 */
 	public static ObservableList<Request> getRequestsForManager(int id, boolean search, boolean unActive) {
@@ -531,8 +493,8 @@ public class DataBaseController {
 	/**
 	 * Search user.
 	 *
-	 * @param user the user
-	 * @param pass the pass
+	 * @param user the user name
+	 * @param pass the password
 	 * @return the user
 	 */
 	public static User SearchUser(String user, String pass) {
@@ -574,7 +536,7 @@ public class DataBaseController {
 	/**
 	 * Search user.
 	 *
-	 * @param user the user
+	 * @param user the username
 	 * @return the user
 	 */
 	public static User SearchUser(String user) {
@@ -602,9 +564,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the committe.
+	 * Gets the committee.
 	 *
-	 * @return the array list
+	 * @return the array list of the committee members
 	 */
 	public static ArrayList<String> GetCommitte() {
 		String query = "select username from Users where role=3 or role=2";
@@ -635,7 +597,7 @@ public class DataBaseController {
 	/**
 	 * Search report.
 	 *
-	 * @param id the id
+	 * @param id the request id
 	 * @return the report
 	 */
 	public static Report SearchReport(int id) {
@@ -668,7 +630,7 @@ public class DataBaseController {
 	/**
 	 * Gets the supervisor.
 	 *
-	 * @return the supervisor
+	 * @return the supervisor user name (string)
 	 */
 	public static String getSupervisor() {
 		String query = "select Users.username from Users where Role=4";
@@ -727,7 +689,7 @@ public class DataBaseController {
 	/**
 	 * Gets the chairman.
 	 *
-	 * @return the chairman
+	 * @return the chairman (username string)
 	 */
 	public static String getChairman() {
 		String query = "select Users.username from Users where Role=2";
@@ -752,9 +714,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Count committe members.
+	 * Count committee members.
 	 *
-	 * @return the int
+	 * @return the number of committee members
 	 */
 	public static int countCommitteMembers() {
 		String query = "select COUNT(*) from Users where Role=3";
@@ -780,8 +742,8 @@ public class DataBaseController {
 	/**
 	 * Creates the report for request.
 	 *
-	 * @param r the r
-	 * @return the int
+	 * @param r the request
+	 * @return 0 if failed, 1 if successful
 	 */
 	public static int CreateReportForRequest(Report r) {
 		Report check = SearchReport(r.getRequestId());
@@ -817,7 +779,7 @@ public class DataBaseController {
 	 * Creates the new request.
 	 *
 	 * @param r the r
-	 * @return the int
+	 * @return 0 if failed, 1 if successful
 	 */
 	public static int CreateNewRequest(Request r) {
 		String temp = getSupervisor();
@@ -850,9 +812,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Creates the stages DB.
+	 * Creates the stages in DB.
 	 *
-	 * @param id the id
+	 * @param id the request id
 	 */
 	public static void CreateStagesDB(int id) {
 		String temp = "";
@@ -888,8 +850,8 @@ public class DataBaseController {
 	/**
 	 * Change request stage.
 	 *
-	 * @param id the id
-	 * @param Up the up
+	 * @param id the request id
+	 * @param Up if up, false if down
 	 * @return true, if successful
 	 */
 	public static boolean ChangeRequestStage(int id, boolean Up) {
@@ -976,9 +938,9 @@ public class DataBaseController {
 	/**
 	 * Appoint stage handlers.
 	 *
-	 * @param id the id
+	 * @param id the request id
 	 * @param stage the stage
-	 * @param handlers the handlers
+	 * @param handlers the stage handlers
 	 */
 	public static void AppointStageHandlers(int id, int stage, String handlers) {
 		String query = "update Stages set Member='," + handlers + ",' where RequestID=" + id + " and StageName="
@@ -994,7 +956,7 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the comitte string.
+	 * Gets the committee string.
 	 *
 	 * @return the string
 	 */
@@ -1046,8 +1008,8 @@ public class DataBaseController {
 	/**
 	 * Gets the random IS user.
 	 *
-	 * @param system the system
-	 * @return the string
+	 * @param system the system handled
+	 * @return the username string
 	 */
 	public static String GetRandomISUser(int system) {
 		ArrayList<String> users = new ArrayList<String>();
@@ -1082,7 +1044,7 @@ public class DataBaseController {
 	 * Checks if is request denied.
 	 *
 	 * @param requestID the request ID
-	 * @return true, if is request denied
+	 * @return true, if successful
 	 */
 	public static boolean isRequestDenied(int requestID) {
 		String query = "SELECT isDenied from Requests where ID=" + requestID;
@@ -1108,8 +1070,8 @@ public class DataBaseController {
 	 * Sets the date.
 	 *
 	 * @param requestID the request ID
-	 * @param stage the stage
-	 * @param date the date
+	 * @param stage the request stage
+	 * @param date the new date
 	 */
 	public static void setDate(int requestID, int stage, String date) {
 		String query = "update Stages set PlannedDueDate='" + date + "' where StageName=" + stage + " and RequestID="
@@ -1127,7 +1089,7 @@ public class DataBaseController {
 	/**
 	 * Sets the request deny.
 	 *
-	 * @param r the r
+	 * @param r the request
 	 * @param stage the stage
 	 * @return true, if successful
 	 */
@@ -1158,9 +1120,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Calculate date div.
+	 * Calculate date difference.
 	 *
-	 * @param r the r
+	 * @param r the request
 	 * @param stage the stage
 	 */
 	public static void calculateDateDiv(Request r, int stage) {
@@ -1212,7 +1174,7 @@ public class DataBaseController {
 	/**
 	 * Update log request details.
 	 *
-	 * @param request the request
+	 * @param request the request in log
 	 */
 	public static void updateLogRequestDetails(Request request) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
@@ -1234,8 +1196,8 @@ public class DataBaseController {
 	/**
 	 * Update log change status.
 	 *
-	 * @param id the id
-	 * @param status the status
+	 * @param id the request id
+	 * @param status the request status
 	 */
 	public static void updateLogChangeStatus(int id, int status) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
@@ -1255,9 +1217,9 @@ public class DataBaseController {
 	/**
 	 * Update log change stage handler.
 	 *
-	 * @param id the id
-	 * @param stage the stage
-	 * @param member the member
+	 * @param id the request id
+	 * @param stage the request stage
+	 * @param member the member (user id)
 	 */
 	public static void updateLogChangeStageHandler(int id, int stage, String member) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
@@ -1277,9 +1239,9 @@ public class DataBaseController {
 	/**
 	 * Update log change stage date.
 	 *
-	 * @param id the id
-	 * @param stage the stage
-	 * @param date the date
+	 * @param id the request id
+	 * @param stage the request stage
+	 * @param date the stage date
 	 */
 	public static void updateLogChangeStageDate(int id, int stage, String date) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
@@ -1299,8 +1261,8 @@ public class DataBaseController {
 	/**
 	 * Update log deny extension.
 	 *
-	 * @param id the id
-	 * @param stage the stage
+	 * @param id the request id
+	 * @param stage the request stage
 	 */
 	public static void updateLogDenyExtension(int id, int stage) {
 		String query = "INSERT INTO SupLog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
@@ -1320,8 +1282,8 @@ public class DataBaseController {
 	/**
 	 * Change extended date.
 	 *
-	 * @param r the r
-	 * @param date the date
+	 * @param r the request
+	 * @param date the extension date
 	 */
 	public static void changeExtendedDate(Request r, String date) {
 		DateTime dt;
@@ -1341,7 +1303,7 @@ public class DataBaseController {
 	/**
 	 * Sets the closing date.
 	 *
-	 * @param id the new closing date
+	 * @param id the request id
 	 */
 	public static void setClosingDate(int id) {
 		String query = "update Stages set ActualDate='" + (new DateTime()).toString() + "' where RequestID=" + id
@@ -1357,7 +1319,7 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gen auto messages.
+	 * Generate auto messages.
 	 */
 	public static void genAutoMessages() {
 		String query = "select * from Requests";
@@ -1367,9 +1329,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Auto message 24 h due date.
+	 * Auto message for stages 24h from due date.
 	 *
-	 * @param list the list
+	 * @param list the requests list
 	 */
 	public static void autoMessage24hDueDate(ObservableList<Request> list) {
 		for (Request r : list) {
@@ -1393,7 +1355,7 @@ public class DataBaseController {
 	/**
 	 * Extension message.
 	 *
-	 * @param r the r
+	 * @param r the request
 	 */
 	public static void extensionMessage(Request r) {
 		String managerMail = getManagerMail();
@@ -1407,7 +1369,7 @@ public class DataBaseController {
 	/**
 	 * User message of closing.
 	 *
-	 * @param r the r
+	 * @param r the request
 	 */
 	public static void userMessageOfClosing(Request r) {
 		String supervisorMail = getSupervisorMail();
@@ -1421,7 +1383,7 @@ public class DataBaseController {
 	/**
 	 * Auto message exceptions.
 	 *
-	 * @param list the list
+	 * @param list the requests list
 	 */
 	public static void autoMessageExceptions(ObservableList<Request> list) {
 		String supervisorMail = getSupervisorMail();
@@ -1446,7 +1408,7 @@ public class DataBaseController {
 	/**
 	 * Gets the supervisor mail.
 	 *
-	 * @return the supervisor mail
+	 * @return the supervisor mail (string)
 	 */
 	public static String getSupervisorMail() {
 		String query = "select Users.Mail from Users where Role=4";
@@ -1472,7 +1434,7 @@ public class DataBaseController {
 	/**
 	 * Gets the manager mail.
 	 *
-	 * @return the manager mail
+	 * @return the manager mail (string)
 	 */
 	public static String getManagerMail() {
 		String query = "select Users.Mail from Users where Role=5";
@@ -1498,8 +1460,8 @@ public class DataBaseController {
 	/**
 	 * Send message.
 	 *
-	 * @param m the m
-	 * @param checkSent the check sent
+	 * @param m the message
+	 * @param checkSent check if sent
 	 */
 	public static void sendMessage(EmailMessage m, boolean checkSent) {
 		if (checkSent) {
@@ -1542,7 +1504,7 @@ public class DataBaseController {
 	/**
 	 * Removes the user.
 	 *
-	 * @param id the id
+	 * @param id the request id
 	 * @return true, if successful
 	 */
 	public static boolean removeUser(String id) {
@@ -1592,9 +1554,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the all users.
+	 * Gets all users.
 	 *
-	 * @return the all users
+	 * @return all users
 	 */
 	public static ObservableList<User> getAllUsers() {
 		ObservableList<User> o = FXCollections.observableArrayList();
@@ -1629,9 +1591,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the all reports.
+	 * Gets all reports.
 	 *
-	 * @return the all reports
+	 * @return all reports
 	 */
 	public static ObservableList<Report> getAllReports() {
 		ObservableList<Report> o = FXCollections.observableArrayList();
@@ -1665,9 +1627,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the ALL request stages.
+	 * Gets the all request stages.
 	 *
-	 * @return the ALL request stages
+	 * @return all request stages
 	 */
 	public static ObservableList<Common.Stage> getALLRequestStages() {
 		ObservableList<Common.Stage> o = FXCollections.observableArrayList();
@@ -1695,9 +1657,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the all requests.
+	 * Gets all requests.
 	 *
-	 * @return the all requests
+	 * @return all requests
 	 */
 	public static ObservableList<Request> getAllRequests() {
 		String query;
@@ -1708,7 +1670,7 @@ public class DataBaseController {
 	/**
 	 * Gets the delays durations.
 	 *
-	 * @param enm the enm
+	 * @param enm the system enum
 	 * @return the delays durations
 	 */
 	public static ArrayList<Double> getDelaysDurations(SystemENUM enm) {
@@ -1756,7 +1718,7 @@ public class DataBaseController {
 	/**
 	 * Gets the all addons.
 	 *
-	 * @return the all addons
+	 * @return all addons list
 	 */
 	public static ArrayList<Double> getAllAddons() {
 		String query = "select * from Requests";
@@ -1779,9 +1741,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the all messages.
+	 * Gets all messages.
 	 *
-	 * @return the all messages
+	 * @return all messages
 	 */
 	public static ObservableList<Message> getAllMessages() {
 		ObservableList<Message> o = FXCollections.observableArrayList();
@@ -1852,7 +1814,7 @@ public class DataBaseController {
 	/**
 	 * Gets the activity data.
 	 *
-	 * @param arr the arr
+	 * @param arr the date strings array
 	 * @return the activity data
 	 */
 	public static ArrayList<Integer> getActivityData(String[] arr) {
@@ -1891,9 +1853,9 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the durations.
+	 * Gets the request total durations.
 	 *
-	 * @return the durations
+	 * @return the request total durations
 	 */
 	public static int getDurations() {
 		int resultss = 0;

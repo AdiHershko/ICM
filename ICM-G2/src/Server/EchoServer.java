@@ -27,16 +27,16 @@ import Common.Report;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class EchoServer.
+ * The Class EchoServer. Handles the server connection from the server side, and
+ * the client messages.
  */
 public class EchoServer extends AbstractServer {
-	
+
 	/** The Constant DEFAULT_PORT. */
 	final private static int DEFAULT_PORT = 5555;
-	
-	/** The c. */
+
+	/** The calculator. */
 	Calculator c = new Calculator();
 
 	/**
@@ -60,8 +60,8 @@ public class EchoServer extends AbstractServer {
 	/**
 	 * Handle message from client.
 	 *
-	 * @param msg the msg
-	 * @param client the client
+	 * @param msg    the message
+	 * @param client the client connection
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Request r;
@@ -70,13 +70,13 @@ public class EchoServer extends AbstractServer {
 		if (msg instanceof ClientServerMessage) {
 			ClientServerMessage CSMsg = (ClientServerMessage) msg;
 			switch (CSMsg.getType()) {
-			case CONNECT:
+			case CONNECT:// if connected
 				System.out.println("User " + client.toString() + " Connected");
 				return;
-			case DISCONNECT:
+			case DISCONNECT:// if dis-connected
 				System.out.println("User " + client.toString() + " Disconnected");
 				return;
-			case REFRESHIS:
+			case REFRESHIS:// if refresh table
 				ObservableList<Request> ol = FXCollections.observableArrayList();
 				ol = DataBaseController.getRequestsForIS(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(),
 						CSMsg.isUnActive());
@@ -86,7 +86,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-			case REFRESHCOLLEGE:
+			case REFRESHCOLLEGE:// if refresh table for college users
 				ObservableList<Request> ol1 = FXCollections.observableArrayList();
 				ol1 = DataBaseController.getRequestsForCollege(CSMsg.getMsg(), CSMsg.getId(), CSMsg.isSearch(),
 						CSMsg.isUnActive());
@@ -96,7 +96,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-			case REFRESHMAN:
+			case REFRESHMAN:// if refresh table for manager
 				ObservableList<Request> ol2 = FXCollections.observableArrayList();
 				ol2 = DataBaseController.getRequestsForManager(CSMsg.getId(), CSMsg.isSearch(), CSMsg.isUnActive());
 				try {
@@ -105,9 +105,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-
-
-			case GETALLREPORTS:
+			case GETALLREPORTS:// if all reports ask
 				ObservableList<Report> ol3 = FXCollections.observableArrayList();
 				ol3 = DataBaseController.getAllReports();
 				try {
@@ -116,8 +114,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-
-			case GETALLREQUESTS:
+			case GETALLREQUESTS:// if all requests ask
 				ObservableList<Request> ol4 = FXCollections.observableArrayList();
 				ol4 = DataBaseController.getAllRequests();
 				try {
@@ -126,8 +123,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-
-			case GETALLSTAGES:
+			case GETALLSTAGES:// if all stages ask
 				ObservableList<Common.Stage> ol5 = FXCollections.observableArrayList();
 				ol5 = DataBaseController.getALLRequestStages();
 				try {
@@ -136,7 +132,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-			case GETALLUSERS:
+			case GETALLUSERS:// if all users ask
 				ObservableList<User> ol6 = FXCollections.observableArrayList();
 				ol6 = DataBaseController.getAllUsers();
 				try {
@@ -145,9 +141,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-
-
-			case GETALLMESSAGES:
+			case GETALLMESSAGES:// if all messages ask
 				ObservableList<Message> ol7 = FXCollections.observableArrayList();
 				ol7 = DataBaseController.getAllMessages();
 				try {
@@ -156,8 +150,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-
-			case GETSUPERVISORLOG:
+			case GETSUPERVISORLOG:// if supervisor log ask
 				ObservableList<SupervisorLog> ol8 = FXCollections.observableArrayList();
 				ol8 = DataBaseController.getSupervisorLog();
 				try {
@@ -166,43 +159,40 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				return;
-
-
-			case UpdateRequestDetails:
+			case UpdateRequestDetails:// if update request details
 				DataBaseController.updateRequestDetails(CSMsg.getRequest());
 				DataBaseController.updateLogRequestDetails(CSMsg.getRequest());
 				return;
-			case UpdateStatus:
+			case UpdateStatus:// if status update
 				r = CSMsg.getRequest();
 				if (r.getStatus() == Enums.RequestStatus.Rejected) {
 					DataBaseController.changeRequestStatus(r.getId(), 4);
-				}
-				else {
+				} else {
 					DataBaseController.changeRequestStatus(r.getId(), 1);
 				}
 				DataBaseController.setClosingDate(r.getId());
 				DataBaseController.userMessageOfClosing(r);
 				return;
-			case Freeze:
+			case Freeze:// if freeze request
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 2);
 				return;
-			case UnFreezeRejected:
+			case UnFreezeRejected:// if un-freeze rejected request
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 3);
 				return;
-			case Unfreeze:
+			case Unfreeze:// if un-freeze request
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 0);
 				return;
-			case TesterRep:
+			case TesterRep:// if tester report
 				String[] arr = (String[]) CSMsg.getArray();
 				DataBaseController.ChangeReportFailure(arr);
 				DataBaseController.ChangeRequestStage(Integer.parseInt(arr[1]), false);
 				return;
-			case declineRequest:
+			case declineRequest:// if decline request
 				DataBaseController.changeReqToClosed(Integer.parseInt(CSMsg.getMsg()));
 				DataBaseController.changeRequestStatus(Integer.parseInt(CSMsg.getMsg()), 3);
 				DataBaseController.changeToRejected(Integer.parseInt(CSMsg.getMsg()));
 				return;
-			case SearchUser:
+			case SearchUser:// if search user
 				String[] temp = (String[]) CSMsg.getArray();
 				User us1 = DataBaseController.SearchUser(temp[0], temp[1]);
 				if (us1 == null) {
@@ -211,13 +201,11 @@ public class EchoServer extends AbstractServer {
 					} catch (IOException e) {
 						System.out.println("Cant send login fail to client!");
 					}
-				}
-				else {
+				} else {
 					try {
 						if (us1.getUsername().equals("")) {
 							client.sendToClient(new ClientServerMessage(Enums.MessageEnum.tryingToLogSameTime));
-						}
-						else {
+						} else {
 							client.sendToClient(us1);
 						}
 					} catch (IOException e) {
@@ -225,7 +213,7 @@ public class EchoServer extends AbstractServer {
 					}
 				}
 				break;
-			case SearchReport:
+			case SearchReport:// if search report
 				Report report = DataBaseController.SearchReport(CSMsg.getId());
 				if (report == null) {
 					try {
@@ -234,8 +222,7 @@ public class EchoServer extends AbstractServer {
 					} catch (IOException e) {
 						System.out.println("Cant send no report to client!");
 					}
-				}
-				else {
+				} else {
 					try {
 
 						client.sendToClient(report);
@@ -244,7 +231,7 @@ public class EchoServer extends AbstractServer {
 					}
 				}
 				break;
-			case UPLOAD:
+			case UPLOAD:// if upload files
 				new File("src\\" + CSMsg.getId()).mkdir();
 				String path = "src\\" + CSMsg.getId();
 				File f = new File(path + "\\" + CSMsg.getFileName());
@@ -267,7 +254,7 @@ public class EchoServer extends AbstractServer {
 
 				}
 				break;
-			case GETMAXREQID:
+			case GETMAXREQID:// if get max request id
 				int maxid = DataBaseController.getMaxRequestID();
 				File check = new File("src\\" + (maxid + 1));
 				if (check.exists())
@@ -278,7 +265,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case CreateRequest:
+			case CreateRequest:// if create request
 				r = CSMsg.getRequest();
 				int id = DataBaseController.CreateNewRequest(r);
 				try {
@@ -287,11 +274,11 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case CreateReport:
+			case CreateReport:// if create report
 				Report report1 = CSMsg.getReport();
 				DataBaseController.CreateReportForRequest(report1);
 				break;
-			case GETUSERFILES:
+			case GETUSERFILES:// if get user files
 				Request request = CSMsg.getRequest();
 				try (Stream<Path> paths = Files.walk(Paths.get("src\\" + request.getId() + "\\"))) {
 					ArrayList<Path> Paths = new ArrayList<>();
@@ -304,7 +291,7 @@ public class EchoServer extends AbstractServer {
 					return;
 				}
 				break;
-			case GETFILEFROMSERVER:
+			case GETFILEFROMSERVER:// if files from server
 				File file = new File("src\\" + CSMsg.getId() + "\\" + CSMsg.getMsg());
 				InputStream is = null;
 				BufferedInputStream bis = null;
@@ -324,7 +311,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case UpdateStage:
+			case UpdateStage:// if update stage (up)
 				boolean tmp = DataBaseController.ChangeRequestStage(CSMsg.getId(), true);
 				if (tmp == false) {
 					try {
@@ -334,7 +321,7 @@ public class EchoServer extends AbstractServer {
 					}
 				}
 				break;
-			case downStage:
+			case downStage:// if update stage (down)
 				DataBaseController.ChangeRequestStage(CSMsg.getId(), false);
 				break;
 			case GetComitte:
@@ -345,21 +332,21 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case AppointStageHandlers:
+			case AppointStageHandlers:// if appoint stage handlers
 				DataBaseController.AppointStageHandlers(CSMsg.getId(), CSMsg.getStage(), CSMsg.getMsg());
 				break;
-			case logOut:
+			case logOut:// if logout
 				DataBaseController.DisconnectUser(CSMsg.getMsg());
 				break;
-			case ADDISUSER:
-				String good = DataBaseController.addISUser(((ClientServerMessage) msg).getUser(),CSMsg.getBoolarr());
+			case ADDISUSER:// if add IS user
+				String good = DataBaseController.addISUser(((ClientServerMessage) msg).getUser(), CSMsg.getBoolarr());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ADDISUSER, good));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
-			case GETISUSER:
+			case GETISUSER:// if get IS user
 				String[] res = DataBaseController.getISUser(((ClientServerMessage) msg).getMsg());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETISUSER, res));
@@ -367,15 +354,16 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case UPDATEISUSER:
-				boolean result = DataBaseController.updateISUser(((ClientServerMessage) msg).getUser(),CSMsg.getBoolarr());
+			case UPDATEISUSER:// if update IS user
+				boolean result = DataBaseController.updateISUser(((ClientServerMessage) msg).getUser(),
+						CSMsg.getBoolarr());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.UPDATEISUSER, result));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
-			case CHECKSUPERVISOREXIST:
+			case CHECKSUPERVISOREXIST:// if check supervisor
 				String supervisor = DataBaseController.getSupervisor();
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKSUPERVISOREXIST, supervisor));
@@ -383,8 +371,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-
-			case COUNTCOMMITEEMEMBERS:
+			case COUNTCOMMITEEMEMBERS:// if count committee members
 				int count = DataBaseController.countCommitteMembers();
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.COUNTCOMMITEEMEMBERS, count));
@@ -392,7 +379,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case CHECKCHAIRMANEXIST:
+			case CHECKCHAIRMANEXIST:// if check committee chairman
 				String chairman = DataBaseController.getChairman();
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.CHECKCHAIRMANEXIST, chairman));
@@ -400,7 +387,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case EDITASSESMENTER:
+			case EDITASSESMENTER:// if edit assessment appointee
 				String id1 = ((ClientServerMessage) msg).getMsg();
 				if (DataBaseController.getISUser(id1) == null)
 					try {
@@ -416,7 +403,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case EDITEXECUTIONER:
+			case EDITEXECUTIONER:// if edit execution appointee
 				String id2 = ((ClientServerMessage) msg).getMsg();
 				if (DataBaseController.getISUser(id2) == null)
 					try {
@@ -432,7 +419,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case EDITTESTER:
+			case EDITTESTER:// if edit tester appointee
 				String id3 = ((ClientServerMessage) msg).getMsg();
 				if (DataBaseController.getISUser(id3) == null)
 					try {
@@ -448,7 +435,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case SETASSESMENTDATE:
+			case SETASSESMENTDATE:// if set assessment date
 				DataBaseController.setDate(CSMsg.getId(), 1, CSMsg.getMsg());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
@@ -456,7 +443,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case APPROVEASSEXTENSION:
+			case APPROVEASSEXTENSION:// if set assessment approve extension
 				boolean isDenied = DataBaseController.setRequestDeny(CSMsg.getRequest(), CSMsg.getStage());
 				try {
 					if (isDenied) {
@@ -468,7 +455,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case SETEXAMDATE:
+			case SETEXAMDATE:// if set examining date
 				DataBaseController.setDate(CSMsg.getId(), 2, CSMsg.getMsg());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
@@ -476,7 +463,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case SETEXECMDATE:
+			case SETEXECMDATE:// if set execution date
 				DataBaseController.setDate(CSMsg.getId(), 3, CSMsg.getMsg());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
@@ -484,7 +471,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case SETTESTDATE:
+			case SETTESTDATE:// if set testing date
 				DataBaseController.setDate(CSMsg.getId(), 4, CSMsg.getMsg());
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
@@ -492,7 +479,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case ASKFOREXTENSION:
+			case ASKFOREXTENSION:// if extension ask
 				DataBaseController.changeExtendedDate(CSMsg.getRequest(), CSMsg.getMsg());
 				DataBaseController.extensionMessage(CSMsg.getRequest());
 				try {
@@ -501,7 +488,7 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case GetExtensionStat:
+			case GetExtensionStat:// if get extension statistic
 				ArrayList<Double> ext = DataBaseController.getExtensionDurations();
 				ArrayList<Double> resultList = c.calcAll(ext);
 				try {
@@ -510,16 +497,17 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case GetExtensionFreq:
+			case GetExtensionFreq:// if get extension frequency
 				ArrayList<Double> extFreq = DataBaseController.getExtensionDurations();
 				ObservableList<FrequencyDeviation> resultOL = c.freqDeviation(extFreq);
-				try{
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq, resultOL.toArray()));
-				} catch(Exception e) {
+				try {
+					client.sendToClient(
+							new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq, resultOL.toArray()));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
-			case GetDelaysStat:
+			case GetDelaysStat:// if get delyas statistic
 				ArrayList<Double> del = DataBaseController.getDelaysDurations(CSMsg.getEnm());
 				if (del.isEmpty()) {
 					try {
@@ -527,8 +515,7 @@ public class EchoServer extends AbstractServer {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				}
-				else {
+				} else {
 					ArrayList<Double> delResultList = c.calcAll(del);
 					delResultList.add(0, (double) del.size());
 					delResultList.remove(1);
@@ -539,16 +526,17 @@ public class EchoServer extends AbstractServer {
 					}
 				}
 				break;
-			case GetDelaysFreq:
+			case GetDelaysFreq:// if get extension frequency
 				ArrayList<Double> delFreq = DataBaseController.getDelaysDurations(CSMsg.getEnm());
 				ObservableList<FrequencyDeviation> dekResultOL = c.freqDeviation(delFreq);
-				try{
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetDelaysFreq, dekResultOL.toArray()));
-				} catch(Exception e) {
+				try {
+					client.sendToClient(
+							new ClientServerMessage(Enums.MessageEnum.GetDelaysFreq, dekResultOL.toArray()));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
-			case GetAddonsStat:
+			case GetAddonsStat:// if get addons statistic
 				ArrayList<Double> addList = DataBaseController.getAllAddons();
 				ArrayList<Double> addonStatRes = c.calcAll(addList);
 				try {
@@ -557,23 +545,24 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case GetAddonsFreq:
+			case GetAddonsFreq:// if get addons frequency
 				ArrayList<Double> addFreq = DataBaseController.getAllAddons();
 				ObservableList<FrequencyDeviation> addResultOL = c.freqDeviation(addFreq);
-				try{
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetAddonsFreq, addResultOL.toArray()));
-				} catch(Exception e) {
+				try {
+					client.sendToClient(
+							new ClientServerMessage(Enums.MessageEnum.GetAddonsFreq, addResultOL.toArray()));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
-			case REMOVEUSER:
+			case REMOVEUSER:// if remove user
 				boolean removed = DataBaseController.removeUser(CSMsg.getMsg());
-				try{
-					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.REMOVEUSER,removed));
-				}catch(Exception e){
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.REMOVEUSER, removed));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			case getPeriodReport:
+			case getPeriodReport:// if get periodic report
 				String[] s = (String[]) CSMsg.getArray();
 				ArrayList<Integer> peroid = DataBaseController.getActivityData(s);
 				try {
@@ -622,7 +611,7 @@ public class EchoServer extends AbstractServer {
 	 * Start.
 	 *
 	 * @param port the port
-	 * @return the int
+	 * @return 0 if successful, 1 if failed, 2 if no clients
 	 */
 	public static int Start(int port) {
 		if (DataBaseController.Connect() == false) {

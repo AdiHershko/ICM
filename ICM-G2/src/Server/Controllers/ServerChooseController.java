@@ -18,26 +18,25 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Alert.AlertType;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ServerChooseController.
+ * Controller for the server GUI (servergui.fxml)
  */
 public class ServerChooseController {
 
 	/** The ins. */
 	public static ServerChooseController _ins;
 	
-	/** The loading. */
+	/** The loading boolean. */
 	public static boolean loading = false;
 	
-	/** The connected. */
+	/** The connected boolean. */
 	public static boolean connected = false;
 	
-	/** The loadinganim. */
+	/** The loadingan image. */
 	private ImageView loadinganim;
 	
-	/** The hostfield. */
-	// components
+	/** The host text field. */
 	@FXML
 	private TextField hostfield;
 	
@@ -45,19 +44,19 @@ public class ServerChooseController {
 	@FXML
 	private Pane serverPane;
 
-	/** The portfield. */
+	/** The port text field. */
 	@FXML
 	private TextField portfield;
 
-	/** The dbfield. */
+	/** The db text field. */
 	@FXML
 	private TextField dbfield;
 
-	/** The unfield. */
+	/** The user name field. */
 	@FXML
 	private TextField unfield;
 
-	/** The passfield. */
+	/** The passwod field. */
 	@FXML
 	private TextField passfield;
 	
@@ -65,7 +64,7 @@ public class ServerChooseController {
 	@FXML
 	private TextField S_portField;
 
-	/** The connectbtn. */
+	/** The connection button. */
 	@FXML
 	private Button connectbtn;
 	
@@ -77,19 +76,18 @@ public class ServerChooseController {
 	@FXML
 	private Label sendingMessagesLabel;
 	
-	/** The loading anim. */
+	/** The loading animation. */
 	@FXML
 	private ImageView loadingAnim;
 
 	/**
-	 * Initialize.
+	 * Initialize the fxml.
 	 */
 	public void initialize() {
 		_ins = this;
 		loadinganim = new ImageView("loading.gif");
 	}
 
-	// getters and setters
 
 	/**
 	 * Gets the server pane.
@@ -119,108 +117,108 @@ public class ServerChooseController {
 	}
 
 	/**
-	 * Gets the hostfield.
+	 * Gets the host field.
 	 *
-	 * @return the hostfield
+	 * @return the host field
 	 */
 	public TextField getHostfield() {
 		return hostfield;
 	}
 
 	/**
-	 * Sets the hostfield.
+	 * Sets the host field.
 	 *
-	 * @param hostfield the new hostfield
+	 * @param hostfield the new host field
 	 */
 	public void setHostfield(TextField hostfield) {
 		this.hostfield = hostfield;
 	}
 
 	/**
-	 * Gets the portfield.
+	 * Gets the port field.
 	 *
-	 * @return the portfield
+	 * @return the port field
 	 */
 	public TextField getPortfield() {
 		return portfield;
 	}
 
 	/**
-	 * Sets the portfield.
+	 * Sets the port field.
 	 *
-	 * @param portfield the new portfield
+	 * @param portfield the new port field
 	 */
 	public void setPortfield(TextField portfield) {
 		this.portfield = portfield;
 	}
 
 	/**
-	 * Gets the dbfield.
+	 * Gets the db field.
 	 *
-	 * @return the dbfield
+	 * @return the db field
 	 */
 	public TextField getDbfield() {
 		return dbfield;
 	}
 
 	/**
-	 * Sets the dbfield.
+	 * Sets the db field.
 	 *
-	 * @param dbfield the new dbfield
+	 * @param dbfield the new db field
 	 */
 	public void setDbfield(TextField dbfield) {
 		this.dbfield = dbfield;
 	}
 
 	/**
-	 * Gets the unfield.
+	 * Gets the username field.
 	 *
-	 * @return the unfield
+	 * @return the username field
 	 */
 	public TextField getUnfield() {
 		return unfield;
 	}
 
 	/**
-	 * Sets the unfield.
+	 * Sets the username field.
 	 *
-	 * @param unfield the new unfield
+	 * @param unfield the new username field
 	 */
 	public void setUnfield(TextField unfield) {
 		this.unfield = unfield;
 	}
 
 	/**
-	 * Gets the passfield.
+	 * Gets the passwod field.
 	 *
-	 * @return the passfield
+	 * @return the passwod field
 	 */
 	public TextField getPassfield() {
 		return passfield;
 	}
 
 	/**
-	 * Sets the passfield.
+	 * Sets the passwod field.
 	 *
-	 * @param passfield the new passfield
+	 * @param passfield the new passwod field
 	 */
 	public void setPassfield(TextField passfield) {
 		this.passfield = passfield;
 	}
 
 	/**
-	 * Gets the connectbtn.
+	 * Gets the connect button.
 	 *
-	 * @return the connectbtn
+	 * @return the connect button
 	 */
 	public Button getConnectbtn() {
 		return connectbtn;
 	}
 
 	/**
-	 * Sets the connectbtn.
+	 * Sets the connect button.
 	 *
-	 * @param connectbtn the new connectbtn
+	 * @param connectbtn the new connect button
 	 */
 	public void setConnectbtn(Button connectbtn) {
 		this.connectbtn = connectbtn;
@@ -247,9 +245,9 @@ public class ServerChooseController {
 	// system connection
 
 	/**
-	 * Connect.
+	 * Connect button function.
 	 *
-	 * @param event the event
+	 * @param event the mouse click
 	 */
 	@FXML
 	void connect(ActionEvent event) {
@@ -330,12 +328,11 @@ public class ServerChooseController {
 	}
 
 	/**
-	 * Disconnect.
+	 * Disconnect server (for button and window close).
 	 */
 	public void disconnect() {
 		System.exit(1);
 	}
-	// tracking server choice
 
 	/**
 	 * Sets the choice box.
@@ -378,18 +375,18 @@ public class ServerChooseController {
 	}
 
 	/**
-	 * Gets the loading anim.
+	 * Gets the loading animation.
 	 *
-	 * @return the loading anim
+	 * @return the loading animation
 	 */
 	public ImageView getLoadingAnim() {
 		return loadingAnim;
 	}
 
 	/**
-	 * Sets the loading anim.
+	 * Sets the loading animation.
 	 *
-	 * @param loadingAnim the new loading anim
+	 * @param loadingAnim the new loading animation
 	 */
 	public void setLoadingAnim(ImageView loadingAnim) {
 		this.loadingAnim = loadingAnim;

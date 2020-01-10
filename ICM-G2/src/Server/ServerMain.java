@@ -12,13 +12,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ServerConsole.
  */
 public class ServerMain extends Application {
 	
-	/** The init. */
+	/** The ins. */
 	public static ServerMain _init;
 	
 	/** The root. */
@@ -32,10 +31,10 @@ public class ServerMain extends Application {
 
 
 	/**
-	 * Start.
+	 * Start, getting the fxml.
 	 *
-	 * @param stage the stage
-	 * @throws Exception the exception
+	 * @param stage the GUI stage
+	 * @throws Exception
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -70,7 +69,7 @@ public class ServerMain extends Application {
 	/**
 	 * The main method.
 	 *
-	 * @param args the arguments
+	 * @param args the main arguments
 	 */
 	public static void main(String[] args) {
 		launch(args);

@@ -9,9 +9,9 @@ import Common.Request;
 import Common.Stage;
 import Common.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EmailMessage.
+ * Entity for the email we send in the system.
  */
 public class EmailMessage {
 	
@@ -21,7 +21,7 @@ public class EmailMessage {
 	/** The body. */
 	private String body;
 	
-	/** The reciever. */
+	/** The receiver. */
 	private String reciever;
 	
 	/** The cc. */
@@ -163,7 +163,7 @@ public class EmailMessage {
 	}
 
 	/**
-	 * Builds the 24 h stage msg.
+	 * Builds the 24h from stage due date message.
 	 */
 	public void build24hStageMsg() {
 		reciever = receiverUser.getMail();
@@ -178,7 +178,7 @@ public class EmailMessage {
 	}
 
 	/**
-	 * Builds the exception msg.
+	 * Builds the exception in dates message.
 	 */
 	public void buildExceptionMsg() {
 		reciever = receiverUser.getMail();
@@ -194,7 +194,7 @@ public class EmailMessage {
 	}
 
 	/**
-	 * Builds the extension msg.
+	 * Builds the extension ask message.
 	 */
 	public void buildExtensionMsg() {
 		int currstageNum = Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage());
@@ -214,7 +214,7 @@ public class EmailMessage {
 	}
 
 	/**
-	 * Builds the closing msg.
+	 * Builds the closing request message.
 	 */
 	public void buildClosingMsg() {
 		reciever = receiverUser.getMail();

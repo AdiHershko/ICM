@@ -7,9 +7,9 @@ import Common.FrequencyDeviation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Calculator.
+ * To calculate the statistics on an ArrayList on values.
  */
 public class Calculator {
 	
@@ -17,9 +17,9 @@ public class Calculator {
 	private static Calculator _ins;
 
 	/**
-	 * Gets the instannce.
+	 * Gets the instance.
 	 *
-	 * @return the instannce
+	 * @return the instance
 	 */
 	public static Calculator getInstannce() {
 		if (_ins == null)
@@ -75,7 +75,7 @@ public class Calculator {
 	}
 
 	/**
-	 * Calc all.
+	 * Calculate sum, median and deviation.
 	 *
 	 * @param list the list
 	 * @return the array list
@@ -89,7 +89,7 @@ public class Calculator {
 	}
 
 	/**
-	 * Freq deviation.
+	 * Frequency deviation.
 	 *
 	 * @param list the list
 	 * @return the observable list

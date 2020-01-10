@@ -35,8 +35,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 
 /**
- * The Class ChatClient. Handles the server connection from the server side, and
- * the server messages.
+ * The Class ChatClient.
+ * Handles the server connection from the client side, and the server messages.
  */
 public class ChatClient extends AbstractClient {
 

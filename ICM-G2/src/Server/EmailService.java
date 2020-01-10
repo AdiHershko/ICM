@@ -14,9 +14,9 @@ import com.sun.mail.smtp.SMTPTransport;
 import Server.Controllers.ServerChooseController;
 import javafx.application.Platform;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EmailService.
+ * Used to send emails.
  */
 public class EmailService {
 	
@@ -32,7 +32,7 @@ public class EmailService {
 	/** The password. */
 	private String PASSWORD;
 	
-	/** The from. */
+	/** The from (in the message). */
 	private String FROM;
 
 	/**
@@ -117,9 +117,9 @@ public class EmailService {
 	}
 
 	/**
-	 * Gets the instannce.
+	 * Gets the instance.
 	 *
-	 * @return the instannce
+	 * @return the instance
 	 */
 	public static EmailService getInstannce() {
 		if (_ins == null)
