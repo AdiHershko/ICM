@@ -87,6 +87,10 @@ public class RequestSettingsController {
 	@FXML
 	private Label requestIDLabel;
 	
+	/** The request stage label. */
+	@FXML
+	private Label requestStageLabel;
+	
 	/** The done button. */
 	@FXML
 	private Button doneButton;
@@ -145,6 +149,7 @@ public class RequestSettingsController {
 	 */
 	public void setScreen() {
 		requestIDLabel.setText("" + currentRequest.getId());
+		requestStageLabel.setText("" + currentRequest.getCurrentStage());
 		if (currentRequest.getStages()[1].getPlannedDueDate() != null)
 			getAssesmentDueDateText().setPromptText(
 					new DateTime(currentRequest.getStages()[1].getPlannedDueDate()).toString("dd/MM/yyyy"));

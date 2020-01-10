@@ -97,17 +97,21 @@
                   <Label fx:id="stageLabel" layoutX="286.0" layoutY="14.0" text="stage" />
                   <Label fx:id="statusLabel" layoutX="288.0" layoutY="40.0" text="status" />
                   <Label fx:id="timeCreatedLabel" layoutX="388.0" layoutY="14.0" text="Time Created" />
-                  <Label fx:id="requestorLabel" layoutX="388.0" layoutY="40.0" text="Requestor:" />
+                  <Label fx:id="requestorLabel" layoutX="388.0" layoutY="40.0" text="Requester:" />
                   <Label fx:id="stageDate1" layoutX="9.0" layoutY="398.0" text="Current Stage Due Date:" />
-                  <Label fx:id="uploadedFilesLabel" layoutX="10.0" layoutY="370.0" text="Files Uploaded: none" />
-                  <Button fx:id="viewFilesButton" layoutX="229.0" layoutY="364.0" mnemonicParsing="false" onAction="#viewFiles" text="View files" />
+                  <Button fx:id="viewFilesButton" layoutX="93.0" layoutY="368.0" mnemonicParsing="false" onAction="#viewFiles" text="View files" />
                </children>
             </Pane>
             <Pane fx:id="CUserOpenRequest1" prefHeight="508.0" prefWidth="870.0" visible="false">
                <children>
                   <Button layoutX="343.0" layoutY="447.0" mnemonicParsing="false" onAction="#submitNewRequest" text="Submit New Request" />
-                  <Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System:" wrappingWidth="40.552734375" />
-                  <ChoiceBox fx:id="choiceBox" layoutX="65.0" layoutY="23.0" prefWidth="150.0" />
+                  <Text layoutX="10.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System:" wrappingWidth="40.552734375" />
+                  <ChoiceBox fx:id="choiceBox" layoutX="60.0" layoutY="37.0" prefWidth="150.0" />
+                  <Label layoutX="10.0" layoutY="8.0" text="New request form:" textFill="#0f90db">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
             <Text layoutX="10.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current state descreption:" />

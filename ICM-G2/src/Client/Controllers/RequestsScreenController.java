@@ -316,10 +316,6 @@ public class RequestsScreenController {
 	@FXML
 	private Label stageDate1;
 	
-	/** The uploaded files label. */
-	@FXML
-	private Label uploadedFilesLabel;
-	
 	/** The stages settings button. */
 	@FXML
 	private Button stagesSettingsButton;
@@ -576,7 +572,7 @@ public class RequestsScreenController {
 	/**
 	 * Upload file to server for a new request.
 	 *
-	 * @param r the r
+	 * @param r the request
 	 */
 	public void uploadFileToServer_NewRequest(Request r) {
 		if (filePathTextField.getText().equals(""))
@@ -735,9 +731,10 @@ public class RequestsScreenController {
 			systemLabel.setText(r.getSystem().toString());
 			stageLabel.setText(r.getCurrentStage().toString());
 			statusLabel.setText(r.getStatus().toString());
-			filePathTextField.setText("");
-			uploadedFilesLabel.setText("Uploaded files: none");
-			showUploadedFiles(r);
+			if (true)//TODO: condition?
+				viewFilesButton.setVisible(true);
+			else
+				viewFilesButton.setVisible(false);
 			if (ClientMain.currentUser.getRole() == Enums.Role.Supervisor
 					|| ClientMain.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
@@ -762,7 +759,7 @@ public class RequestsScreenController {
 	/**
 	 * Show request by stage, for IS users.
 	 *
-	 * @param r the r
+	 * @param r the request
 	 */
 	public void showRequestByStage(Request r) {
 		switch (r.getCurrentStage()) {
@@ -1047,43 +1044,6 @@ public class RequestsScreenController {
 		newWindow.close();
 		RefreshTable();
 		tableView.getSelectionModel().select(index);
-	}
-
-	/**
-	 * Show uploaded files.
-	 *
-	 * @param r the request
-	 */
-	public void showUploadedFiles(Request r) {
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				filesPaths = new ArrayList<String>();
-			}
-		}).start();
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-
-		}
-		if (filesPaths.size() == 0) {
-			uploadedFilesLabel.setText("Uploaded files: none");
-			return;
-		}
-		filesPaths.remove(0); // removing folder path
-		uploadedFilesLabel.setText("Uploaded files: ");
-		for (String s : filesPaths) // change file path /\
-		{
-			char[] ch = s.toCharArray();
-			for (int i = 0; i < ch.length; i++)
-				if (ch[i] == '\\')
-					ch[i] = '/';
-			String str = String.valueOf(ch);
-			String[] str2 = str.split("/");
-
-			uploadedFilesLabel.setText(uploadedFilesLabel.getText() + str2[str2.length - 1] + ",");
-		}
 	}
 
 	/**
