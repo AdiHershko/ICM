@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 import Common.Enums.RequestStageENUM;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Stage.
+ * Entity for the request stage in our DB.
  */
 public class Stage implements Serializable {
 	
@@ -32,10 +32,10 @@ public class Stage implements Serializable {
 	/** The extension ask. */
 	private String extensionAsk;
 	
-	/** The is approved. */
+	/** The is approved boolean. */
 	private Boolean isApproved;
 	
-	/** The is extended. */
+	/** The is extended boolean. */
 	private Boolean isExtended;
 	
 	/** The stage members. */
@@ -51,7 +51,7 @@ public class Stage implements Serializable {
 	private int daysOfExtension;
 
 	/**
-	 * Instantiates a new stage.
+	 * Instantiates a new stage, .
 	 */
 	public Stage() {
 

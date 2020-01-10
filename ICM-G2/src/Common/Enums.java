@@ -1,8 +1,8 @@
 package Common;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Enums.
+ * Here we state the defines and the enums we use in our system.
  */
 public class Enums {
 
@@ -11,186 +11,38 @@ public class Enums {
 
 	/** The Constant numberOfStages. */
 	public final static int numberOfStages = 6;
-	
+
 	/** The Constant numberOfCommitteeMember. */
 	public final static int numberOfCommitteeMember = 2;
 
 	/**
-	 * The Enum MessageEnum.
+	 * The Message Enum.
 	 */
 	public enum MessageEnum {
-		
-		/** The connect. */
-		CONNECT, 
- /** The Search user. */
- SearchUser, 
- /** The Login fail. */
- LoginFail, 
- /** The login good. */
- loginGood, 
- /** The disconnect. */
- DISCONNECT, 
- /** The upload. */
- UPLOAD, 
- /** The uploadfinish. */
- UPLOADFINISH, 
- /** The getoblist. */
- GETOBLIST, 
- /** The Update stage. */
- UpdateStage,
-		
-		/** The Create request. */
-		CreateRequest, 
- /** The New request ID. */
- NewRequestID, 
- /** The refreshman. */
- REFRESHMAN, 
- /** The Create report. */
- CreateReport, 
- /** The getuserfiles. */
- GETUSERFILES, 
- /** The stagesscreen. */
- STAGESSCREEN, 
- /** The Search report. */
- SearchReport, 
- /** The Update status. */
- UpdateStatus,
-		
-		/** The Freeze. */
-		Freeze, 
- /** The Unfreeze. */
- Unfreeze, 
- /** The Update request details. */
- UpdateRequestDetails, 
- /** The down stage. */
- downStage, 
- /** The Get comitte. */
- GetComitte, 
- /** The Comitte list. */
- ComitteList, 
- /** The Appoint stage handlers. */
- AppointStageHandlers, 
- /** The addisuser. */
- ADDISUSER,
-		
-		/** The getisuser. */
-		GETISUSER, 
- /** The updateisuser. */
- UPDATEISUSER, 
- /** The checksupervisorexist. */
- CHECKSUPERVISOREXIST, 
- /** The countcommiteemembers. */
- COUNTCOMMITEEMEMBERS, 
- /** The checkchairmanexist. */
- CHECKCHAIRMANEXIST, 
- /** The decline request. */
- declineRequest, 
- /** The log out. */
- logOut,
-		
-		/** The trying to log same time. */
-		tryingToLogSameTime, 
- /** The editassesmenter. */
- EDITASSESMENTER, 
- /** The editexecutioner. */
- EDITEXECUTIONER, 
- /** The Tester rep. */
- TesterRep, 
- /** The setassesmentdate. */
- SETASSESMENTDATE, 
- /** The approveassextension. */
- APPROVEASSEXTENSION,
-		
-		/** The setexamdate. */
-		SETEXAMDATE, 
- /** The setexecmdate. */
- SETEXECMDATE, 
- /** The settestdate. */
- SETTESTDATE, 
- /** The refreshcollege. */
- REFRESHCOLLEGE, 
- /** The refreshis. */
- REFRESHIS, 
- /** The edittester. */
- EDITTESTER, 
- /** The askforextension. */
- ASKFOREXTENSION,
-		
-		/** The Cannot update stage. */
-		CannotUpdateStage, 
- /** The Un freeze rejected. */
- UnFreezeRejected, 
- /** The getmaxreqid. */
- GETMAXREQID, 
- /** The getfilefromserver. */
- GETFILEFROMSERVER, 
- /** The getallreports. */
- GETALLREPORTS, 
- /** The getreportslist. */
- GETREPORTSLIST,
-		
-		/** The getallrequests. */
-		GETALLREQUESTS, 
- /** The getrequestslist. */
- GETREQUESTSLIST, 
- /** The getallstages. */
- GETALLSTAGES, 
- /** The getstageslist. */
- GETSTAGESLIST, 
- /** The getallusers. */
- GETALLUSERS, 
- /** The getuserslist. */
- GETUSERSLIST, 
- /** The Get extension freq. */
- GetExtensionFreq,
-		
-		/** The Get extension stat. */
-		GetExtensionStat, 
- /** The Get delays stat. */
- GetDelaysStat, 
- /** The Get delays freq. */
- GetDelaysFreq, 
- /** The Get addons stat. */
- GetAddonsStat, 
- /** The Get addons freq. */
- GetAddonsFreq, 
- /** The getallmessages. */
- GETALLMESSAGES, 
- /** The getsupervisorlog. */
- GETSUPERVISORLOG,
-		
-		/** The getmessageslist. */
-		GETMESSAGESLIST, 
- /** The getsupervisorloglist. */
- GETSUPERVISORLOGLIST, 
- /** The get period report. */
- getPeriodReport, 
- /** The Statistics. */
- Statistics, 
- /** The removeuser. */
- REMOVEUSER;
+
+		CONNECT, SearchUser, LoginFail, loginGood, DISCONNECT, UPLOAD, UPLOADFINISH, GETOBLIST, UpdateStage,
+		CreateRequest, NewRequestID, REFRESHMAN, CreateReport, GETUSERFILES, STAGESSCREEN, SearchReport, UpdateStatus,
+		Freeze, Unfreeze, UpdateRequestDetails, downStage, GetComitte, ComitteList, AppointStageHandlers, ADDISUSER,
+		GETISUSER, UPDATEISUSER, CHECKSUPERVISOREXIST, COUNTCOMMITEEMEMBERS, CHECKCHAIRMANEXIST, declineRequest, logOut,
+		tryingToLogSameTime, EDITASSESMENTER, EDITEXECUTIONER, TesterRep, SETASSESMENTDATE, APPROVEASSEXTENSION,
+		SETEXAMDATE, SETEXECMDATE, SETTESTDATE, REFRESHCOLLEGE, REFRESHIS, EDITTESTER, ASKFOREXTENSION,
+		CannotUpdateStage, UnFreezeRejected, GETMAXREQID, GETFILEFROMSERVER, GETALLREPORTS, GETREPORTSLIST,
+		GETALLREQUESTS, GETREQUESTSLIST, GETALLSTAGES, GETSTAGESLIST, GETALLUSERS, GETUSERSLIST, GetExtensionFreq,
+		GetExtensionStat, GetDelaysStat, GetDelaysFreq, GetAddonsStat, GetAddonsFreq, GETALLMESSAGES, GETSUPERVISORLOG,
+		GETMESSAGESLIST, GETSUPERVISORLOGLIST, getPeriodReport, Statistics, REMOVEUSER;
 	}
 
 	/**
-	 * The Enum RequestStatus.
+	 * The RequestStatus enum.
 	 */
 	public enum RequestStatus {
-		
-		/** The Active. */
-		Active, 
- /** The Closed. */
- Closed, 
- /** The Frozen. */
- Frozen, 
- /** The Rejected. */
- Rejected, 
- /** The Rejected closed. */
- RejectedClosed;
-		
+
+		Active, Closed, Frozen, Rejected, RejectedClosed;
+
 		/**
 		 * Gets the status by int.
 		 *
-		 * @param i the i
+		 * @param i the number
 		 * @return the status by int
 		 */
 		public static RequestStatus getStatusByInt(int i) {
@@ -212,7 +64,7 @@ public class Enums {
 		/**
 		 * Gets the request status by enum.
 		 *
-		 * @param i the i
+		 * @param i the request status enum
 		 * @return the request status by enum
 		 */
 		public static int getRequestStatusByEnum(RequestStatus i) {
@@ -233,29 +85,16 @@ public class Enums {
 	}
 
 	/**
-	 * The Enum SystemENUM.
+	 * The System ENUM.
 	 */
 	public enum SystemENUM {
-		
-		/** The All. */
-		All, 
- /** The Info station. */
- InfoStation, 
- /** The Moodle. */
- Moodle, 
- /** The Library. */
- Library, 
- /** The Computers. */
- Computers, 
- /** The Labs. */
- Labs, 
- /** The Site. */
- Site;
-		
+
+		All, InfoStation, Moodle, Library, Computers, Labs, Site;
+
 		/**
 		 * Gets the system by int.
 		 *
-		 * @param i the i
+		 * @param i the number
 		 * @return the system by int
 		 */
 		public static SystemENUM getSystemByInt(int i) {
@@ -279,7 +118,7 @@ public class Enums {
 		/**
 		 * Gets the system by string.
 		 *
-		 * @param s the s
+		 * @param s the string
 		 * @return the system by string
 		 */
 		public static SystemENUM getSystemByString(String s) {
@@ -303,7 +142,7 @@ public class Enums {
 		/**
 		 * Gets the system by enum.
 		 *
-		 * @param i the i
+		 * @param i the system enum
 		 * @return the system by enum
 		 */
 		public static int getSystemByEnum(SystemENUM i) {
@@ -327,27 +166,16 @@ public class Enums {
 	}
 
 	/**
-	 * The Enum RequestStageENUM.
+	 * The Request Stage ENUM.
 	 */
 	public enum RequestStageENUM {
-		
-		/** The Initialization. */
-		Initialization, 
- /** The Assesment. */
- Assesment, 
- /** The Examaning. */
- Examaning, 
- /** The Execution. */
- Execution, 
- /** The Testing. */
- Testing, 
- /** The Closing. */
- Closing;
-		
+
+		Initialization, Assesment, Examaning, Execution, Testing, Closing;
+
 		/**
 		 * Gets the request stage ENUM.
 		 *
-		 * @param i the i
+		 * @param i the number
 		 * @return the request stage ENUM
 		 */
 		public static RequestStageENUM getRequestStageENUM(int i) {
@@ -369,9 +197,9 @@ public class Enums {
 		}
 
 		/**
-		 * Gets the request stage ENUM by enum.
+		 * Gets the request stage int by enum.
 		 *
-		 * @param i the i
+		 * @param i the stage enum
 		 * @return the request stage ENUM by enum
 		 */
 		public static int getRequestStageENUMByEnum(RequestStageENUM i) {
@@ -394,27 +222,16 @@ public class Enums {
 	}
 
 	/**
-	 * The Enum Role.
+	 * The Role enum.
 	 */
 	public enum Role {
-		
-		/** The College. */
-		College, 
- /** The General IS. */
- GeneralIS, 
- /** The Committe chairman. */
- CommitteChairman, 
- /** The Committe member. */
- CommitteMember, 
- /** The Supervisor. */
- Supervisor, 
- /** The Manager. */
- Manager;
-		
+
+		College, GeneralIS, CommitteChairman, CommitteMember, Supervisor, Manager;
+
 		/**
 		 * Gets the role ENUM.
 		 *
-		 * @param i the i
+		 * @param i the int
 		 * @return the role ENUM
 		 */
 		public static Role getRoleENUM(int i) {
@@ -438,7 +255,7 @@ public class Enums {
 		/**
 		 * Gets the role by enum.
 		 *
-		 * @param i the i
+		 * @param i the enum
 		 * @return the role by enum
 		 */
 		public static int getRoleByEnum(Role i) {

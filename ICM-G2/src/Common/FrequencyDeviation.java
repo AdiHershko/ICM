@@ -2,9 +2,9 @@ package Common;
 
 import java.io.Serializable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FrequencyDeviation.
+ * Value and frequency for the statis reports class.
  */
 public class FrequencyDeviation implements Serializable {
 
@@ -14,14 +14,14 @@ public class FrequencyDeviation implements Serializable {
 	/** The value. */
 	private double value;
 	
-	/** The freq. */
+	/** The frequency. */
 	private int freq;
 
 	/**
 	 * Instantiates a new frequency deviation.
 	 *
 	 * @param value the value
-	 * @param freq the freq
+	 * @param freq the frequency
 	 */
 	public FrequencyDeviation(double value, int freq) {
 		this.value = value;
@@ -29,18 +29,18 @@ public class FrequencyDeviation implements Serializable {
 	}
 
 	/**
-	 * Gets the freq.
+	 * Gets the frequency.
 	 *
-	 * @return the freq
+	 * @return the frequency
 	 */
 	public int getFreq() {
 		return freq;
 	}
 
 	/**
-	 * Sets the freq.
+	 * Sets the frequency.
 	 *
-	 * @param freq the new freq
+	 * @param freq the new frequency
 	 */
 	public void setFreq(int freq) {
 		this.freq = freq;

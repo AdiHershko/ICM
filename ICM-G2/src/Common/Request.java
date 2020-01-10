@@ -6,9 +6,9 @@ import org.joda.time.DateTime;
 
 import Common.Enums.*;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Request.
+ * Entity for the request in our DB.
  */
 public class Request implements Serializable {
 
@@ -18,7 +18,7 @@ public class Request implements Serializable {
 	/** The id. */
 	private int id;
 	
-	/** The requestor ID. */
+	/** The requester ID. */
 	private String requestorID;
 	
 	/** The system. */
@@ -64,7 +64,7 @@ public class Request implements Serializable {
 	 * Instantiates a new request.
 	 *
 	 * @param id the id
-	 * @param requestorID the requestor ID
+	 * @param requestorID the requester ID
 	 * @param system the system
 	 * @param description the description
 	 * @param changes the changes
@@ -90,7 +90,7 @@ public class Request implements Serializable {
 	 * Instantiates a new request.
 	 *
 	 * @param id the id
-	 * @param requestorID the requestor ID
+	 * @param requestorID the requester ID
 	 * @param system the system
 	 * @param description the description
 	 * @param changes the changes
@@ -156,9 +156,9 @@ public class Request implements Serializable {
 	}
 
 	/**
-	 * Gets the requestor ID.
+	 * Gets the requester ID.
 	 *
-	 * @return the requestor ID
+	 * @return the requester ID
 	 */
 	public String getRequestorID() {
 		return requestorID;
@@ -201,9 +201,9 @@ public class Request implements Serializable {
 	}
 
 	/**
-	 * Sets the requestor ID.
+	 * Sets the requester ID.
 	 *
-	 * @param requestorID the new requestor ID
+	 * @param requestorID the new requester ID
 	 */
 	public void setRequestorID(String requestorID) {
 		this.requestorID = requestorID;

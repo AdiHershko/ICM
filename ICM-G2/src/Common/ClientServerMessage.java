@@ -7,9 +7,10 @@ import java.util.List;
 
 import Common.Enums.*;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ClientServerMessage.
+ * Entities for our client-server messages.
+ * This is the main object we send.
  */
 public class ClientServerMessage implements Serializable {
 
@@ -19,7 +20,7 @@ public class ClientServerMessage implements Serializable {
 	/** The type. */
 	private MessageEnum type;
 	
-	/** The msg. */
+	/** The message. */
 	private String msg;
 	
 	/** The user. */
@@ -34,13 +35,13 @@ public class ClientServerMessage implements Serializable {
 	/** The file name. */
 	private String fileName;
 	
-	/** The bis. */
+	/** The buffered input stream. */
 	private BufferedInputStream bis;
 	
 	/** The buffer. */
 	private byte[] buffer;
 	
-	/** The uploadstatus. */
+	/** The upload status. */
 	private boolean uploadstatus;
 	
 	/** The array. */
@@ -55,19 +56,19 @@ public class ClientServerMessage implements Serializable {
 	/** The report. */
 	private Report report;
 	
-	/** The l. */
+	/** The list. */
 	private List l;
 	
 	/** The search. */
 	private boolean search;
 	
-	/** The un active. */
+	/** The un-active boolean. */
 	private boolean unActive;
 	
-	/** The enm. */
+	/** The system enum. */
 	private SystemENUM enm;
 	
-	/** The boolarr. */
+	/** The boolean array. */
 	private boolean[] boolarr;
 
 	/**
@@ -107,18 +108,18 @@ public class ClientServerMessage implements Serializable {
 	}
 
 	/**
-	 * Checks if is uploadstatus.
+	 * Checks if is upload status.
 	 *
-	 * @return true, if is uploadstatus
+	 * @return true, if is upload successfully
 	 */
 	public boolean isUploadstatus() {
 		return uploadstatus;
 	}
 
 	/**
-	 * Sets the uploadstatus.
+	 * Sets the upload status.
 	 *
-	 * @param uploadstatus the new uploadstatus
+	 * @param uploadstatus the new upload status
 	 */
 	public void setUploadstatus(boolean uploadstatus) {
 		this.uploadstatus = uploadstatus;
@@ -134,18 +135,18 @@ public class ClientServerMessage implements Serializable {
 	}
 
 	/**
-	 * Gets the enm.
+	 * Gets the system enum.
 	 *
-	 * @return the enm
+	 * @return the system enum
 	 */
 	public SystemENUM getEnm() {
 		return enm;
 	}
 
 	/**
-	 * Sets the enm.
+	 * Sets the system enum.
 	 *
-	 * @param enm the new enm
+	 * @param enm the new system enum
 	 */
 	public void setEnm(SystemENUM enm) {
 		this.enm = enm;
@@ -155,7 +156,7 @@ public class ClientServerMessage implements Serializable {
 	 * Instantiates a new client server message.
 	 *
 	 * @param type the type
-	 * @param enm the enm
+	 * @param enm the system enum
 	 */
 	public ClientServerMessage(MessageEnum type, SystemENUM enm) {
 		this.type = type;
@@ -172,18 +173,18 @@ public class ClientServerMessage implements Serializable {
 	}
 
 	/**
-	 * Gets the l.
+	 * Gets the list.
 	 *
-	 * @return the l
+	 * @return the list
 	 */
 	public List getL() {
 		return l;
 	}
 
 	/**
-	 * Sets the l.
+	 * Sets the list.
 	 *
-	 * @param l the new l
+	 * @param l the new list
 	 */
 	public void setL(List l) {
 		this.l = l;
@@ -193,8 +194,8 @@ public class ClientServerMessage implements Serializable {
 	 * Instantiates a new client server message.
 	 *
 	 * @param type the type
-	 * @param id the id
-	 * @param msg the msg
+	 * @param id the request id
+	 * @param msg the message
 	 */
 	public ClientServerMessage(MessageEnum type, int id, String msg) {
 		this.type = type;
@@ -219,7 +220,7 @@ public class ClientServerMessage implements Serializable {
 	 * Instantiates a new client server message.
 	 *
 	 * @param type the type
-	 * @param l the l
+	 * @param l the list
 	 */
 	public ClientServerMessage(MessageEnum type, List l) {
 		this.type = type;
@@ -230,7 +231,7 @@ public class ClientServerMessage implements Serializable {
 	 * Instantiates a new client server message.
 	 *
 	 * @param type the type
-	 * @param id the id
+	 * @param id the request id
 	 */
 	public ClientServerMessage(MessageEnum type, int id) {
 		this.type = type;
@@ -266,7 +267,7 @@ public class ClientServerMessage implements Serializable {
 	 *
 	 * @param type the type
 	 * @param request the request
-	 * @param msg the msg
+	 * @param msg the message string
 	 */
 	public ClientServerMessage(MessageEnum type, Request request, String msg) {
 		this.type = type;
@@ -291,7 +292,7 @@ public class ClientServerMessage implements Serializable {
 	 * @param type the type
 	 * @param fileName the file name
 	 * @param buffer the buffer
-	 * @param reqid the reqid
+	 * @param reqid the request id
 	 */
 	public ClientServerMessage(MessageEnum type, String fileName, byte[] buffer, int reqid) {
 		this.type = type;
@@ -304,7 +305,7 @@ public class ClientServerMessage implements Serializable {
 	 * Instantiates a new client server message.
 	 *
 	 * @param type the type
-	 * @param sucess the sucess
+	 * @param sucess the boolean success
 	 */
 	public ClientServerMessage(MessageEnum type, boolean sucess) {
 		this.type = type;
@@ -407,7 +408,7 @@ public class ClientServerMessage implements Serializable {
 	 * @param msg the msg
 	 * @param id the id
 	 * @param search the search
-	 * @param unActive the un active
+	 * @param unActive the un-active boolean
 	 */
 	public ClientServerMessage(MessageEnum type, String msg, int id, boolean search, boolean unActive) {
 		this.type = type;
@@ -454,7 +455,7 @@ public class ClientServerMessage implements Serializable {
 	}
 
 	/**
-	 * Gets the bis.
+	 * Gets the Buffered Input Stream.
 	 *
 	 * @return the bis
 	 */
@@ -463,27 +464,27 @@ public class ClientServerMessage implements Serializable {
 	}
 
 	/**
-	 * Gets the boolarr.
+	 * Gets the boolean array.
 	 *
-	 * @return the boolarr
+	 * @return the boolean array
 	 */
 	public boolean[] getBoolarr() {
 		return boolarr;
 	}
 
 	/**
-	 * Sets the boolarr.
+	 * Sets the boolean array.
 	 *
-	 * @param boolarr the new boolarr
+	 * @param boolarr the new boolean array
 	 */
 	public void setBoolarr(boolean[] boolarr) {
 		this.boolarr = boolarr;
 	}
 
 	/**
-	 * Sets the bis.
+	 * Sets the Buffered Input Stream.
 	 *
-	 * @param bis the new bis
+	 * @param bis the new Buffered Input Stream
 	 */
 	public void setBis(BufferedInputStream bis) {
 		this.bis = bis;
@@ -625,18 +626,18 @@ public class ClientServerMessage implements Serializable {
 	}
 
 	/**
-	 * Checks if is un active.
+	 * Checks if is un-active.
 	 *
-	 * @return true, if is un active
+	 * @return true, if is un-active
 	 */
 	public boolean isUnActive() {
 		return unActive;
 	}
 
 	/**
-	 * Sets the un active.
+	 * Sets the un-active.
 	 *
-	 * @param unActive the new un active
+	 * @param unActive the new un-active status
 	 */
 	public void setUnActive(boolean unActive) {
 		this.unActive = unActive;

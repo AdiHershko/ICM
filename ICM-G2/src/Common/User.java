@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import Common.Enums.*;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class User.
+ * Entity for user in our DB.
  */
 public class User implements Serializable {
 

@@ -2,33 +2,32 @@ package Common;
 
 import java.io.Serializable;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class SupervisorLog.
+ * The Class SupervisorLog. The Entity for the Supervisor Log in our DB.
  */
 public class SupervisorLog implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6795167052444112778L;
-	
+
 	/** The request ID. */
 	private int requestID;
-	
+
 	/** The date. */
 	private String date;
-	
+
 	/** The field. */
 	private String field;
-	
+
 	/** The what change. */
 	private String whatChange;
 
 	/**
 	 * Instantiates a new supervisor log.
 	 *
-	 * @param requestID the request ID
-	 * @param date the date
-	 * @param field the field
+	 * @param requestID  the request ID
+	 * @param date       the date
+	 * @param field      the field
 	 * @param whatChange the what change
 	 */
 	public SupervisorLog(int requestID, String date, String field, String whatChange) {

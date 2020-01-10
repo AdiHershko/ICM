@@ -2,9 +2,9 @@ package Common;
 
 import java.io.Serializable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Report.
+ * Entity for the request assessment report in our DB.
  */
 public class Report implements Serializable {
 	
@@ -26,7 +26,7 @@ public class Report implements Serializable {
 	/** The risks. */
 	private String risks;
 	
-	/** The duration assesment. */
+	/** The duration assessment. */
 	private int durationAssesment;
 	
 	/** The request id. */
@@ -48,7 +48,7 @@ public class Report implements Serializable {
 	 * @param location the location
 	 * @param constrains the constrains
 	 * @param risks the risks
-	 * @param durationAssesment the duration assesment
+	 * @param durationAssesment the duration assessment
 	 */
 	public Report(int requestId, String description, String result, String location, String constrains, String risks,
 			int durationAssesment) {
@@ -171,18 +171,18 @@ public class Report implements Serializable {
 	}
 
 	/**
-	 * Gets the duration assesment.
+	 * Gets the duration assessment.
 	 *
-	 * @return the duration assesment
+	 * @return the duration assessment
 	 */
 	public int getDurationAssesment() {
 		return durationAssesment;
 	}
 
 	/**
-	 * Sets the duration assesment.
+	 * Sets the duration assessment.
 	 *
-	 * @param durationAssesment the new duration assesment
+	 * @param durationAssesment the new duration assessment
 	 */
 	public void setDurationAssesment(int durationAssesment) {
 		this.durationAssesment = durationAssesment;

@@ -2,9 +2,9 @@ package Common;
 
 import java.io.Serializable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Message.
+ * The Entity for the email message in our DB.
  */
 public class Message implements Serializable {
 
@@ -20,7 +20,7 @@ public class Message implements Serializable {
 	/** The details. */
 	private String details;
 	
-	/** The reciever. */
+	/** The receiver. */
 	private String reciever;
 
 	/**
@@ -29,7 +29,7 @@ public class Message implements Serializable {
 	 * @param requestID the request ID
 	 * @param title the title
 	 * @param details the details
-	 * @param reciever the reciever
+	 * @param reciever the receiver
 	 */
 	public Message(int requestID, String title, String details, String reciever) {
 		this.requestID = requestID;
@@ -93,18 +93,18 @@ public class Message implements Serializable {
 	}
 
 	/**
-	 * Gets the reciever.
+	 * Gets the receiver.
 	 *
-	 * @return the reciever
+	 * @return the receiver
 	 */
 	public String getReciever() {
 		return reciever;
 	}
 
 	/**
-	 * Sets the reciever.
+	 * Sets the receiver.
 	 *
-	 * @param reciever the new reciever
+	 * @param reciever the new receiver
 	 */
 	public void setReciever(String reciever) {
 		this.reciever = reciever;
