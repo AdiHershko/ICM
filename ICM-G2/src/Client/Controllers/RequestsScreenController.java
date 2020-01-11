@@ -187,6 +187,10 @@ public class RequestsScreenController {
 	/** The requester label. */
 	@FXML
 	private Label requestorLabel;
+	
+	/** The attached files label. */
+	@FXML
+	private Label attachedFilesLabel;
 
 	/** The user name label. */
 	@FXML
@@ -368,8 +372,10 @@ public class RequestsScreenController {
 	@FXML
 	private Button viewFilesButton;
 
+	/** The "show files" boolean. */
 	private boolean showFiles=false;
 
+	/** The semaphore for show files. */
 	private boolean semaphore = true;
 
 	/**
@@ -690,8 +696,9 @@ public class RequestsScreenController {
 			commentsArea.setText(r.getComments());
 			requestIDLabel.setText("" + r.getId());
 			viewFilesButton.setVisible(false);
-			semaphore=true;
-			showFiles=false;
+			attachedFilesLabel.setVisible(false);
+			semaphore = true;
+			showFiles = false;
 			String temp = r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage())]
 					.getPlannedDueDate();
 			if (ClientMain.currentUser.getRole() == Enums.Role.College) {
@@ -745,8 +752,10 @@ public class RequestsScreenController {
 					Thread.sleep(100);
 				}catch(InterruptedException e) { }
 			}
-			if (showFiles)
+			if (showFiles) {
 				viewFilesButton.setVisible(true);
+				attachedFilesLabel.setVisible(true);
+			}
 			if (ClientMain.currentUser.getRole() == Enums.Role.Supervisor
 					|| ClientMain.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
@@ -1002,7 +1011,7 @@ public class RequestsScreenController {
 	 */
 	public void AssessmentReportPage() {
 		if (ClientMain.currentUser.getRole() != Enums.Role.Supervisor && ClientMain.currentUser.getRole() != Enums.Role.Manager) {
-			if (setDueTime1.getText().equals("")) {
+			if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment && setDueTime1.getText().equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
 				alert.setContentText("You must set time stage before starting stage.");

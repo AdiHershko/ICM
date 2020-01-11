@@ -1032,6 +1032,9 @@ public class DataBaseController {
 					e.printStackTrace();
 				}
 			}
+			if (users.size()==0) {//if nobody supports the system, get committee chairman
+				users.add(getChairman());
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
