@@ -32,6 +32,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -40,10 +41,10 @@ import javafx.stage.Stage;
  * Controller for 3.2-ManagerStatistics.fxml.
  */
 public class ManagerStatisticsController {
-	
+
 	/** The ins. */
 	public static ManagerStatisticsController _ins;
-	
+
 	/** The date label. */
 	@FXML
 	private Label dateLabel;
@@ -143,11 +144,11 @@ public class ManagerStatisticsController {
 	/** The delays pane. */
 	@FXML
 	private Pane delaysPane;
-	
+
 	/** The delays inner pane. */
 	@FXML
 	private Pane delaysInnerPane;
-	
+
 	/** The system ChoiceBox for delays report. */
 	@FXML
 	private ChoiceBox<SystemENUM> systemCB = new ChoiceBox<SystemENUM>();
@@ -182,10 +183,10 @@ public class ManagerStatisticsController {
 
 	/** The series for the graph. */
 	static XYChart.Series series;
-	
+
 	/** The first series for the graph. */
 	static XYChart.Series series1;
-	
+
 	/** The second series for the graph. */
 	static XYChart.Series series2;
 
@@ -200,14 +201,19 @@ public class ManagerStatisticsController {
 	/** The extensions table. */
 	@FXML
 	public TableView<FrequencyDeviation> extensionsTable;
-	
+
 	/** The addons table. */
 	@FXML
 	public TableView<FrequencyDeviation> addonsTable;
-	
+
 	/** The delays table. */
 	@FXML
 	public TableView<FrequencyDeviation> delaysTable;
+
+	@FXML
+	private Pane mainPane;
+
+	private boolean loadingsem;
 
 	/**
 	 * Gets the extensions table.
@@ -393,6 +399,9 @@ public class ManagerStatisticsController {
 		}
 		if (dt1.isBefore(dt2)) {
 			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getPeriodReport, s));
+			loadingsem=true;
+			Thread t = new Thread(new showLoading());
+			t.start();
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Wrong input");
@@ -627,4 +636,43 @@ public class ManagerStatisticsController {
 	public static void setSeries2(XYChart.Series series2) {
 		ManagerStatisticsController.series2 = series2;
 	}
+
+
+
+	public boolean isLoadingsem() {
+		return loadingsem;
+	}
+
+	public void setLoadingsem(boolean loadingsem) {
+		this.loadingsem = loadingsem;
+	}
+
+
+
+	private class showLoading implements Runnable{
+
+		@Override
+		public void run() {
+			ImageView loadinganim = new ImageView("loading.gif");
+			//loadinganim.setX(mainPane.getWidth() / 2 + 400);
+		//	loadinganim.setY(mainPane.getHeight() / 2);
+			loadinganim.setScaleX(0.2);
+			loadinganim.setScaleY(0.2);
+			loadinganim.setVisible(true);
+			Platform.runLater(() -> periodReportDate.getChildren().add(loadinganim));
+			while (loadingsem)
+			{
+				try{
+					Thread.sleep(100);
+				}catch(InterruptedException e){
+				}
+			}
+
+			Platform.runLater(() -> periodReportDate.getChildren().remove(loadinganim));
+
+		}
+
+	}
+
+
 }

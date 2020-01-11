@@ -598,6 +598,7 @@ public class ChatClient extends AbstractClient {
 						ManagerStatisticsController._ins.updatePeropd(arr12);
 					}
 				});
+				ManagerStatisticsController._ins.setLoadingsem(false);
 				return;
 			case SHOWFILES:
 				if (((ClientServerMessage)msg).isUploadstatus()){
