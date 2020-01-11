@@ -41,6 +41,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -190,7 +191,7 @@ public class RequestsScreenController {
 	
 	/** The attached files label. */
 	@FXML
-	private Label attachedFilesLabel;
+	private Text attachedFilesLabel;
 
 	/** The user name label. */
 	@FXML
