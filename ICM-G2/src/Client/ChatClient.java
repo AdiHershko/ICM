@@ -570,7 +570,7 @@ public class ChatClient extends AbstractClient {
 								.add(ManagerStatisticsController._ins.getSeries2());
 					}
 				});
-
+				ManagerStatisticsController._ins.setLoadingsem(false);
 				break;
 			case REMOVEUSER:// if response for user removale request
 				if (((ClientServerMessage) msg).isUploadstatus()) {

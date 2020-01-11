@@ -26,6 +26,7 @@ import Server.Controllers.ServerChooseController;
 import Common.Message;
 import Common.Report;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class DataBaseController.
  * Handles all the SQL Data Base queries and functions.
@@ -91,9 +92,24 @@ public class DataBaseController {
 			return false;
 		}
 		emailService = EmailService.getInstannce();
+		setAllDisconnected();
 		return true;
 	}
 
+	/**
+	 * Sets the all disconnected.
+	 */
+	public static void setAllDisconnected() {
+		String query = "update Users set isLoggedIn=0";
+		PreparedStatement st;
+		try {
+			st = c.prepareStatement(query);
+			st.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Adds the IS user.
 	 *
@@ -250,7 +266,7 @@ public class DataBaseController {
 	/**
 	 * Change request to closed.
 	 *
-	 * @param id the request id
+	 * @param Id the id
 	 */
 	public static void changeReqToClosed(int Id) {
 		String query = "UPDATE Requests SET Stage = 5 WHERE ID =" + Id;
@@ -275,7 +291,7 @@ public class DataBaseController {
 	/**
 	 * Change request to rejected.
 	 *
-	 * @param id the request id
+	 * @param Id the id
 	 */
 	public static void changeToRejected(int Id) {
 		String query = "UPDATE Stages SET `ReportFailure` = 'Rejected' WHERE (`StageName` = '5') and (`RequestID` = '"
@@ -1824,6 +1840,7 @@ public class DataBaseController {
 		int active = 0, closed = 0, frozen = 0, rejected = 0;
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 		DateTime dt1 = null, dt2 = null;
+		int durations = 0;
 		try {
 			dt1 = dtf.parseDateTime(arr[0]);
 			dt2 = dtf.parseDateTime(arr[1]);
@@ -1832,16 +1849,21 @@ public class DataBaseController {
 		String query = "select * from Requests";
 		ObservableList<Request> olist = getRequests(query);
 		for (int i = 0; i < olist.size(); i++) {
-			if (olist.get(i).getDate().isAfter(dt1) && olist.get(i).getDate().isBefore(dt2)) {
-				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Active))
+			Request r = olist.get(i);
+			if (r.getDate().isAfter(dt1) && r.getDate().isBefore(dt2)) {
+				if (r.getStatus().equals(Enums.RequestStatus.Active))
 					active++;
-				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Closed))
+				if (r.getStatus().equals(Enums.RequestStatus.Closed))
 					closed++;
-				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Frozen))
+				if (r.getStatus().equals(Enums.RequestStatus.Frozen))
 					frozen++;
-				if (olist.get(i).getStatus().equals(Enums.RequestStatus.Rejected)
-						|| olist.get(i).getStatus().equals(Enums.RequestStatus.RejectedClosed))
+				if (r.getStatus().equals(Enums.RequestStatus.Rejected)
+						|| r.getStatus().equals(Enums.RequestStatus.RejectedClosed))
 					rejected++;
+				DateTime openingDate = new DateTime(r.getDate());
+				DateTime closingDate = new DateTime(r.getStages()[5].getActualDate());
+				Duration dur = new Duration(openingDate, closingDate);
+				durations += (int) dur.getStandardDays();
 			}
 
 		}
@@ -1850,31 +1872,8 @@ public class DataBaseController {
 		l.add(closed);
 		l.add(frozen);
 		l.add(rejected);
-		int results = DataBaseController.getDurations();
-		l.add(results);
+		l.add(durations);
 		return l;
-	}
-
-	/**
-	 * Gets the request total durations.
-	 *
-	 * @return the request total durations
-	 */
-	public static int getDurations() {
-		int resultss = 0;
-		String query = "select * from Requests";
-		ObservableList<Request> listo = getRequests(query);
-		ArrayList<Integer> res = new ArrayList<>();
-		for (Request r : listo) {
-			DateTime openingDate = new DateTime(r.getDate());
-			DateTime closingDate = new DateTime(r.getStages()[5].getActualDate());
-			Duration dur = new Duration(openingDate, closingDate);
-			int requestduration = (int) dur.getStandardDays();
-			res.add(requestduration);
-		}
-		for (int i = 0; i < res.size(); i++)
-			resultss += res.get(i);
-		return resultss;
 	}
 
 }

@@ -36,6 +36,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ManagerStatisticsController:
  * Controller for 3.2-ManagerStatistics.fxml.
@@ -210,9 +211,11 @@ public class ManagerStatisticsController {
 	@FXML
 	public TableView<FrequencyDeviation> delaysTable;
 
+	/** The main pain. */
 	@FXML
-	private Pane mainPane;
+	private Pane c;
 
+	/** The loading semaphore. */
 	private boolean loadingsem;
 
 	/**
@@ -324,6 +327,9 @@ public class ManagerStatisticsController {
 			periodRep.setVisible(false);
 			break;
 		case "Performance Report":
+			loadingsem=true;
+			Thread t = new Thread(new showLoadingPerformance());
+			t.start();
 			addonsGraph.getData().clear();
 			delaysPane.setVisible(false);
 			periodReportDate.setVisible(false);
@@ -334,7 +340,6 @@ public class ManagerStatisticsController {
 			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat));
 			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq));
 			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsStat));
-			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsFreq));
 			break;
 		case "Delays Report":
 			delaysGraph.getData().clear();
@@ -382,6 +387,7 @@ public class ManagerStatisticsController {
 	 * Gets the activity periodic report.
 	 *
 	 * @param event the mouse click
+	 * @return the report 1
 	 */
 	@FXML
 	void getReport1(ActionEvent event) {
@@ -639,18 +645,33 @@ public class ManagerStatisticsController {
 
 
 
+	/**
+	 * Checks if is loadingsem.
+	 *
+	 * @return true, if is loadingsem
+	 */
 	public boolean isLoadingsem() {
 		return loadingsem;
 	}
 
+	/**
+	 * Sets the loadingsem.
+	 *
+	 * @param loadingsem the new loadingsem
+	 */
 	public void setLoadingsem(boolean loadingsem) {
 		this.loadingsem = loadingsem;
 	}
 
 
 
+	/**
+	 * The Class showLoading for loadoing animation.
+	 */
 	private class showLoading implements Runnable{
-
+		/**
+		 * Run.
+		 */
 		@Override
 		public void run() {
 			ImageView loadinganim = new ImageView("loading.gif");
@@ -672,5 +693,35 @@ public class ManagerStatisticsController {
 
 	}
 
+	/**
+	 * The Class showLoading.
+	 */
+	private class showLoadingPerformance implements Runnable{
+		/**
+		 * Run.
+		 */
+		@Override
+		public void run() {
+			ImageView loadinganim = new ImageView("loading.gif");
+			loadinganim.setX(120);
+			loadinganim.setY(-200);
+			loadinganim.setScaleX(0.2);
+			loadinganim.setScaleY(0.2);
+			loadinganim.setVisible(true);
+			Platform.runLater(() -> performance.getChildren().add(loadinganim));
+			while (loadingsem)
+			{
+				try{
+					Thread.sleep(100);
+				}catch(InterruptedException e){
+				}
+			}
+
+			Platform.runLater(() -> performance.getChildren().remove(loadinganim));
+
+		}
+
+	}
+	
 
 }

@@ -66,6 +66,7 @@ public class EchoServer extends AbstractServer {
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Request r;
+		ArrayList<Double> addList = null;
 		if (msg == null)
 			return;
 		if (msg instanceof ClientServerMessage) {
@@ -528,8 +529,8 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case GetDelaysFreq:// if get extension frequency
-				ArrayList<Double> delFreq = DataBaseController.getDelaysDurations(CSMsg.getEnm());
-				ObservableList<FrequencyDeviation> dekResultOL = c.freqDeviation(delFreq);
+				ArrayList<Double> delfreq = DataBaseController.getDelaysDurations(CSMsg.getEnm());
+				ObservableList<FrequencyDeviation> dekResultOL = c.freqDeviation(delfreq);
 				try {
 					client.sendToClient(
 							new ClientServerMessage(Enums.MessageEnum.GetDelaysFreq, dekResultOL.toArray()));
@@ -538,18 +539,11 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case GetAddonsStat:// if get addons statistic
-				ArrayList<Double> addList = DataBaseController.getAllAddons();
+				addList = DataBaseController.getAllAddons();
 				ArrayList<Double> addonStatRes = c.calcAll(addList);
+				ObservableList<FrequencyDeviation> addResultOL = c.freqDeviation(addList);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetAddonsStat, addonStatRes));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				break;
-			case GetAddonsFreq:// if get addons frequency
-				ArrayList<Double> addFreq = DataBaseController.getAllAddons();
-				ObservableList<FrequencyDeviation> addResultOL = c.freqDeviation(addFreq);
-				try {
 					client.sendToClient(
 							new ClientServerMessage(Enums.MessageEnum.GetAddonsFreq, addResultOL.toArray()));
 				} catch (Exception e) {
