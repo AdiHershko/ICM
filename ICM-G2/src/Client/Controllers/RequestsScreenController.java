@@ -1002,7 +1002,7 @@ public class RequestsScreenController {
 	 */
 	public void AssessmentReportPage() {
 		if (ClientMain.currentUser.getRole() != Enums.Role.Supervisor && ClientMain.currentUser.getRole() != Enums.Role.Manager) {
-			if (setDueTime1.getText().equals("")) {
+			if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment && setDueTime1.getText().equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
 				alert.setContentText("You must set time stage before starting stage.");
