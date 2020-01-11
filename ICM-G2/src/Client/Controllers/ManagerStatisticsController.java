@@ -654,8 +654,6 @@ public class ManagerStatisticsController {
 		@Override
 		public void run() {
 			ImageView loadinganim = new ImageView("loading.gif");
-			//loadinganim.setX(mainPane.getWidth() / 2 + 400);
-		//	loadinganim.setY(mainPane.getHeight() / 2);
 			loadinganim.setScaleX(0.2);
 			loadinganim.setScaleY(0.2);
 			loadinganim.setVisible(true);
