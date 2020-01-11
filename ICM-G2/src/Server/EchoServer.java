@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -570,6 +571,24 @@ public class EchoServer extends AbstractServer {
 				} catch (IOException e1) {
 					return;
 				}
+				break;
+			case SHOWFILES:
+				File exist = new File("src\\"+CSMsg.getRequest().getId());
+				if (exist.exists())
+				{
+					try{
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SHOWFILES,true));
+						return;
+					} catch(Exception e){
+						e.printStackTrace();
+						return;
+					}
+				}
+					try{
+						client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SHOWFILES,false));
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
 				break;
 			default:
 				break;

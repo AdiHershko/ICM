@@ -51,322 +51,326 @@ import javafx.util.StringConverter;
  * Controller for 1-RequestsScreen.fxml (the main screen)
  */
 public class RequestsScreenController {
-	
+
 	/** The tmp new window. */
 	public static Stage tmp_newWindow;
-	
+
 	/** The ins. */
 	public static RequestsScreenController _ins;
-	
+
 	/** The wait for new request boolean. */
 	public static boolean waitForNewRequest;
-	
+
 	/** The un-active boolean. */
 	private boolean unActive;
-	
+
 	/** The is search boolean. */
 	private boolean isSearch;
-	
+
 	/** The new request ID. */
 	public static int newRequestID;
-	
+
 	/** The current request. */
 	public static Request r;
-	
+
 	/** The files paths. */
 	private ArrayList<String> filesPaths = new ArrayList<String>();
-	
+
 	/** The report scene. */
 	private Scene report;
-	
+
 	/** The request report. */
 	public static Report reportOfRequest;
-	
+
 	/** The extension scene. */
 	private Scene extensionScene;
-	
+
 	/** The new window. */
 	Stage newWindow = new Stage();
-	
+
 	/** The save or sub files int. */
 	public static int saveOrSub = 0;
-	
+
 	/** The index (in the table). */
 	private int index;
-	
+
 	/** The id. */
 	private int id = -1;
-	
+
 	/** The max request id. */
 	public static int maxid = -1;
-	
+
 	/** The lock. */
 	public static boolean lock;
-	
+
 	/** The is uploading. */
 	private boolean isUploading;
-	
+
 	/** The loadingan image. */
 	private ImageView loadinganim;
-	
+
 	/** The loading thread. */
 	Thread loading;
-	
+
 	/** The add files button. */
 	@FXML
 	private Button addFilesButton;
-	
+
 	/** The date picker ass. */
 	@FXML
 	private DatePicker datePickerAss;
-	
+
 	/** The Date picker for exceution. */
 	@FXML
 	private DatePicker DatePickerExec;
-	
+
 	/** The execution set time. */
 	@FXML
 	private Button executionSetTime;
-	
+
 	/** The logout button. */
 	@FXML
 	private Button logoutButton;
-	
+
 	/** The set due date BTN. */
 	@FXML
 	private Button setDueDateBTN;
-	
+
 	/** The table view. */
 	@FXML
 	private TableView<Request> tableView;
-	
+
 	/** The General view request 1. */
 	@FXML
 	private Pane GeneralViewRequest1;
-	
+
 	/** The description area. */
 	@FXML
 	private TextArea descArea;
-	
+
 	/** The change area. */
 	@FXML
 	private TextArea changeArea;
-	
+
 	/** The reason area. */
 	@FXML
 	private TextArea reasonArea;
-	
+
 	/** The comments area. */
 	@FXML
 	private TextArea commentsArea;
-	
+
 	/** The User views request 1. */
 	@FXML
 	private Pane UserViewsRequest1;
-	
+
 	/** The request ID label. */
 	@FXML
 	private Label requestIDLabel;
-	
+
 	/** The system label. */
 	@FXML
 	private Label systemLabel;
-	
+
 	/** The stage label. */
 	@FXML
 	private Label stageLabel;
-	
+
 	/** The status label. */
 	@FXML
 	private Label statusLabel;
-	
+
 	/** The date label. */
 	@FXML
 	private Label dateLabel;
-	
+
 	/** The requester label. */
 	@FXML
 	private Label requestorLabel;
-	
+
 	/** The user name label. */
 	@FXML
 	private Label userNameLabel;
-	
+
 	/** The Appoint tester label. */
 	@FXML
 	private Label AppointTesterLabl;
-	
+
 	/** The Assessment maker pane. */
 	@FXML
 	private Pane AssesmentMakerPane1;
-	
+
 	/** The College user under table pane. */
 	@FXML
 	private Pane CollegeUserUnderTablePane1;
-	
+
 	/** The Stage managers pane. */
 	@FXML
 	private Pane StageManagersPane1;
-	
+
 	/** The Stage managers. */
 	@FXML
 	private Button StageManagers1;
-	
+
 	/** The Executioner failure. */
 	@FXML
 	private Pane ExecutionerFailure;
-	
+
 	/** The Committee pane. */
 	@FXML
 	private Pane ComittePane1;
-	
+
 	/** The Tester pane. */
 	@FXML
 	private Pane TesterPane1;
-	
+
 	/** The Supervisor pane. */
 	@FXML
 	private Pane SupervisorPane1;
-	
+
 	/** The C user open request. */
 	@FXML
 	private Pane CUserOpenRequest1;
-	
+
 	/** The file path text field. */
 	@FXML
 	private TextField filePathTextField;
-	
+
 	/** The upload file button. */
 	@FXML
 	private Button uploadFileButton;
-	
+
 	/** The open assessment report Button for assesment. */
 	@FXML
 	private Button openAssessmentReportB;
-	
+
 	/** The open assessment report Button for other member. */
 	@FXML
 	private Button openAssessmentReportB1;
-	
+
 	/** The Failure report button. */
 	@FXML
 	private Button FailureReportBtn;
-	
+
 	/** The Failure report button for supervisor. */
 	@FXML
 	private Button FailureReportBtn1;
-	
+
 	/** The Decline request button for committed. */
 	@FXML
 	private Button DeclineRequestBtn;
-	
+
 	/** The Ask more data button. */
 	@FXML
 	private Button AskMoreDataBtn;
-	
+
 	/** The Tester appoint field. */
 	@FXML
 	private TextField TesteAppointField;
-	
+
 	/** The extension reason. */
 	@FXML
 	private TextField extensionReason;
-	
+
 	/** The Save tester appoint button. */
 	@FXML
 	private Button SaveTesterApointBtn;
-	
+
 	/** The View report button. */
 	@FXML
 	private Button ViewReportBtn;
-	
+
 	/** The Report failure button. */
 	@FXML
 	private Button ReportFailureBtn;
-	
+
 	/** The Approve stage button. */
 	@FXML
 	private Button ApproveStageBtn;
-	
+
 	/** The submit button. */
 	@FXML
 	private Button submitBtn;
-	
+
 	/** The due date. */
 	@FXML
 	private TextField dueDate;
-	
+
 	/** The set due time text field for request members. */
 	@FXML
 	private TextField setDueTime1;
-	
+
 	/** The extension ask button. */
 	@FXML
 	private Button extentionAskBtn;
-	
+
 	/** The choice box. */
 	@FXML
 	private ChoiceBox<SystemENUM> choiceBox = new ChoiceBox<SystemENUM>();
-	
+
 	/** The time created label. */
 	@FXML
 	private Label timeCreatedLabel;
-	
+
 	/** The stage date 1. */
 	@FXML
 	private Label stageDate1;
-	
+
 	/** The stages settings button. */
 	@FXML
 	private Button stagesSettingsButton;
-	
+
 	/** The save report button. */
 	@FXML
 	private Button saveBtn;
-	
+
 	/** The edit button. */
 	@FXML
 	private Button editBtn;
-	
+
 	/** The change status. */
 	@FXML
 	private Button changeStatus;
-	
+
 	/** The freeze/unfreeze button. */
 	@FXML
 	private Button freezeUnfreeze;
-	
+
 	/** The manager back button. */
 	@FXML
 	private Button managerBackBtn;
-	
+
 	/** The tester ChoiceBox. */
 	@FXML
 	private ChoiceBox<String> testerCB = new ChoiceBox<String>();
-	
+
 	/** The execution report text field. */
 	@FXML
 	private TextField exectuionReport;
-	
+
 	/** The search field. */
 	@FXML
 	private TextField searchField;
-	
+
 	/** The search button. */
 	@FXML
 	private Button searchButton;
-	
+
 	/** The un-active check box. */
 	@FXML
 	private CheckBox unActiveCheckBox;
-	
+
 	/** The main request pane. */
 	@FXML
 	private Pane mainRequestPane;
-	
+
 	/** The view files button. */
 	@FXML
 	private Button viewFilesButton;
+
+	private boolean showFiles=false;
+
+	private boolean semaphore = true;
 
 	/**
 	 * Initialize the fxml.
@@ -685,6 +689,9 @@ public class RequestsScreenController {
 			reasonArea.setText(r.getChangeReason());
 			commentsArea.setText(r.getComments());
 			requestIDLabel.setText("" + r.getId());
+			viewFilesButton.setVisible(false);
+			semaphore=true;
+			showFiles=false;
 			String temp = r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStage())]
 					.getPlannedDueDate();
 			if (ClientMain.currentUser.getRole() == Enums.Role.College) {
@@ -731,10 +738,15 @@ public class RequestsScreenController {
 			systemLabel.setText(r.getSystem().toString());
 			stageLabel.setText(r.getCurrentStage().toString());
 			statusLabel.setText(r.getStatus().toString());
-			if (true)//TODO: condition?
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SHOWFILES,r));
+			while (semaphore)
+			{
+				try{
+					Thread.sleep(100);
+				}catch(InterruptedException e) { }
+			}
+			if (showFiles)
 				viewFilesButton.setVisible(true);
-			else
-				viewFilesButton.setVisible(false);
 			if (ClientMain.currentUser.getRole() == Enums.Role.Supervisor
 					|| ClientMain.currentUser.getRole() == Enums.Role.Manager) {
 				SupervisorPane1.setVisible(true);
@@ -1550,4 +1562,24 @@ public class RequestsScreenController {
 		newWindow.show();
 
 	}
+
+	public boolean isShowFiles() {
+		return showFiles;
+	}
+
+	public void setShowFiles(boolean showFiles) {
+		this.showFiles = showFiles;
+	}
+
+	public boolean isSemaphore() {
+		return semaphore;
+	}
+
+	public void setSemaphore(boolean semaphore) {
+		this.semaphore = semaphore;
+	}
+
+
+
+
 }

@@ -503,7 +503,7 @@ public class ChatClient extends AbstractClient {
 				ManagerStatisticsController._ins
 						.updateExtensions((ArrayList<Double>) ((ClientServerMessage) msg).getL());
 				break;
-			case GetExtensionFreq:// if response for extension frequency 
+			case GetExtensionFreq:// if response for extension frequency
 				ObservableList<FrequencyDeviation> res = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					res.add((FrequencyDeviation) o);
@@ -599,19 +599,24 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				return;
+			case SHOWFILES:
+				if (((ClientServerMessage)msg).isUploadstatus()){
+					RequestsScreenController._ins.setShowFiles(true);
+				}
+				RequestsScreenController._ins.setSemaphore(false);
 			default:
 				break;
 			}
 
 		}
-		if (msg instanceof User) {// if an instance of user, means login successfully 
+		if (msg instanceof User) {// if an instance of user, means login successfully
 			Platform.runLater(new Runnable() {
 				public void run() {
 					LoginScreenController._ins.LoginGood((User) msg);
 				}
 			});
 		}
-		if (msg instanceof Report) {// if an instance of report 
+		if (msg instanceof Report) {// if an instance of report
 			Platform.runLater(new Runnable() {
 				public void run() {
 					RequestsScreenController._ins.openAssessmentReportFunc((Report) msg);
