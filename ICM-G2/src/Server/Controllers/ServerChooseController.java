@@ -1,5 +1,7 @@
 package Server.Controllers;
 
+import java.io.File;
+
 import Server.DataBaseController;
 import Server.EchoServer;
 import Server.EmailService;
@@ -27,20 +29,20 @@ public class ServerChooseController {
 
 	/** The ins. */
 	public static ServerChooseController _ins;
-	
+
 	/** The loading boolean. */
 	public static boolean loading = false;
-	
+
 	/** The connected boolean. */
 	public static boolean connected = false;
-	
+
 	/** The loadingan image. */
 	private ImageView loadinganim;
-	
+
 	/** The host text field. */
 	@FXML
 	private TextField hostfield;
-	
+
 	/** The server pane. */
 	@FXML
 	private Pane serverPane;
@@ -60,7 +62,7 @@ public class ServerChooseController {
 	/** The password field. */
 	@FXML
 	private PasswordField passfield;
-	
+
 	/** The S port field. */
 	@FXML
 	private TextField S_portField;
@@ -68,15 +70,15 @@ public class ServerChooseController {
 	/** The connection button. */
 	@FXML
 	private Button connectbtn;
-	
+
 	/** The choice box. */
 	@FXML
 	private ChoiceBox<String> choiceBox = new ChoiceBox<String>();
-	
+
 	/** The sending messages label. */
 	@FXML
 	private Label sendingMessagesLabel;
-	
+
 	/** The loading animation. */
 	@FXML
 	private ImageView loadingAnim;
@@ -252,6 +254,17 @@ public class ServerChooseController {
 	 */
 	@FXML
 	void connect(ActionEvent event) {
+		File srcFolder = new File("src\\");
+		if (!srcFolder.exists())
+		{
+			if (!srcFolder.mkdir())
+			{
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setContentText("Cannot create resource folder");
+				alert.showAndWait();
+				return;
+			}
+		}
 		loading = true;
 		loadinganim.setScaleX(0.2);
 		loadinganim.setScaleY(0.2);
