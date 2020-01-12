@@ -1,6 +1,5 @@
 package Client.Controllers;
 
-import Client.ClientMain;
 import Common.Enums;
 import Common.Request;
 import javafx.fxml.FXML;
@@ -14,24 +13,24 @@ import javafx.stage.Stage;
  * Controller for 2.1-ExecutionFailures.fxml
  */
 public class ExecutionFailuresController {
-	
+
 	/** The new window. */
 	public Stage newWindow = new Stage();
-	
+
 	/** The ins. */
 	public static ExecutionFailuresController _ins;
-	
+
 	/** The r. */
 	private Request r;
-	
+
 	/** The execution report. */
 	@FXML
 	private TextField exectuionReport;
-	
+
 	/** The submit button. */
 	@FXML
 	private Button submitBtn;
-	
+
 	/** The Id label. */
 	@FXML
 	private Label IdLabel;

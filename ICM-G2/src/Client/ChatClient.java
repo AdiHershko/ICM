@@ -129,6 +129,7 @@ public class ChatClient extends AbstractClient {
 	 *
 	 * @param msg the server msg
 	 */
+	@SuppressWarnings("unchecked")
 	public void handleMessageFromServer(Object msg) {
 		if (msg == null)
 			return;
@@ -538,6 +539,7 @@ public class ChatClient extends AbstractClient {
 				}
 				ManagerStatisticsController._ins.getDelaysTable().setItems(delRes);
 				Platform.runLater(new Runnable() {
+					@SuppressWarnings("static-access")
 					public void run() {
 						if (ManagerStatisticsController._ins.getSeries1() != null)
 							ManagerStatisticsController._ins.getSeries1().getData().clear();
@@ -560,6 +562,7 @@ public class ChatClient extends AbstractClient {
 				ManagerStatisticsController._ins.getAddonsTable().setItems(dasfsadf);
 
 				Platform.runLater(new Runnable() {
+					@SuppressWarnings("static-access")
 					public void run() {
 						if (ManagerStatisticsController._ins.getSeries2() != null)
 							ManagerStatisticsController._ins.getSeries2().getData().clear();

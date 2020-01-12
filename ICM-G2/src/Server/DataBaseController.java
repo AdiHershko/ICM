@@ -32,16 +32,16 @@ import Common.Report;
  * Handles all the SQL Data Base queries and functions.
  */
 public class DataBaseController {
-	
+
 	/** The c. */
 	private static Connection c;
-	
+
 	/** The url. */
 	private static String url = "jdbc:mysql://remotemysql.com:3306/rPTfgnHCnB?useLegacyDatetimeCode=false&serverTimezone=UTC";
-	
+
 	/** The username. */
 	private static String username = "rPTfgnHCnB";
-	
+
 	/** The password. */
 	private static String password = "atcFy4mIAf";
 
@@ -109,7 +109,7 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Adds the IS user.
 	 *
@@ -797,6 +797,7 @@ public class DataBaseController {
 	 * @param r the r
 	 * @return 0 if failed, 1 if successful
 	 */
+	@SuppressWarnings("static-access")
 	public static int CreateNewRequest(Request r) {
 		String temp = getSupervisor();
 		PreparedStatement st = null;

@@ -172,7 +172,7 @@ public class ManagerStatisticsController {
 
 	/** The extensions graph. */
 	@FXML
-	private BarChart extensionsGraph;
+	private BarChart<String, Integer> extensionsGraph;
 
 	/** The x axis. */
 	@FXML
@@ -183,21 +183,21 @@ public class ManagerStatisticsController {
 	private NumberAxis yAxis;
 
 	/** The series for the graph. */
-	static XYChart.Series series;
+	XYChart.Series<String,Integer> series;
 
 	/** The first series for the graph. */
-	static XYChart.Series series1;
+	static XYChart.Series<String,Integer> series1;
 
 	/** The second series for the graph. */
-	static XYChart.Series series2;
+	static XYChart.Series<String,Integer> series2;
 
 	/** The addons graph. */
 	@FXML
-	private BarChart addonsGraph;
+	private BarChart<String, Integer> addonsGraph;
 
 	/** The delays graph. */
 	@FXML
-	private BarChart delaysGraph;
+	private BarChart<String, Integer> delaysGraph;
 
 	/** The extensions table. */
 	@FXML
@@ -540,7 +540,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @return the extensions graph
 	 */
-	public BarChart getExtensionsGraph() {
+	public BarChart<String,Integer> getExtensionsGraph() {
 		return extensionsGraph;
 	}
 
@@ -549,7 +549,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @param extensionsGraph the new extensions graph
 	 */
-	public void setExtensionsGraph(BarChart extensionsGraph) {
+	public void setExtensionsGraph(BarChart<String, Integer> extensionsGraph) {
 		this.extensionsGraph = extensionsGraph;
 	}
 
@@ -558,7 +558,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @return the series
 	 */
-	public XYChart.Series getSeries() {
+	public XYChart.Series<String,Integer> getSeries() {
 		return series;
 	}
 
@@ -567,7 +567,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @param series the new series
 	 */
-	public void setSeries(XYChart.Series series) {
+	public void setSeries(XYChart.Series<String,Integer> series) {
 		this.series = series;
 	}
 
@@ -576,7 +576,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @return the addons graph
 	 */
-	public BarChart getAddonsGraph() {
+	public BarChart<String,Integer> getAddonsGraph() {
 		return addonsGraph;
 	}
 
@@ -585,7 +585,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @param addonsGraph the new addons graph
 	 */
-	public void setAddonsGraph(BarChart addonsGraph) {
+	public void setAddonsGraph(BarChart<String,Integer> addonsGraph) {
 		this.addonsGraph = addonsGraph;
 	}
 
@@ -594,7 +594,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @return the delays graph
 	 */
-	public BarChart getDelaysGraph() {
+	public BarChart<String, Integer> getDelaysGraph() {
 		return delaysGraph;
 	}
 
@@ -603,7 +603,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @param delaysGraph the new delays graph
 	 */
-	public void setDelaysGraph(BarChart delaysGraph) {
+	public void setDelaysGraph(BarChart<String, Integer> delaysGraph) {
 		this.delaysGraph = delaysGraph;
 	}
 
@@ -612,7 +612,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @return the series 1
 	 */
-	public static XYChart.Series getSeries1() {
+	public static XYChart.Series<String,Integer> getSeries1() {
 		return series1;
 	}
 
@@ -621,7 +621,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @param series1 the new series 1
 	 */
-	public static void setSeries1(XYChart.Series series1) {
+	public static void setSeries1(XYChart.Series<String,Integer> series1) {
 		ManagerStatisticsController.series1 = series1;
 	}
 
@@ -630,7 +630,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @return the series 2
 	 */
-	public static XYChart.Series getSeries2() {
+	public static XYChart.Series<String,Integer> getSeries2() {
 		return series2;
 	}
 
@@ -639,7 +639,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @param series2 the new series 2
 	 */
-	public static void setSeries2(XYChart.Series series2) {
+	public static void setSeries2(XYChart.Series<String,Integer> series2) {
 		ManagerStatisticsController.series2 = series2;
 	}
 
@@ -722,6 +722,6 @@ public class ManagerStatisticsController {
 		}
 
 	}
-	
+
 
 }

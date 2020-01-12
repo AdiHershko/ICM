@@ -19,55 +19,55 @@ public class ClientServerMessage implements Serializable {
 
 	/** The type. */
 	private MessageEnum type;
-	
+
 	/** The message. */
 	private String msg;
-	
+
 	/** The user. */
 	private User user;
-	
+
 	/** The file. */
 	private File file;
-	
+
 	/** The request. */
 	private Request request;
-	
+
 	/** The file name. */
 	private String fileName;
-	
+
 	/** The buffered input stream. */
 	private BufferedInputStream bis;
-	
+
 	/** The buffer. */
 	private byte[] buffer;
-	
+
 	/** The upload status. */
 	private boolean uploadstatus;
-	
+
 	/** The array. */
 	private Object[] array;
-	
+
 	/** The id. */
 	private int id;
-	
+
 	/** The stage. */
 	private int stage;
-	
+
 	/** The report. */
 	private Report report;
-	
+
 	/** The list. */
-	private List l;
-	
+	private List<? extends Object> l;
+
 	/** The search. */
 	private boolean search;
-	
+
 	/** The un-active boolean. */
 	private boolean unActive;
-	
+
 	/** The system enum. */
 	private SystemENUM enm;
-	
+
 	/** The boolean array. */
 	private boolean[] boolarr;
 
@@ -177,6 +177,7 @@ public class ClientServerMessage implements Serializable {
 	 *
 	 * @return the list
 	 */
+	@SuppressWarnings("rawtypes")
 	public List getL() {
 		return l;
 	}
@@ -186,6 +187,7 @@ public class ClientServerMessage implements Serializable {
 	 *
 	 * @param l the new list
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setL(List l) {
 		this.l = l;
 	}
@@ -222,6 +224,7 @@ public class ClientServerMessage implements Serializable {
 	 * @param type the type
 	 * @param l the list
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ClientServerMessage(MessageEnum type, List l) {
 		this.type = type;
 		this.l = l;

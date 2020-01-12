@@ -74,9 +74,6 @@ public class RequestsScreenController {
 	/** The current request. */
 	public static Request r;
 
-	/** The files paths. */
-	private ArrayList<String> filesPaths = new ArrayList<String>();
-
 	/** The report scene. */
 	private Scene report;
 
@@ -1076,7 +1073,6 @@ public class RequestsScreenController {
 	 * @param filePaths the new file paths
 	 */
 	public void setFilePaths(ArrayList<String> filePaths) {
-		this.filesPaths = filePaths;
 	}
 
 	/**
