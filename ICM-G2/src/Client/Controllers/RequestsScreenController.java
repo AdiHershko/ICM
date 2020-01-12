@@ -713,30 +713,31 @@ public class RequestsScreenController {
 				stageDate1.setVisible(false);
 				if (temp != null) {
 					temp = new DateTime(temp).toString("dd/MM/yyyy");
-					setDueDateBTN.setVisible(false);
-					executionSetTime.setVisible(false);
 					if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
 						datePickerAss.setVisible(false);
 						setDueTime1.setVisible(true);
 						setDueTime1.setEditable(false);
 						setDueTime1.setText(temp);
+						setDueDateBTN.setVisible(false);
 					} else {
 						DatePickerExec.setVisible(false);
 						dueDate.setVisible(true);
 						dueDate.setEditable(false);
 						dueDate.setText(temp);
+						executionSetTime.setVisible(false);
 					}
 				} else {
-					setDueDateBTN.setVisible(true);
 					dueDate.setText("");
 					setDueTime1.setText("");
 					if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment) {
 						setDueTime1.setVisible(false);
 						datePickerAss.setVisible(true);
+						setDueDateBTN.setVisible(true);
 					}
-					if (r.getCurrentStage() == Enums.RequestStageENUM.Execution) {
+					else if (r.getCurrentStage() == Enums.RequestStageENUM.Execution) {
 						dueDate.setVisible(false);
 						DatePickerExec.setVisible(true);
+						executionSetTime.setVisible(true);
 					}
 
 				}
@@ -862,6 +863,7 @@ public class RequestsScreenController {
 		CUserOpenRequest1.setVisible(false);
 		testerCB.getSelectionModel().clearSelection();
 		testerCB.setVisible(false);
+		ExecutionerFailure.setVisible(false);
 		filePathTextField.setVisible(false);
 		uploadFileButton.setVisible(false);
 		addFilesButton.setVisible(false);
@@ -1291,13 +1293,14 @@ public class RequestsScreenController {
 				}
 
 				Scene s = new Scene(root);
-				newWindow.setScene(s);
-				newWindow.setTitle("Execution Failures Report");
-				newWindow.setResizable(false);
-				newWindow.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
-				newWindow.initModality(Modality.WINDOW_MODAL);
-				tmp_newWindow = newWindow;
-				newWindow.show();
+				Stage window = new Stage();
+				window.setScene(s);
+				window.setTitle("Execution Failures Report");
+				window.setResizable(false);
+				window.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+				window.initModality(Modality.WINDOW_MODAL);
+				tmp_newWindow = window;
+				window.show();
 			}
 		});
 	}
