@@ -36,7 +36,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ManagerStatisticsController:
  * Controller for 3.2-ManagerStatistics.fxml.
