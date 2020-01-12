@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -56,9 +57,9 @@ public class ServerChooseController {
 	@FXML
 	private TextField unfield;
 
-	/** The passwod field. */
+	/** The password field. */
 	@FXML
-	private TextField passfield;
+	private PasswordField passfield;
 	
 	/** The S port field. */
 	@FXML
@@ -189,20 +190,20 @@ public class ServerChooseController {
 	}
 
 	/**
-	 * Gets the passwod field.
+	 * Gets the password field.
 	 *
-	 * @return the passwod field
+	 * @return the password field
 	 */
-	public TextField getPassfield() {
+	public PasswordField getPassfield() {
 		return passfield;
 	}
 
 	/**
-	 * Sets the passwod field.
+	 * Sets the password field.
 	 *
-	 * @param passfield the new passwod field
+	 * @param passfield the new password field
 	 */
-	public void setPassfield(TextField passfield) {
+	public void setPassfield(PasswordField passfield) {
 		this.passfield = passfield;
 	}
 

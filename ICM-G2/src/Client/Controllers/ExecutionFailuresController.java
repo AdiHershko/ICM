@@ -43,8 +43,7 @@ public class ExecutionFailuresController {
 		_ins = this;
 		r = RequestsScreenController.r;
 		IdLabel.setText("" + r.getId());
-		if (ClientMain.currentUser.getRole() == Enums.Role.CommitteChairman
-				|| ClientMain.currentUser.getRole() == Enums.Role.CommitteMember) {
+		if (r.getCurrentStage() == Enums.RequestStageENUM.Testing) {
 			submitBtn.setVisible(true);
 			exectuionReport.setEditable(true);
 		} else {

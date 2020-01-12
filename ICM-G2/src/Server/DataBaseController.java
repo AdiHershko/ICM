@@ -432,7 +432,7 @@ public class DataBaseController {
 	public static ObservableList<Request> getRequestsForIS(String UserName, int id, boolean search, boolean unActive) {
 		String query = "select * from requests where currenthandlers LIKE ',%" + UserName + "%,'";
 		if (unActive == false) {
-			query += " and (status=0 or status=2)";
+			query += " and status=0";
 		}
 		if (search == true) {
 			query += " and id=" + id;
@@ -451,7 +451,7 @@ public class DataBaseController {
 	public static ObservableList<Request> getRequestsForManager(int id, boolean search, boolean unActive) {
 		String query = "select * from requests";
 		if (unActive == false) {
-			query += " where (status=0 or status=2 or status=3)";
+			query += " where (status=0 or status=2)";
 			if (search == true) {
 				query += " and id=" + id;
 			}

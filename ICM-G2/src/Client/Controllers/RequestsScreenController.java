@@ -48,8 +48,8 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 /**
- * The Class RequestsScreenController.
- * Controller for 1-RequestsScreen.fxml (the main screen)
+ * The Class RequestsScreenController. Controller for 1-RequestsScreen.fxml (the
+ * main screen)
  */
 public class RequestsScreenController {
 
@@ -188,7 +188,7 @@ public class RequestsScreenController {
 	/** The requester label. */
 	@FXML
 	private Label requestorLabel;
-	
+
 	/** The attached files label. */
 	@FXML
 	private Text attachedFilesLabel;
@@ -374,7 +374,7 @@ public class RequestsScreenController {
 	private Button viewFilesButton;
 
 	/** The "show files" boolean. */
-	private boolean showFiles=false;
+	private boolean showFiles = false;
 
 	/** The semaphore for show files. */
 	private boolean semaphore = true;
@@ -435,16 +435,15 @@ public class RequestsScreenController {
 		RefreshTable();
 		new Thread() {
 			public void run() {
-				Platform.runLater(new Runnable()
-				{
+				Platform.runLater(new Runnable() {
 					public void run() {
-						userNameLabel.setText(ClientMain.currentUser.getFirstName() + " " + ClientMain.currentUser.getLastName());
+						userNameLabel.setText(
+								ClientMain.currentUser.getFirstName() + " " + ClientMain.currentUser.getLastName());
 					}
 				});
 				while (true) // update time in 0.5s intervals
 				{
-					Platform.runLater(new Runnable()
-					{
+					Platform.runLater(new Runnable() {
 						public void run() {
 							DateTime dt = new DateTime();
 							dateLabel.setText(dt.toString("dd/MM/yyyy hh:mm:ss a" + " |"));
@@ -565,8 +564,8 @@ public class RequestsScreenController {
 				ClientMain.client.handleMessageFromClientUI(
 						new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(), buffer, maxid + 1));
 			} else {
-				ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD, f.getName(),
-						buffer, tableView.getSelectionModel().getSelectedItem().getId()));
+				ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UPLOAD,
+						f.getName(), buffer, tableView.getSelectionModel().getSelectedItem().getId()));
 			}
 			filePathTextField.setText("");
 		} catch (Exception e) {
@@ -733,8 +732,7 @@ public class RequestsScreenController {
 						setDueTime1.setVisible(false);
 						datePickerAss.setVisible(true);
 						setDueDateBTN.setVisible(true);
-					}
-					else if (r.getCurrentStage() == Enums.RequestStageENUM.Execution) {
+					} else if (r.getCurrentStage() == Enums.RequestStageENUM.Execution) {
 						dueDate.setVisible(false);
 						DatePickerExec.setVisible(true);
 						executionSetTime.setVisible(true);
@@ -747,12 +745,12 @@ public class RequestsScreenController {
 			systemLabel.setText(r.getSystem().toString());
 			stageLabel.setText(r.getCurrentStage().toString());
 			statusLabel.setText(r.getStatus().toString());
-			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SHOWFILES,r));
-			while (semaphore)
-			{
-				try{
+			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.SHOWFILES, r));
+			while (semaphore) {
+				try {
 					Thread.sleep(100);
-				}catch(InterruptedException e) { }
+				} catch (InterruptedException e) {
+				}
 			}
 			if (showFiles) {
 				viewFilesButton.setVisible(true);
@@ -771,7 +769,8 @@ public class RequestsScreenController {
 					FailureReportBtn1.setVisible(false);
 				else
 					FailureReportBtn1.setVisible(true);
-			} else if (ClientMain.currentUser.getRole() != Enums.Role.College) {
+			} else if (ClientMain.currentUser.getRole() != Enums.Role.College
+					&& r.getStatus() == Enums.RequestStatus.Active) {
 				showRequestByStage(r);
 			}
 
@@ -1013,7 +1012,8 @@ public class RequestsScreenController {
 	 * Assessment report page open.
 	 */
 	public void AssessmentReportPage() {
-		if (ClientMain.currentUser.getRole() != Enums.Role.Supervisor && ClientMain.currentUser.getRole() != Enums.Role.Manager) {
+		if (ClientMain.currentUser.getRole() != Enums.Role.Supervisor
+				&& ClientMain.currentUser.getRole() != Enums.Role.Manager) {
 			if (r.getCurrentStage() == Enums.RequestStageENUM.Assesment && setDueTime1.getText().equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
@@ -1126,10 +1126,12 @@ public class RequestsScreenController {
 		boolean frozen = false, unfrozen = false;
 		if (r.getStatus() == Enums.RequestStatus.Active || r.getStatus() == Enums.RequestStatus.Rejected) {
 			frozen = true;
-			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
+			ClientMain.client
+					.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Freeze, "" + r.getId()));
 		} else if (r.getStatus() == Enums.RequestStatus.Frozen && r.getStages()[5].getReportFailure() == null) {
 			unfrozen = true;
-			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
+			ClientMain.client
+					.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.Unfreeze, "" + r.getId()));
 		} else if (r.getStatus() == Enums.RequestStatus.Frozen) {
 			unfrozen = true;
 			ClientMain.client.handleMessageFromClientUI(
@@ -1231,7 +1233,8 @@ public class RequestsScreenController {
 		}
 
 		else {
-			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
+			ClientMain.client
+					.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.UpdateStage, r.getId()));
 			unVisibleRequestPane();
 			RefreshTable();
 		}
@@ -1591,8 +1594,5 @@ public class RequestsScreenController {
 	public void setSemaphore(boolean semaphore) {
 		this.semaphore = semaphore;
 	}
-
-
-
 
 }
