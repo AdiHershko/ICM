@@ -26,7 +26,6 @@ import Server.Controllers.ServerChooseController;
 import Common.Message;
 import Common.Report;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DataBaseController.
  * Handles all the SQL Data Base queries and functions.

@@ -1144,7 +1144,7 @@ public class RequestsScreenController {
 		if (unfrozen) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setHeaderText("Changed to Active");
-			alert.setContentText("Request number " + r.getId() + " changed to unfrozen");
+			alert.setContentText("Request number " + r.getId() + " is no longer frozen");
 			alert.show();
 		}
 		RefreshTable();
@@ -1215,7 +1215,7 @@ public class RequestsScreenController {
 			if (dueDate.getText().equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
-				alert.setContentText("must set time stage before ending stage!");
+				alert.setContentText("Must set time stage before ending stage");
 				alert.showAndWait();
 				return;
 			}
