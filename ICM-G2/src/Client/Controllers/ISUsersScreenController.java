@@ -225,11 +225,11 @@ public class ISUsersScreenController {
 		boolean[] permissions = new boolean[6];
 		ArrayList<CheckBox> boxes = new ArrayList<>();
 		boxes.add(infoStationBox);
-		boxes.add(computersBox);
 		boxes.add(moodleBox);
-		boxes.add(siteBox);
-		boxes.add(labBox);
 		boxes.add(libraryBox);
+		boxes.add(computersBox);
+		boxes.add(labBox);
+		boxes.add(siteBox);
 		for (int i = 0; i < 6; i++)
 			if (boxes.get(i).isSelected())
 				permissions[i] = true;
