@@ -35,8 +35,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 
 /**
- * The Class ChatClient.
- * Handles the server connection from the client side, and the server messages.
+ * The Class ChatClient. Handles the server connection from the client side, and
+ * the server messages.
  */
 public class ChatClient extends AbstractClient {
 
@@ -308,12 +308,14 @@ public class ChatClient extends AbstractClient {
 					return;
 				}
 				Platform.runLater(() -> {
+					ISUsersScreenController._ins.getUserIDField().setEditable(false);
 					ISUsersScreenController._ins.getPasswordField().setText(str[0]);
 					ISUsersScreenController._ins.getFirstNameField().setText(str[1]);
 					ISUsersScreenController._ins.getLastNameField().setText(str[2]);
 					ISUsersScreenController._ins.getMailField().setText(str[3]);
 					ISUsersScreenController._ins.getRoleChoiceBox().getSelectionModel()
 							.select(Enums.Role.getRoleENUM(Integer.parseInt(str[4])));
+					ISUsersScreenController._ins.currentRole = Enums.Role.getRoleENUM(Integer.parseInt(str[4]));
 					if (str[5] != null) {
 						String[] perm = str[5].split(",");
 						for (String s : perm) {
@@ -509,7 +511,11 @@ public class ChatClient extends AbstractClient {
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					res.add((FrequencyDeviation) o);
 				}
-				ManagerStatisticsController._ins.getExtensionsTable().setItems(res);
+				Platform.runLater(new Runnable() {
+					public void run() {
+						ManagerStatisticsController._ins.getExtensionsTable().setItems(res);
+					}
+				});
 
 				Platform.runLater(new Runnable() {
 					public void run() {
@@ -559,20 +565,21 @@ public class ChatClient extends AbstractClient {
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					dasfsadf.add((FrequencyDeviation) o);
 				}
-				ManagerStatisticsController._ins.getAddonsTable().setItems(dasfsadf);
-
-				Platform.runLater(new Runnable() {
-					@SuppressWarnings("static-access")
-					public void run() {
-						if (ManagerStatisticsController._ins.getSeries2() != null)
-							ManagerStatisticsController._ins.getSeries2().getData().clear();
-						for (FrequencyDeviation fd : dasfsadf)
-							ManagerStatisticsController._ins.getSeries2().getData()
-									.add(new XYChart.Data<>(String.format("%.0f", fd.getValue()), fd.getFreq()));
-						ManagerStatisticsController._ins.getAddonsGraph().getData()
-								.add(ManagerStatisticsController._ins.getSeries2());
-					}
-				});
+				//if (!dasfsadf.isEmpty()) {
+					ManagerStatisticsController._ins.getAddonsTable().setItems(dasfsadf);
+					Platform.runLater(new Runnable() {
+						@SuppressWarnings("static-access")
+						public void run() {
+							if (ManagerStatisticsController._ins.getSeries2() != null)
+								ManagerStatisticsController._ins.getSeries2().getData().clear();
+							for (FrequencyDeviation fd : dasfsadf)
+								ManagerStatisticsController._ins.getSeries2().getData()
+										.add(new XYChart.Data<>(String.format("%.0f", fd.getValue()), fd.getFreq()));
+							ManagerStatisticsController._ins.getAddonsGraph().getData()
+									.add(ManagerStatisticsController._ins.getSeries2());
+						}
+					});
+				//}
 				ManagerStatisticsController._ins.setLoadingsem(false);
 				break;
 			case REMOVEUSER:// if response for user removale request
@@ -604,7 +611,7 @@ public class ChatClient extends AbstractClient {
 				ManagerStatisticsController._ins.setLoadingsem(false);
 				return;
 			case SHOWFILES:
-				if (((ClientServerMessage)msg).isUploadstatus()){
+				if (((ClientServerMessage) msg).isUploadstatus()) {
 					RequestsScreenController._ins.setShowFiles(true);
 				}
 				RequestsScreenController._ins.setSemaphore(false);

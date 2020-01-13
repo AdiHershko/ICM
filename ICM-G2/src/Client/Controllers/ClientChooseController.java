@@ -1,5 +1,6 @@
 package Client.Controllers;
 
+import java.io.File;
 import java.io.IOException;
 
 import Common.ClientServerMessage;
@@ -77,7 +78,15 @@ public class ClientChooseController {
 	 */
 	@FXML
 	void connectToServer(ActionEvent event) {
-		boolean isconnected = false;
+		File srcFolder = new File("src\\");
+		if (!srcFolder.exists()){
+			if (!srcFolder.mkdir())	{
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setContentText("Cannot create resource folder");
+				alert.showAndWait();
+				return;
+			}
+		}
 		try {
 			if (localRB.isSelected()) {
 				client = new ChatClient("localhost", ChatClient.DEFAULT_PORT);
@@ -86,14 +95,13 @@ public class ClientChooseController {
 				String[] temp = IPTextBox.getText().split(":");
 				client = new ChatClient(temp[0], Integer.parseInt(temp[1]));
 			}
-			isconnected = true;
 		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Can't connect to server!");
 			alert.setContentText("Can't connect to server!");
 			alert.show();
 		}
-		if (isconnected) {
+		if (client.isConnected()) {
 			ClientMain.client = client;
 			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(MessageEnum.CONNECT));
 			Parent root = null;

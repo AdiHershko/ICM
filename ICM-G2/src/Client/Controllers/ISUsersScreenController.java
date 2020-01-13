@@ -19,8 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 /**
- * The Class ISUsersScreenController:
- * Controller for 3.1-AddISUsersScreen.fxml
+ * The Class ISUsersScreenController: Controller for 3.1-AddISUsersScreen.fxml
  */
 public class ISUsersScreenController {
 
@@ -29,6 +28,9 @@ public class ISUsersScreenController {
 
 	/** The is editable boolean. */
 	static boolean isEdit = false;
+
+	/** The is current user role. */
+	public Enums.Role currentRole;
 
 	/** The mail field. */
 	@FXML
@@ -102,6 +104,7 @@ public class ISUsersScreenController {
 	 * Initialize the fxml.
 	 */
 	public void initialize() {
+		isEdit = false;
 		_ins = this;
 		FindBtn.setVisible(false);
 		roleChoiceBox.getItems().add(Enums.Role.GeneralIS);
@@ -130,6 +133,7 @@ public class ISUsersScreenController {
 		isEdit = true;
 		ClientMain.client
 				.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETISUSER, userIDField.getText()));
+		
 	}
 
 	/**
@@ -156,7 +160,8 @@ public class ISUsersScreenController {
 		}
 		User current = new User(userIDField.getText(), passwordField.getText(), firstNameField.getText(),
 				lastNameField.getText(), mailField.getText(), roleChoiceBox.getSelectionModel().getSelectedItem());
-		if (roleChoiceBox.getSelectionModel().getSelectedItem() == Enums.Role.Supervisor) {
+		if (roleChoiceBox.getSelectionModel().getSelectedItem() == Enums.Role.Supervisor
+				&& currentRole != Enums.Role.Supervisor) {
 			ClientMain.client
 					.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CHECKSUPERVISOREXIST));
 			semaphore = true;
@@ -176,7 +181,8 @@ public class ISUsersScreenController {
 			}
 		}
 
-		if (roleChoiceBox.getSelectionModel().getSelectedItem() == Enums.Role.CommitteMember) {
+		if (roleChoiceBox.getSelectionModel().getSelectedItem() == Enums.Role.CommitteMember
+				&& currentRole != Enums.Role.CommitteMember) {
 			ClientMain.client
 					.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.COUNTCOMMITEEMEMBERS));
 			semaphore = true;
@@ -197,7 +203,8 @@ public class ISUsersScreenController {
 			removeUserButton.setVisible(false);
 		}
 
-		if (roleChoiceBox.getSelectionModel().getSelectedItem() == Enums.Role.CommitteChairman) {
+		if (roleChoiceBox.getSelectionModel().getSelectedItem() == Enums.Role.CommitteChairman
+				&& currentRole != Enums.Role.CommitteChairman) {
 			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.CHECKCHAIRMANEXIST));
 			semaphore = true;
 			while (semaphore) {
@@ -229,9 +236,11 @@ public class ISUsersScreenController {
 		if (isEdit) {
 			ClientMain.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.UPDATEISUSER, current, permissions));
+			System.out.println("UPDATEISUSER");
 		} else {
 			ClientMain.client.handleMessageFromClientUI(
 					new ClientServerMessage(Enums.MessageEnum.ADDISUSER, current, permissions));
+			System.out.println("ADDISUSER");
 		}
 	}
 

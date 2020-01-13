@@ -47,8 +47,11 @@ public class Calculator {
 	 * @return the double
 	 */
 	public double median(ArrayList<Double> list) {
-		Collections.sort(list);
 		int size = list.size();
+		if (size == 0) {
+			return 0;
+		}
+		Collections.sort(list);
 		if (size % 2 == 1) {
 			return list.get(((size + 1) / 2) - 1);
 		} else {
@@ -65,6 +68,8 @@ public class Calculator {
 	 * @return the double
 	 */
 	public double standardDeviation(ArrayList<Double> list) {
+		if (list.size() == 0)
+			return 0;
 		double avg = ((double) sum(list)) / list.size();
 		double tmp = 0;
 		for (Double i : list)
