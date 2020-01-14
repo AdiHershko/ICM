@@ -651,6 +651,8 @@ public class RequestsScreenController {
 						return;
 					}
 				}
+				lock = false;
+				loadinganim.setVisible(false);
 			}
 		};
 		loading.start();
@@ -1451,14 +1453,14 @@ public class RequestsScreenController {
 		if (DatePickerExec.getValue() == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
-			alert.setContentText("must fill due time!");
+			alert.setContentText("Must fill due time.");
 			alert.showAndWait();
 			return;
 		} else {
 			if (DatePickerExec.getValue().isBefore(LocalDate.now())) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
-				alert.setContentText("due date too soon!");
+				alert.setContentText("Due date too early.");
 				alert.showAndWait();
 				return;
 			}
@@ -1482,7 +1484,7 @@ public class RequestsScreenController {
 		if (r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())].getIsExtended()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
-			alert.setContentText("extension already given for this stage in that request!");
+			alert.setContentText("Extension already given for this stage in that request.");
 			alert.showAndWait();
 			return;
 
@@ -1491,7 +1493,7 @@ public class RequestsScreenController {
 			if (setDueTime1.getText().equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
-				alert.setContentText("must set time stage before asking for extension!!");
+				alert.setContentText("Must set time stage before asking for extension.");
 				alert.showAndWait();
 				return;
 			}
@@ -1499,7 +1501,7 @@ public class RequestsScreenController {
 			if (dueDate.getText().equals("")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
-				alert.setContentText("must set time stage before asking for extension!!");
+				alert.setContentText("Must set time stage before asking for extension.");
 				alert.showAndWait();
 				return;
 			}
@@ -1510,7 +1512,7 @@ public class RequestsScreenController {
 		if (dt.minusDays(3).isAfterNow()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
-			alert.setContentText("can't ask for extension more than 3 days to due date!");
+			alert.setContentText("Can't ask for extension more than 3 days before due date.");
 			alert.showAndWait();
 			return;
 		} else {

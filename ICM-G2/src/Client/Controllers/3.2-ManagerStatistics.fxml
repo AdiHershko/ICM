@@ -50,8 +50,9 @@
                   <Label fx:id="openLabel" layoutX="234.0" layoutY="64.0" text="Open requests:" />
                   <Label fx:id="freezeLabel" layoutX="222.0" layoutY="94.0" text="Freezed requests:" />
                   <Label fx:id="closedLabel" layoutX="228.0" layoutY="124.0" text="Closed requests:" />
-                  <Label fx:id="rejectedLabel" layoutX="217.0" layoutY="154.0" text="Rejected requests:" />
+                  <Label fx:id="rejectedLabel" layoutX="218.0" layoutY="154.0" text="Rejected requests:" />
                   <Label fx:id="daysLabel" layoutX="198.0" layoutY="184.0" text="Number of work days:" />
+                  <Label layoutX="198.0" layoutY="22.0" text="Calculates for requests opened between the 2 dates." />
                </children>
             </Pane>
          </children>
@@ -69,9 +70,9 @@
                   <TableView fx:id="delaysTable" layoutX="171.0" layoutY="125.0" prefHeight="214.0" prefWidth="150.0" />
                   <Label fx:id="delaysNum" layoutX="61.0" layoutY="35.0" text="Number of delays:" />
                   <Label fx:id="delaysMedian" layoutX="115.0" layoutY="65.0" text="Median:" />
-                  <Label fx:id="delaysSD" layoutX="57.0" layoutY="95.0" text="Standard Deviation:" />
+                  <Label fx:id="delaysSD" layoutX="56.0" layoutY="95.0" text="Standard Deviation:" />
                   <Label fx:id="delaysFD" layoutX="51.0" layoutY="125.0" text="Frequency Deviation:" />
-                  <Label layoutX="136.0" layoutY="12.0" text="(the report is in hours)" />
+                  <Label layoutX="31.0" layoutY="316.0" text="(the report is in hours)" />
                   <BarChart fx:id="delaysGraph" animated="false" layoutX="380.0" layoutY="118.0" prefHeight="223.0" prefWidth="311.0">
                     <xAxis>
                       <CategoryAxis animated="false" side="BOTTOM" />
@@ -80,6 +81,7 @@
                       <NumberAxis animated="false" prefHeight="184.0" prefWidth="0.0" side="LEFT" />
                     </yAxis>
                   </BarChart>
+                  <Label layoutX="42.0" layoutY="14.0" text="Calculates all stages that closed after the due date for the asked system." />
                </children>
             </Pane>
          </children>
@@ -104,11 +106,11 @@
             <Label fx:id="addonsMedianLabel" layoutX="534.0" layoutY="120.0" text="Median:" />
             <Label fx:id="addonsSDLabel" layoutX="473.0" layoutY="150.0" text="Standard Deviation:" />
             <Label fx:id="addonsFDLabel" layoutX="466.0" layoutY="180.0" text="Frequency Deviation:" />
-            <TableView fx:id="extensionsTable" layoutX="188.0" layoutY="180.0" prefHeight="229.0" prefWidth="150.0" />
-            <Label layoutX="192.0" layoutY="57.0" text="(in days)" />
-            <Label layoutX="587.0" layoutY="57.0" text="(in days)" />
-            <TableView fx:id="addonsTable" layoutX="587.0" layoutY="180.0" prefHeight="229.0" prefWidth="150.0" />
-            <BarChart fx:id="extensionsGraph" animated="false" layoutX="337.0" layoutY="209.0" prefHeight="188.0" prefWidth="228.0">
+            <TableView fx:id="extensionsTable" layoutX="32.0" layoutY="203.0" prefHeight="200.0" prefWidth="150.0" />
+            <Label layoutX="32.0" layoutY="57.0" text="Calculates all stages extensions requests that was approved (in days)." />
+            <Label layoutX="466.0" layoutY="57.0" text="Calculates all requests with duration longer than the assessment time (in days)." />
+            <TableView fx:id="addonsTable" layoutX="494.0" layoutY="203.0" prefHeight="200.0" prefWidth="150.0" />
+            <BarChart fx:id="extensionsGraph" animated="false" layoutX="195.0" layoutY="211.0" prefHeight="188.0" prefWidth="228.0">
               <xAxis>
                 <CategoryAxis animated="false" side="BOTTOM" fx:id="xAxis" />
               </xAxis>
@@ -119,7 +121,7 @@
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding>
             </BarChart>
-            <BarChart fx:id="addonsGraph" animated="false" layoutX="744.0" layoutY="211.0" prefHeight="188.0" prefWidth="228.0">
+            <BarChart fx:id="addonsGraph" animated="false" layoutX="663.0" layoutY="209.0" prefHeight="188.0" prefWidth="228.0">
               <xAxis>
                 <CategoryAxis fx:id="Value" animated="false" side="BOTTOM" />
               </xAxis>

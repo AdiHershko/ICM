@@ -337,7 +337,6 @@ public class ManagerStatisticsController {
 			yAxis.setLabel("Frequency");
 			extensionsGraph.setTitle("Extensions");
 			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat));
-			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq));
 			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GetAddonsStat));
 			break;
 		case "Delays Report":

@@ -444,6 +444,15 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
+			case SETASSESMENTDATESUP:// if set assessment date by supervisor
+				DataBaseController.setDate(CSMsg.getId(), 1, CSMsg.getMsg());
+				DataBaseController.updateLogChangeStageDate(CSMsg.getId(), 1, CSMsg.getMsg());
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
 			case APPROVEASSEXTENSION:// if set assessment approve extension
 				boolean isDenied = DataBaseController.setRequestDeny(CSMsg.getRequest(), CSMsg.getStage());
 				try {
@@ -472,6 +481,15 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
+			case SETEXECMDATESUP:// if set execution date by supervisor
+				DataBaseController.setDate(CSMsg.getId(), 3, CSMsg.getMsg());
+				DataBaseController.updateLogChangeStageDate(CSMsg.getId(), 3, CSMsg.getMsg());
+				try {
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
 			case SETTESTDATE:// if set testing date
 				DataBaseController.setDate(CSMsg.getId(), 4, CSMsg.getMsg());
 				try {
@@ -492,15 +510,12 @@ public class EchoServer extends AbstractServer {
 			case GetExtensionStat:// if get extension statistic
 				ArrayList<Double> ext = DataBaseController.getExtensionDurations();
 				ArrayList<Double> resultList = c.calcAll(ext);
+				ObservableList<FrequencyDeviation> resultOL = c.freqDeviation(ext);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GetExtensionStat, resultList));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				break;
-			case GetExtensionFreq:// if get extension frequency
-				ArrayList<Double> extFreq = DataBaseController.getExtensionDurations();
-				ObservableList<FrequencyDeviation> resultOL = c.freqDeviation(extFreq);
 				try {
 					client.sendToClient(
 							new ClientServerMessage(Enums.MessageEnum.GetExtensionFreq, resultOL.toArray()));

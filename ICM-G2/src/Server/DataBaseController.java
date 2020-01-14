@@ -1102,7 +1102,6 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		updateLogChangeStageDate(requestID, stage, date);
 	}
 
 	/**
@@ -1125,6 +1124,8 @@ public class DataBaseController {
 				statement.execute(query);
 				statement.execute("update stages set ExtendedDueDate=null where RequestID=" + r.getId()
 						+ " and StageName=" + stage);
+				String extension_s = r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())].getExtendedDueDate();
+				updateLogChangeStageDate(r.getId(), stage, extension_s);
 				return false;
 			} else {
 				query = "update stages set isApproved=0,isExtended=0, ExtendedDueDate=null where RequestID=" + r.getId()
@@ -1268,7 +1269,7 @@ public class DataBaseController {
 		try {
 			statement = c.prepareStatement(query);
 			statement.setInt(1, id);
-			statement.setString(2, new DateTime().toString());
+			statement.setString(2, new DateTime().toString("dd/MM/yyyy HH:mm:ss"));
 			statement.setString(3, "Stage " + stage + " due date");
 			statement.setString(4, date);
 			statement.execute();
@@ -1704,7 +1705,7 @@ public class DataBaseController {
 			query = "SELECT stages.PlannedDueDate,Stages.ActualDate FROM stages where PlannedDueDate IS NOT NULL ";
 		} else {
 			int i = SystemENUM.getSystemByEnum(enm);
-			query = "SELECT stages.PlannedDueDate,Stages.ActualDate FROM stages,Requests where stages.PlannedDueDate IS NOT NULL "
+			query = "SELECT stages.PlannedDueDate,Stages.ActualDate FROM stages,requests where stages.PlannedDueDate IS NOT NULL "
 					+ "and stages.RequestID=Requests.ID and requests.System=" + i;
 		}
 		try {

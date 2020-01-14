@@ -276,7 +276,7 @@ public class RequestSettingsController {
 			return;
 		}
 		ClientMain.client.handleMessageFromClientUI(
-				new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATE, currentRequest.getId(), dt.toString()));
+				new ClientServerMessage(Enums.MessageEnum.SETASSESMENTDATESUP, currentRequest.getId(), dt.toString()));
 	}
 
 	/**
@@ -440,7 +440,7 @@ public class RequestSettingsController {
 			return;
 		}
 		ClientMain.client.handleMessageFromClientUI(
-				new ClientServerMessage(Enums.MessageEnum.SETEXECMDATE, currentRequest.getId(), dt.toString()));
+				new ClientServerMessage(Enums.MessageEnum.SETEXECMDATESUP, currentRequest.getId(), dt.toString()));
 	}
 
 	/**
