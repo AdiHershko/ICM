@@ -1740,16 +1740,43 @@ public class DataBaseController {
 	 *
 	 * @return all addons list
 	 */
+	
 	public static ArrayList<Double> getAllAddons() {
-		String query = "select * from requests";
-		ObservableList<Request> list = getRequests(query);
+		String query = "select requests.Date,stages.ActualDate,requests.ID from requests,stages where stages.RequestID=requests.ID and stages.StageName=5";
+		ObservableList<String> Datelist = FXCollections.observableArrayList();
+		ObservableList<String> ClosingDatelist = FXCollections.observableArrayList();
+		ObservableList<Integer> IDs = FXCollections.observableArrayList();
 		ArrayList<Double> res = new ArrayList<Double>();
-		for (Request r : list) {
-			DateTime openingDate = new DateTime(r.getDate());
-			DateTime closingDate = new DateTime(r.getStages()[5].getActualDate());
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					Datelist.add(rs.getString(1));
+					ClosingDatelist.add(rs.getString(2));
+					IDs.add(rs.getInt(3));
+				} catch (SQLException e) {
+					e.printStackTrace();
+
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		for (int i=0;i<Datelist.size();i++) {
+			DateTime openingDate = new DateTime(Datelist.get(i));
+			DateTime closingDate = new DateTime(ClosingDatelist.get(i));
 			Duration dur = new Duration(openingDate, closingDate);
 			int requestduration = (int) dur.getStandardDays();
-			Report rep = SearchReport(r.getId());
+			Report rep = SearchReport(IDs.get(i));
 			if (rep != null) {
 				int excpectedDuration = rep.getDurationAssesment();
 				if (requestduration > excpectedDuration) {
