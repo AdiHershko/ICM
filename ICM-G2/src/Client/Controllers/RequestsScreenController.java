@@ -22,6 +22,8 @@ import Common.Report;
 import Common.Request;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -45,6 +47,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 
 /**
@@ -1573,7 +1576,23 @@ public class RequestsScreenController {
 		newWindow.setTitle("User files");
 		newWindow.setScene(filesView);
 		newWindow.setResizable(false);
+		newWindow.setOnCloseRequest(new EventHandler<WindowEvent>(){
+
+			@Override
+			public void handle(WindowEvent arg0) { //removing temp files
+				File folder = new File("src\\");
+				File[] tempfiles = folder.listFiles();
+				if (tempfiles!=null)
+				{
+					for (File f :tempfiles)
+						if (f.getName().contains("Client"))
+							f.delete();
+				}
+
+			}
+		});
 		newWindow.show();
+
 
 	}
 
