@@ -520,14 +520,14 @@ public class ManagerStatisticsController {
 	 *
 	 * @param res the res
 	 */
-	public void updatePeropd(ArrayList<Integer> res) {
+	public void updatePeropd(ArrayList<Double> res) {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				openLabel.setText("Open requests: " + res.get(0));
-				freezeLabel.setText("Freezed requests: " + res.get(2));
-				closedLabel.setText("Closed requests: " + res.get(1));
-				rejectedLabel.setText("Rejected requests: " + res.get(3));
-				daysLabel.setText("Number of work days: " + res.get(4));
+				openLabel.setText(String.format("Open requests: %.0f", res.get(0)));
+				freezeLabel.setText(String.format("Freezed requests: %.0f", res.get(2)));
+				closedLabel.setText(String.format("Closed requests: %.0f", res.get(1)));
+				rejectedLabel.setText(String.format("Rejected requests: %.0f", res.get(3)));
+				daysLabel.setText(String.format("Number of work days: %.2f", res.get(4)));
 				periodRep.setVisible(true);
 			}
 		});

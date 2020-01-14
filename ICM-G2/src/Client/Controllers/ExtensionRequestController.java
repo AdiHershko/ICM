@@ -59,7 +59,7 @@ public class ExtensionRequestController {
 				return LocalDate.parse(dateString, dateTimeFormatter);
 			}
 		});
-		reqIDLabel.setText("Request ID:" + ClientMain.currentRequest.getId());
+		reqIDLabel.setText("Request ID: " + ClientMain.currentRequest.getId());
 
 	}
 

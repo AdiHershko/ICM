@@ -112,7 +112,7 @@ public class DataBaseController {
 	/**
 	 * Adds the IS user.
 	 *
-	 * @param current the current user
+	 * @param current     the current user
 	 * @param permissions the permissions he has
 	 * @return the answer string
 	 */
@@ -175,7 +175,7 @@ public class DataBaseController {
 	/**
 	 * Update IS user.
 	 *
-	 * @param current the current user
+	 * @param current     the current user
 	 * @param permissions the new permissions
 	 * @return true, if successful
 	 */
@@ -207,8 +207,8 @@ public class DataBaseController {
 	/**
 	 * Update stage member.
 	 *
-	 * @param id the user id
-	 * @param req the request
+	 * @param id    the user id
+	 * @param req   the request
 	 * @param stage the stage to update
 	 */
 	public static void updateStageMember(String id, Request req, int stage) {
@@ -307,7 +307,7 @@ public class DataBaseController {
 	/**
 	 * Change request status.
 	 *
-	 * @param id the request id
+	 * @param id     the request id
 	 * @param status the request status
 	 */
 	public static void changeRequestStatus(int id, int status) {
@@ -400,8 +400,8 @@ public class DataBaseController {
 	 * Gets the requests for college.
 	 *
 	 * @param userName the user name
-	 * @param id the request id
-	 * @param search if search is active
+	 * @param id       the request id
+	 * @param search   if search is active
 	 * @param unActive the un active
 	 * @return the requests for college
 	 */
@@ -423,8 +423,8 @@ public class DataBaseController {
 	 * Gets the requests for IS.
 	 *
 	 * @param UserName the user name
-	 * @param id the request id
-	 * @param search if search is active
+	 * @param id       the request id
+	 * @param search   if search is active
 	 * @param unActive the un-active boolean
 	 * @return the requests for IS
 	 */
@@ -442,15 +442,15 @@ public class DataBaseController {
 	/**
 	 * Gets the requests for manager.
 	 *
-	 * @param id the request id
-	 * @param search if search is active
+	 * @param id       the request id
+	 * @param search   if search is active
 	 * @param unActive the un-active boolean
 	 * @return the requests for manager
 	 */
 	public static ObservableList<Request> getRequestsForManager(int id, boolean search, boolean unActive) {
 		String query = "select * from requests";
 		if (unActive == false) {
-			query += " where (status=0 or status=2)";
+			query += " where (status=0 or status=2 or status=3)";
 			if (search == true) {
 				query += " and id=" + id;
 			}
@@ -954,8 +954,8 @@ public class DataBaseController {
 	/**
 	 * Appoint stage handlers.
 	 *
-	 * @param id the request id
-	 * @param stage the stage
+	 * @param id       the request id
+	 * @param stage    the stage
 	 * @param handlers the stage handlers
 	 */
 	public static void AppointStageHandlers(int id, int stage, String handlers) {
@@ -1048,7 +1048,7 @@ public class DataBaseController {
 					e.printStackTrace();
 				}
 			}
-			if (users.size()==0) {//if nobody supports the system, get committee chairman
+			if (users.size() == 0) {// if nobody supports the system, get committee chairman
 				users.add("," + getChairman() + ",");
 			}
 
@@ -1089,8 +1089,8 @@ public class DataBaseController {
 	 * Sets the date.
 	 *
 	 * @param requestID the request ID
-	 * @param stage the request stage
-	 * @param date the new date
+	 * @param stage     the request stage
+	 * @param date      the new date
 	 */
 	public static void setDate(int requestID, int stage, String date) {
 		String query = "update stages set PlannedDueDate='" + date + "' where StageName=" + stage + " and RequestID="
@@ -1107,7 +1107,7 @@ public class DataBaseController {
 	/**
 	 * Sets the request deny.
 	 *
-	 * @param r the request
+	 * @param r     the request
 	 * @param stage the stage
 	 * @return true, if successful
 	 */
@@ -1124,7 +1124,8 @@ public class DataBaseController {
 				statement.execute(query);
 				statement.execute("update stages set ExtendedDueDate=null where RequestID=" + r.getId()
 						+ " and StageName=" + stage);
-				String extension_s = r.getStages()[Enums.RequestStageENUM.getRequestStageENUMByEnum(r.getCurrentStageEnum())].getExtendedDueDate();
+				String extension_s = r.getStages()[Enums.RequestStageENUM
+						.getRequestStageENUMByEnum(r.getCurrentStageEnum())].getExtendedDueDate();
 				updateLogChangeStageDate(r.getId(), stage, extension_s);
 				return false;
 			} else {
@@ -1142,7 +1143,7 @@ public class DataBaseController {
 	/**
 	 * Calculate date difference.
 	 *
-	 * @param r the request
+	 * @param r     the request
 	 * @param stage the stage
 	 */
 	public static void calculateDateDiv(Request r, int stage) {
@@ -1216,7 +1217,7 @@ public class DataBaseController {
 	/**
 	 * Update log change status.
 	 *
-	 * @param id the request id
+	 * @param id     the request id
 	 * @param status the request status
 	 */
 	public static void updateLogChangeStatus(int id, int status) {
@@ -1237,8 +1238,8 @@ public class DataBaseController {
 	/**
 	 * Update log change stage handler.
 	 *
-	 * @param id the request id
-	 * @param stage the request stage
+	 * @param id     the request id
+	 * @param stage  the request stage
 	 * @param member the member (user id)
 	 */
 	public static void updateLogChangeStageHandler(int id, int stage, String member) {
@@ -1259,9 +1260,9 @@ public class DataBaseController {
 	/**
 	 * Update log change stage date.
 	 *
-	 * @param id the request id
+	 * @param id    the request id
 	 * @param stage the request stage
-	 * @param date the stage date
+	 * @param date  the stage date
 	 */
 	public static void updateLogChangeStageDate(int id, int stage, String date) {
 		String query = "INSERT INTO suplog (`RequestId`, `Date`, `Field`, `WhatChanged`) VALUES (?,?,?,?)";
@@ -1281,7 +1282,7 @@ public class DataBaseController {
 	/**
 	 * Update log deny extension.
 	 *
-	 * @param id the request id
+	 * @param id    the request id
 	 * @param stage the request stage
 	 */
 	public static void updateLogDenyExtension(int id, int stage) {
@@ -1302,7 +1303,7 @@ public class DataBaseController {
 	/**
 	 * Change extended date.
 	 *
-	 * @param r the request
+	 * @param r    the request
 	 * @param date the extension date
 	 */
 	public static void changeExtendedDate(Request r, String date) {
@@ -1480,7 +1481,7 @@ public class DataBaseController {
 	/**
 	 * Send message.
 	 *
-	 * @param m the message
+	 * @param m         the message
 	 * @param checkSent check if sent
 	 */
 	public static void sendMessage(EmailMessage m, boolean checkSent) {
@@ -1740,7 +1741,7 @@ public class DataBaseController {
 	 *
 	 * @return all addons list
 	 */
-	
+
 	public static ArrayList<Double> getAllAddons() {
 		String query = "select requests.Date,stages.ActualDate,requests.ID from requests,stages where stages.RequestID=requests.ID and stages.StageName=5";
 		ObservableList<String> Datelist = FXCollections.observableArrayList();
@@ -1769,9 +1770,8 @@ public class DataBaseController {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-
 		}
-		for (int i=0;i<Datelist.size();i++) {
+		for (int i = 0; i < Datelist.size(); i++) {
 			DateTime openingDate = new DateTime(Datelist.get(i));
 			DateTime closingDate = new DateTime(ClosingDatelist.get(i));
 			Duration dur = new Duration(openingDate, closingDate);
@@ -1864,42 +1864,68 @@ public class DataBaseController {
 	 * @param arr the date strings array
 	 * @return the activity data
 	 */
-	public static ArrayList<Integer> getActivityData(String[] arr) {
+	public static ArrayList<Double> getActivityData(String[] arr) {
 		int active = 0, closed = 0, frozen = 0, rejected = 0;
+		double durations = 0;
+		ObservableList<String> Datelist = FXCollections.observableArrayList();
+		ObservableList<String> ClosingDatelist = FXCollections.observableArrayList();
+		ObservableList<Integer> Statuses = FXCollections.observableArrayList();
+		
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 		DateTime dt1 = null, dt2 = null;
-		int durations = 0;
 		try {
 			dt1 = dtf.parseDateTime(arr[0]);
 			dt2 = dtf.parseDateTime(arr[1]);
 		} catch (IllegalArgumentException e) {
 		}
-		String query = "select * from requests";
-		ObservableList<Request> olist = getRequests(query);
-		for (int i = 0; i < olist.size(); i++) {
-			Request r = olist.get(i);
-			if (r.getDate().isAfter(dt1) && r.getDate().isBefore(dt2)) {
-				if (r.getStatus().equals(Enums.RequestStatus.Active))
-					active++;
-				if (r.getStatus().equals(Enums.RequestStatus.Closed))
-					closed++;
-				if (r.getStatus().equals(Enums.RequestStatus.Frozen))
-					frozen++;
-				if (r.getStatus().equals(Enums.RequestStatus.Rejected)
-						|| r.getStatus().equals(Enums.RequestStatus.RejectedClosed))
-					rejected++;
-				DateTime openingDate = new DateTime(r.getDate());
-				DateTime closingDate = new DateTime(r.getStages()[5].getActualDate());
-				Duration dur = new Duration(openingDate, closingDate);
-				durations += (int) dur.getStandardDays();
-			}
-
+		
+		String query = "select requests.Date,stages.ActualDate,requests.ID,requests.Status from requests,stages where stages.RequestID=requests.ID and stages.StageName=5";
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		ArrayList<Integer> l = new ArrayList<>();
-		l.add(active);
-		l.add(closed);
-		l.add(frozen);
-		l.add(rejected);
+		try {
+			while (rs.next()) {
+				try {
+					Datelist.add(rs.getString(1));
+					ClosingDatelist.add(rs.getString(2));
+					Statuses.add(rs.getInt(4));
+				} catch (SQLException e) {
+					e.printStackTrace();
+
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i < Statuses.size(); i++) {
+			DateTime openingDate = new DateTime(Datelist.get(i));
+			int currStatus = Statuses.get(i);
+			if (openingDate.isAfter(dt1) && openingDate.isBefore(dt2)) {
+				if (currStatus == 0)
+					active++;
+				if (currStatus == 1)
+					closed++;
+				if (currStatus == 2)
+					frozen++;
+				if (currStatus == 3 || currStatus == 4)
+					rejected++;
+				DateTime closingDate = new DateTime(ClosingDatelist.get(i));
+				Duration dur = new Duration(openingDate, closingDate);
+				long tmp = dur.getStandardHours();
+				durations += (tmp/24.0);
+			}
+		}
+		ArrayList<Double> l = new ArrayList<>();
+		l.add((double) active);
+		l.add((double) closed);
+		l.add((double) frozen);
+		l.add((double) rejected);
 		l.add(durations);
 		return l;
 	}

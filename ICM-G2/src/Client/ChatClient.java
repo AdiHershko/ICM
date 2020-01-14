@@ -561,18 +561,18 @@ public class ChatClient extends AbstractClient {
 				ManagerStatisticsController._ins.updateAddons((ArrayList<Double>) ((ClientServerMessage) msg).getL());
 				break;
 			case GetAddonsFreq:// if response for addons frequency
-				ObservableList<FrequencyDeviation> dasfsadf = FXCollections.observableArrayList();
+				ObservableList<FrequencyDeviation> addonsfreq = FXCollections.observableArrayList();
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
-					dasfsadf.add((FrequencyDeviation) o);
+					addonsfreq.add((FrequencyDeviation) o);
 				}
 				//if (!dasfsadf.isEmpty()) {
-					ManagerStatisticsController._ins.getAddonsTable().setItems(dasfsadf);
+					ManagerStatisticsController._ins.getAddonsTable().setItems(addonsfreq);
 					Platform.runLater(new Runnable() {
 						@SuppressWarnings("static-access")
 						public void run() {
 							if (ManagerStatisticsController._ins.getSeries2() != null)
 								ManagerStatisticsController._ins.getSeries2().getData().clear();
-							for (FrequencyDeviation fd : dasfsadf)
+							for (FrequencyDeviation fd : addonsfreq)
 								ManagerStatisticsController._ins.getSeries2().getData()
 										.add(new XYChart.Data<>(String.format("%.0f", fd.getValue()), fd.getFreq()));
 							ManagerStatisticsController._ins.getAddonsGraph().getData()
@@ -602,7 +602,7 @@ public class ChatClient extends AbstractClient {
 				});
 				break;
 			case Statistics:// if response for activity period statistics
-				ArrayList<Integer> arr12 = (ArrayList<Integer>) ((ClientServerMessage) msg).getL();
+				ArrayList<Double> arr12 = (ArrayList<Double>) ((ClientServerMessage) msg).getL();
 				Platform.runLater(new Runnable() {
 					public void run() {
 						ManagerStatisticsController._ins.updatePeropd(arr12);

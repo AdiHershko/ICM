@@ -52,7 +52,7 @@
                   <Label fx:id="closedLabel" layoutX="228.0" layoutY="124.0" text="Closed requests:" />
                   <Label fx:id="rejectedLabel" layoutX="218.0" layoutY="154.0" text="Rejected requests:" />
                   <Label fx:id="daysLabel" layoutX="198.0" layoutY="184.0" text="Number of work days:" />
-                  <Label layoutX="198.0" layoutY="22.0" text="Calculates for requests opened between the 2 dates." />
+                  <Label layoutX="198.0" layoutY="22.0" text="Calculates for requests opened between the dates." />
                </children>
             </Pane>
          </children>

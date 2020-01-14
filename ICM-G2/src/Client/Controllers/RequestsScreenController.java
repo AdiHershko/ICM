@@ -1417,7 +1417,7 @@ public class RequestsScreenController {
 		if (datePickerAss.getValue() == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
-			alert.setContentText("must fill due time!");
+			alert.setContentText("Must fill due time!");
 			alert.showAndWait();
 			return;
 		} else {
