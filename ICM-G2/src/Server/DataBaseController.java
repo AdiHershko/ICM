@@ -361,12 +361,12 @@ public class DataBaseController {
 	}
 
 	/**
-	 * Gets the requests with all data (for manager screen).
+	 * Gets the requests with all parameters (for manager screen).
 	 *
 	 * @param query the query
 	 * @return the requests observable list
 	 */
-	public static ObservableList<Request> getRequests1(String query) {
+	public static ObservableList<Request> getRequests_AllParam(String query) {
 		ObservableList<Request> o = FXCollections.observableArrayList();
 		ResultSet rs = null;
 		PreparedStatement statement;
@@ -1685,7 +1685,7 @@ public class DataBaseController {
 	public static ObservableList<Request> getAllRequests() {
 		String query;
 		query = "select * from requests";
-		return getRequests(query);
+		return getRequests_AllParam(query);
 	}
 
 	/**

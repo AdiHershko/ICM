@@ -346,7 +346,6 @@ public class AllSystemDataController {
 			usersTableView.setVisible(false);
 			messagesTableView.setVisible(false);
 			supervisorLogTableView.setVisible(false);
-
 		} else {
 			requestsTableView.setVisible(false);
 		}
