@@ -1865,11 +1865,9 @@ public class DataBaseController {
 	 * @return the activity data
 	 */
 	public static ArrayList<Double> getActivityData(String[] arr) {
-		int active = 0, closed = 0, frozen = 0, rejected = 0;
-		double durations = 0;
-		ObservableList<String> Datelist = FXCollections.observableArrayList();
-		ObservableList<String> ClosingDatelist = FXCollections.observableArrayList();
-		ObservableList<Integer> Statuses = FXCollections.observableArrayList();
+		ArrayList<String> Datelist = new ArrayList<String>();
+		ArrayList<String> ClosingDatelist = new ArrayList<String>();
+		ArrayList<Integer> Statuses = new ArrayList<Integer>();
 		
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 		DateTime dt1 = null, dt2 = null;
@@ -1903,31 +1901,66 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return calculateActivity(Datelist, ClosingDatelist, Statuses, dt1, dt2);
+	}
+	
+	/**
+	 * Calculate activity report (status count, work days count).
+	 *
+	 * @param Datelist the creation date list
+	 * @param ClosingDatelist the closing date list
+	 * @param Statuses the requests statuses
+	 * @param dt1 the start date
+	 * @param dt2 the end date
+	 * @return the results array list
+	 */
+	public static ArrayList<Double> calculateActivity(ArrayList<String> Datelist, ArrayList<String> ClosingDatelist, ArrayList<Integer> Statuses, DateTime dt1, DateTime dt2) {
+		int size = 5;//5 is the number of asked values
+		ArrayList<Double> l = new ArrayList<>();
+		for (int i = 0; i < size; i++) {
+			l.add(0.0);
+		}
 		for (int i = 0; i < Statuses.size(); i++) {
 			DateTime openingDate = new DateTime(Datelist.get(i));
 			int currStatus = Statuses.get(i);
 			if (openingDate.isAfter(dt1) && openingDate.isBefore(dt2)) {
-				if (currStatus == 0)
-					active++;
-				if (currStatus == 1)
-					closed++;
-				if (currStatus == 2)
-					frozen++;
-				if (currStatus == 3 || currStatus == 4)
-					rejected++;
+				if (currStatus != 4)
+					l.set(currStatus, l.get(currStatus)+1);
+				if (currStatus == 4)
+					l.set(3, l.get(3)+1);
 				DateTime closingDate = new DateTime(ClosingDatelist.get(i));
 				Duration dur = new Duration(openingDate, closingDate);
 				long tmp = dur.getStandardHours();
-				durations += (tmp/24.0);
+				l.set(4, l.get(4)+(tmp / 24.0));
 			}
 		}
-		ArrayList<Double> l = new ArrayList<>();
-		l.add((double) active);
-		l.add((double) closed);
-		l.add((double) frozen);
-		l.add((double) rejected);
-		l.add(durations);
 		return l;
 	}
 
+	/**
+	 * Save activity data in the DB.
+	 *
+	 * @param dates the report dates
+	 * @param list the statistics list
+	 */
+	public static void saveActivityData(String[] dates, ArrayList<Double> list) {
+		String query = "insert into statreports(statreports.creationDate, statreports.startDate, statreports.endDate, statreports.open, statreports.freezed, statreports.closed, statreports.rejected, statreports.days) values (?,?,?,?,?,?,?,?)";
+		PreparedStatement st;
+		DateTime currDate = new DateTime();
+		try {
+			st = c.prepareStatement(query);
+			st.setString(1, currDate.toString("dd/MM/yyyy HH:mm:ss"));
+			st.setString(2, dates[0]);
+			st.setString(3, dates[1]);
+			st.setInt(4, list.get(0).intValue());
+			st.setInt(5, list.get(1).intValue());
+			st.setInt(6, list.get(2).intValue());
+			st.setInt(7, list.get(3).intValue());
+			st.setDouble(8, list.get(4));
+			st.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
