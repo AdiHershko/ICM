@@ -569,6 +569,7 @@ public class ManagerStatisticsController {
 	 *
 	 * @param series the new series
 	 */
+	@SuppressWarnings("static-access")
 	public void setSeries(XYChart.Series<String,Integer> series) {
 		this.series = series;
 	}
