@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -598,6 +599,23 @@ public class EchoServer extends AbstractServer {
 					}catch(Exception e) {
 						e.printStackTrace();
 					}
+				break;
+			case GETREPORTHISTORY:
+				ArrayList<String> dates;
+				dates = DataBaseController.getReportHistory();
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.GETREPORTHISTORY,dates));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				break;
+			case LOADREPORTHISTORY:
+				String[] reportFromHistory = DataBaseController.getReportFromHistory(CSMsg.getMsg());
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.LOADREPORTHISTORY,reportFromHistory));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 				break;
 			default:
 				break;

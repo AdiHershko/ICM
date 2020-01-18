@@ -1962,4 +1962,55 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 	}
+
+
+	/**
+	 * Gets the report history.
+	 *
+	 * @return the report history as list
+	 */
+	public static ArrayList<String> getReportHistory(){
+		String query = "select statreports.creationDate from statreports";
+		PreparedStatement st;
+		ResultSet rs;
+		ArrayList<String> dates = new ArrayList<>();
+		try{
+			st = c.prepareStatement(query);
+			rs=st.executeQuery();
+			while (rs.next()){
+				dates.add(rs.getString(1));
+			}
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return dates;
+	}
+
+	/**
+	 * Gets the report data history.
+	 *
+	 * @param creationDate the creation date of the report
+	 * @return the report data
+	 */
+	public static String[] getReportFromHistory(String creationDate){
+		String query = "select * from statreports where statreports.creationDate='"+creationDate+"'";
+		PreparedStatement st;
+		ResultSet rs;
+		String[] res = new String[8];
+		try{
+			st=c.prepareStatement(query);
+			rs=st.executeQuery();
+			rs.next();
+			for (int i = 0 ;i<3;i++) //3 dates
+				res[i]=rs.getString(i+1);
+			for (int i = 3;i<7;i++)
+				res[i]=""+rs.getInt(i+1);
+			res[7]=""+rs.getDouble(8);
+		}catch(SQLException e){
+			e.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return res;
+	}
 }

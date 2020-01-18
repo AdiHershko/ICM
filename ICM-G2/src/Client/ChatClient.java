@@ -11,6 +11,8 @@ import Client.Controllers.AllSystemDataController;
 import Client.Controllers.ISUsersScreenController;
 import Client.Controllers.LoginScreenController;
 import Client.Controllers.ManagerStatisticsController;
+import Client.Controllers.ReportController;
+import Client.Controllers.ReportsHistoryController;
 import Client.Controllers.RequestSettingsController;
 import Client.Controllers.RequestsScreenController;
 import Client.Controllers.ShowFilesScreenController;
@@ -615,6 +617,21 @@ public class ChatClient extends AbstractClient {
 					RequestsScreenController._ins.setShowFiles(true);
 				}
 				RequestsScreenController._ins.setSemaphore(false);
+				break;
+			case GETREPORTHISTORY:
+				ArrayList<String> dates = (ArrayList<String>) ((ClientServerMessage)msg).getL();
+				ObservableList<String> datesObs = FXCollections.observableArrayList();
+				datesObs.addAll(dates);
+				if (dates==null) return;
+				Platform.runLater(new Runnable(){
+					public void run(){
+						ReportsHistoryController._ins.getReportsListView().setItems(datesObs);
+					}
+				});
+				break;
+			case LOADREPORTHISTORY:
+				Platform.runLater(()->ReportController._ins.loadData(((ClientServerMessage)msg).getArray()));
+				break;
 			default:
 				break;
 			}
