@@ -183,7 +183,7 @@ public class ManagerStatisticsController {
 	private NumberAxis yAxis;
 
 	/** The series for the graph. */
-	XYChart.Series<String,Integer> series;
+	static XYChart.Series<String,Integer> series;
 
 	/** The first series for the graph. */
 	static XYChart.Series<String,Integer> series1;
@@ -390,17 +390,20 @@ public class ManagerStatisticsController {
 	 */
 	@FXML
 	void getReport1(ActionEvent event) {
-		String s1 = fromDate.getValue().toString();
-		String s2 = toDate.getValue().toString();
 		String[] s = new String[2];
-		s[0] = s1;
-		s[1] = s2;
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 		DateTime dt1 = null, dt2 = null;
 		try {
-			dt1 = dtf.parseDateTime(s1);
-			dt2 = dtf.parseDateTime(s2);
-		} catch (IllegalArgumentException e) {
+		s[0] = fromDate.getValue().toString();
+		s[1] = toDate.getValue().toString();
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+		dt1 = dtf.parseDateTime(s[0]);
+		dt2 = dtf.parseDateTime(s[1]);
+		} catch (Exception e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Wrong input");
+			alert.setContentText("Bad dates");
+			alert.showAndWait();
+			return;
 		}
 		if (dt1.isBefore(dt2)) {
 			ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.getPeriodReport, s));
@@ -410,7 +413,7 @@ public class ManagerStatisticsController {
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Wrong input");
-			alert.setContentText("From date bigger or equal from the end date");
+			alert.setContentText("Start date is later or equal from the end date");
 			alert.showAndWait();
 			return;
 		}
@@ -724,6 +727,11 @@ public class ManagerStatisticsController {
 
 
 
+	/**
+	 * History button.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void history(ActionEvent event){
 		Parent root = null;

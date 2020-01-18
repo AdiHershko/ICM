@@ -8,19 +8,20 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="392.0" stylesheets="@application-nobg.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.ReportController">
    <children>
       <Text layoutX="14.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report creation date:" />
-      <Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report preiod:" />
-      <Text layoutX="13.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Open reports:" />
-      <Text layoutX="9.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Freezed reports:" />
-      <Text layoutX="10.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Closed reports:" />
-      <Text layoutX="14.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rejected reports:" />
-      <Text layoutX="13.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total days:" />
+      <Text layoutX="48.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report preiod:" />
+      <Text layoutX="53.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Open reports:" />
+      <Text layoutX="41.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Freezed reports:" />
+      <Text layoutX="46.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Closed reports:" />
+      <Text layoutX="38.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rejected reports:" />
+      <Text layoutX="70.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total days:" />
       <Label fx:id="creationDateLabel" layoutX="136.0" layoutY="36.0" text="creationDateLabel" />
-      <Label fx:id="periodLabel" layoutX="125.0" layoutY="64.0" text="periodLabel" />
-      <Label fx:id="openLabel" layoutX="111.0" layoutY="97.0" text="Label" />
-      <Label fx:id="freezedLabel" layoutX="111.0" layoutY="132.0" text="Label" />
-      <Label fx:id="closedLabel" layoutX="97.0" layoutY="167.0" text="Label" />
-      <Label fx:id="rejectedLabel" layoutX="111.0" layoutY="197.0" text="Label" />
-      <Label fx:id="totalLabel" layoutX="89.0" layoutY="238.0" text="totalLabel" />
+      <Label fx:id="periodLabel" layoutX="136.0" layoutY="64.0" text="periodLabel" />
+      <Label fx:id="openLabel" layoutX="136.0" layoutY="97.0" text="Label" />
+      <Label fx:id="freezedLabel" layoutX="136.0" layoutY="132.0" text="Label" />
+      <Label fx:id="closedLabel" layoutX="136.0" layoutY="167.0" text="Label" />
+      <Label fx:id="rejectedLabel" layoutX="136.0" layoutY="197.0" text="Label" />
+      <Label fx:id="totalLabel" layoutX="136.0" layoutY="226.0" text="totalLabel" />
       <Button fx:id="closeButton" layoutX="162.0" layoutY="316.0" mnemonicParsing="false" onAction="#close" text="Close" />
+      <Text layoutX="14.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculates for requests opened between the dates." />
    </children>
 </Pane>

@@ -582,7 +582,7 @@ public class EchoServer extends AbstractServer {
 					return;
 				}
 				break;
-			case SHOWFILES:
+			case SHOWFILES:// if show files
 				File exist = new File("src\\"+CSMsg.getRequest().getId());
 				if (exist.exists())
 				{
@@ -600,7 +600,7 @@ public class EchoServer extends AbstractServer {
 						e.printStackTrace();
 					}
 				break;
-			case GETREPORTHISTORY:
+			case GETREPORTHISTORY:// if get report history
 				ArrayList<String> dates;
 				dates = DataBaseController.getReportHistory();
 				try{
@@ -609,10 +609,27 @@ public class EchoServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				break;
-			case LOADREPORTHISTORY:
+			case LOADREPORTHISTORY:// if load history report
 				String[] reportFromHistory = DataBaseController.getReportFromHistory(CSMsg.getMsg());
 				try{
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.LOADREPORTHISTORY,reportFromHistory));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				break;
+			case ALLACTIVITY:// if get all activity
+				ArrayList<ArrayList<Double>> allActivity = DataBaseController.getAllActivityReports();
+				ArrayList<ArrayList<Double>> calculated = new ArrayList<ArrayList<Double>>();
+				ArrayList<Object[]> freq = new ArrayList<Object[]>();
+				for (int i = 0; i<allActivity.size(); i++) {
+					calculated.add(c.calcAll(allActivity.get(i)));
+					ObservableList<FrequencyDeviation> freqAdd = c.freqDeviation(allActivity.get(i));
+					Object[] freqArray =(Object[]) freqAdd.toArray(); 
+					freq.add(freqArray);
+				}
+				try{
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ALLACTIVITY,calculated));
+					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.ALLACTIVITYFREQ,freq));
 				}catch(Exception e){
 					e.printStackTrace();
 				}

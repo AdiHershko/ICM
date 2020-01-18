@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import Client.Controllers.ActivityReportsStat;
 import Client.Controllers.AllSystemDataController;
 import Client.Controllers.ISUsersScreenController;
 import Client.Controllers.LoginScreenController;
@@ -567,21 +568,19 @@ public class ChatClient extends AbstractClient {
 				for (Object o : ((ClientServerMessage) msg).getArray()) {
 					addonsfreq.add((FrequencyDeviation) o);
 				}
-				//if (!dasfsadf.isEmpty()) {
-					ManagerStatisticsController._ins.getAddonsTable().setItems(addonsfreq);
-					Platform.runLater(new Runnable() {
-						@SuppressWarnings("static-access")
-						public void run() {
-							if (ManagerStatisticsController._ins.getSeries2() != null)
-								ManagerStatisticsController._ins.getSeries2().getData().clear();
-							for (FrequencyDeviation fd : addonsfreq)
-								ManagerStatisticsController._ins.getSeries2().getData()
-										.add(new XYChart.Data<>(String.format("%.0f", fd.getValue()), fd.getFreq()));
-							ManagerStatisticsController._ins.getAddonsGraph().getData()
-									.add(ManagerStatisticsController._ins.getSeries2());
-						}
-					});
-				//}
+				ManagerStatisticsController._ins.getAddonsTable().setItems(addonsfreq);
+				Platform.runLater(new Runnable() {
+					@SuppressWarnings("static-access")
+					public void run() {
+						if (ManagerStatisticsController._ins.getSeries2() != null)
+							ManagerStatisticsController._ins.getSeries2().getData().clear();
+						for (FrequencyDeviation fd : addonsfreq)
+							ManagerStatisticsController._ins.getSeries2().getData()
+									.add(new XYChart.Data<>(String.format("%.0f", fd.getValue()), fd.getFreq()));
+						ManagerStatisticsController._ins.getAddonsGraph().getData()
+								.add(ManagerStatisticsController._ins.getSeries2());
+					}
+				});
 				ManagerStatisticsController._ins.setLoadingsem(false);
 				break;
 			case REMOVEUSER:// if response for user removale request
@@ -612,13 +611,13 @@ public class ChatClient extends AbstractClient {
 				});
 				ManagerStatisticsController._ins.setLoadingsem(false);
 				return;
-			case SHOWFILES:
+			case SHOWFILES:// if show files
 				if (((ClientServerMessage) msg).isUploadstatus()) {
 					RequestsScreenController._ins.setShowFiles(true);
 				}
 				RequestsScreenController._ins.setSemaphore(false);
 				break;
-			case GETREPORTHISTORY:
+			case GETREPORTHISTORY:// if got report history
 				ArrayList<String> dates = (ArrayList<String>) ((ClientServerMessage)msg).getL();
 				ObservableList<String> datesObs = FXCollections.observableArrayList();
 				datesObs.addAll(dates);
@@ -629,9 +628,15 @@ public class ChatClient extends AbstractClient {
 					}
 				});
 				break;
-			case LOADREPORTHISTORY:
+			case LOADREPORTHISTORY:// if got report history
 				Platform.runLater(()->ReportController._ins.loadData(((ClientServerMessage)msg).getArray()));
 				break;
+			case ALLACTIVITY:// if got all activity
+				ArrayList<ArrayList<Double>> allActivity = (ArrayList<ArrayList<Double>>) ((ClientServerMessage)msg).getL();
+				Platform.runLater(()->ActivityReportsStat._ins.setLabels(allActivity));
+			case ALLACTIVITYFREQ:// if got all activity frequency
+				ArrayList<Object[]> allActivityFreq = (ArrayList<Object[]>) ((ClientServerMessage)msg).getL();
+				Platform.runLater(()->ActivityReportsStat._ins.setFreq(allActivityFreq));
 			default:
 				break;
 			}

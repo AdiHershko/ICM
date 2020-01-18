@@ -14,9 +14,9 @@ import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ReportsHistoryController.
+ * Controller for 3.4-ReportsHistory.fxml.
  */
 public class ReportsHistoryController {
 
@@ -44,7 +44,8 @@ public class ReportsHistoryController {
 		ClientMain.client.handleMessageFromClientUI(new ClientServerMessage(Enums.MessageEnum.GETREPORTHISTORY));
 	}
 
-
+	@FXML
+    private Button historyBtn;
 
 	/**
 	 * Open report from the list.
@@ -62,7 +63,7 @@ public class ReportsHistoryController {
 			e.printStackTrace();
 		}
 		Scene reportsHistory = new Scene(root);
-		newWindow.setTitle("Reports History List");
+		newWindow.setTitle("Report");
 		newWindow.setScene(reportsHistory);
 		newWindow.setResizable(false);
 		newWindow.initOwner((Stage) (openReportButton.getScene().getWindow()));
@@ -96,4 +97,22 @@ public class ReportsHistoryController {
 
 
 
+	@FXML
+    void showHistory() {
+		Parent root = null;
+		Stage newWindow = new Stage();
+		try {
+			root = FXMLLoader.load(getClass().getResource("3.4.2-ActivityReportsStat.fxml"));
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		Scene reportsHistory = new Scene(root);
+		newWindow.setTitle("Reports History Statistics");
+		newWindow.setScene(reportsHistory);
+		newWindow.initOwner((Stage) (openReportButton.getScene().getWindow()));
+		newWindow.initModality(Modality.WINDOW_MODAL);
+		newWindow.show();
+    }
+	
 }

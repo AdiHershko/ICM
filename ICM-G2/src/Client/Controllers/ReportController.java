@@ -8,9 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ReportController.
+ * Controller for 3.4.1-Report.fxml.
  */
 public class ReportController {
 

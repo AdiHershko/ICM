@@ -2013,4 +2013,36 @@ public class DataBaseController {
 		}
 		return res;
 	}
+	
+	public static ArrayList<ArrayList<Double>> getAllActivityReports() {
+		String query = "select statreports.open, statreports.freezed, statreports.closed, statreports.rejected, statreports.days from statreports";
+		ArrayList<ArrayList<Double>> list = new ArrayList<ArrayList<Double>>();
+		int size = 5;
+		for (int i = 0; i<size;i++) {
+			list.add(new ArrayList<Double>());
+		}
+		ResultSet rs = null;
+		PreparedStatement statement;
+		try {
+			statement = c.prepareStatement(query);
+			rs = statement.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			while (rs.next()) {
+				try {
+					for (int i = 0; i < size;i++) {
+						list.get(i).add(rs.getDouble(i+1));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }
