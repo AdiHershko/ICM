@@ -34,6 +34,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -719,6 +720,27 @@ public class ManagerStatisticsController {
 
 		}
 
+	}
+
+
+
+	@FXML
+	public void history(ActionEvent event){
+		Parent root = null;
+		Stage newWindow = new Stage();
+		try {
+			root = FXMLLoader.load(getClass().getResource("3.4-ReportsHistory.fxml"));
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		Scene reportsHistory = new Scene(root);
+		newWindow.setTitle("Reports History List");
+		newWindow.setScene(reportsHistory);
+		newWindow.setResizable(false);
+		newWindow.initOwner((Stage) (getReport1.getScene().getWindow()));
+		newWindow.initModality(Modality.WINDOW_MODAL);
+		newWindow.show();
 	}
 
 

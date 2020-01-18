@@ -55,6 +55,7 @@
                   <Label layoutX="198.0" layoutY="22.0" text="Calculates for requests opened between the dates." />
                </children>
             </Pane>
+            <Button layoutX="621.0" layoutY="23.0" mnemonicParsing="false" onAction="#history" text="Reports hisory" />
          </children>
       </Pane>
       <Pane fx:id="delaysPane" layoutX="97.0" layoutY="168.0" prefHeight="417.0" prefWidth="902.0" visible="false">

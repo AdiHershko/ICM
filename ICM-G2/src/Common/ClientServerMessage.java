@@ -224,7 +224,7 @@ public class ClientServerMessage implements Serializable {
 	 * @param type the type
 	 * @param l the list
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ClientServerMessage(MessageEnum type, List l) {
 		this.type = type;
 		this.l = l;

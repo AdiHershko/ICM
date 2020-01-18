@@ -1666,9 +1666,9 @@ public class DataBaseController {
 
 		try {
 			while (rs.next()) {
-				Stage s = new Stage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(1)), rs.getString(2),
-						rs.getBoolean(3), rs.getBoolean(4), rs.getString(5), rs.getInt(6), rs.getString(7),
-						rs.getString(8), rs.getString(9), rs.getInt(10));
+				Stage s = new Stage(Enums.RequestStageENUM.getRequestStageENUM(rs.getInt(1)), new DateTime(rs.getString(2)).toString("dd/MM/yyyy"),
+						rs.getBoolean(3), rs.getBoolean(4), rs.getString(5), rs.getInt(6), new DateTime(rs.getString(7)).toString("dd/MM/yyyy"),
+						rs.getString(8)==null ? null : new DateTime(rs.getString(8)).toString("dd/MM/yyyy"), rs.getString(9), rs.getInt(10));
 				o.add(s);
 			}
 		} catch (Exception e) {
@@ -1870,7 +1870,7 @@ public class DataBaseController {
 		ObservableList<String> Datelist = FXCollections.observableArrayList();
 		ObservableList<String> ClosingDatelist = FXCollections.observableArrayList();
 		ObservableList<Integer> Statuses = FXCollections.observableArrayList();
-		
+
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 		DateTime dt1 = null, dt2 = null;
 		try {
@@ -1878,7 +1878,7 @@ public class DataBaseController {
 			dt2 = dtf.parseDateTime(arr[1]);
 		} catch (IllegalArgumentException e) {
 		}
-		
+
 		String query = "select requests.Date,stages.ActualDate,requests.ID,requests.Status from requests,stages where stages.RequestID=requests.ID and stages.StageName=5";
 		ResultSet rs = null;
 		PreparedStatement statement;
