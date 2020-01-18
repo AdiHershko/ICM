@@ -574,6 +574,7 @@ public class EchoServer extends AbstractServer {
 			case getPeriodReport:// if get periodic report
 				String[] s = (String[]) CSMsg.getArray();
 				ArrayList<Double> peroid = DataBaseController.getActivityData(s);
+				DataBaseController.saveActivityData(s, peroid);
 				try {
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.Statistics, peroid));
 				} catch (IOException e1) {
