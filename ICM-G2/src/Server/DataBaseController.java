@@ -2014,6 +2014,11 @@ public class DataBaseController {
 		return res;
 	}
 	
+	/**
+	 * Gets the all activity reports.
+	 *
+	 * @return all activity reports
+	 */
 	public static ArrayList<ArrayList<Double>> getAllActivityReports() {
 		String query = "select statreports.open, statreports.freezed, statreports.closed, statreports.rejected, statreports.days from statreports";
 		ArrayList<ArrayList<Double>> list = new ArrayList<ArrayList<Double>>();
