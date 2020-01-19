@@ -131,6 +131,22 @@ public class RequestSettingsController {
 	@FXML
 	private Button editAssesmentButton1;
 
+	/** The label for initialization stage. */
+	@FXML
+    private Label init1;
+
+	/** The label for initialization stage. */
+    @FXML
+    private Label init2;
+
+    /** The label for initialization stage. */
+    @FXML
+    private Label init3;
+
+    /** The label for initialization stage. */
+    @FXML
+    private Label init4;
+	
 	/**
 	 * Initialize the fxml.
 	 */
@@ -139,7 +155,18 @@ public class RequestSettingsController {
 		currentRequest = ClientMain.currentRequest;
 		currentUser = ClientMain.currentUser;
 		if (currentRequest.getCurrentStage() != Enums.RequestStageENUM.Initialization) {
-			editAssesmentButton.setVisible(false);
+				init1.setVisible(false);
+				init2.setVisible(false);
+				init3.setVisible(false);
+				init4.setVisible(false);
+				editAssesmentButton.setVisible(false);
+		}
+		else {
+				init1.setVisible(true);
+				init2.setVisible(true);
+				init3.setVisible(true);
+				init4.setVisible(true);
+				editAssesmentButton.setVisible(true);
 		}
 		setScreen();
 	}
