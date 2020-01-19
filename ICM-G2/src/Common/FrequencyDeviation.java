@@ -73,4 +73,14 @@ public class FrequencyDeviation implements Serializable {
 	public String toString() {
 		return value + "," + freq;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (! (o instanceof FrequencyDeviation))
+			return false;
+		FrequencyDeviation f = (FrequencyDeviation) o;
+		if (f.getFreq() == freq && f.getValue() == value)
+			return true;
+		return false;
+	}
 }

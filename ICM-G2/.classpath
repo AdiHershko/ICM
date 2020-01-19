@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="src/Server/mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="lib" path="src/Common/joda-time-2.10.5.jar"/>
 	<classpathentry kind="lib" path="src/Server/javax.mail.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
