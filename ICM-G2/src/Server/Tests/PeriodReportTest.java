@@ -13,10 +13,7 @@ import org.junit.Test;
 
 import Common.FrequencyDeviation;
 import Server.Calculator;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import Server.Calculator;
 
 
 /**
@@ -180,11 +177,30 @@ public class PeriodReportTest {
 
 	}
 
-
-
-
-
+	@Test
+	public void test_GetHistory(){
+		ArrayList<ArrayList<Double>> calculated = dbStub.getAllActivityCalc();
+		for (int i = 0; i < calculated.size(); i++) {
+			ArrayList<Double> current = calculated.get(i);
+			switch(i) {
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			default:
+				assertTrue(false);
+			}
+		}
+		assertTrue(true);
 	}
+	
+}
 
 
 
@@ -196,9 +212,12 @@ class DataBaseControllerStub implements IDataBaseController{
 	ArrayList<String> dateList;
 	ArrayList<String> closingList;
 	ArrayList<Integer> statusesList;
+	ArrayList<ArrayList<Double>> history = new ArrayList<ArrayList<Double>>();
+	
 	Calculator calc;
 	public DataBaseControllerStub() {
 		calc = new Calculator();
+		history = new ArrayList<>();
 		dateList = new ArrayList<>();
 		dateList.add("2020-01-14T12:00:00.000+02:00");
 		dateList.add("2020-01-14T12:00:00.000+02:00");
@@ -237,8 +256,16 @@ class DataBaseControllerStub implements IDataBaseController{
 			dt2 = dtf.parseDateTime(strArr[1]);
 		} catch (IllegalArgumentException e) {
 		}
-		return calc.calculateActivity(dateList, closingList, statusesList, dt1, dt2);
+		ArrayList<Double> report = calc.calculateActivity(dateList, closingList, statusesList, dt1, dt2);
+		history.add(report);
+		return report;
 	}
 
+	public ArrayList<ArrayList<Double>> getAllActivityCalc(){
+		ArrayList<ArrayList<Double>> calculated = new ArrayList<ArrayList<Double>>();
+		for (int i = 0; i < history.size(); i++)
+			calculated.add(calc.calcAll(history.get(i)));
+		return calculated;
+	}
 
 }
