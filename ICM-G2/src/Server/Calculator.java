@@ -3,6 +3,9 @@ package Server;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+
 import Common.FrequencyDeviation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +17,7 @@ import javafx.collections.ObservableList;
 public class Calculator {
 	
 	/** The ins. */
-	private static Calculator _ins;
+	public static Calculator _ins;
 
 	/**
 	 * Gets the instance.
@@ -112,6 +115,40 @@ public class Calculator {
 			res.add(f);
 		}
 		return res;
+	}
+	
+	/**
+	 * Calculate activity report (status count, work days count).
+	 *
+	 * @param Datelist the creation date list
+	 * @param ClosingDatelist the closing date list
+	 * @param Statuses the requests statuses
+	 * @param dt1 the start date
+	 * @param dt2 the end date
+	 * @return the results array list
+	 */
+	
+	public static ArrayList<Double> calculateActivity(ArrayList<String> Datelist, ArrayList<String> ClosingDatelist, ArrayList<Integer> Statuses, DateTime dt1, DateTime dt2) {
+		int size = 5;//5 is the number of asked values
+		ArrayList<Double> l = new ArrayList<>();
+		for (int i = 0; i < size; i++) {
+			l.add(0.0);
+		}
+		for (int i = 0; i < Statuses.size(); i++) {
+			DateTime openingDate = new DateTime(Datelist.get(i));
+			int currStatus = Statuses.get(i);
+			if (openingDate.isAfter(dt1) && openingDate.isBefore(dt2)) {
+				if (currStatus != 4)
+					l.set(currStatus, l.get(currStatus)+1);
+				if (currStatus == 4)
+					l.set(3, l.get(3)+1);
+				DateTime closingDate = new DateTime(ClosingDatelist.get(i));
+				Duration dur = new Duration(openingDate, closingDate);
+				long tmp = dur.getStandardHours();
+				l.set(4, l.get(4)+(tmp / 24.0));
+			}
+		}
+		return l;
 	}
 
 }

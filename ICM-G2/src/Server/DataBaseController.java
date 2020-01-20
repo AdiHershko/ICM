@@ -1864,6 +1864,7 @@ public class DataBaseController {
 	 * @param arr the date strings array
 	 * @return the activity data
 	 */
+	@SuppressWarnings("static-access")
 	public static ArrayList<Double> getActivityData(String[] arr) {
 		ArrayList<String> Datelist = new ArrayList<String>();
 		ArrayList<String> ClosingDatelist = new ArrayList<String>();
@@ -1900,42 +1901,11 @@ public class DataBaseController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		return calculateActivity(Datelist, ClosingDatelist, Statuses, dt1, dt2);
+		return Calculator._ins.calculateActivity(Datelist, ClosingDatelist, Statuses, dt1, dt2);
 	}
 
-	/**
-	 * Calculate activity report (status count, work days count).
-	 *
-	 * @param Datelist the creation date list
-	 * @param ClosingDatelist the closing date list
-	 * @param Statuses the requests statuses
-	 * @param dt1 the start date
-	 * @param dt2 the end date
-	 * @return the results array list
-	 */
-	public static ArrayList<Double> calculateActivity(ArrayList<String> Datelist, ArrayList<String> ClosingDatelist, ArrayList<Integer> Statuses, DateTime dt1, DateTime dt2) {
-		int size = 5;//5 is the number of asked values
-		ArrayList<Double> l = new ArrayList<>();
-		for (int i = 0; i < size; i++) {
-			l.add(0.0);
-		}
-		for (int i = 0; i < Statuses.size(); i++) {
-			DateTime openingDate = new DateTime(Datelist.get(i));
-			int currStatus = Statuses.get(i);
-			if (openingDate.isAfter(dt1) && openingDate.isBefore(dt2)) {
-				if (currStatus != 4)
-					l.set(currStatus, l.get(currStatus)+1);
-				if (currStatus == 4)
-					l.set(3, l.get(3)+1);
-				DateTime closingDate = new DateTime(ClosingDatelist.get(i));
-				Duration dur = new Duration(openingDate, closingDate);
-				long tmp = dur.getStandardHours();
-				l.set(4, l.get(4)+(tmp / 24.0));
-			}
-		}
-		return l;
-	}
+
+
 
 	/**
 	 * Save activity data in the DB.
