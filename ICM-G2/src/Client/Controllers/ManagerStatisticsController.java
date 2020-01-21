@@ -284,9 +284,9 @@ public class ManagerStatisticsController extends Application {
 		series = new XYChart.Series<>();
 		series1 = new XYChart.Series<>();
 		series2 = new XYChart.Series<>();
-		reportChoiceBox = new ChoiceBox<String>();
-		systemCB = new ChoiceBox<SystemENUM>();
-		new Thread() {
+	//	reportChoiceBox = new ChoiceBox<String>();
+	//	systemCB = new ChoiceBox<SystemENUM>();
+	/*	new Thread() {
 			public void run() {
 				Platform.runLater(() -> userNameLabel
 						.setText(ClientMain.currentUser.getFirstName() + " " + ClientMain.currentUser.getLastName()));
@@ -308,7 +308,7 @@ public class ManagerStatisticsController extends Application {
 				}
 
 			}
-		}.start();
+		}.start();*/
 		ManagerStatisticsController._ins.getExtensionsGraph().getYAxis().setLabel("Frequency");
 		ManagerStatisticsController._ins.getExtensionsGraph().getXAxis().setLabel("Value");
 		systemCB.getItems().addAll(SystemENUM.All, SystemENUM.Computers, SystemENUM.InfoStation, SystemENUM.Labs);
@@ -319,7 +319,7 @@ public class ManagerStatisticsController extends Application {
 		reportChoiceBox.getItems().add("Delays Report");
 		reportChoiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> changePane());
 		setTables();
-		System.out.println("asdfasdfasdfasdfasdf");
+		System.out.println("initalize done");
 	}
 
 	/**
@@ -790,12 +790,17 @@ public class ManagerStatisticsController extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("3.4.1-Report.fxml").toExternalForm());
+		loader.setLocation(getClass().getResource("3.2-ManagerStatistics.fxml"));
 		Pane root = loader.load();
 		Scene s = new Scene(root);
 		primaryStage.setScene(s);
 		primaryStage.show();
 
+	}
+	
+	public static void main(String[] args)
+	{
+		launch(args);
 	}
 
 
