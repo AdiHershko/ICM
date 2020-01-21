@@ -90,7 +90,7 @@ public class DataBaseController {
 			e.printStackTrace();
 			return false;
 		}
-		emailService = EmailService.getInstannce();
+		//emailService = EmailService.getInstannce();
 		setAllDisconnected();
 		return true;
 	}
@@ -1977,9 +1977,9 @@ public class DataBaseController {
 				res[i]=""+rs.getInt(i+1);
 			res[7]=""+rs.getDouble(8);
 		}catch(SQLException e){
-			e.printStackTrace();
+			return null;
 		}catch(Exception e){
-			e.printStackTrace();
+			return null;
 		}
 		return res;
 	}

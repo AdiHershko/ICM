@@ -1,7 +1,9 @@
 package Client.Controllers;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -16,6 +18,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -60,7 +63,7 @@ public class ManagerStatisticsController {
 
 	/** The report choice box. */
 	@FXML
-	private ChoiceBox<String> reportChoiceBox = new ChoiceBox<String>();
+	private ChoiceBox<String> reportChoiceBox;
 
 	/** The manager back button. */
 	@FXML
@@ -152,7 +155,7 @@ public class ManagerStatisticsController {
 
 	/** The system ChoiceBox for delays report. */
 	@FXML
-	private ChoiceBox<SystemENUM> systemCB = new ChoiceBox<SystemENUM>();
+	private ChoiceBox<SystemENUM> systemCB;
 
 	/** The delays number. */
 	@FXML
@@ -280,6 +283,8 @@ public class ManagerStatisticsController {
 		series = new XYChart.Series<>();
 		series1 = new XYChart.Series<>();
 		series2 = new XYChart.Series<>();
+		reportChoiceBox = new ChoiceBox<String>();
+		systemCB = new ChoiceBox<SystemENUM>();
 		new Thread() {
 			public void run() {
 				Platform.runLater(() -> userNameLabel
@@ -313,6 +318,7 @@ public class ManagerStatisticsController {
 		reportChoiceBox.getItems().add("Delays Report");
 		reportChoiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> changePane());
 		setTables();
+		System.out.println("asdfasdfasdfasdfasdf");
 	}
 
 	/**
@@ -525,16 +531,39 @@ public class ManagerStatisticsController {
 	 * @param res the res
 	 */
 	public void updatePeropd(ArrayList<Double> res) {
-		Platform.runLater(new Runnable() {
-			public void run() {
+
 				openLabel.setText(String.format("Open requests: %.0f", res.get(0)));
 				freezeLabel.setText(String.format("Freezed requests: %.0f", res.get(2)));
 				closedLabel.setText(String.format("Closed requests: %.0f", res.get(1)));
 				rejectedLabel.setText(String.format("Rejected requests: %.0f", res.get(3)));
 				daysLabel.setText(String.format("Number of work days: %.2f", res.get(4)));
 				periodRep.setVisible(true);
-			}
-		});
+	}
+	
+	
+
+	public Pane getPeriodRep() {
+		return periodRep;
+	}
+
+	public Label getOpenLabel() {
+		return openLabel;
+	}
+
+	public Label getFreezeLabel() {
+		return freezeLabel;
+	}
+
+	public Label getClosedLabel() {
+		return closedLabel;
+	}
+
+	public Label getRejectedLabel() {
+		return rejectedLabel;
+	}
+
+	public Label getDaysLabel() {
+		return daysLabel;
 	}
 
 	/**
@@ -751,6 +780,13 @@ public class ManagerStatisticsController {
 		newWindow.initModality(Modality.WINDOW_MODAL);
 		newWindow.show();
 	}
+	
+	
+	public void setOpenLabel(Label openLabel) {
+		this.openLabel=openLabel;
+	}
+
+
 
 
 }

@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -609,7 +610,8 @@ public class EchoServer extends AbstractServer {
 				}
 				break;
 			case LOADREPORTHISTORY:// if load history report
-				String[] reportFromHistory = DataBaseController.getReportFromHistory(CSMsg.getMsg());
+				String[] reportFromHistory = null;
+				reportFromHistory = DataBaseController.getReportFromHistory(CSMsg.getMsg());
 				try{
 					client.sendToClient(new ClientServerMessage(Enums.MessageEnum.LOADREPORTHISTORY,reportFromHistory));
 				}catch(Exception e){
