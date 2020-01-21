@@ -14,6 +14,7 @@ import Common.ClientServerMessage;
 import Common.Enums;
 import Common.FrequencyDeviation;
 import Common.Enums.SystemENUM;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +45,7 @@ import javafx.stage.Stage;
  * The Class ManagerStatisticsController:
  * Controller for 3.2-ManagerStatistics.fxml.
  */
-public class ManagerStatisticsController {
+public class ManagerStatisticsController extends Application {
 
 	/** The ins. */
 	public static ManagerStatisticsController _ins;
@@ -539,8 +540,8 @@ public class ManagerStatisticsController {
 				daysLabel.setText(String.format("Number of work days: %.2f", res.get(4)));
 				periodRep.setVisible(true);
 	}
-	
-	
+
+
 
 	public Pane getPeriodRep() {
 		return periodRep;
@@ -780,10 +781,21 @@ public class ManagerStatisticsController {
 		newWindow.initModality(Modality.WINDOW_MODAL);
 		newWindow.show();
 	}
-	
-	
+
+
 	public void setOpenLabel(Label openLabel) {
 		this.openLabel=openLabel;
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("3.4.1-Report.fxml").toExternalForm());
+		Pane root = loader.load();
+		Scene s = new Scene(root);
+		primaryStage.setScene(s);
+		primaryStage.show();
+
 	}
 
 
