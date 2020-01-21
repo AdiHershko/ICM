@@ -1,9 +1,7 @@
 package Client.Controllers;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -19,7 +17,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -284,12 +281,12 @@ public class ManagerStatisticsController extends Application {
 		series = new XYChart.Series<>();
 		series1 = new XYChart.Series<>();
 		series2 = new XYChart.Series<>();
-	//	reportChoiceBox = new ChoiceBox<String>();
-	//	systemCB = new ChoiceBox<SystemENUM>();
-	/*	new Thread() {
+		reportChoiceBox = new ChoiceBox<String>();
+		systemCB = new ChoiceBox<SystemENUM>();
+		new Thread() {
 			public void run() {
-				Platform.runLater(() -> userNameLabel
-						.setText(ClientMain.currentUser.getFirstName() + " " + ClientMain.currentUser.getLastName()));
+				/*Platform.runLater(() -> userNameLabel
+						.setText(ClientMain.currentUser.getFirstName() + " " + ClientMain.currentUser.getLastName()));*/
 				while (true) // update time in 0.5s intervals
 				{
 
@@ -308,7 +305,7 @@ public class ManagerStatisticsController extends Application {
 				}
 
 			}
-		}.start();*/
+		}.start();
 		ManagerStatisticsController._ins.getExtensionsGraph().getYAxis().setLabel("Frequency");
 		ManagerStatisticsController._ins.getExtensionsGraph().getXAxis().setLabel("Value");
 		systemCB.getItems().addAll(SystemENUM.All, SystemENUM.Computers, SystemENUM.InfoStation, SystemENUM.Labs);
@@ -319,7 +316,6 @@ public class ManagerStatisticsController extends Application {
 		reportChoiceBox.getItems().add("Delays Report");
 		reportChoiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> changePane());
 		setTables();
-		System.out.println("initalize done");
 	}
 
 	/**

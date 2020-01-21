@@ -1,7 +1,7 @@
 /**
  * Testing call for calculator 
  */
-package Server.Tests;
+package Server.unittests;
 
 import static org.junit.Assert.*;
 
@@ -29,7 +29,7 @@ public class CalculatorTest {
 	Calculator calc;
 	DataBaseControllerStub dbStub;
 	
-	/** The delta, Using with delta to avoid depreciation when assering equals for doubles. */
+	/** The delta, Using with delta to avoid depreciation when asserting equals for doubles. */
 	double delta = 0.000000000000001;
 	
 	/**
@@ -400,11 +400,18 @@ public class CalculatorTest {
  * 2 requests from 14/1/2020 and 2 request from the 18/1/2020 are still open.
  **/
 class DataBaseControllerStub implements IDataBaseController{
+	
+	/** The requests dates and statuses lists. */
 	ArrayList<String> dateList;
 	ArrayList<String> closingList;
 	ArrayList<Integer> statusesList;
 	
+	/** The calculator. */
 	Calculator calc;
+	
+	/**
+	 * Instantiates a new data base controller stub with a request list.
+	 */
 	public DataBaseControllerStub() {
 		calc = new Calculator();
 		dateList = new ArrayList<>();
@@ -435,6 +442,10 @@ class DataBaseControllerStub implements IDataBaseController{
 		statusesList.add(4);
 		statusesList.add(3);
 	}
+	
+	/**
+	 * Runs the original calculator calculateActivity function on our requests list.
+	 */
 	@SuppressWarnings("static-access")
 	@Override
 	public ArrayList<Double> getActivityData(String[] strArr) {

@@ -1,4 +1,4 @@
-package Server.Tests;
+package Server.unittests;
 
 import java.util.ArrayList;
 
