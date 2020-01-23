@@ -40,9 +40,9 @@ public class EmailService {
 	 */
 	private EmailService() {
 		SMTP_SERVER = "smtp.gmail.com";
-		USERNAME = "icm2020g02@gmail.com";
-		PASSWORD = "TheBastICMTeam";
-		FROM = "icm2020g02@gmail.com";
+		USERNAME = "";
+		PASSWORD = "";
+		FROM = "";
 		new Thread() {
 			public void run() {
 
